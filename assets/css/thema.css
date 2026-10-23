@@ -1084,6 +1084,7 @@ footer.voet div.voet-vlak div.voet-binnen {
   margin:         0 auto;
   display:        flex;
   flex-direction: column;
+  gap:            clamp(48px, 6vw, 80px);
 }
 /*Voet -- Afsluitende oproep*/
 footer.voet div.voet-binnen div.voet-cta {
@@ -1112,13 +1113,6 @@ footer.voet div.voet-binnen div.voet-cta p.voet-cta-intro {
   max-width:   440px;
   font-size:   17px;
   line-height: 1.55;
-}
-/*Voet -- Uitklapbaar deel onder de oproep*/
-footer.voet div.voet-binnen div.voet-uitklap div.voet-uitklap-binnen {
-  display:        flex;
-  flex-direction: column;
-  gap:            clamp(48px, 6vw, 80px);
-  padding-top:    clamp(48px, 6vw, 80px);
 }
 /*Voet -- Raster met kolommen*/
 footer.voet div.voet-binnen div.voetraster {
@@ -3807,7 +3801,7 @@ body.admin-bar div.menulaag div.menulaag-scroll {
 @media (max-width: 699px) {
   div.menulaag div.menulaag-scroll {
     padding-top:    var(--menubalk-onder, 90px);
-    padding-bottom: clamp(20px, 3vh, 28px);
+    padding-bottom: 16px;
   }
   div.menulaag div.menulaag-scroll div.menulaag-raster {
     flex:           1;
@@ -3819,17 +3813,17 @@ body.admin-bar div.menulaag div.menulaag-scroll {
   }
   /*Overlay -- Menulinks met meer lucht*/
   div.menulaag div.menulaag-scroll div.menulaag-raster nav.menulaag-links {
-    flex:    none;
-    padding: clamp(8px, 2vh, 16px) 0 clamp(20px, 3vh, 28px);
+    flex:            1;
+    justify-content: center;
+    padding:         clamp(8px, 2vh, 16px) 0 clamp(28px, 4.5vh, 40px);
   }
   div.menulaag nav.menulaag-links a.overlaylink {
-    padding:   clamp(11px, 1.8vh, 15px) 15px clamp(11px, 1.8vh, 15px) 18px;
-    font-size: calc(33px * var(--kop-schaal));
+    padding:   clamp(11px, 1.8vh, 15px) 0;
+    font-size: calc(40px * var(--kop-schaal));
   }
-  /*Overlay -- Kaart subtiel zoals in de footer, midden in de ruimte onder het menu*/
+  /*Overlay -- Kaart subtiel zoals in de footer*/
   div.menulaag div.menulaag-kaart {
     justify-self:  stretch;
-    margin:        auto 0;
     gap:           6px;
     padding:       8px 8px 4px;
     border-radius: 24px;
@@ -3844,7 +3838,7 @@ body.admin-bar div.menulaag div.menulaag-scroll {
     order:           -1;
     align-self:      stretch;
     justify-content: space-between;
-    font-size:       19px;
+    font-size:       16px;
   }
   div.menulaag div.menulaag-kaart a.knop-rond.knop-rond-paars:not(:hover) {
     background: var(--kleur-geel);
@@ -3859,7 +3853,7 @@ body.admin-bar div.menulaag div.menulaag-scroll {
     padding: 0 12px;
   }
   div.menulaag div.menulaag-kaart div.contactlijst a.contactlink {
-    padding:      16px 0;
+    padding:      12px 0;
     gap:          14px;
     border-color: rgba(250, 245, 238, .14);
     color:        var(--kleur-creme);
