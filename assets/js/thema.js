@@ -882,7 +882,10 @@
 			/* Het startpunt ligt binnen bereik terwijl het vlak nog dicht is, ook als de footer onderaan de pagina staat. */
 			ST.create( {
 				trigger: cta,
-				start: 'bottom 97%',
+				start: function () {
+					var natuurlijk = cta.getBoundingClientRect().bottom + window.scrollY - window.innerHeight * .97;
+					return Math.max( 0, Math.min( natuurlijk, ST.maxScroll( window ) - 40 ) );
+				},
 				once: true,
 				onEnter: function () {
 					tl.play();
