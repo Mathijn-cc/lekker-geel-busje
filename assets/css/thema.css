@@ -4274,10 +4274,12 @@ section.sectie-voordelen.voordelen-tegels article.voordeeltegel div.voordeeltege
   color:          var(--kleur-paars);
   transition:     background .4s var(--zacht), transform .5s var(--veer);
 }
+section.sectie-voordelen.voordelen-tegels article.voordeeltegel:hover div.voordeeltegel-binnen {
+  background: var(--kleur-geel);
+}
 @media (hover: hover) {
   section.sectie-voordelen.voordelen-tegels article.voordeeltegel:hover div.voordeeltegel-binnen {
-    background: var(--kleur-geel);
-    transform:  translateY(-6px) rotate(-.6deg);
+    transform: translateY(-6px) rotate(-.6deg);
   }
 }
 /*Tegels -- Foto met nummer*/
