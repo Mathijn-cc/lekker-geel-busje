@@ -1,0 +1,13 @@
+# Systeem en editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Back-ups en tijdelijke bestanden
+*.bak*
+*.tmp
+*.log
+
+# Afhankelijkheden
+node_modules/

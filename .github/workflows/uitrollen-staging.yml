@@ -1,0 +1,55 @@
+name: Uitrollen naar staging
+
+# Elke push naar main zet het thema op lgb.bijnadaar.nl.
+# Handmatig starten kan ook via het tabblad Actions.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: staging
+  cancel-in-progress: false
+
+jobs:
+  uitrollen:
+    runs-on: ubuntu-latest
+    env:
+      SSH_HOST: gnldm1102.siteground.biz
+      SSH_PORT: 18765
+      SSH_USER: u2594-ag8zh8mdhogx
+      DOEL: www/lgb.bijnadaar.nl/public_html/wp-content/themes/lekker-geel/
+      SITE: www/lgb.bijnadaar.nl/public_html
+    steps:
+      - name: Code ophalen
+        uses: actions/checkout@v4
+
+      - name: SSH-sleutel klaarzetten
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.STAGING_SSH_KEY }}" > ~/.ssh/sleutel
+          chmod 600 ~/.ssh/sleutel
+          ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Versienummer per uitrol ophogen (voor de browsercache)
+        run: |
+          BASIS=$(grep -m1 "define( 'THEMA_VERSIE'" functions.php | sed -E "s/.*'([0-9.]+)'.*/\1/")
+          sed -i -E "s/define\( 'THEMA_VERSIE', '[^']+' \)/define( 'THEMA_VERSIE', '${BASIS}.${GITHUB_RUN_NUMBER}' )/" functions.php
+          grep -m1 "THEMA_VERSIE" functions.php
+
+      - name: Back-up van het huidige thema op de server
+        run: |
+          ssh -i ~/.ssh/sleutel -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
+            "mkdir -p ~/thema-backups && tar czf ~/thema-backups/lekker-geel-\$(date +%Y%m%d-%H%M%S).tgz -C $SITE/wp-content/themes lekker-geel && ls -1t ~/thema-backups/lekker-geel-*.tgz | tail -n +11 | xargs -r rm"
+
+      - name: Thema uitrollen
+        run: |
+          rsync -az --delete --itemize-changes \
+            --exclude '.git/' --exclude '.github/' --exclude '.gitignore' --exclude 'README.md' --exclude '*.bak*' \
+            -e "ssh -i ~/.ssh/sleutel -p $SSH_PORT" \
+            ./ "$SSH_USER@$SSH_HOST:$DOEL"
+
+      - name: Cache legen
+        run: |
+          ssh -i ~/.ssh/sleutel -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
+            "cd $SITE && (wp sg purge 2>/dev/null || wp cache flush)"
