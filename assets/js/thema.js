@@ -860,13 +860,43 @@
 			if ( ! binnen || ! cta ) {
 				return;
 			}
+			var volgen = false;
+
+			/* Houdt de onderkant van de pagina in beeld terwijl het vlak groeit, zodat je het uitrekken ziet. */
+			function schuifMee() {
+				if ( lenis ) {
+					lenis.resize();
+				}
+				if ( ! volgen ) {
+					return;
+				}
+				var onder = ST.maxScroll( window );
+				if ( lenis ) {
+					lenis.scrollTo( onder, { immediate: true, force: true } );
+				} else {
+					window.scrollTo( 0, onder );
+				}
+			}
+
+			/* Wie tijdens het uitrekken omhoog scrolt, neemt het weer over. */
+			function stopVolgen( e ) {
+				if ( ! e || e.type !== 'wheel' || e.deltaY < 0 ) {
+					volgen = false;
+				}
+			}
+
 			/* Dicht beginnen: het vlak sluit direct onder de oproep af. */
 			gsap.set( uitklap, { height: 0, overflow: 'hidden' } );
 			gsap.set( binnen, { y: -40, opacity: 0 } );
 			var tl = gsap.timeline( {
 				paused: true,
+				onUpdate: schuifMee,
 				onComplete: function () {
 					gsap.set( uitklap, { clearProps: 'height,overflow' } );
+					schuifMee();
+					volgen = false;
+					window.removeEventListener( 'wheel', stopVolgen );
+					window.removeEventListener( 'touchstart', stopVolgen );
 					ST.refresh();
 				}
 			} );
@@ -874,11 +904,12 @@
 				height: function () {
 					return binnen.offsetHeight;
 				},
-				ease: 'back.out(1.4)',
-				duration: 1
+				ease: 'back.out(1.3)',
+				duration: 1.1
 			}, 0 )
-				.to( binnen, { y: 0, ease: 'back.out(1.6)', duration: .9 }, .08 )
-				.to( binnen, { opacity: 1, ease: 'power1.out', duration: .45 }, .08 );
+				.to( binnen, { y: 0, ease: 'back.out(1.6)', duration: .95 }, .1 )
+				.to( binnen, { opacity: 1, ease: 'power1.out', duration: .5 }, .1 );
+
 			/* Het startpunt ligt binnen bereik terwijl het vlak nog dicht is, ook als de footer onderaan de pagina staat. */
 			ST.create( {
 				trigger: cta,
@@ -888,6 +919,12 @@
 				},
 				once: true,
 				onEnter: function () {
+					/* Alleen meeschuiven als je onderaan bent, niet als de footer al ruim in beeld staat. */
+					volgen = ST.maxScroll( window ) - window.scrollY < window.innerHeight * .5;
+					if ( volgen ) {
+						window.addEventListener( 'wheel', stopVolgen, { passive: true } );
+						window.addEventListener( 'touchstart', stopVolgen, { passive: true } );
+					}
 					tl.play();
 				}
 			} );
