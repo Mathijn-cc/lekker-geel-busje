@@ -3824,7 +3824,7 @@ body.admin-bar div.menulaag div.menulaag-scroll {
   }
   div.menulaag nav.menulaag-links a.overlaylink {
     padding:   clamp(11px, 1.8vh, 15px) 0;
-    font-size: calc(40px * var(--kop-schaal));
+    font-size: calc(33px * var(--kop-schaal));
   }
   /*Overlay -- Kaart subtiel zoals in de footer, midden in de ruimte onder het menu*/
   div.menulaag div.menulaag-kaart {
