@@ -22,7 +22,7 @@ jobs:
       SITE: www/lgb.bijnadaar.nl/public_html
     steps:
       - name: Code ophalen
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: SSH-sleutel klaarzetten
         run: |
