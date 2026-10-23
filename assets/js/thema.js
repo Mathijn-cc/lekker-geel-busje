@@ -853,30 +853,41 @@
 			tl.from( slot.querySelectorAll( '[data-slot-knop]' ), { scale: 0, rotation: -18, ease: 'back.out(2.2)', duration: .4 }, .95 );
 		} );
 
-		/* Footer: de rijen onder de oproep springen als één geheel onder het blok vandaan. */
-		alle( 'footer.voet' ).forEach( function ( voet ) {
-			var cta = voet.querySelector( '.voet-cta' );
-			var rijen = alle( '.voetraster, .voet-onder', voet );
-			if ( ! cta || ! rijen.length ) {
+		/* Footer: het paarse vlak rekt uit tot de rijen onder de oproep, met een veer aan het eind. */
+		alle( '[data-voet-uitklap]' ).forEach( function ( uitklap ) {
+			var binnen = uitklap.firstElementChild;
+			var cta = uitklap.parentNode.querySelector( '.voet-cta' );
+			if ( ! binnen || ! cta ) {
 				return;
 			}
-			var afstand = function () {
-				/* Uit de layout, niet uit de positie op het scherm: die verandert door de animatie zelf. */
-				var weg = cta.offsetHeight + ( parseFloat( window.getComputedStyle( cta.parentNode ).rowGap ) || 0 );
-				return -( klein ? Math.min( weg, 140 ) : weg );
-			};
-			/* Vanaf een vast punt in beeld springt de rij in één keer naar buiten, met een veer aan het eind. */
+			/* Dicht beginnen: het vlak sluit direct onder de oproep af. */
+			gsap.set( uitklap, { height: 0, overflow: 'hidden' } );
+			gsap.set( binnen, { y: -40, opacity: 0 } );
 			var tl = gsap.timeline( {
 				paused: true,
-				scrollTrigger: {
-					trigger: cta,
-					start: klein ? 'bottom 92%' : 'bottom 85%',
-					toggleActions: 'play none none reverse',
-					invalidateOnRefresh: true
+				onComplete: function () {
+					gsap.set( uitklap, { clearProps: 'height,overflow' } );
+					ST.refresh();
 				}
 			} );
-			tl.fromTo( rijen, { y: afstand }, { y: 0, ease: 'back.out(1.5)', duration: 1.05 }, 0 )
-				.fromTo( rijen, { opacity: 0 }, { opacity: 1, ease: 'power1.out', duration: .45 }, 0 );
+			tl.to( uitklap, {
+				height: function () {
+					return binnen.offsetHeight;
+				},
+				ease: 'back.out(1.4)',
+				duration: 1
+			}, 0 )
+				.to( binnen, { y: 0, ease: 'back.out(1.6)', duration: .9 }, .08 )
+				.to( binnen, { opacity: 1, ease: 'power1.out', duration: .45 }, .08 );
+			/* Het startpunt ligt binnen bereik terwijl het vlak nog dicht is, ook als de footer onderaan de pagina staat. */
+			ST.create( {
+				trigger: cta,
+				start: 'bottom 97%',
+				once: true,
+				onEnter: function () {
+					tl.play();
+				}
+			} );
 		} );
 
 		/* Gelegenheden schuiven horizontaal mee terwijl de sectie vaststaat. */
