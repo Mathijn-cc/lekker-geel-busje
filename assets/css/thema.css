@@ -1199,17 +1199,49 @@ footer.voet div.voet-binnen div.voet-onder {
   gap:             12px 28px;
   padding:         24px clamp(4px, 1vw, 16px) 0;
   border-top:      1px solid rgba(250, 245, 238, .15);
-  font-size:       14px;
+  font-size:       15px;
 }
 footer.voet div.voet-binnen div.voet-onder div.voet-onder-links {
-  flex:      1;
-  display:   flex;
-  flex-wrap: wrap;
-  gap:       12px 28px;
-  opacity:   .7;
+  flex:        1;
+  display:     flex;
+  flex-wrap:   wrap;
+  align-items: baseline;
+  gap:         12px 28px;
+}
+footer.voet div.voet-binnen div.voet-onder div.voet-onder-links > span:not(.voet-maker),
+footer.voet div.voet-binnen div.voet-onder div.voet-onder-links > a.voetlink {
+  opacity: .7;
 }
 footer.voet div.voet-binnen div.voet-onder div.voet-onder-links span.voet-maker {
   margin-left: auto;
+  color:       rgba(250, 245, 238, .7);
+}
+/*Voet -- Maker valt net iets op*/
+footer.voet div.voet-binnen div.voet-onder div.voet-onder-links span.voet-maker a.voetlink {
+  opacity:     1;
+  color:       var(--kleur-creme);
+  font-weight: 600;
+}
+/*Voet -- Onderste regel op mobiel*/
+@media (max-width: 699px) {
+  footer.voet div.voet-binnen div.voet-onder {
+    padding-top: 22px;
+    font-size:   16px;
+  }
+  footer.voet div.voet-binnen div.voet-onder div.voet-onder-links {
+    gap: 10px 22px;
+  }
+  footer.voet div.voet-binnen div.voet-onder div.voet-onder-links > span:first-child {
+    flex-basis:    100%;
+    margin-bottom: 4px;
+  }
+  footer.voet div.voet-binnen div.voet-onder div.voet-onder-links span.voet-maker {
+    flex-basis:  100%;
+    margin-top:  10px;
+    padding-top: 16px;
+    margin-left: 0;
+    border-top:  1px solid rgba(250, 245, 238, .1);
+  }
 }
 footer.voet div.voet-binnen div.voet-onder span.voet-bedrijf {
   opacity: .5;
