@@ -3817,32 +3817,52 @@ body.admin-bar div.menulaag div.menulaag-scroll {
     align-items:    stretch;
     gap:            0;
   }
+  /*Overlay -- Menulinks met meer lucht*/
   div.menulaag div.menulaag-scroll div.menulaag-raster nav.menulaag-links {
     flex:            1;
     justify-content: center;
+    padding:         clamp(8px, 2vh, 16px) 0 clamp(28px, 4.5vh, 40px);
   }
   div.menulaag nav.menulaag-links a.overlaylink {
-    padding:   10px 0;
+    padding:   clamp(11px, 1.8vh, 15px) 0;
     font-size: calc(40px * var(--kop-schaal));
   }
+  /*Overlay -- Kaart subtiel zoals in de footer*/
   div.menulaag div.menulaag-kaart {
     justify-self:  stretch;
-    gap:           14px;
-    padding:       18px;
+    gap:           6px;
+    padding:       8px 8px 4px;
     border-radius: 24px;
+    background:    rgba(255, 255, 255, .07);
+    color:         var(--kleur-creme);
   }
   div.menulaag div.menulaag-kaart span.menulaag-kaart-zin {
     display: none;
   }
+  /*Overlay -- Offerteknop in geel*/
   div.menulaag div.menulaag-kaart a.knop-rond {
     order:           -1;
     align-self:      stretch;
     justify-content: space-between;
     font-size:       16px;
   }
+  div.menulaag div.menulaag-kaart a.knop-rond.knop-rond-paars:not(:hover) {
+    background: var(--kleur-geel);
+    color:      var(--kleur-paars);
+  }
+  div.menulaag div.menulaag-kaart a.knop-rond.knop-rond-paars:not(:hover) span.knop-rond-pijl {
+    background: var(--kleur-paars);
+    color:      var(--kleur-geel);
+  }
+  /*Overlay -- Contactlinks licht*/
+  div.menulaag div.menulaag-kaart div.contactlijst {
+    padding: 0 12px;
+  }
   div.menulaag div.menulaag-kaart div.contactlijst a.contactlink {
-    padding: 10px 0;
-    gap:     14px;
+    padding:      12px 0;
+    gap:          14px;
+    border-color: rgba(250, 245, 238, .14);
+    color:        var(--kleur-creme);
   }
   div.menulaag div.menulaag-kaart div.contactlijst a.contactlink:first-child {
     border-top: 0;
@@ -3851,8 +3871,13 @@ body.admin-bar div.menulaag div.menulaag-scroll {
     border-bottom: 0;
   }
   div.menulaag div.menulaag-kaart div.contactlijst a.contactlink span.contactlink-icoon {
-    width:  40px;
-    height: 40px;
+    width:      40px;
+    height:     40px;
+    background: var(--kleur-geel);
+    color:      var(--kleur-paars);
+  }
+  div.menulaag div.menulaag-kaart div.contactlijst a.contactlink span.contactlink-tekst span.contactlink-label {
+    opacity: .6;
   }
   div.menulaag div.menulaag-kaart div.contactlijst a.contactlink span.contactlink-tekst span.contactwaarde {
     font-size: calc(22px * var(--kop-schaal));
