@@ -201,7 +201,7 @@ function thema_voorbeeld_formulier() {
 			$veld( 'number', 'Aantal personen', array( 'allowsPrepopulate' => true, 'inputName' => 'personen', 'rangeMin' => 1, 'layoutGridColumnSpan' => 6, 'isRequired' => true ) ),
 			$veld( 'text', 'Ophalen in', array( 'allowsPrepopulate' => true, 'inputName' => 'van', 'layoutGridColumnSpan' => 6, 'isRequired' => true ) ),
 			$veld( 'text', 'Bestemming', array( 'allowsPrepopulate' => true, 'inputName' => 'naar', 'layoutGridColumnSpan' => 6 ) ),
-			$veld( 'text', 'Gelegenheid', array( 'allowsPrepopulate' => true, 'inputName' => 'gelegenheid' ) ),
+			$veld( 'text', 'Gelegenheid', array( 'allowsPrepopulate' => true, 'inputName' => 'uitje' ) ),
 			$veld( 'text', 'Naam', array( 'layoutGridColumnSpan' => 6, 'isRequired' => true ) ),
 			$veld( 'phone', 'Telefoon', array( 'phoneFormat' => 'international', 'layoutGridColumnSpan' => 6 ) ),
 			$veld( 'email', 'E-mail', array( 'isRequired' => true ) ),

@@ -77,7 +77,9 @@ function thema_offerte_vandaag() {
 
 /* --------------------------------------------------------------------------
  * K1: vooraf invullen met wat de offertezin meestuurt.
- * De zin stuurt datum (jjjj-mm-dd), personen, van, naar en gelegenheid.
+ * De zin stuurt datum (jjjj-mm-dd), personen, van, naar en uitje.
+ * Let op: niet 'gelegenheid', dat is de queryvariabele van het posttype
+ * en geeft een 404.
  * ----------------------------------------------------------------------- */
 
 add_filter( 'gform_pre_render', 'thema_offerte_vooraf_invullen' );
@@ -89,7 +91,7 @@ function thema_offerte_vooraf_invullen( $form ) {
 	}
 
 	// Gelegenheid: kies de passende tegel, anders "Anders" met de naam erbij.
-	$gelegenheid = sanitize_text_field( wp_unslash( rgget( 'gelegenheid' ) ) );
+	$gelegenheid = sanitize_text_field( wp_unslash( rgget( 'uitje' ) ) );
 	$doel        = thema_offerte_veld( $form, $v['doel'] );
 	if ( '' !== $gelegenheid && $doel && is_array( $doel->choices ) ) {
 		$gekozen = null;
