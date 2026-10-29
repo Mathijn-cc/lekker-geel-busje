@@ -269,8 +269,9 @@ add_filter( 'gform_field_validation', function ( $resultaat, $waarde, $form, $ve
 	return $resultaat;
 }, 10, 4 );
 
-// In de datumkiezer: vanaf vandaag, en de retourdatum niet voor de vertrekdatum.
-// Is de retourdatum nog leeg, dan neemt hij de vertrekdatum over.
+// Is de retourdatum nog leeg, dan neemt hij de vertrekdatum over. Werkt los van
+// welke datumkiezer Gravity Forms gebruikt: het kopieert alleen de tekstwaarde.
+// De regels zelf (niet in het verleden, retour niet voor vertrek) bewaakt de server.
 add_action( 'gform_register_init_scripts', function ( $form ) {
 	$v = thema_offerte_velden();
 	if ( (int) $form['id'] !== (int) $v['formulier'] || ! class_exists( 'GFFormDisplay' ) ) {
@@ -280,14 +281,9 @@ add_action( 'gform_register_init_scripts', function ( $form ) {
 	$retour  = '#input_' . (int) $form['id'] . '_' . (int) $v['retourdatum'];
 	$script  = '(function($){'
 		. 'var v=' . wp_json_encode( $vertrek ) . ',r=' . wp_json_encode( $retour ) . ';'
-		. 'function zet(){'
-		. 'if(!$.fn.datepicker){return;}'
-		. '$(v).add(r).filter(".hasDatepicker").datepicker("option","minDate",0);'
-		. 'var d=$(v).hasClass("hasDatepicker")?$(v).datepicker("getDate"):null;'
-		. 'if(d&&$(r).hasClass("hasDatepicker")){$(r).datepicker("option","minDate",d);if(!$(r).val()){$(r).datepicker("setDate",d);}}'
-		. '}'
-		. 'setTimeout(zet,50);'
-		. '$(document).off(".themaDatum").on("change.themaDatum",v,zet).on("focus.themaDatum",v+","+r,zet);'
+		. 'function neem(){var w=$(v).val();if(w&&!$(r).val()){$(r).val(w).trigger("input").trigger("change");}}'
+		. '$(document).off(".themaDatum").on("change.themaDatum blur.themaDatum",v,neem).on("focus.themaDatum",r,neem);'
+		. 'neem();'
 		. '})(jQuery);';
 	GFFormDisplay::add_init_script( $form['id'], 'thema_offerte_datums', GFFormDisplay::ON_PAGE_RENDER, $script );
 } );
