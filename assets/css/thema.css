@@ -2047,9 +2047,15 @@ section.sectie-offerte div.offertevak form.offertezin .zinveld:focus {
 section.sectie-offerte div.offertevak form.offertezin input.zinveld-datum {
   width: 7.6em;
 }
-section.sectie-offerte div.offertevak form.offertezin select.zinveld-personen {
-  appearance:         none;
+section.sectie-offerte div.offertevak form.offertezin input.zinveld-personen {
+  width:              3.6em;
+  appearance:         textfield;
+  -moz-appearance:    textfield;
+}
+section.sectie-offerte div.offertevak form.offertezin input.zinveld-personen::-webkit-outer-spin-button,
+section.sectie-offerte div.offertevak form.offertezin input.zinveld-personen::-webkit-inner-spin-button {
   -webkit-appearance: none;
+  margin:             0;
 }
 section.sectie-offerte div.offertevak form.offertezin input.zinveld-van {
   width: 6.6em;

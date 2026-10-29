@@ -3,7 +3,6 @@
  * Blok: offerte in een zin. Eerst compact, open na een klik.
  */
 $b        = $args['blok'];
-$personen = thema_lijst( $b['personen'] ?? '' ) ?: array( 'tot 39', '39 tot 53', '53 tot 88', 'meer dan 88' );
 $zeker    = thema_lijst( $b['zekerheden'] ?? '' );
 $open     = ! empty( $b['open'] );
 $contact  = get_page_by_path( 'contact' );
@@ -27,7 +26,7 @@ echo thema_sectie_open( $b, 'offerte', '', '' );
 					<?php echo esc_html( $b['zin_1'] ?? 'Op' ); ?>
 					<label><span class="sr-tekst">Datum</span><input type="date" name="datum" class="zinveld zinveld-datum" min="<?php echo esc_attr( wp_date( 'Y-m-d' ) ); ?>"></label>
 					<?php echo esc_html( $b['zin_2'] ?? 'gaan we met' ); ?>
-					<label><span class="sr-tekst">Aantal personen</span><select name="personen" class="zinveld zinveld-personen"><option value="">aantal</option><?php foreach ( $personen as $p ) : ?><option value="<?php echo esc_attr( $p ); ?>"><?php echo esc_html( $p ); ?></option><?php endforeach; ?></select></label>
+					<label><span class="sr-tekst">Aantal personen</span><input type="number" name="personen" class="zinveld zinveld-personen" min="1" max="9999" step="1" inputmode="numeric" placeholder="<?php echo esc_attr( ( $b['ph_personen'] ?? '' ) ?: 'aantal' ); ?>"></label>
 					<?php echo esc_html( $b['zin_3'] ?? 'personen van' ); ?>
 					<label><span class="sr-tekst">Ophalen in</span><input type="text" name="van" class="zinveld zinveld-van" placeholder="<?php echo esc_attr( $b['ph_van'] ?? 'jullie plaats' ); ?>"></label>
 					<?php echo esc_html( $b['zin_4'] ?? 'naar' ); ?>
