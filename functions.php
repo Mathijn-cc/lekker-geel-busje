@@ -5,7 +5,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'THEMA_VERSIE', '2.8.1' );
+define( 'THEMA_VERSIE', '2.9.0' );
 define( 'THEMA_PAD', get_template_directory() );
 define( 'THEMA_URL', get_template_directory_uri() );
 
