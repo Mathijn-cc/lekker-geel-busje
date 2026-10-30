@@ -47,6 +47,9 @@ function thema_blok_achtergronden() {
 		'faq'          => 'standaard',
 		'tekst'        => 'standaard',
 		'formulier'    => 'standaard',
+		'gebied'       => 'standaard',
+		'route'        => 'standaard',
+		'tips'         => 'standaard',
 	);
 }
 
@@ -151,6 +154,11 @@ function thema_layouts() {
 			'default_value' => 'auto',
 			'instructions'  => 'Automatisch: rand tot rand op de homepage, als kaart met ronde hoeken op subpagina\'s (zoals bij een gelegenheid).',
 		) ),
+		thema_veld( $p, 'hoogte', 'Hoogte', 'button_group', array(
+			'choices'       => array( 'auto' => 'Automatisch', 'vol' => 'Volle hoogte', 'compact' => 'Compact' ),
+			'default_value' => 'auto',
+			'instructions'  => 'Automatisch: volle hoogte op de homepage, compact op alle andere pagina\'s. Compact maakt ook de kop kleiner.',
+		) ),
 	) ) ) );
 
 	// Offerte.
@@ -165,11 +173,12 @@ function thema_layouts() {
 		thema_veld( $p, 'zin_4', 'Zin voor bestemming', 'text', array_merge( thema_breed( 25 ), array( 'default_value' => 'naar' ) ) ),
 		thema_veld( $p, 'ph_van', 'Plaatshouder plaats', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'jullie plaats' ) ) ),
 		thema_veld( $p, 'ph_naar', 'Plaatshouder bestemming', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'de bestemming' ) ) ),
-		thema_veld( $p, 'personen', 'Keuzes aantal personen', 'textarea', array_merge( thema_breed( 50 ), array( 'rows' => 4, 'default_value' => "tot 39\n39 tot 53\n53 tot 88\nmeer dan 88" ) ) ),
+		thema_veld( $p, 'ph_personen', 'Plaatshouder aantal', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'aantal' ) ) ),
 		thema_veld( $p, 'zekerheden', 'Zekerheden', 'textarea', array_merge( thema_breed( 50 ), array( 'rows' => 4, 'default_value' => "Vrijblijvend\nBinnen 2 werkdagen een prijs\nAll-in, geen verrassingen" ) ) ),
 		thema_veld( $p, 'knop_open', 'Knop op het compacte blok', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'Vraag direct je prijs aan' ) ) ),
 		thema_veld( $p, 'knop_verder', 'Knop in het formulier', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'Ga verder' ) ) ),
-		thema_veld( $p, 'open', 'Direct open tonen', 'true_false', array( 'ui' => 1, 'instructions' => 'Uit: eerst een compact blok met knop, zoals in het ontwerp.' ) ),
+		thema_veld( $p, 'naar_waarde', 'Bestemming alvast invullen', 'text', array_merge( thema_breed( 50 ), array( 'instructions' => 'Bijv. Tilburg op de pagina over Tilburg. Leeg: de bezoeker vult zelf in.' ) ) ),
+		thema_veld( $p, 'open', 'Direct de vragen tonen', 'true_false', array_merge( thema_breed( 50 ), array( 'ui' => 1, 'ui_on_text' => 'Direct', 'ui_off_text' => 'Vervaagd', 'instructions' => 'Uit: de vragen staan eerst vervaagd in beeld met een knop erop. Aan: de vragen zijn meteen in te vullen.' ) ) ),
 	), thema_extra_velden( $p, 'offerte' ) ) );
 
 	// Lopende band.
@@ -446,6 +455,82 @@ function thema_layouts() {
 		thema_veld( $p, 'toon_socials', 'Socials tonen', 'true_false', array_merge( thema_breed( 25 ), array( 'ui' => 1, 'default_value' => 1 ) ) ),
 		thema_veld( $p, 'toon_bedrijf', 'Bedrijfsgegevens tonen', 'true_false', array_merge( thema_breed( 25 ), array( 'ui' => 1, 'default_value' => 1 ) ) ),
 	), thema_extra_velden( $p, 'contact' ) ) );
+
+	// Gebied.
+	$p   = 'gebied';
+	$l[] = thema_layout( $p, 'Gebied: foto + adressen', array_merge( array(
+		thema_tab( $p, 'Inhoud' ),
+		thema_veld( $p, 'eyebrow', 'Label', 'text', array_merge( thema_breed( 35 ), array( 'instructions' => 'Bijvoorbeeld Stappen of Eten en borrelen.' ) ) ),
+		thema_veld( $p, 'kop', 'Kop', 'text', array_merge( thema_breed( 65 ), array( 'instructions' => THEMA_ACCENT_UITLEG ) ) ),
+		thema_veld( $p, 'tekst', 'Tekst', 'textarea', array( 'rows' => 4, 'new_lines' => '', 'instructions' => 'Lege regel = nieuwe alinea.' ) ),
+		thema_veld( $p, 'beeld', 'Foto van het gebied', 'image', array_merge( thema_breed( 50 ), array( 'return_format' => 'id', 'preview_size' => 'medium', 'instructions' => 'Het bijschrift uit de mediabibliotheek komt als naamsvermelding onder de foto.' ) ) ),
+		thema_veld( $p, 'tijdelijk', 'Tijdelijke foto', 'true_false', array_merge( thema_breed( 50 ), array( 'ui' => 1, 'instructions' => 'Toont een label Tijdelijke foto, alleen zichtbaar als je bent ingelogd.' ) ) ),
+		thema_veld( $p, 'plekken', 'Plekken', 'repeater', array(
+			'layout'       => 'block',
+			'collapsed'    => 'field_gebied_plek_naam',
+			'button_label' => 'Plek toevoegen',
+			'sub_fields'   => array(
+				thema_veld( 'gebied_plek', 'naam', 'Naam', 'text', thema_breed( 50 ) ),
+				thema_veld( 'gebied_plek', 'soort', 'Soort', 'text', array_merge( thema_breed( 50 ), array( 'instructions' => 'Bijvoorbeeld Bruin café of Borrelbar.' ) ) ),
+				thema_veld( 'gebied_plek', 'tekst', 'Korte tekst', 'textarea', array( 'rows' => 2 ) ),
+				thema_veld( 'gebied_plek', 'adres', 'Adres', 'text', thema_breed( 50 ) ),
+				thema_veld( 'gebied_plek', 'link', 'Website', 'url', thema_breed( 50 ) ),
+			),
+		) ),
+	), thema_extra_velden( $p, '', array(
+		thema_veld( $p, 'spiegel', 'Foto rechts', 'true_false', array( 'ui' => 1, 'instructions' => 'Wissel om en om voor een speelse pagina.' ) ),
+	) ) ) );
+
+	// Tips.
+	$p   = 'tips';
+	$l[] = thema_layout( $p, 'Tips: kaarten met link', array_merge( array(
+		thema_tab( $p, 'Inhoud' ),
+		thema_veld( $p, 'eyebrow', 'Label', 'text', thema_breed( 35 ) ),
+		thema_veld( $p, 'kop', 'Kop', 'text', array_merge( thema_breed( 65 ), array( 'instructions' => THEMA_ACCENT_UITLEG ) ) ),
+		thema_veld( $p, 'intro', 'Intro', 'textarea', array( 'rows' => 2 ) ),
+		thema_veld( $p, 'items', 'Tips', 'repeater', array(
+			'layout'       => 'block',
+			'collapsed'    => 'field_tips_item_titel',
+			'button_label' => 'Tip toevoegen',
+			'sub_fields'   => array(
+				thema_veld( 'tips_item', 'titel', 'Titel', 'text', thema_breed( 50 ) ),
+				thema_veld( 'tips_item', 'soort', 'Soort', 'text', array_merge( thema_breed( 50 ), array( 'instructions' => 'Bijvoorbeeld Proeverij of Concertzaal.' ) ) ),
+				thema_veld( 'tips_item', 'beeld', 'Foto', 'image', array_merge( thema_breed( 30 ), array( 'return_format' => 'id', 'preview_size' => 'thumbnail' ) ) ),
+				thema_veld( 'tips_item', 'tijdelijk', 'Tijdelijke foto', 'true_false', array_merge( thema_breed( 20 ), array( 'ui' => 1 ) ) ),
+				thema_veld( 'tips_item', 'tekst', 'Tekst', 'textarea', array_merge( thema_breed( 50 ), array( 'rows' => 3 ) ) ),
+				thema_veld( 'tips_item', 'info', 'Praktisch', 'text', array_merge( thema_breed( 50 ), array( 'instructions' => 'Korte regel, zoals adres, reistijd of duur.' ) ) ),
+				thema_veld( 'tips_item', 'link', 'Website', 'url', thema_breed( 25 ) ),
+				thema_veld( 'tips_item', 'linktekst', 'Linktekst', 'text', array_merge( thema_breed( 25 ), array( 'default_value' => 'Bekijk website' ) ) ),
+			),
+		) ),
+	), thema_extra_velden( $p, '', array(
+		thema_veld( $p, 'kolommen', 'Kolommen', 'button_group', array( 'choices' => array( '2' => '2', '3' => '3' ), 'default_value' => '3' ) ),
+	) ) ) );
+
+	// Route.
+	$p   = 'route';
+	$l[] = thema_layout( $p, 'Route: zo ziet je dag eruit', array_merge( array(
+		thema_tab( $p, 'Inhoud' ),
+		thema_veld( $p, 'eyebrow', 'Label', 'text', thema_breed( 35 ) ),
+		thema_veld( $p, 'kop', 'Kop', 'text', array_merge( thema_breed( 65 ), array( 'instructions' => THEMA_ACCENT_UITLEG ) ) ),
+		thema_veld( $p, 'intro', 'Intro', 'textarea', array( 'rows' => 2 ) ),
+		thema_veld( $p, 'stappen', 'Stappen', 'repeater', array(
+			'layout'       => 'block',
+			'min'          => 2,
+			'max'          => 6,
+			'collapsed'    => 'field_route_stap_titel',
+			'button_label' => 'Stap toevoegen',
+			'instructions' => 'Drie tot vijf stappen werkt het best. De bus rijdt mee over de route als je scrolt.',
+			'sub_fields'   => array(
+				thema_veld( 'route_stap', 'tijd', 'Tijd', 'text', array_merge( thema_breed( 20 ), array( 'instructions' => 'Bijv. 17:00 of Middag.' ) ) ),
+				thema_veld( 'route_stap', 'icoon', 'Icoon', 'select', array_merge( thema_breed( 30 ), array( 'choices' => thema_icoon_keuzes(), 'default_value' => 'bus' ) ) ),
+				thema_veld( 'route_stap', 'titel', 'Titel', 'text', thema_breed( 50 ) ),
+				thema_veld( 'route_stap', 'tekst', 'Tekst', 'textarea', array( 'rows' => 3, 'new_lines' => '' ) ),
+			),
+		) ),
+		thema_veld( $p, 'slot', 'Tekst onder de route', 'wysiwyg', array( 'tabs' => 'all', 'toolbar' => 'basic', 'media_upload' => 0 ) ),
+		thema_veld( $p, 'knop', 'Knop', 'link' ),
+	), thema_extra_velden( $p ) ) );
 
 	return $l;
 }

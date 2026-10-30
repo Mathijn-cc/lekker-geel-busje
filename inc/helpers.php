@@ -257,6 +257,11 @@ function thema_iconen() {
 		'whatsapp'  => '<path d="M3 21l1.65-4.95A9 9 0 1 1 8.1 19.6z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1.2-1.4-1.9-1.1-.9.8c-1-.4-1.9-1.3-2.3-2.3l.8-.9-1.1-1.9z"/>',
 		'vonk'      => '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/>',
 		'sluiten'   => '<path d="M6 6l12 12M18 6 6 18"/>',
+		'huis'      => '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9v11a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9"/>',
+		'bestek'    => '<path d="M7 2v9"/><path d="M4 2v6a3 3 0 0 0 6 0V2"/><path d="M7 11v11"/><path d="M18 22V2c-2.2 1.3-3.5 3.7-3.5 6.5V13H18"/>',
+		'maan'      => '<path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11z"/>',
+		'extern'    => '<path d="M14 4h6v6"/><path d="M20 4 11 13"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
+		'glas'      => '<path d="M8 22h8"/><path d="M12 15v7"/><path d="M5 3h14l-1 6a6 6 0 0 1-12 0z"/><path d="M5.6 7h12.8"/>',
 	);
 }
 
@@ -289,6 +294,10 @@ function thema_icoon_keuzes() {
 		'beker'    => 'Beker',
 		'hart'     => 'Hart',
 		'vonk'     => 'Vonk',
+		'huis'     => 'Huis',
+		'bestek'   => 'Bestek',
+		'glas'     => 'Glas',
+		'maan'     => 'Maan',
 	);
 }
 
@@ -358,4 +367,36 @@ function thema_start_donker() {
 		return false;
 	}
 	return 'foto' === thema_hero_stijl( $blokken[0] );
+}
+
+/**
+ * Foto met naamsvermelding uit het bijschrift en eventueel het label Tijdelijke foto.
+ */
+function thema_foto_met_credit( $id, $maat = 'breed', $tijdelijk = false, $class = '' ) {
+	$id = (int) $id;
+	if ( ! $id ) {
+		return '';
+	}
+	$credit = wp_kses( (string) wp_get_attachment_caption( $id ), array( 'a' => array( 'href' => true, 'target' => true, 'rel' => true ) ) );
+	$html   = '<figure class="foto-credit ' . esc_attr( $class ) . '">' . thema_afbeelding( $id, $maat );
+	if ( $tijdelijk && current_user_can( 'edit_pages' ) ) {
+		$html .= '<span class="foto-tijdelijk">Tijdelijke foto</span>';
+	}
+	if ( $credit ) {
+		$GLOBALS['thema_fotobronnen'][ $id ] = $credit;
+	}
+	return $html . '</figure>';
+}
+
+/**
+ * Tekst met lege regels als alinea's.
+ */
+function thema_alineas( $tekst, $class = 'tekst-groot' ) {
+	$uit = '';
+	foreach ( preg_split( '/\R{2,}/', trim( (string) $tekst ) ) as $alinea ) {
+		if ( '' !== trim( $alinea ) ) {
+			$uit .= '<p class="' . esc_attr( $class ) . '" data-animeer>' . nl2br( esc_html( trim( $alinea ) ), false ) . '</p>';
+		}
+	}
+	return $uit;
 }

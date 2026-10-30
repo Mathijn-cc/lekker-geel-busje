@@ -5,7 +5,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'THEMA_VERSIE', '2.5.11' );
+define( 'THEMA_VERSIE', '2.8.1' );
 define( 'THEMA_PAD', get_template_directory() );
 define( 'THEMA_URL', get_template_directory_uri() );
 
@@ -17,6 +17,7 @@ require THEMA_PAD . '/inc/acf-velden.php';
 require THEMA_PAD . '/inc/acf-admin.php';
 require THEMA_PAD . '/inc/dashboard.php';
 require THEMA_PAD . '/inc/voorbeeldinhoud.php';
+require THEMA_PAD . '/inc/offerte-koppeling.php';
 
 /**
  * Basis thema-ondersteuning.
@@ -29,8 +30,8 @@ add_action( 'after_setup_theme', function () {
 	add_theme_support( 'html5', array( 'search-form', 'gallery', 'caption', 'style', 'script', 'navigation-widgets' ) );
 	add_theme_support( 'responsive-embeds' );
 
-	add_image_size( 'kaart', 800, 1000, true );
-	add_image_size( 'breed', 1920, 1080, false );
+	add_image_size( 'kaart', 1000, 1250, true );
+	add_image_size( 'breed', 2560, 0, false );
 
 	register_nav_menus( array(
 		'hoofdmenu' => 'Hoofdmenu',
@@ -121,3 +122,14 @@ add_filter( 'body_class', function ( $classes ) {
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
 add_filter( 'excerpt_length', fn() => 24 );
+
+
+/**
+ * Beeldkwaliteit: verkleinde formaten scherper opslaan en grote foto's niet te vroeg terugschalen.
+ */
+add_filter( 'wp_editor_set_quality', function ( $kwaliteit, $mime ) {
+	return 'image/webp' === $mime ? 86 : 90;
+}, 10, 2 );
+add_filter( 'big_image_size_threshold', function () {
+	return 3200;
+} );

@@ -416,6 +416,40 @@
 		io.observe( spoor );
 	} );
 
+	/* ------------------------------------------------------------ Route: de bus rijdt mee met het scrollen */
+
+	alle( '[data-route]' ).forEach( function ( weg ) {
+		var stappen = alle( '[data-route-stap]', weg );
+		var n = stappen.length;
+		var zet = function ( v ) {
+			weg.style.setProperty( '--voortgang', v.toFixed( 4 ) );
+			stappen.forEach( function ( stap, i ) {
+				stap.classList.toggle( 'is-bereikt', n < 2 || v >= i / ( n - 1 ) - 0.001 );
+			} );
+		};
+		if ( ! beweging ) {
+			zet( 1 );
+			return;
+		}
+		var bezig = false;
+		var meet = function () {
+			bezig = false;
+			var r = weg.getBoundingClientRect();
+			var vh = window.innerHeight;
+			var v = ( vh * 0.62 - r.top ) / Math.max( r.height, 1 );
+			zet( Math.min( 1, Math.max( 0, v ) ) );
+		};
+		var vraag = function () {
+			if ( ! bezig ) {
+				bezig = true;
+				window.requestAnimationFrame( meet );
+			}
+		};
+		window.addEventListener( 'scroll', vraag, { passive: true } );
+		window.addEventListener( 'resize', vraag );
+		meet();
+	} );
+
 	/* ------------------------------------------------------------ Kaart van Nederland */
 
 	alle( 'svg.nlkaart' ).forEach( function ( kaart ) {

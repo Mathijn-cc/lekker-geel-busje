@@ -74,6 +74,9 @@ if ( ! $juridisch && get_privacy_policy_url() ) {
 					<?php foreach ( $juridisch as $item ) : ?>
 						<a class="voetlink" href="<?php echo esc_url( $item['url'] ); ?>"><?php echo esc_html( $item['titel'] ); ?></a>
 					<?php endforeach; ?>
+					<?php if ( ! empty( $GLOBALS['thema_fotobronnen'] ) ) : ?>
+						<span class="voet-fotobronnen">Foto's: <?php echo implode( '; ', array_map( fn( $c ) => preg_replace( '/^Foto:\s*/', '', $c ), $GLOBALS['thema_fotobronnen'] ) ); // phpcs:ignore -- al gefilterd met wp_kses. ?></span>
+					<?php endif; ?>
 					<?php if ( $s['footer_maker'] ) : ?>
 						<span class="voet-maker">Website: <a class="voetlink" href="https://www.creatorsconnect.nl" target="_blank" rel="noopener">Creators Connect</a></span>
 					<?php endif; ?>

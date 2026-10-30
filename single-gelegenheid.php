@@ -33,7 +33,7 @@ while ( have_posts() ) :
 				<?php if ( $tekst ) : ?>
 					<div class="opmaak tekst-groot"><?php echo wp_kses_post( $tekst ); ?></div>
 				<?php endif; ?>
-				<?php echo thema_knop( thema_instellingen( 'menu_knop' ), thema_offerte_url( array( 'gelegenheid' => get_post_field( 'post_name' ) ) ), 'paars' ); ?>
+				<?php echo thema_knop( thema_instellingen( 'menu_knop' ), thema_offerte_url( array( 'feest' => get_the_title() ) ), 'paars' ); ?>
 			</div>
 			<?php if ( array_filter( $voordelen ) ) : ?>
 				<div class="gel-voordelen">

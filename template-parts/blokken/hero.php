@@ -36,6 +36,8 @@ $kop = function ( $regels_apart, $pil = 'paars' ) use ( $b, $plaatsen, $eerste, 
 
 $score = ! empty( $b['toon_score'] ) ? thema_score_pil() : '';
 $anker = ! empty( $b['anker'] ) ? sanitize_title( $b['anker'] ) : 'top';
+$hoogte  = $b['hoogte'] ?? 'auto';
+$compact = ( 'compact' === $hoogte || ( 'vol' !== $hoogte && ! is_front_page() ) ) ? ' hero-compact' : '';
 
 /* ---------------------------------------------------------------- Fotobreed */
 if ( 'foto' === $stijl ) :
@@ -46,7 +48,7 @@ if ( 'foto' === $stijl ) :
 	$vorm  = $b['vorm'] ?? 'auto';
 	$kaart = 'kaart' === $vorm || ( 'auto' === $vorm && ! is_front_page() );
 	?>
-	<section id="<?php echo esc_attr( $anker ); ?>" class="sectie sectie-hero hero-foto<?php echo $kaart ? ' hero-kaart' : ''; ?>" data-donker data-hero-slider>
+	<section id="<?php echo esc_attr( $anker ); ?>" class="sectie sectie-hero hero-foto<?php echo $kaart ? ' hero-kaart' : ''; ?><?php echo esc_attr( $compact ); ?>" data-donker data-hero-slider>
 		<div class="hero-foto-beelden" data-zoom>
 			<?php foreach ( $fotos as $i => $id ) : ?>
 				<?php echo thema_afbeelding( $id, 'breed', 'hero-foto-beeld' . ( 0 === $i ? ' is-actief' : '' ), 0 !== $i, array( 'data-slide' => $i ) ); ?>
@@ -85,7 +87,7 @@ if ( 'foto' === $stijl ) :
 elseif ( 'collage' === $stijl ) :
 	$fotos = array_values( $fotos );
 	?>
-	<section id="<?php echo esc_attr( $anker ); ?>" class="sectie sectie-hero hero-collage" data-hero-slider>
+	<section id="<?php echo esc_attr( $anker ); ?>" class="sectie sectie-hero hero-collage<?php echo esc_attr( $compact ); ?>" data-hero-slider>
 		<?php if ( $fotos ) : ?>
 			<div class="hero-collage-achtergrond" data-zoom aria-hidden="true">
 				<?php foreach ( $fotos as $i => $id ) : ?>
@@ -125,7 +127,7 @@ elseif ( 'bento' === $stijl ) :
 	$tegel_link = $b['bento_link'] ?? array();
 	$tegel_url  = ! empty( $tegel_link['url'] ) ? $tegel_link['url'] : '#bussen';
 	?>
-	<section id="<?php echo esc_attr( $anker ); ?>" class="sectie sectie-hero hero-bento">
+	<section id="<?php echo esc_attr( $anker ); ?>" class="sectie sectie-hero hero-bento<?php echo esc_attr( $compact ); ?>">
 		<div class="bento">
 			<div class="bento-tegel bento-tekst">
 				<?php echo $score ? str_replace( 'score-pil', 'score-pil score-pil-zand', $score ) : '<span></span>'; ?>
@@ -155,7 +157,7 @@ elseif ( 'bento' === $stijl ) :
 /* ---------------------------------------------------------------- Klassiek */
 else :
 	?>
-	<section id="<?php echo esc_attr( $anker ); ?>" class="sectie sectie-hero hero-klassiek">
+	<section id="<?php echo esc_attr( $anker ); ?>" class="sectie sectie-hero hero-klassiek<?php echo esc_attr( $compact ); ?>">
 		<div class="hero-klassiek-raster">
 			<div class="hero-klassiek-tekst">
 				<?php echo $kop( true, 'paars' ); ?>
