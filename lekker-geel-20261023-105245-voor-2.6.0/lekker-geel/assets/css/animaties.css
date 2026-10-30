@@ -1,0 +1,138 @@
+/**Animaties -- Basis**/
+
+.sr-tekst {
+	position:    absolute;
+	width:       1px;
+	height:      1px;
+	overflow:    hidden;
+	clip:        rect(0 0 0 0);
+	white-space: nowrap;
+}
+
+.kop .kop-gesplitst .woord {
+	display:     inline-block;
+	white-space: nowrap;
+}
+
+.kop .kop-gesplitst .woord .woord-binnen {
+	display: inline-block;
+}
+
+.kop .kop-gesplitst .woord .woord-binnen .letter {
+	display: inline-block;
+}
+
+/*Elementen -- Overgang*/
+
+.js [data-animeer]:not(.is-klaar) {
+	transition:       opacity var(--animatie-duur) var(--animatie-easing), transform var(--animatie-duur) var(--animatie-easing), filter var(--animatie-duur) var(--animatie-easing);
+	transition-delay: calc(var(--volgorde, 0) * var(--animatie-vertraging));
+}
+
+/**Animaties -- Elementen**/
+
+.js .elementen-vervagen [data-animeer]:not(.is-zichtbaar) {
+	opacity: 0;
+}
+
+.js .elementen-omhoog [data-animeer]:not(.is-zichtbaar) {
+	opacity:   0;
+	transform: translateY(36px);
+}
+
+.js .elementen-schalen [data-animeer]:not(.is-zichtbaar) {
+	opacity:   0;
+	transform: scale(.9);
+}
+
+.js .elementen-schuiven [data-animeer]:not(.is-zichtbaar) {
+	opacity:   0;
+	transform: translateX(-48px);
+}
+
+.js .elementen-kantelen [data-animeer]:not(.is-zichtbaar) {
+	opacity:          0;
+	transform:        perspective(900px) rotateX(22deg) translateY(30px);
+	transform-origin: 50% 0;
+}
+
+/**Animaties -- Koppen**/
+
+/*Omhoog -- Hele kop*/
+
+.js .koppen-omhoog [data-kop] {
+	transition: opacity var(--animatie-duur) var(--animatie-easing), transform var(--animatie-duur) var(--animatie-easing);
+}
+
+.js .koppen-omhoog [data-kop]:not(.is-zichtbaar) {
+	opacity:   0;
+	transform: translateY(.45em);
+}
+
+/*Woorden -- Per woord*/
+
+.js .koppen-woorden [data-kop] .kop-gesplitst .woord .woord-binnen {
+	transition:       opacity var(--animatie-duur) var(--animatie-easing), transform var(--animatie-duur) var(--animatie-easing);
+	transition-delay: calc(var(--w) * 70ms);
+}
+
+.js .koppen-woorden [data-kop]:not(.is-zichtbaar) .kop-gesplitst .woord .woord-binnen {
+	opacity:   0;
+	transform: translateY(.55em) rotate(5deg);
+}
+
+/*Letters -- Per letter*/
+
+.js .koppen-letters [data-kop] .kop-gesplitst .woord .woord-binnen .letter {
+	transition:       opacity calc(var(--animatie-duur) * .7) var(--animatie-easing), transform calc(var(--animatie-duur) * .7) var(--animatie-easing);
+	transition-delay: calc(var(--l) * 22ms);
+}
+
+.js .koppen-letters [data-kop]:not(.is-zichtbaar) .kop-gesplitst .woord .woord-binnen .letter {
+	opacity:   0;
+	transform: translateY(.5em) scale(.6);
+}
+
+/*Masker -- Woorden schuiven uit een rand*/
+
+.js .koppen-masker [data-kop] .kop-gesplitst .woord {
+	overflow:       hidden;
+	padding-bottom: .12em;
+	margin-bottom:  -.12em;
+	vertical-align: top;
+}
+
+.js .koppen-masker [data-kop] .kop-gesplitst .woord .woord-binnen {
+	transition:       transform var(--animatie-duur) var(--animatie-easing);
+	transition-delay: calc(var(--w) * 55ms);
+}
+
+.js .koppen-masker [data-kop]:not(.is-zichtbaar) .kop-gesplitst .woord .woord-binnen {
+	transform: translateY(110%);
+}
+
+/*Vervaging -- Scherpstellen*/
+
+.js .koppen-vervaging [data-kop] {
+	transition: opacity var(--animatie-duur) var(--animatie-easing), filter var(--animatie-duur) var(--animatie-easing), letter-spacing var(--animatie-duur) var(--animatie-easing);
+}
+
+.js .koppen-vervaging [data-kop]:not(.is-zichtbaar) {
+	opacity:        0;
+	filter:         blur(14px);
+	letter-spacing: .08em;
+}
+
+/**Animaties -- Minder beweging**/
+
+@media (prefers-reduced-motion: reduce) {
+	.js [data-animeer],
+	.js [data-kop],
+	.js [data-kop] .kop-gesplitst .woord .woord-binnen,
+	.js [data-kop] .kop-gesplitst .woord .woord-binnen .letter {
+		opacity:    1 !important;
+		transform:  none !important;
+		filter:     none !important;
+		transition: none !important;
+	}
+}
