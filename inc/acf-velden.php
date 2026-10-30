@@ -45,6 +45,7 @@ function thema_blok_achtergronden() {
 		'reviews'      => 'geel',
 		'video'        => 'paars',
 		'faq'          => 'standaard',
+		'agenda'       => 'standaard',
 		'tekst'        => 'standaard',
 		'formulier'    => 'standaard',
 	);
@@ -57,7 +58,7 @@ function thema_extra_velden( $p, $standaard = '', $weergave = array() ) {
 	$velden        = array();
 	$achtergronden = thema_blok_achtergronden();
 
-	$met_knop = in_array( $p, array( 'hero', 'over_ons', 'voordelen', 'prijs', 'faq', 'slot_cta' ), true );
+	$met_knop = in_array( $p, array( 'hero', 'over_ons', 'voordelen', 'prijs', 'faq', 'agenda', 'slot_cta' ), true );
 
 	if ( $weergave || $met_knop || isset( $achtergronden[ $p ] ) ) {
 		$velden[] = thema_tab( $p, 'Weergave' );
@@ -386,6 +387,32 @@ function thema_layouts() {
 		) ),
 		thema_veld( $p, 'schema', 'FAQ-schema voor Google', 'true_false', array( 'ui' => 1, 'default_value' => 1 ) ),
 	), thema_extra_velden( $p, 'faq' ) ) );
+
+	// Agenda.
+	$p   = 'agenda';
+	$l[] = thema_layout( $p, 'Agenda (evenementen)', array_merge( array(
+		thema_tab( $p, 'Inhoud' ),
+		thema_veld( $p, 'eyebrow', 'Label', 'text', array_merge( thema_breed( 35 ), array( 'default_value' => 'Agenda' ) ) ),
+		thema_veld( $p, 'kop', 'Kop', 'text', array_merge( thema_breed( 65 ), array( 'instructions' => THEMA_ACCENT_UITLEG, 'default_value' => 'Hoogtepunten *op de agenda*' ) ) ),
+		thema_veld( $p, 'tekst', 'Tekst', 'textarea', array( 'rows' => 2 ) ),
+		thema_veld( $p, 'knop', 'Knop', 'link', array( 'instructions' => 'Bijvoorbeeld naar de offerte. Leeg = geen knop.' ) ),
+		thema_veld( $p, 'items', 'Evenementen', 'repeater', array(
+			'layout'       => 'block',
+			'collapsed'    => 'field_agenda_item_titel',
+			'button_label' => 'Evenement toevoegen',
+			'instructions' => 'Houd het kort: drie tot zes hoogtepunten. Ze staan automatisch op datum.',
+			'sub_fields'   => array(
+				thema_veld( 'agenda_item', 'titel', 'Naam', 'text', thema_breed( 50 ) ),
+				thema_veld( 'agenda_item', 'plek', 'Waar', 'text', array_merge( thema_breed( 50 ), array( 'instructions' => 'Bijvoorbeeld: Centrum of 013 Poppodium.' ) ) ),
+				thema_veld( 'agenda_item', 'start', 'Begindatum', 'date_picker', array_merge( thema_breed( 25 ), array( 'display_format' => 'j F Y', 'return_format' => 'Ymd', 'first_day' => 1 ) ) ),
+				thema_veld( 'agenda_item', 'eind', 'Einddatum', 'date_picker', array_merge( thema_breed( 25 ), array( 'display_format' => 'j F Y', 'return_format' => 'Ymd', 'first_day' => 1, 'instructions' => 'Alleen bij meerdere dagen.' ) ) ),
+				thema_veld( 'agenda_item', 'datum_tekst', 'Of datum als tekst', 'text', array_merge( thema_breed( 50 ), array( 'instructions' => 'Vervangt de datumregel, bijvoorbeeld: Elk jaar in juli. Zonder begindatum blijft het evenement altijd staan.' ) ) ),
+				thema_veld( 'agenda_item', 'tekst', 'Korte omschrijving', 'textarea', array( 'rows' => 2 ) ),
+				thema_veld( 'agenda_item', 'link', 'Link naar de officiële site', 'link', array( 'instructions' => 'Een link naar een andere site opent vanzelf in een nieuw tabblad. Leeg = geen link.' ) ),
+			),
+		) ),
+		thema_veld( $p, 'verlopen_verbergen', 'Voorbije evenementen verbergen', 'true_false', array( 'ui' => 1, 'default_value' => 1, 'instructions' => 'Een evenement verdwijnt de dag na de (eind)datum. Zet de datum van volgend jaar erin om het terug te halen. Staat er niets meer, dan valt het hele blok weg.' ) ),
+	), thema_extra_velden( $p, 'agenda' ) ) );
 
 	// Slot-CTA.
 	$p   = 'slot_cta';

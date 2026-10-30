@@ -24,6 +24,7 @@ function thema_blok_info() {
 		'reviews'       => array( 'hart', 'Lopende band met reviews en de Google-score.' ),
 		'video'         => array( 'speel', 'Video of poster, in een kader of over de volle breedte.' ),
 		'faq'           => array( 'muziek', 'Uitklapbare vragen, met FAQ-schema voor Google.' ),
+		'agenda'        => array( 'kalender', 'Korte agenda met evenementen, op datum, met een link naar de officiële site.' ),
 		'slot_cta'      => array( 'telefoon', 'Gele afsluiter met kop en knop, onderaan de pagina.' ),
 		'tekst'         => array( 'mail', 'Vrije tekst met opmaak, smal, breed of in twee kolommen.' ),
 		'formulier'     => array( 'beker', 'Een Gravity Forms formulier met kop en intro.' ),

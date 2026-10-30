@@ -2294,7 +2294,7 @@ section.sectie-aan_boord div.aan-boord-raster {
   display:               grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
   gap:                   clamp(32px, 5vw, 96px);
-  align-items:           end;
+  align-items:           start;
 }
 section.sectie-aan_boord div.aan-boord-raster div.aan-boord-kop {
   display:        flex;
@@ -2790,7 +2790,7 @@ section.sectie-werkgebied div.werkgebied-raster {
   display:               grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
   gap:                   clamp(40px, 6vw, 96px);
-  align-items:           center;
+  align-items:           start;
 }
 section.sectie-werkgebied div.werkgebied-raster div.werkgebied-tekst {
   display:        flex;
@@ -2936,7 +2936,7 @@ section.sectie-prijs div.prijs-raster {
   display:               grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
   gap:                   clamp(40px, 6vw, 96px);
-  align-items:           center;
+  align-items:           start;
 }
 section.sectie-prijs div.prijs-raster div.prijs-tekst {
   display:        flex;
@@ -3192,7 +3192,7 @@ section.sectie-reviews div.reviews-kop {
   padding:         0 var(--rand);
   display:         flex;
   justify-content: space-between;
-  align-items:     end;
+  align-items:     start;
   gap:             24px;
   flex-wrap:       wrap;
 }
@@ -3428,6 +3428,139 @@ body.accordeon-veer section.sectie-faq div.faq-lijst div.faq-item div.faq-antwoo
 body.accordeon-veer section.sectie-faq div.faq-lijst div.faq-item button.faq-vraag span.faq-plus,
 body.accordeon-veer section.sectie-faq div.faq-lijst div.faq-item button.faq-vraag span.faq-plus svg {
   transition: transform .55s cubic-bezier(.34, 1.6, .55, 1), background .3s;
+}
+
+/**Blokken -- Agenda**/
+/*Agenda -- Kolommen*/
+section.sectie-agenda {
+  padding: clamp(96px, 11vw, 150px) var(--rand);
+}
+section.sectie-agenda div.rij div.kolom.agenda-tekst {
+  display:        flex;
+  flex-direction: column;
+  align-items:    flex-start;
+  gap:            24px;
+}
+section.sectie-agenda div.rij div.kolom.agenda-tekst p.tekst-groot {
+  max-width: 420px;
+}
+/*Agenda -- Lijst*/
+section.sectie-agenda div.rij div.kolom ol.agenda-lijst {
+  display:        flex;
+  flex-direction: column;
+  gap:            10px;
+  margin:         0;
+  padding:        0;
+  list-style:     none;
+}
+section.sectie-agenda div.rij div.kolom ol.agenda-lijst li.agenda-item {
+  display:               grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items:           start;
+  gap:                   clamp(16px, 2vw, 28px);
+  padding:               22px 24px;
+  border-radius:         22px;
+  background:            var(--kleur-wit);
+  border:                1.5px solid rgba(56, 6, 94, .08);
+  color:                 var(--kleur-paars);
+}
+/*Agenda -- Datumtegel*/
+section.sectie-agenda div.rij div.kolom ol.agenda-lijst li.agenda-item span.agenda-datum {
+  width:           72px;
+  height:          76px;
+  padding-top:     4px;
+  background:      var(--kleur-geel);
+  clip-path:       polygon(5% 6%, 100% 0, 95% 96%, 0 100%);
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  color:           var(--kleur-paars);
+  transform:       rotate(-3deg);
+}
+section.sectie-agenda div.rij div.kolom ol.agenda-lijst li.agenda-item span.agenda-datum span.agenda-maand {
+  font-size:      12px;
+  font-weight:    800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+section.sectie-agenda div.rij div.kolom ol.agenda-lijst li.agenda-item span.agenda-datum span.agenda-dag {
+  font-family: var(--kop-letter);
+  font-weight: var(--kop-gewicht);
+  font-size:   34px;
+  line-height: 1;
+}
+/*Agenda -- Tekst*/
+section.sectie-agenda div.rij div.kolom ol.agenda-lijst li.agenda-item div.agenda-info {
+  display:        flex;
+  flex-direction: column;
+  gap:            6px;
+  padding-top:    4px;
+}
+section.sectie-agenda div.rij div.kolom ol.agenda-lijst li.agenda-item div.agenda-info h3.agenda-titel {
+  margin:      0;
+  font-family: var(--kop-letter);
+  font-weight: var(--kop-gewicht);
+  font-size:   clamp(20px, 1.8vw, 24px);
+  line-height: 1.1;
+}
+section.sectie-agenda div.rij div.kolom ol.agenda-lijst li.agenda-item div.agenda-info p.agenda-meta {
+  display:     flex;
+  flex-wrap:   wrap;
+  gap:         4px 14px;
+  margin:      0;
+  font-size:   14px;
+  font-weight: 600;
+  opacity:     .7;
+}
+section.sectie-agenda div.rij div.kolom ol.agenda-lijst li.agenda-item div.agenda-info p.agenda-meta span.agenda-wanneer::first-letter {
+  text-transform: uppercase;
+}
+section.sectie-agenda div.rij div.kolom ol.agenda-lijst li.agenda-item div.agenda-info p.agenda-omschrijving {
+  margin:      4px 0 0;
+  font-size:   16px;
+  line-height: 1.55;
+  opacity:     .82;
+}
+/*Agenda -- Link*/
+section.sectie-agenda div.rij div.kolom ol.agenda-lijst li.agenda-item a.agenda-link {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             8px;
+  margin-top:      4px;
+  padding:         10px 16px;
+  border-radius:   999px;
+  background:      var(--kleur-creme);
+  color:           var(--kleur-paars);
+  font-size:       14px;
+  font-weight:     700;
+  text-decoration: none;
+  white-space:     nowrap;
+  transition:      background .3s, color .3s;
+}
+section.sectie-agenda div.rij div.kolom ol.agenda-lijst li.agenda-item a.agenda-link:hover,
+section.sectie-agenda div.rij div.kolom ol.agenda-lijst li.agenda-item a.agenda-link:focus-visible {
+  background: var(--kleur-paars);
+  color:      var(--kleur-creme);
+}
+/*Agenda -- Mobiel*/
+@media (max-width: 699px) {
+  section.sectie-agenda div.rij div.kolom ol.agenda-lijst li.agenda-item {
+    grid-template-columns: auto minmax(0, 1fr);
+    padding:               18px;
+  }
+  section.sectie-agenda div.rij div.kolom ol.agenda-lijst li.agenda-item span.agenda-datum {
+    width:  60px;
+    height: 64px;
+  }
+  section.sectie-agenda div.rij div.kolom ol.agenda-lijst li.agenda-item span.agenda-datum span.agenda-dag {
+    font-size: 28px;
+  }
+  section.sectie-agenda div.rij div.kolom ol.agenda-lijst li.agenda-item a.agenda-link {
+    grid-column:  2;
+    justify-self: start;
+    margin-top:   0;
+  }
 }
 
 /**Blokken -- Slot-CTA**/
@@ -5170,7 +5303,7 @@ section.sectie-reviews.reviews-compact div.reviews-kop :is(h1, h2, h3).kop-midde
   section.sectie-reviews.reviews-compact {
     display:               grid;
     grid-template-columns: minmax(280px, 4fr) minmax(0, 8fr);
-    align-items:           center;
+    align-items:           start;
     gap:                   clamp(24px, 3vw, 48px);
     padding-left:          max(var(--rand), calc((100vw - var(--breedte)) / 2));
   }
