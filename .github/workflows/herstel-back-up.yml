@@ -1,0 +1,32 @@
+name: Back-ups ophalen (alleen lezen)
+
+# Eenmalig: haalt de thema-back-ups van de staging op als artifact. Verandert niets op de server.
+on:
+  push:
+    branches: [herstel-back-up]
+
+jobs:
+  ophalen:
+    runs-on: ubuntu-latest
+    env:
+      SSH_HOST: gnldm1102.siteground.biz
+      SSH_PORT: 18765
+      SSH_USER: u2594-ag8zh8mdhogx
+    steps:
+      - name: SSH-sleutel klaarzetten
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.STAGING_SSH_KEY }}" > ~/.ssh/sleutel
+          chmod 600 ~/.ssh/sleutel
+          ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+      - name: Back-ups ophalen
+        run: |
+          mkdir back-ups
+          ssh -i ~/.ssh/sleutel -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" "ls -la --time-style=full-iso ~/thema-backups/" | tee back-ups/lijst.txt
+          scp -i ~/.ssh/sleutel -P "$SSH_PORT" "$SSH_USER@$SSH_HOST:thema-backups/*.tgz" back-ups/
+          for f in back-ups/*.tgz; do echo "$f: $(tar xzf "$f" -O lekker-geel/style.css 2>/dev/null | grep -m1 Version)"; done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: thema-back-ups
+          path: back-ups/
+          retention-days: 3
