@@ -17,7 +17,7 @@ require THEMA_PAD . '/inc/acf-velden.php';
 require THEMA_PAD . '/inc/acf-admin.php';
 require THEMA_PAD . '/inc/dashboard.php';
 require THEMA_PAD . '/inc/voorbeeldinhoud.php';
-require THEMA_PAD . '/inc/offerte-koppeling.php';
+require THEMA_PAD . '/inc/offerteformulier.php';
 
 /**
  * Basis thema-ondersteuning.

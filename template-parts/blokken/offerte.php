@@ -8,7 +8,7 @@ $open     = ! empty( $b['open'] );
 $contact  = get_page_by_path( 'contact' );
 $actie    = thema_instellingen( 'offerte_link' ) ?: ( $contact ? get_permalink( $contact ) : home_url( '/' ) );
 $uid      = 'offerte-' . (int) ( $args['index'] ?? 0 );
-$feest    = is_singular( 'gelegenheid' ) ? get_the_title() : sanitize_text_field( wp_unslash( $_GET['feest'] ?? '' ) ); // phpcs:ignore
+$feest    = is_singular( 'gelegenheid' ) ? get_the_title() : sanitize_text_field( wp_unslash( $_GET['uitje'] ?? '' ) ); // phpcs:ignore
 
 echo thema_sectie_open( $b, 'offerte', '', '' );
 ?>
@@ -21,12 +21,12 @@ echo thema_sectie_open( $b, 'offerte', '', '' );
 		</div>
 		<div class="offertevak<?php echo $open ? ' is-open' : ''; ?>" data-offerte data-animeer>
 			<form class="offertezin" id="<?php echo esc_attr( $uid ); ?>" action="<?php echo esc_url( $actie ); ?>" method="get" aria-hidden="<?php echo $open ? 'false' : 'true'; ?>">
-				<?php if ( $feest ) : ?><input type="hidden" name="feest" value="<?php echo esc_attr( ucfirst( str_replace( '-', ' ', $feest ) ) ); ?>"><?php endif; ?>
+				<?php if ( $feest ) : ?><input type="hidden" name="uitje" value="<?php echo esc_attr( ucfirst( str_replace( '-', ' ', $feest ) ) ); ?>"><?php endif; ?>
 				<p class="offertezin-tekst">
 					<?php echo esc_html( $b['zin_1'] ?? 'Op' ); ?>
 					<label><span class="sr-tekst">Datum</span><input type="date" name="datum" class="zinveld zinveld-datum" min="<?php echo esc_attr( wp_date( 'Y-m-d' ) ); ?>"></label>
 					<?php echo esc_html( $b['zin_2'] ?? 'gaan we met' ); ?>
-					<label><span class="sr-tekst">Aantal personen</span><input type="number" name="personen" class="zinveld zinveld-personen" min="1" max="999" step="1" inputmode="numeric" placeholder="<?php echo esc_attr( $b['ph_personen'] ?? 'aantal' ); ?>"></label>
+					<label><span class="sr-tekst">Aantal personen</span><input type="number" name="personen" class="zinveld zinveld-personen" min="1" max="9999" step="1" inputmode="numeric" placeholder="<?php echo esc_attr( ( $b['ph_personen'] ?? '' ) ?: 'aantal' ); ?>"></label>
 					<?php echo esc_html( $b['zin_3'] ?? 'personen van' ); ?>
 					<label><span class="sr-tekst">Ophalen in</span><input type="text" name="van" class="zinveld zinveld-van" placeholder="<?php echo esc_attr( $b['ph_van'] ?? 'jullie plaats' ); ?>"></label>
 					<?php echo esc_html( $b['zin_4'] ?? 'naar' ); ?>

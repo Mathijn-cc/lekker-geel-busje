@@ -2051,15 +2051,14 @@ section.sectie-offerte div.offertevak form.offertezin input.zinveld-datum {
   width: 7.6em;
 }
 section.sectie-offerte div.offertevak form.offertezin input.zinveld-personen {
-  width:              4.4em;
-  text-align:         center;
+  width:              3.6em;
   appearance:         textfield;
   -moz-appearance:    textfield;
 }
 section.sectie-offerte div.offertevak form.offertezin input.zinveld-personen::-webkit-outer-spin-button,
 section.sectie-offerte div.offertevak form.offertezin input.zinveld-personen::-webkit-inner-spin-button {
-  margin:             0;
   -webkit-appearance: none;
+  margin:             0;
 }
 section.sectie-offerte div.offertevak form.offertezin input.zinveld-van {
   width: 6.6em;
@@ -3844,7 +3843,7 @@ body.admin-bar div.menulaag div.menulaag-scroll {
 @media (max-width: 699px) {
   div.menulaag div.menulaag-scroll {
     padding-top:    var(--menubalk-onder, 90px);
-    padding-bottom: 16px;
+    padding-bottom: clamp(16px, 3vh, 28px);
   }
   div.menulaag div.menulaag-scroll div.menulaag-raster {
     flex:           1;
@@ -3856,17 +3855,17 @@ body.admin-bar div.menulaag div.menulaag-scroll {
   }
   /*Overlay -- Menulinks met meer lucht*/
   div.menulaag div.menulaag-scroll div.menulaag-raster nav.menulaag-links {
-    flex:            1;
-    justify-content: center;
-    padding:         clamp(8px, 2vh, 16px) 0 clamp(28px, 4.5vh, 40px);
+    flex:    none;
+    padding: clamp(4px, 1.5vh, 16px) 0 clamp(16px, 3vh, 28px);
   }
   div.menulaag nav.menulaag-links a.overlaylink {
-    padding:   clamp(11px, 1.8vh, 15px) 0;
-    font-size: calc(40px * var(--kop-schaal));
+    padding:   clamp(7px, 1.4vh, 13px) 15px clamp(7px, 1.4vh, 13px) 18px;
+    font-size: calc(28px * var(--kop-schaal));
   }
-  /*Overlay -- Kaart subtiel zoals in de footer*/
+  /*Overlay -- Kaart subtiel zoals in de footer, midden in de ruimte onder het menu*/
   div.menulaag div.menulaag-kaart {
     justify-self:  stretch;
+    margin:        auto 0;
     gap:           6px;
     padding:       8px 8px 4px;
     border-radius: 24px;
@@ -3881,7 +3880,7 @@ body.admin-bar div.menulaag div.menulaag-scroll {
     order:           -1;
     align-self:      stretch;
     justify-content: space-between;
-    font-size:       16px;
+    font-size:       19px;
   }
   div.menulaag div.menulaag-kaart a.knop-rond.knop-rond-paars:not(:hover) {
     background: var(--kleur-geel);
@@ -3896,7 +3895,7 @@ body.admin-bar div.menulaag div.menulaag-scroll {
     padding: 0 12px;
   }
   div.menulaag div.menulaag-kaart div.contactlijst a.contactlink {
-    padding:      12px 0;
+    padding:      clamp(10px, 1.9vh, 16px) 0;
     gap:          14px;
     border-color: rgba(250, 245, 238, .14);
     color:        var(--kleur-creme);

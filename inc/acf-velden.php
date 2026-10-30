@@ -173,7 +173,7 @@ function thema_layouts() {
 		thema_veld( $p, 'zin_4', 'Zin voor bestemming', 'text', array_merge( thema_breed( 25 ), array( 'default_value' => 'naar' ) ) ),
 		thema_veld( $p, 'ph_van', 'Plaatshouder plaats', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'jullie plaats' ) ) ),
 		thema_veld( $p, 'ph_naar', 'Plaatshouder bestemming', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'de bestemming' ) ) ),
-		thema_veld( $p, 'ph_personen', 'Plaatshouder aantal', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'aantal' ) ) ),
+		thema_veld( $p, 'ph_personen', 'Plaatshouder aantal personen', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'aantal' ) ) ),
 		thema_veld( $p, 'zekerheden', 'Zekerheden', 'textarea', array_merge( thema_breed( 50 ), array( 'rows' => 4, 'default_value' => "Vrijblijvend\nBinnen 2 werkdagen een prijs\nAll-in, geen verrassingen" ) ) ),
 		thema_veld( $p, 'knop_open', 'Knop op het compacte blok', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'Vraag direct je prijs aan' ) ) ),
 		thema_veld( $p, 'knop_verder', 'Knop in het formulier', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'Ga verder' ) ) ),

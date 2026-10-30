@@ -118,7 +118,7 @@ function thema_blok_offerte() {
 		'zin_4'         => 'naar',
 		'ph_van'        => 'jullie plaats',
 		'ph_naar'       => 'de bestemming',
-		'personen'      => "tot 39\n39 tot 53\n53 tot 88\nmeer dan 88",
+		'ph_personen'   => 'aantal',
 		'zekerheden'    => "Vrijblijvend\nBinnen 2 werkdagen een prijs\nAll-in, geen verrassingen",
 		'knop_open'     => 'Vraag direct je prijs aan',
 		'knop_verder'   => 'Ga verder',
@@ -191,7 +191,6 @@ function thema_voorbeeld_formulier() {
 		$i++;
 		return array_merge( array( 'id' => $i, 'type' => $type, 'label' => $label ), $extra );
 	};
-	$keuzes = array_map( fn( $k ) => array( 'text' => $k, 'value' => $k ), array( 'tot 39', '39 tot 53', '53 tot 88', 'meer dan 88' ) );
 	$form   = array(
 		'title'                => 'Offerte aanvragen',
 		'description'          => '',
@@ -199,10 +198,10 @@ function thema_voorbeeld_formulier() {
 		'button'               => array( 'type' => 'text', 'text' => 'Verstuur aanvraag' ),
 		'fields'               => array(
 			$veld( 'date', 'Datum', array( 'allowsPrepopulate' => true, 'inputName' => 'datum', 'dateType' => 'datepicker', 'dateFormat' => 'ymd_dash', 'layoutGridColumnSpan' => 6, 'isRequired' => true ) ),
-			$veld( 'select', 'Aantal personen', array( 'allowsPrepopulate' => true, 'inputName' => 'personen', 'choices' => $keuzes, 'placeholder' => 'Kies', 'layoutGridColumnSpan' => 6, 'isRequired' => true ) ),
+			$veld( 'number', 'Aantal personen', array( 'allowsPrepopulate' => true, 'inputName' => 'personen', 'rangeMin' => 1, 'layoutGridColumnSpan' => 6, 'isRequired' => true ) ),
 			$veld( 'text', 'Ophalen in', array( 'allowsPrepopulate' => true, 'inputName' => 'van', 'layoutGridColumnSpan' => 6, 'isRequired' => true ) ),
 			$veld( 'text', 'Bestemming', array( 'allowsPrepopulate' => true, 'inputName' => 'naar', 'layoutGridColumnSpan' => 6 ) ),
-			$veld( 'text', 'Gelegenheid', array( 'allowsPrepopulate' => true, 'inputName' => 'gelegenheid' ) ),
+			$veld( 'text', 'Gelegenheid', array( 'allowsPrepopulate' => true, 'inputName' => 'uitje' ) ),
 			$veld( 'text', 'Naam', array( 'layoutGridColumnSpan' => 6, 'isRequired' => true ) ),
 			$veld( 'phone', 'Telefoon', array( 'phoneFormat' => 'international', 'layoutGridColumnSpan' => 6 ) ),
 			$veld( 'email', 'E-mail', array( 'isRequired' => true ) ),
