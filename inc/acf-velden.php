@@ -51,6 +51,7 @@ function thema_blok_achtergronden() {
 		'gebied'       => 'standaard',
 		'route'        => 'standaard',
 		'tips'         => 'standaard',
+		'feiten'       => 'standaard',
 	);
 }
 
@@ -61,7 +62,7 @@ function thema_extra_velden( $p, $standaard = '', $weergave = array() ) {
 	$velden        = array();
 	$achtergronden = thema_blok_achtergronden();
 
-	$met_knop = in_array( $p, array( 'hero', 'over_ons', 'voordelen', 'prijs', 'faq', 'agenda', 'slot_cta' ), true );
+	$met_knop = in_array( $p, array( 'hero', 'over_ons', 'voordelen', 'prijs', 'faq', 'agenda', 'slot_cta', 'lopende_band' ), true );
 
 	if ( $weergave || $met_knop || isset( $achtergronden[ $p ] ) ) {
 		$velden[] = thema_tab( $p, 'Weergave' );
@@ -136,7 +137,8 @@ function thema_layouts() {
 		thema_veld( $p, 'plaatsen', 'Wisselende plaatsen', 'textarea', array( 'rows' => 4, 'instructions' => 'Eén per regel. Ze wisselen elkaar af in het gele label. Leeg laten voor een vaste kop.' ) ),
 		thema_veld( $p, 'sub_1', 'Subkop', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'Jouw feest begint' ) ) ),
 		thema_veld( $p, 'sub_2', 'Subkop schuin', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'in de bus!' ) ) ),
-		thema_veld( $p, 'knop', 'Knop', 'link', thema_breed( 50 ) ),
+		thema_veld( $p, 'knop', 'Knop', 'link', array_merge( thema_breed( 50 ), array( 'instructions' => 'Leeg: Plan je feestje, naar de offerte.' ) ) ),
+		thema_veld( $p, 'knop_tonen', 'Knop tonen', 'true_false', array_merge( thema_breed( 25 ), array( 'ui' => 1, 'default_value' => 1, 'instructions' => 'Uit: geen knop in de hero, bijvoorbeeld op Over ons.' ) ) ),
 		thema_veld( $p, 'toon_score', 'Google-score tonen', 'true_false', array_merge( thema_breed( 50 ), array( 'ui' => 1, 'default_value' => 1 ) ) ),
 		thema_tab( $p, 'Beelden' ),
 		thema_veld( $p, 'stijl', 'Hero-stijl', 'button_group', array(
@@ -186,7 +188,8 @@ function thema_layouts() {
 	$p   = 'lopende_band';
 	$l[] = thema_layout( $p, 'Lopende band', array_merge( array(
 		thema_tab( $p, 'Inhoud' ),
-		thema_veld( $p, 'items', 'Punten', 'textarea', array( 'rows' => 4, 'instructions' => 'Eén per regel. Om en om in kop- en accentletter.', 'default_value' => "Offerte in 2 werkdagen\nVolle bak gezelligheid\nAll-in, geen verrassingen\n5,0 op Google" ) ),
+		thema_veld( $p, 'items', 'Punten', 'textarea', array( 'rows' => 4, 'instructions' => 'Eén per regel. Om en om in kop- en accentletter. Met *sterretjes* kies je zelf welk deel in de accentletter staat.', 'default_value' => "Offerte in 2 werkdagen\nVolle bak gezelligheid\nAll-in, geen verrassingen\n5,0 op Google" ) ),
+		thema_veld( $p, 'knop', 'Knop onder de band', 'link', array( 'instructions' => 'Bijvoorbeeld naar de huisregels. Leeg = geen knop.' ) ),
 	), thema_extra_velden( $p, '', array(
 		thema_veld( $p, 'variant', 'Variant', 'button_group', array(
 			'choices'       => array( 'paars' => 'Paarse band', 'subtiel' => 'Subtiel, zonder achtergrond' ),
@@ -286,9 +289,9 @@ function thema_layouts() {
 		thema_veld( $p, 'knop', 'Knop eronder', 'link' ),
 	), thema_extra_velden( $p, '', array(
 		thema_veld( $p, 'weergave', 'Weergave', 'button_group', array(
-			'choices'       => array( 'tabs' => 'Tabs met wisselende foto', 'tegels' => 'Tegels met foto en tekst' ),
+			'choices'       => array( 'tabs' => 'Tabs met wisselende foto', 'tegels' => 'Tegels met foto en tekst', 'stickers' => 'Stickers met groot nummer' ),
 			'default_value' => 'tabs',
-			'instructions'  => 'Tegels: alle voordelen tegelijk in beeld, elk met eigen foto en tekst. Mooi op een pagina die meer uitleg geeft.',
+			'instructions'  => 'Tegels: alle voordelen tegelijk in beeld, elk met eigen foto en tekst. Stickers: gekleurde kaarten met een dikke rand en een groot nummer, licht scheef. De eerste is breed en toont zijn foto, de rest heeft geen foto nodig.',
 		) ),
 	) ) ) );
 
@@ -422,6 +425,25 @@ function thema_layouts() {
 		) ),
 		thema_veld( $p, 'verlopen_verbergen', 'Voorbije evenementen verbergen', 'true_false', array( 'ui' => 1, 'default_value' => 1, 'instructions' => 'Een evenement verdwijnt de dag na de (eind)datum. Zet de datum van volgend jaar erin om het terug te halen. Staat er niets meer, dan valt het hele blok weg.' ) ),
 	), thema_extra_velden( $p, 'agenda' ) ) );
+
+	// Feiten.
+	$p   = 'feiten';
+	$l[] = thema_layout( $p, 'Feiten: in het kort', array_merge( array(
+		thema_tab( $p, 'Inhoud' ),
+		thema_veld( $p, 'eyebrow', 'Label', 'text', array_merge( thema_breed( 35 ), array( 'default_value' => 'In het kort' ) ) ),
+		thema_veld( $p, 'kop', 'Kop', 'text', array_merge( thema_breed( 65 ), array( 'instructions' => THEMA_ACCENT_UITLEG, 'default_value' => 'Lekker Geel Busje *in het kort*' ) ) ),
+		thema_veld( $p, 'tekst', 'Tekst', 'textarea', array( 'rows' => 2 ) ),
+		thema_veld( $p, 'rijen', 'Feiten', 'repeater', array(
+			'layout'       => 'table',
+			'collapsed'    => 'field_feiten_rij_label',
+			'button_label' => 'Feit toevoegen',
+			'instructions' => 'Korte, feitelijke regels. Google en AI-assistenten lezen dit als de vaste gegevens van het bedrijf.',
+			'sub_fields'   => array(
+				thema_veld( 'feiten_rij', 'label', 'Onderwerp', 'text', thema_breed( 30 ) ),
+				thema_veld( 'feiten_rij', 'waarde', 'Gegeven', 'text', thema_breed( 70 ) ),
+			),
+		) ),
+	), thema_extra_velden( $p, 'in-het-kort' ) ) );
 
 	// Slot-CTA.
 	$p   = 'slot_cta';

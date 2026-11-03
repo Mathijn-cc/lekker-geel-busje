@@ -16,7 +16,7 @@ $ruimte  = round( abs( tan( deg2rad( $schuin ) ) ) * 50, 2 );
 $stijl = sprintf( ' style="--schuin:%sdeg;--kantel-ruimte:%svw"', esc_attr( $schuin ), esc_attr( $ruimte ) );
 echo thema_sectie_open( $b, 'lopende_band', ( $subtiel ? 'band-subtiel' . ( 'kleurrijk' === ( $b['tekstkleur'] ?? 'subtiel' ) ? ' band-kleurrijk' : '' ) : 'band-paars' ) . ( $schuin ? ' band-schuin' : '' ), ( $subtiel ? '' : ' data-donker' ) . $stijl );
 ?>
-	<div class="band-rijen" aria-label="<?php echo esc_attr( implode( ', ', $items ) ); ?>">
+	<div class="band-rijen" aria-label="<?php echo esc_attr( str_replace( '*', '', implode( ', ', $items ) ) ); ?>">
 		<?php
 		for ( $r = 0; $r < $rijen; $r++ ) :
 			/* Elke rij begint bij een ander punt, zodat de rijen niet gelijk lopen. */
@@ -28,7 +28,7 @@ echo thema_sectie_open( $b, 'lopende_band', ( $subtiel ? 'band-subtiel' . ( 'kle
 					<?php for ( $k = 0; $k < 2; $k++ ) : ?>
 						<div class="band-groep"<?php echo $k ? ' aria-hidden="true"' : ''; ?>>
 							<?php foreach ( $reeks as $i => $item ) : ?>
-								<span class="band-item"><span class="<?php echo ( $i + $r ) % 2 ? 'band-accent' : 'band-kop'; ?>"><?php echo esc_html( $item ); ?></span><span class="band-ster" aria-hidden="true">✱</span></span>
+								<span class="band-item"><?php if ( false !== strpos( $item, '*' ) ) : ?><span class="band-kop"><?php echo thema_accent( $item, 'band-accent' ); ?></span><?php else : ?><span class="<?php echo ( $i + $r ) % 2 ? 'band-accent' : 'band-kop'; ?>"><?php echo esc_html( $item ); ?></span><?php endif; ?><span class="band-ster" aria-hidden="true">✱</span></span>
 							<?php endforeach; ?>
 						</div>
 					<?php endfor; ?>
@@ -36,4 +36,7 @@ echo thema_sectie_open( $b, 'lopende_band', ( $subtiel ? 'band-subtiel' . ( 'kle
 			</div>
 		<?php endfor; ?>
 	</div>
+	<?php if ( ! empty( $b['knop']['url'] ) ) : ?>
+		<div class="band-knop" data-animeer><?php echo thema_blok_knop( $b['knop'], $b, 'paars' ); ?></div>
+	<?php endif; ?>
 </section>

@@ -9,6 +9,38 @@ if ( ! $items ) {
 }
 $uid = 'voordelen-' . (int) ( $args['index'] ?? 0 );
 
+/* Weergave Stickers: gekleurde kaarten met dikke rand en groot nummer. De eerste is breed, met foto. */
+if ( 'stickers' === ( $b['weergave'] ?? 'tabs' ) ) :
+	$kleuren = array( 'geel', 'paars', 'wit', 'zand', 'roze' );
+	echo thema_sectie_open( $b, 'voordelen', 'voordelen-stickers' );
+	?>
+	<div class="voordelen-binnen">
+		<div class="stickers">
+			<?php foreach ( $items as $i => $item ) : ?>
+				<?php $met_foto = 0 === $i && ! empty( $item['beeld'] ); ?>
+				<article class="sticker sticker-<?php echo esc_attr( $kleuren[ $i % count( $kleuren ) ] ); ?><?php echo 0 === $i ? ' sticker-breed' : ''; ?><?php echo $met_foto ? ' sticker-met-foto' : ''; ?>" data-animeer style="--i:<?php echo (int) $i; ?>">
+					<div class="sticker-binnen">
+						<div class="sticker-tekst">
+							<span class="sticker-nummer" aria-hidden="true"><?php echo esc_html( str_pad( $i + 1, 2, '0', STR_PAD_LEFT ) ); ?></span>
+							<div class="sticker-inhoud">
+								<h3 class="sticker-titel"><?php echo esc_html( $item['titel'] ); ?></h3>
+								<?php if ( ! empty( $item['tekst'] ) ) : ?><p class="sticker-omschrijving"><?php echo esc_html( $item['tekst'] ); ?></p><?php endif; ?>
+							</div>
+						</div>
+						<?php if ( $met_foto ) : ?>
+							<div class="sticker-beeld"><?php echo thema_afbeelding( $item['beeld'], 'kaart', 'sticker-foto', true, array( 'alt' => $item['titel'] ) ); ?></div>
+						<?php endif; ?>
+					</div>
+				</article>
+			<?php endforeach; ?>
+		</div>
+		<?php if ( ! empty( $b['knop']['url'] ) ) : ?><div class="voordelen-knop"><?php echo thema_blok_knop( $b['knop'], $b, 'geel', true ); ?></div><?php endif; ?>
+	</div>
+</section>
+	<?php
+	return;
+endif;
+
 /* Weergave Tegels: alle voordelen tegelijk, elk met foto, icoon en tekst. */
 if ( 'tegels' === ( $b['weergave'] ?? 'tabs' ) ) :
 	echo thema_sectie_open( $b, 'voordelen', 'voordelen-tegels' );

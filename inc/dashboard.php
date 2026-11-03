@@ -702,6 +702,16 @@ function thema_dashboard_pagina() {
 					</div>
 
 					<div class="kaartje">
+						<h3 class="kaartje-titel">Pagina Over ons</h3>
+						<p class="kaartje-tekst">Zet de pagina Over ons klaar volgens het wireframe: persoonlijk verhaal, stickers, de rit, veiligheid, huisregels als lopende band, feiten en vragen. Bestaat de pagina al, dan worden de blokken vervangen; anders komt er een concept.</p>
+						<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" data-bevestig="De blokken van de pagina Over ons worden vervangen. Doorgaan?">
+							<input type="hidden" name="action" value="thema_overons">
+							<?php wp_nonce_field( 'thema_overons' ); ?>
+							<button type="submit" class="knopje"><?php echo thema_icoon( 'hart' ); ?>Over ons plaatsen</button>
+						</form>
+					</div>
+
+					<div class="kaartje">
 						<h3 class="kaartje-titel">Back-up</h3>
 						<p class="kaartje-tekst">Kopieer de instellingen naar een andere omgeving, bijvoorbeeld van staging naar live.</p>
 						<textarea class="invoer code" rows="5" readonly onclick="this.select()"><?php echo esc_textarea( wp_json_encode( $s ) ); ?></textarea>
@@ -772,6 +782,19 @@ add_action( 'admin_post_thema_voorbeeld', function () {
 	}
 	$gelukt = thema_plaats_voorbeeldinhoud();
 	thema_terug( $gelukt ? 'voorbeeld' : 'fout' );
+} );
+
+add_action( 'admin_post_thema_overons', function () {
+	check_admin_referer( 'thema_overons' );
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( 'Geen toegang.' );
+	}
+	$id = thema_plaats_overonspagina();
+	if ( ! $id ) {
+		thema_terug( 'fout' );
+	}
+	wp_safe_redirect( admin_url( 'post.php?post=' . (int) $id . '&action=edit' ) );
+	exit;
 } );
 
 /**

@@ -654,3 +654,168 @@ function thema_voorbeeld_menus( $hub_id, $contact_id, $gel_ids, $juridisch ) {
 
 	set_theme_mod( 'nav_menu_locations', array_filter( $locaties ) );
 }
+
+/**
+ * Concept van de pagina Over ons (/over-ons), volgens het wireframe van november 2026.
+ * Bestaat de pagina al, dan krijgt die de nieuwe blokken; anders komt er een concept.
+ */
+function thema_plaats_overonspagina() {
+	if ( ! function_exists( 'update_field' ) ) {
+		return 0;
+	}
+	$bestaand = get_page_by_path( 'over-ons', OBJECT, 'page' );
+	$id       = $bestaand ? (int) $bestaand->ID : (int) wp_insert_post( array(
+		'post_type'   => 'page',
+		'post_name'   => 'over-ons',
+		'post_title'  => 'Over ons',
+		'post_status' => 'draft',
+		'menu_order'  => 7,
+	) );
+	if ( ! $id ) {
+		return 0;
+	}
+	$bestanden = array( 'bus-plein.jpg', 'bus-avond.jpg', 'uitstappen.jpg', 'feest-disco.jpg', 'gastheer.jpg', 'dansen.jpg', 'proosten.jpg', 'zitplaatsen.jpg', 'groep-in-bus.jpg', 'vrienden-proosten.jpg', 'slingers.jpg' );
+	$b         = array();
+	foreach ( $bestanden as $bestand ) {
+		$b[ $bestand ] = thema_voorbeeld_beeld( $bestand );
+	}
+
+	$vragen = array(
+		array( 'Is een rit met Lekker Geel Busje veilig?', 'Ja. Onze bussen krijgen het onderhoud dat ze nodig hebben om aan alle veiligheidseisen te voldoen. Er zijn voldoende zitplaatsen, de chauffeur houdt zijn aandacht bij de weg en het gastvrouwke let op de groep. Zo blijft het feest voor iedereen leuk.' ),
+		array( 'Zijn de bussen van jullie zelf?', 'Ja. Je rijdt altijd in een van onze eigen gele bussen, met onze eigen chauffeurs en gastvrouwkes. We sturen geen ingehuurde touringcar.' ),
+		array( 'Zitten licht, lasers en rook bij de prijs in?', 'Ja. De professionele verlichting, de lasers, de rookmachine en de geluidsinstallatie zitten altijd in de prijs. Daar betaal je niets extra voor.' ),
+		array( 'Wat doet het gastvrouwke?', 'Het gastvrouwke rijdt bij elke rit mee. Ze zorgt voor de drankjes uit de koeling, let op de veiligheid in de bus en beantwoordt al je vragen, zodat de chauffeur zijn aandacht bij de weg kan houden.' ),
+		array( 'Wat bedoelen jullie met een sfeerbus?', 'Een partybus waarin de sfeer voorop staat. Licht, geluid en drankjes zijn er volop, maar het verschil maken de mensen: een chauffeur die je vooraf leert kennen, een gastvrouwke aan boord en een groep die samen iets te vieren heeft.' ),
+		array( 'Rijden jullie ook naar het buitenland?', 'Ja. We rijden vanuit Brabant door heel Nederland en daarbuiten. Vertel ons waar jullie heen willen, dan krijg je een vaste prijs.' ),
+		array( 'Mogen we eigen drank meenemen?', 'Nee. Aan boord staat een koeling vol koude drank en het gastvrouwke schenkt in. Bekijk alle huisregels op de pagina Huisregels.' ),
+	);
+	$faq           = thema_blok_faq();
+	$faq['kop']    = 'Vragen over *Lekker Geel Busje*';
+	$faq['vragen'] = array_map( fn( $v ) => array( 'vraag' => $v[0], 'antwoord' => $v[1] ), $vragen );
+
+	$reviews        = thema_blok_reviews();
+	$reviews['kop'] = 'Dit zeggen *onze reizigers*';
+
+	update_field( 'field_blokken', array(
+		array(
+			'acf_fc_layout' => 'hero',
+			'kop_1'         => 'Over',
+			'kop_2'         => 'Lekker Geel Busje',
+			'plaatsen'      => '',
+			'sub_1'         => 'Jouw feest begint',
+			'sub_2'         => 'in de bus!',
+			'knop'          => '',
+			'knop_tonen'    => 0,
+			'toon_score'    => 1,
+			'stijl'         => 'klassiek',
+			'fotos'         => array( $b['uitstappen.jpg'], $b['bus-avond.jpg'], $b['groep-in-bus.jpg'] ),
+			'hoogte'        => 'compact',
+			'anker'         => 'top',
+		),
+		array(
+			'acf_fc_layout' => 'over_ons',
+			'eyebrow'       => 'Waarom we dit doen',
+			'kop'           => 'Het mooiste moment? *Als de deur dichtgaat.*',
+			'tekst_1'       => 'Lekker Geel Busje is de sfeerbus uit Brabant: eigen gele bussen met chauffeur, gastvrouwke, licht en geluid, voor groepen die samen iets te vieren hebben. We rijden door heel Nederland en daarbuiten.',
+			'tekst_2'       => 'Een groep stapt in, nog een beetje afwachtend. Muziek aan, licht aan, het gastvrouwke schenkt de eerste ronde in. En binnen een paar kilometer zit iedereen in dezelfde sfeer. Dat moment, daar doen we het voor.',
+			'knop'          => thema_link( 'Bekijk onze bussen', home_url( '/bussen/' ) ),
+			'beelden'       => array( $b['groep-in-bus.jpg'], $b['proosten.jpg'], $b['gastheer.jpg'] ),
+			'achtergrond'   => 'standaard',
+			'anker'         => 'waarom',
+		),
+		array(
+			'acf_fc_layout' => 'aan_boord',
+			'eyebrow'       => 'Wat ons anders maakt',
+			'kop'           => 'Een partybus met *Brabantse sfeer*',
+			'tekst'         => 'Vrolijk, persoonlijk en respectvol. Zo rijden wij, van de eerste kilometer tot de laatste.',
+			'achtergrond'   => 'standaard',
+			'anker'         => 'anders',
+		),
+		array(
+			'acf_fc_layout' => 'voordelen',
+			'weergave'      => 'stickers',
+			'items'         => array(
+				array( 'titel' => 'Eigen gele bussen', 'icoon' => 'bus', 'beeld' => $b['bus-plein.jpg'], 'tekst' => 'Geen bemiddelaar die een willekeurige touringcar stuurt. Je rijdt in onze eigen bussen, goed onderhouden en met onze eigen mensen aan boord.' ),
+				array( 'titel' => 'Feest aan boord', 'icoon' => 'speaker', 'beeld' => 0, 'tekst' => 'Professionele verlichting, lasers, rook en een geluidsinstallatie die er staat. Allemaal inbegrepen in de prijs.' ),
+				array( 'titel' => 'Het gastvrouwke', 'icoon' => 'glas', 'beeld' => 0, 'tekst' => 'Zorgt voor de drankjes, let op de groep en beantwoordt al je vragen. Zo kun jij gewoon feestvieren.' ),
+				array( 'titel' => 'Je kent je chauffeur', 'icoon' => 'hart', 'beeld' => 0, 'tekst' => 'Voor de rit stelt je chauffeur zich voor. Iemand die weet wanneer het gas erop moet en wanneer even niet.' ),
+				array( 'titel' => 'Eén prijs, alles erin', 'icoon' => 'schild', 'beeld' => 0, 'tekst' => 'Binnen 2 werkdagen een vaste all-in prijs. Chauffeur, gastvrouwke, licht en geluid, brandstof en btw zitten erin.' ),
+			),
+			'knop'          => '',
+			'achtergrond'   => 'standaard',
+			'anker'         => '',
+		),
+		array(
+			'acf_fc_layout' => 'route',
+			'eyebrow'       => 'Zo gaat een rit bij ons',
+			'kop'           => 'Van offerte tot *veilig thuis*',
+			'intro'         => '',
+			'stappen'       => array(
+				array( 'tijd' => 'Binnen 2 werkdagen', 'icoon' => 'klok', 'titel' => 'Je offerte', 'tekst' => 'Datum, groep, ophaalplek en bestemming. Je krijgt een vaste prijs, alles erin.' ),
+				array( 'tijd' => 'Voor de rit', 'icoon' => 'groep', 'titel' => 'Je chauffeur stelt zich voor', 'tekst' => 'Even kennismaken en de laatste afspraken doornemen. Dan weet je wie er voor de deur staat.' ),
+				array( 'tijd' => 'Ophalen', 'icoon' => 'bus', 'titel' => 'Busje in, sfeertje aan', 'tekst' => 'Het gastvrouwke heet je welkom, vertelt kort de huisregels en zet de eerste drankjes klaar.' ),
+				array( 'tijd' => 'Onderweg', 'icoon' => 'muziek', 'titel' => 'Licht, geluid, feest', 'tekst' => 'Jullie muziek, onze lasers en rook. Het feest begint al in de bus.' ),
+				array( 'tijd' => 'Na afloop', 'icoon' => 'huis', 'titel' => 'Veilig thuis', 'tekst' => 'Niemand hoeft de Bob te zijn. We brengen iedereen terug naar de afgesproken plek.' ),
+			),
+			'slot'          => '',
+			'knop'          => '',
+			'achtergrond'   => 'standaard',
+			'anker'         => 'rit',
+		),
+		array(
+			'acf_fc_layout' => 'aan_boord',
+			'eyebrow'       => 'Veilig en respectvol',
+			'kop'           => 'Feest, *met verantwoordelijkheid*',
+			'tekst'         => 'Een busrit moet gewoon leuk blijven, voor iedereen. Daarom nemen we veiligheid net zo serieus als het feest.',
+			'achtergrond'   => 'standaard',
+			'anker'         => 'veiligheid',
+		),
+		array(
+			'acf_fc_layout' => 'voordelen',
+			'weergave'      => 'tabs',
+			'items'         => array(
+				array( 'titel' => 'Goed onderhouden bussen', 'icoon' => 'schild', 'beeld' => $b['bus-plein.jpg'], 'tekst' => 'Onze bussen krijgen het onderhoud dat ze nodig hebben om aan alle veiligheidseisen te voldoen.' ),
+				array( 'titel' => 'Voldoende zitplaatsen', 'icoon' => 'stoel', 'beeld' => $b['zitplaatsen.jpg'], 'tekst' => 'In elke bus is plek genoeg om te zitten. Groot genoeg voor een compleet gezelschap, klein genoeg om gezellig te blijven.' ),
+				array( 'titel' => 'Ervaren chauffeurs', 'icoon' => 'bus', 'beeld' => $b['bus-avond.jpg'], 'tekst' => 'Onze chauffeurs weten wanneer het gas erop moet en wanneer juist even niet. Hun aandacht blijft bij de weg.' ),
+				array( 'titel' => 'Het gastvrouwke let op', 'icoon' => 'hart', 'beeld' => $b['gastheer.jpg'], 'tekst' => 'Bij elke rit rijdt er iemand mee voor de bediening, de veiligheid en je vragen. Gaat iemand over de grens, dan grijpt ze in.' ),
+				array( 'titel' => 'Zo houden we het leuk', 'icoon' => 'groep', 'beeld' => $b['vrienden-proosten.jpg'], 'tekst' => 'Niet roken, geen eigen drank en respect voor de bus, het personeel en elkaar. Dan blijft het voor iedereen een feest.' ),
+			),
+			'knop'          => '',
+			'achtergrond'   => 'standaard',
+			'anker'         => '',
+		),
+		array(
+			'acf_fc_layout' => 'lopende_band',
+			'items'         => "De enige die binnen mag roken, is *de rookmachine*\nGeen eigen drank, *wij hebben een koeling vol*\nRespect voor de bus, het personeel en elkaar. *Anders mag je naar huis lopen*",
+			'knop'          => thema_link( 'Bekijk alle huisregels', home_url( '/huisregels/' ) ),
+			'knop_kleur'    => 'paars',
+			'variant'       => 'paars',
+			'beweging'      => 'vanzelf',
+			'rijen'         => '1',
+			'schuin'        => -2,
+			'anker'         => 'huisregels',
+		),
+		$reviews,
+		array(
+			'acf_fc_layout' => 'feiten',
+			'eyebrow'       => 'In het kort',
+			'kop'           => 'Lekker Geel Busje *in het kort*',
+			'tekst'         => 'Alles wat je moet weten, op een rij.',
+			'rijen'         => array(
+				array( 'label' => 'Wat', 'waarde' => 'Sfeerbus (partybus) met chauffeur en gastvrouwke voor groepen' ),
+				array( 'label' => 'Wagenpark', 'waarde' => 'Eigen gele bussen, voor groepen tot 88 personen' ),
+				array( 'label' => 'Onderhoud', 'waarde' => 'De bussen krijgen het onderhoud dat nodig is om aan alle veiligheidseisen te voldoen' ),
+				array( 'label' => 'Aan boord', 'waarde' => 'Professionele verlichting, lasers, rook en geluidsinstallatie' ),
+				array( 'label' => 'Altijd inbegrepen', 'waarde' => 'Chauffeur, gastvrouwke, licht en geluid, brandstof en btw' ),
+				array( 'label' => 'Werkgebied', 'waarde' => 'Heel Nederland en daarbuiten, vanuit Brabant' ),
+				array( 'label' => 'Vestiging', 'waarde' => '[Adres]' ),
+				array( 'label' => 'Huisregels', 'waarde' => 'Niet roken, geen eigen drank, respect voor bus, personeel en elkaar' ),
+			),
+			'achtergrond'   => 'standaard',
+			'anker'         => 'in-het-kort',
+		),
+		$faq,
+		thema_blok_slot(),
+	), $id );
+	return $id;
+}

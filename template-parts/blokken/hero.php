@@ -13,7 +13,9 @@ $fotos    = array_filter( (array) ( $b['fotos'] ?? array() ) );
 $extra    = array_values( array_filter( (array) ( $b['extra'] ?? array() ) ) );
 $beeld    = (int) ( $b['beeld'] ?? 0 );
 $knop     = $b['knop'] ?? array();
-if ( empty( $knop['url'] ) ) {
+if ( isset( $b['knop_tonen'] ) && ! $b['knop_tonen'] ) {
+	$knop = array();
+} elseif ( empty( $knop['url'] ) ) {
 	$knop = array( 'title' => 'Plan je feestje', 'url' => thema_offerte_url() );
 }
 $sub = trim( esc_html( $b['sub_1'] ?? '' ) . ' <span class="accent">' . esc_html( $b['sub_2'] ?? '' ) . '</span>' );

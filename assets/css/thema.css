@@ -6280,3 +6280,211 @@ footer.voet div.voet-binnen div.voet-onder div.voet-onder-links > span.voet-foto
   color:           inherit;
   text-decoration: underline;
 }
+
+/**Voordelen -- Stickers**/
+/*Stickers -- Raster: de eerste is breed, de rest vult de rij*/
+section.sectie-voordelen.voordelen-stickers div.stickers {
+  display:   flex;
+  flex-wrap: wrap;
+  gap:       clamp(20px, 2.4vw, 32px);
+  padding:   8px 10px 14px 4px;
+}
+section.sectie-voordelen.voordelen-stickers div.stickers article.sticker {
+  flex:      1 1 260px;
+  min-width: 0;
+}
+section.sectie-voordelen.voordelen-stickers div.stickers article.sticker.sticker-breed {
+  flex: 2 1 520px;
+}
+/*Stickers -- Kaart met dikke rand, harde schaduw en een lichte kanteling*/
+section.sectie-voordelen.voordelen-stickers div.stickers article.sticker div.sticker-binnen {
+  --kanteling:   0deg;
+  --schaduw:     var(--kleur-diep);
+  position:      relative;
+  display:       flex;
+  flex-wrap:     wrap;
+  height:        100%;
+  min-height:    clamp(260px, 24vw, 340px);
+  border:        var(--lijn-dik) solid var(--kleur-diep);
+  border-radius: 28px;
+  overflow:      hidden;
+  box-shadow:    8px 8px 0 var(--schaduw);
+  transform:     rotate(var(--kanteling));
+  transition:    transform .5s var(--veer), box-shadow .4s var(--zacht);
+}
+section.sectie-voordelen.voordelen-stickers div.stickers article.sticker:nth-child(2) div.sticker-binnen {
+  --kanteling: 1.5deg;
+}
+section.sectie-voordelen.voordelen-stickers div.stickers article.sticker:nth-child(3) div.sticker-binnen {
+  --kanteling: -1.5deg;
+}
+section.sectie-voordelen.voordelen-stickers div.stickers article.sticker:nth-child(5) div.sticker-binnen {
+  --kanteling: 1deg;
+}
+@media (hover: hover) {
+  section.sectie-voordelen.voordelen-stickers div.stickers article.sticker:hover div.sticker-binnen {
+    transform:  rotate(0deg) translate(-3px, -3px);
+    box-shadow: 11px 11px 0 var(--schaduw);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  section.sectie-voordelen.voordelen-stickers div.stickers article.sticker div.sticker-binnen {
+    transition: none;
+  }
+}
+/*Stickers -- Kleuren per kaart*/
+section.sectie-voordelen.voordelen-stickers div.stickers article.sticker.sticker-geel div.sticker-binnen {
+  background: var(--kleur-geel);
+  color:      var(--kleur-diep);
+}
+section.sectie-voordelen.voordelen-stickers div.stickers article.sticker.sticker-paars div.sticker-binnen {
+  --schaduw:  var(--kleur-roze);
+  background: var(--kleur-paars);
+  color:      var(--kleur-creme);
+}
+section.sectie-voordelen.voordelen-stickers div.stickers article.sticker.sticker-wit div.sticker-binnen {
+  background: var(--kleur-wit);
+  color:      var(--kleur-diep);
+}
+section.sectie-voordelen.voordelen-stickers div.stickers article.sticker.sticker-zand div.sticker-binnen {
+  --schaduw:  var(--kleur-geel);
+  background: var(--kleur-zand);
+  color:      var(--kleur-diep);
+}
+section.sectie-voordelen.voordelen-stickers div.stickers article.sticker.sticker-roze div.sticker-binnen {
+  --schaduw:  var(--kleur-paars);
+  background: var(--kleur-wit);
+  color:      var(--kleur-diep);
+}
+/*Stickers -- Nummer, titel en tekst*/
+section.sectie-voordelen.voordelen-stickers div.stickers article.sticker div.sticker-binnen div.sticker-tekst {
+  flex:            1 1 240px;
+  display:         flex;
+  flex-direction:  column;
+  justify-content: space-between;
+  gap:             24px;
+  padding:         clamp(24px, 2.6vw, 34px);
+}
+section.sectie-voordelen.voordelen-stickers div.stickers article.sticker div.sticker-binnen div.sticker-tekst span.sticker-nummer {
+  font-family:    var(--kop-letter);
+  font-weight:    var(--kop-gewicht);
+  font-size:      calc(clamp(52px, 5vw, 72px) * var(--kop-schaal));
+  line-height:    .9;
+  letter-spacing: -.04em;
+  color:          var(--kleur-paars);
+}
+section.sectie-voordelen.voordelen-stickers div.stickers article.sticker.sticker-paars div.sticker-binnen div.sticker-tekst span.sticker-nummer {
+  color: var(--kleur-geel);
+}
+section.sectie-voordelen.voordelen-stickers div.stickers article.sticker.sticker-wit div.sticker-binnen div.sticker-tekst span.sticker-nummer,
+section.sectie-voordelen.voordelen-stickers div.stickers article.sticker.sticker-roze div.sticker-binnen div.sticker-tekst span.sticker-nummer {
+  color: var(--kleur-roze);
+}
+section.sectie-voordelen.voordelen-stickers div.stickers article.sticker div.sticker-binnen div.sticker-tekst div.sticker-inhoud {
+  display:        flex;
+  flex-direction: column;
+  gap:            10px;
+}
+section.sectie-voordelen.voordelen-stickers div.stickers article.sticker div.sticker-binnen div.sticker-tekst div.sticker-inhoud h3.sticker-titel {
+  margin:         0;
+  font-family:    var(--kop-letter);
+  font-weight:    var(--kop-gewicht);
+  font-size:      calc(clamp(24px, 2.2vw, 32px) * var(--kop-schaal));
+  line-height:    1;
+  letter-spacing: -.03em;
+}
+section.sectie-voordelen.voordelen-stickers div.stickers article.sticker.sticker-paars div.sticker-binnen div.sticker-tekst div.sticker-inhoud h3.sticker-titel {
+  color: var(--kleur-geel);
+}
+section.sectie-voordelen.voordelen-stickers div.stickers article.sticker div.sticker-binnen div.sticker-tekst div.sticker-inhoud p.sticker-omschrijving {
+  margin:      0;
+  font-size:   16px;
+  line-height: 1.55;
+  text-wrap:   pretty;
+}
+/*Stickers -- Foto in de brede sticker*/
+section.sectie-voordelen.voordelen-stickers div.stickers article.sticker div.sticker-binnen div.sticker-beeld {
+  flex:        1 1 220px;
+  min-height:  220px;
+  border-left: var(--lijn-dik) solid var(--kleur-diep);
+  background:  var(--kleur-zand);
+}
+section.sectie-voordelen.voordelen-stickers div.stickers article.sticker div.sticker-binnen div.sticker-beeld img.sticker-foto {
+  display:    block;
+  width:      100%;
+  height:     100%;
+  object-fit: cover;
+}
+@media (max-width: 699px) {
+  section.sectie-voordelen.voordelen-stickers div.stickers article.sticker div.sticker-binnen div.sticker-beeld {
+    border-left: 0;
+    border-top:  var(--lijn-dik) solid var(--kleur-diep);
+  }
+}
+
+/**Blokken -- Lopende band**/
+/*Band -- Knop onder de band*/
+section.sectie-lopende_band div.band-knop {
+  display:         flex;
+  justify-content: center;
+  padding:         clamp(40px, 5vw, 64px) var(--rand) 0;
+}
+/*Band -- Accent binnen een punt, met sterretjes in de tekst*/
+section.sectie-lopende_band div.band span.band-item span.band-kop span.band-accent {
+  color: var(--kleur-geel);
+}
+section.sectie-lopende_band.band-subtiel div.band span.band-item span.band-kop span.band-accent {
+  color: inherit;
+}
+
+/**Blokken -- Feiten**/
+/*Feiten -- Kop links, lijst rechts*/
+section.sectie-feiten {
+  padding: var(--sectie-ruimte) var(--rand);
+}
+section.sectie-feiten div.feiten-raster {
+  max-width:             var(--breedte);
+  margin:                0 auto;
+  display:               grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  gap:                   clamp(32px, 5vw, 96px);
+  align-items:           start;
+}
+section.sectie-feiten div.feiten-raster div.feiten-kop {
+  display:        flex;
+  flex-direction: column;
+  align-items:    flex-start;
+  gap:            28px;
+}
+section.sectie-feiten div.feiten-raster div.feiten-kop :is(h1, h2, h3).kop span.accent {
+  color: var(--kleur-roze);
+}
+/*Feiten -- Lijst*/
+section.sectie-feiten div.feiten-raster dl.feiten-lijst {
+  margin:        0;
+  padding:       clamp(8px, 1vw, 12px) clamp(24px, 3vw, 40px);
+  border-radius: 28px;
+  background:    var(--kleur-wit);
+  color:         var(--kleur-diep);
+}
+section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feiten-rij {
+  display:               grid;
+  grid-template-columns: minmax(120px, 200px) minmax(0, 1fr);
+  gap:                   6px 24px;
+  padding:               18px 0;
+  border-bottom:         var(--lijn-dun) solid var(--kleur-zand);
+}
+section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feiten-rij:last-child {
+  border-bottom: 0;
+}
+section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feiten-rij dt.feiten-label {
+  font-weight: 700;
+}
+section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feiten-rij dd.feiten-waarde {
+  margin: 0;
+}
+@media (max-width: 559px) {
+  section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feiten-rij {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
