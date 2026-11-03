@@ -1139,7 +1139,33 @@
 			requestAnimationFrame( loop );
 		}() );
 	}() );
-	/* ------------------------------------------------------------ Confetti in de gele hero */
+	/* ------------------------------------------------------------ Klassieke hero: foto's vloeien in elkaar over */
+
+	alle( '[data-wissel]' ).forEach( function ( vak ) {
+		var fotos = alle( 'img', vak );
+		if ( fotos.length < 2 || rustig ) {
+			return;
+		}
+		var nu = 0;
+		var duur = Math.max( 3000, inst.heroInterval || 6000 );
+		setInterval( function () {
+			if ( document.hidden ) {
+				return;
+			}
+			var huidige = fotos[ nu ];
+			var volgende = fotos[ ( nu + 1 ) % fotos.length ];
+			/* Pas wisselen als de volgende foto geladen is, anders vloeit hij naar een leeg vlak. */
+			if ( ! volgende.complete || ! volgende.naturalWidth ) {
+				volgende.loading = 'eager';
+				return;
+			}
+			huidige.classList.remove( 'is-actief' );
+			volgende.classList.add( 'is-actief' );
+			nu = ( nu + 1 ) % fotos.length;
+		}, duur );
+	} );
+
+	/* ------------------------------------------------------------ Confetti in de hero Fotorol */
 
 	/* Klik op een fotokaart: een glinsterende confettiregen in de merkkleuren vanaf het klikpunt. */
 	( function () {

@@ -1743,7 +1743,8 @@ section.sectie-hero.hero-collage .hero-kop {
   line-height: .86;
 }
 section.sectie-hero.hero-collage p.hero-sub,
-section.sectie-hero.hero-klassiek p.hero-sub {
+section.sectie-hero.hero-klassiek p.hero-sub,
+section.sectie-hero.hero-fotorol p.hero-sub {
   font-size: calc(clamp(26px, 2.8vw, 42px) * var(--kop-schaal));
 }
 section.sectie-hero.hero-collage div.hero-collage-rij {
@@ -1913,8 +1914,136 @@ section.sectie-hero.hero-bento div.bento a.bento-tegel.bento-roze:hover span.ben
 section.sectie-hero.hero-klassiek {
   padding: var(--rand-smal) var(--rand-smal) 0;
 }
-/*Klassiek -- Gele kaart, de fotokaarten steken er onderaan uit en worden afgesneden*/
+/*Klassiek -- Gele kaart met tekst links en foto rechts*/
 section.sectie-hero.hero-klassiek div.hero-klassiek-kaart {
+  padding:       clamp(120px, 11vw, 150px) var(--rand) clamp(56px, 6vw, 96px);
+  border-radius: var(--afronding-groot);
+  background:    var(--kleur-geel);
+  overflow:      hidden;
+}
+section.sectie-hero.hero-klassiek div.hero-klassiek-raster {
+  position:              relative;
+  max-width:             var(--breedte);
+  margin:                0 auto;
+  display:               grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 500px), 1fr));
+  gap:                   clamp(32px, 4vw, 64px);
+  align-items:           center;
+}
+@media (min-width: 1000px) {
+  section.sectie-hero.hero-klassiek div.hero-klassiek-raster {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap:                   clamp(40px, 4.5vw, 80px);
+  }
+}
+section.sectie-hero.hero-klassiek div.hero-klassiek-raster div.hero-klassiek-tekst {
+  position:       relative;
+  z-index:        2;
+  display:        flex;
+  flex-direction: column;
+  align-items:    flex-start;
+  gap:            clamp(18px, 2vw, 26px);
+}
+section.sectie-hero.hero-klassiek .hero-kop {
+  font-size: calc(clamp(48px, 6.2vw, 108px) * var(--kop-schaal));
+}
+section.sectie-hero.hero-klassiek.hero-compact {
+  --kop-schaal: .84;
+}
+section.sectie-hero.hero-klassiek p.hero-sub {
+  margin:    0;
+  font-size: calc(clamp(22px, 2.2vw, 34px) * var(--kop-schaal));
+}
+/*Klassiek -- Foto met gekanteld paars vlak erachter*/
+section.sectie-hero.hero-klassiek div.hero-klassiek-media {
+  position:  relative;
+  isolation: isolate;
+}
+section.sectie-hero.hero-klassiek div.hero-klassiek-media::before {
+  content:       "";
+  position:      absolute;
+  top:           7%;
+  right:         -3.5%;
+  bottom:        -5%;
+  left:          9%;
+  z-index:       -1;
+  border-radius: 32px;
+  background:    var(--kleur-paars);
+  rotate:        3deg;
+}
+section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-klassiek-beeld {
+  position:      relative;
+  aspect-ratio:  638 / 540;
+  border-radius: 32px;
+  overflow:      hidden;
+  background:    var(--kleur-paars);
+}
+/*Klassiek -- Foto's vloeien een voor een in elkaar over, met een rustige zoom*/
+section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-klassiek-beeld img {
+  position:   absolute;
+  inset:      0;
+  width:      100%;
+  height:     100%;
+  object-fit: cover;
+  opacity:    0;
+  scale:      1.06;
+  transition: opacity 1.4s var(--zacht), scale 7s linear;
+}
+section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-klassiek-beeld img.is-actief {
+  opacity: 1;
+  scale:   1;
+}
+section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-badge {
+  position:        absolute;
+  left:            clamp(-28px, -2vw, -16px);
+  bottom:          clamp(-28px, -2vw, -16px);
+  z-index:         3;
+  width:           clamp(104px, 9vw, 132px);
+  aspect-ratio:    1;
+  border-radius:   50%;
+  background:      var(--kleur-creme);
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  gap:             2px;
+  pointer-events:  none;
+  box-shadow:      0 18px 40px -16px rgba(56, 6, 94, .45);
+}
+section.sectie-hero.hero-klassiek div.hero-badge span.hero-badge-getal {
+  font-family: var(--kop-letter);
+  font-weight: var(--kop-gewicht);
+  font-size:   calc(clamp(28px, 2.8vw, 40px) * var(--kop-schaal));
+  line-height: 1;
+}
+section.sectie-hero.hero-klassiek div.hero-badge span.sterren {
+  font-size: 12px;
+}
+section.sectie-hero.hero-klassiek div.hero-badge span.hero-badge-label {
+  font-family: var(--accent-letter);
+  font-style:  var(--accent-stijl);
+  font-size:   16px;
+}
+@media (max-width: 699px) {
+  section.sectie-hero.hero-klassiek div.hero-klassiek-kaart {
+    border-radius: 28px;
+  }
+  section.sectie-hero.hero-klassiek.hero-compact {
+    --kop-schaal: .62;
+  }
+  section.sectie-hero.hero-klassiek div.hero-klassiek-media::before {
+    right:  -2%;
+    bottom: -3%;
+    rotate: 2.5deg;
+  }
+}
+
+/*Hero -- Fotorol*/
+section.sectie-hero.hero-fotorol {
+  padding: var(--rand-smal) var(--rand-smal) 0;
+}
+/*Fotorol -- Gele kaart, de fotokaarten steken er onderaan uit en worden afgesneden*/
+section.sectie-hero.hero-fotorol div.hero-fotorol-kaart {
   --kaart-breed:  clamp(170px, 17vw, 270px);
   position:       relative;
   padding:        clamp(112px, 9.5vw, 140px) var(--rand) 0;
@@ -1922,8 +2051,8 @@ section.sectie-hero.hero-klassiek div.hero-klassiek-kaart {
   background:     var(--kleur-geel);
   overflow:       hidden;
 }
-/*Klassiek -- Tekst gecentreerd*/
-section.sectie-hero.hero-klassiek div.hero-klassiek-kaart div.hero-klassiek-tekst {
+/*Fotorol -- Tekst gecentreerd*/
+section.sectie-hero.hero-fotorol div.hero-fotorol-kaart div.hero-fotorol-tekst {
   position:       relative;
   z-index:        12;
   max-width:      1100px;
@@ -1934,23 +2063,23 @@ section.sectie-hero.hero-klassiek div.hero-klassiek-kaart div.hero-klassiek-teks
   gap:            clamp(14px, 1.6vw, 22px);
   text-align:     center;
 }
-section.sectie-hero.hero-klassiek .hero-kop {
+section.sectie-hero.hero-fotorol .hero-kop {
   font-size: calc(clamp(56px, 7.6vw, 136px) * var(--kop-schaal));
 }
-section.sectie-hero.hero-klassiek.hero-compact {
+section.sectie-hero.hero-fotorol.hero-compact {
   --kop-schaal: .84;
 }
-section.sectie-hero.hero-klassiek p.hero-sub {
+section.sectie-hero.hero-fotorol p.hero-sub {
   margin:    0;
   font-size: calc(clamp(22px, 2.2vw, 34px) * var(--kop-schaal));
 }
-/*Klassiek -- Waaier van fotokaarten*/
-section.sectie-hero.hero-klassiek div.hero-klassiek-kaart div.hero-waaier {
+/*Fotorol -- Waaier van fotokaarten*/
+section.sectie-hero.hero-fotorol div.hero-fotorol-kaart div.hero-waaier {
   position:   relative;
   height:     calc(var(--kaart-breed) * 1.12);
   margin:     clamp(24px, 2.6vw, 40px) calc(-1 * var(--rand)) 0;
 }
-section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaierkaart {
+section.sectie-hero.hero-fotorol div.hero-waaier div.hero-waaierkaart {
   position:  absolute;
   top:       0;
   left:      calc(50% + var(--plek) * var(--kaart-breed) * .9);
@@ -1958,7 +2087,7 @@ section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaierkaart {
   translate: -50% calc(var(--zak) * var(--kaart-breed) * .12);
   rotate:    var(--draai);
 }
-section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaierkaart div.hero-waaierkaart-beweeg div.hero-waaierkaart-binnen {
+section.sectie-hero.hero-fotorol div.hero-waaier div.hero-waaierkaart div.hero-waaierkaart-beweeg div.hero-waaierkaart-binnen {
   aspect-ratio:  4 / 5;
   border:        6px solid var(--kleur-creme);
   border-radius: 28px;
@@ -1967,20 +2096,20 @@ section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaierkaart div.hero-
   box-shadow:    0 26px 48px -26px rgba(38, 4, 63, .6);
   transition:    translate .5s var(--veer), rotate .5s var(--veer);
 }
-section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaierkaart div.hero-waaierkaart-beweeg div.hero-waaierkaart-binnen img {
+section.sectie-hero.hero-fotorol div.hero-waaier div.hero-waaierkaart div.hero-waaierkaart-beweeg div.hero-waaierkaart-binnen img {
   display:    block;
   width:      100%;
   height:     100%;
   object-fit: cover;
 }
 @media (hover: hover) {
-  section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaierkaart:hover div.hero-waaierkaart-beweeg div.hero-waaierkaart-binnen {
+  section.sectie-hero.hero-fotorol div.hero-waaier div.hero-waaierkaart:hover div.hero-waaierkaart-beweeg div.hero-waaierkaart-binnen {
     translate: 0 -18px;
     rotate:    calc(var(--draai) * -.4);
   }
 }
-/*Klassiek -- Klikbaar voor confetti*/
-section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaierkaart div.hero-waaierkaart-beweeg {
+/*Fotorol -- Klikbaar voor confetti*/
+section.sectie-hero.hero-fotorol div.hero-waaier div.hero-waaierkaart div.hero-waaierkaart-beweeg {
   cursor: pointer;
 }
 canvas.confetti-doek {
@@ -1991,8 +2120,8 @@ canvas.confetti-doek {
   height:         100%;
   pointer-events: none;
 }
-/*Klassiek -- Google-score als kaartje tussen de foto's*/
-section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaier-score {
+/*Fotorol -- Google-score als kaartje tussen de foto's*/
+section.sectie-hero.hero-fotorol div.hero-waaier div.hero-waaier-score {
   position:        absolute;
   top:             calc(var(--kaart-breed) * -.32);
   left:            calc(50% + var(--kaart-breed) * 1.05);
@@ -2010,36 +2139,36 @@ section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaier-score {
   pointer-events:  none;
   box-shadow:      0 18px 40px -16px rgba(56, 6, 94, .45);
 }
-section.sectie-hero.hero-klassiek div.hero-waaier-score span.hero-badge-getal {
+section.sectie-hero.hero-fotorol div.hero-waaier-score span.hero-badge-getal {
   font-family: var(--kop-letter);
   font-weight: var(--kop-gewicht);
   font-size:   calc(clamp(28px, 2.8vw, 40px) * var(--kop-schaal));
   line-height: 1;
 }
-section.sectie-hero.hero-klassiek div.hero-waaier-score span.sterren {
+section.sectie-hero.hero-fotorol div.hero-waaier-score span.sterren {
   font-size: 12px;
 }
-section.sectie-hero.hero-klassiek div.hero-waaier-score span.hero-badge-label {
+section.sectie-hero.hero-fotorol div.hero-waaier-score span.hero-badge-label {
   font-family: var(--accent-letter);
   font-style:  var(--accent-stijl);
   font-size:   16px;
 }
 @media (max-width: 699px) {
-  section.sectie-hero.hero-klassiek div.hero-klassiek-kaart {
+  section.sectie-hero.hero-fotorol div.hero-fotorol-kaart {
     --kaart-breed: 40vw;
     border-radius: 28px;
   }
-  section.sectie-hero.hero-klassiek.hero-compact {
+  section.sectie-hero.hero-fotorol.hero-compact {
     --kop-schaal: .62;
   }
-  section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaierkaart.is-buiten {
+  section.sectie-hero.hero-fotorol div.hero-waaier div.hero-waaierkaart.is-buiten {
     display: none;
   }
-  section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaierkaart div.hero-waaierkaart-beweeg div.hero-waaierkaart-binnen {
+  section.sectie-hero.hero-fotorol div.hero-waaier div.hero-waaierkaart div.hero-waaierkaart-beweeg div.hero-waaierkaart-binnen {
     border-width:  4px;
     border-radius: 20px;
   }
-  section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaier-score {
+  section.sectie-hero.hero-fotorol div.hero-waaier div.hero-waaier-score {
     top:   calc(var(--kaart-breed) * -.42);
     left:  auto;
     right: 6%;
@@ -4283,6 +4412,7 @@ section.sectie-hero.hero-foto .hero-kop br.hero-breuk {
     font-size: calc(76px * var(--kop-schaal));
   }
   section.sectie-hero.hero-klassiek .hero-kop,
+  section.sectie-hero.hero-fotorol .hero-kop,
   section.sectie-hero.hero-bento .hero-kop {
     font-size: calc(72px * var(--kop-schaal));
   }
@@ -4443,6 +4573,7 @@ section.sectie.achtergrond-geel a.knop-rond.knop-rond-geel:not(:hover),
 section.sectie-hero.hero-collage a.knop-rond.knop-rond-geel:not(:hover),
 section.sectie-hero.hero-bento a.knop-rond.knop-rond-geel:not(:hover),
 section.sectie-hero.hero-klassiek a.knop-rond.knop-rond-geel:not(:hover),
+section.sectie-hero.hero-fotorol a.knop-rond.knop-rond-geel:not(:hover),
 section.sectie-slot_cta div.slot-vlak a.knop-rond.knop-rond-geel:not(:hover) {
   background: var(--kleur-paars);
   color:      var(--kleur-creme);
@@ -4451,6 +4582,7 @@ section.sectie.achtergrond-geel a.knop-rond.knop-rond-geel:not(:hover) span.knop
 section.sectie-hero.hero-collage a.knop-rond.knop-rond-geel:not(:hover) span.knop-rond-pijl,
 section.sectie-hero.hero-bento a.knop-rond.knop-rond-geel:not(:hover) span.knop-rond-pijl,
 section.sectie-hero.hero-klassiek a.knop-rond.knop-rond-geel:not(:hover) span.knop-rond-pijl,
+section.sectie-hero.hero-fotorol a.knop-rond.knop-rond-geel:not(:hover) span.knop-rond-pijl,
 section.sectie-slot_cta div.slot-vlak a.knop-rond.knop-rond-geel:not(:hover) span.knop-rond-pijl {
   background: var(--kleur-geel);
   color:      var(--kleur-paars);
@@ -4459,6 +4591,7 @@ section.sectie.achtergrond-geel a.knop-schuin.knop-schuin-geel:not(:hover),
 section.sectie-hero.hero-collage a.knop-schuin.knop-schuin-geel:not(:hover),
 section.sectie-hero.hero-bento a.knop-schuin.knop-schuin-geel:not(:hover),
 section.sectie-hero.hero-klassiek a.knop-schuin.knop-schuin-geel:not(:hover),
+section.sectie-hero.hero-fotorol a.knop-schuin.knop-schuin-geel:not(:hover),
 section.sectie-slot_cta div.slot-vlak a.knop-schuin.knop-schuin-geel:not(:hover) {
   background: var(--kleur-paars);
   color:      var(--kleur-geel);
@@ -4467,6 +4600,7 @@ body.knoppen-rond section.sectie.achtergrond-geel a.knop-schuin.knop-schuin-geel
 body.knoppen-rond section.sectie-hero.hero-collage a.knop-schuin.knop-schuin-geel:not(:hover) span.knop-pijl,
 body.knoppen-rond section.sectie-hero.hero-bento a.knop-schuin.knop-schuin-geel:not(:hover) span.knop-pijl,
 body.knoppen-rond section.sectie-hero.hero-klassiek a.knop-schuin.knop-schuin-geel:not(:hover) span.knop-pijl,
+body.knoppen-rond section.sectie-hero.hero-fotorol a.knop-schuin.knop-schuin-geel:not(:hover) span.knop-pijl,
 body.knoppen-rond section.sectie-slot_cta div.slot-vlak a.knop-schuin.knop-schuin-geel:not(:hover) span.knop-pijl {
   background: var(--kleur-geel);
   color:      var(--kleur-paars);

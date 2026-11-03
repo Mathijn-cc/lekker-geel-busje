@@ -144,7 +144,7 @@ function thema_schema() {
 		'footer_maker'        => array( 'bool', 1 ),
 
 		// Stijl, gelijk aan het stijlpaneel.
-		'hero_stijl'          => array( 'keuze', 'foto', array( 'foto', 'collage', 'bento', 'klassiek' ) ),
+		'hero_stijl'          => array( 'keuze', 'foto', array( 'foto', 'collage', 'bento', 'klassiek', 'fotorol' ) ),
 		'menu_stijl'          => array( 'keuze', 'zwevend', array( 'zwevend', 'balk', 'overlay' ) ),
 		'prijs_stijl'         => array( 'keuze', 'kaartje', array( 'kaartje', 'lijst', 'tegels' ) ),
 		'knoppen'             => array( 'keuze', 'rond', array( 'rond', 'schuin' ) ),

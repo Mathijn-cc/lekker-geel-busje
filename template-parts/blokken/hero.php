@@ -161,16 +161,16 @@ elseif ( 'bento' === $stijl ) :
 	</section>
 	<?php
 
-/* ---------------------------------------------------------------- Fotorol (waarde: klassiek) */
-else :
+/* ---------------------------------------------------------------- Fotorol */
+elseif ( 'fotorol' === $stijl ) :
 	/* Waaier van fotokaarten onder de kop: de wisselende foto's (maximaal vijf), anders het hoofdbeeld. */
 	$waaier = array_slice( array_values( array_unique( array_filter( array_map( 'intval', $fotos ? $fotos : array( $beeld ) ) ) ) ), 0, 5 );
 	$aantal = count( $waaier );
 	$midden = ( $aantal - 1 ) / 2;
 	?>
-	<section id="<?php echo esc_attr( $anker ); ?>" class="sectie sectie-hero hero-klassiek<?php echo esc_attr( $compact ); ?>">
-		<div class="hero-klassiek-kaart">
-			<div class="hero-klassiek-tekst">
+	<section id="<?php echo esc_attr( $anker ); ?>" class="sectie sectie-hero hero-fotorol<?php echo esc_attr( $compact ); ?>">
+		<div class="hero-fotorol-kaart">
+			<div class="hero-fotorol-tekst">
 				<?php echo $kop( true, 'paars' ); ?>
 				<?php if ( $sub ) : ?><p class="hero-sub" data-hero-fade><?php echo $sub; ?></p><?php endif; ?>
 				<span data-hero-fade><?php echo thema_blok_knop( $knop, $b, 'paars' ); ?></span>
@@ -195,7 +195,7 @@ else :
 							</div>
 						</div>
 					<?php endforeach; ?>
-					<?php if ( $s['score'] ) : ?>
+					<?php if ( $s['score'] && ! empty( $b['toon_score'] ) ) : ?>
 						<div class="hero-waaier-score" data-waaier-score>
 							<span class="hero-badge-getal"><?php echo esc_html( $s['score'] ); ?></span>
 							<span class="sterren">★★★★★</span>
@@ -204,6 +204,37 @@ else :
 					<?php endif; ?>
 				</div>
 			<?php endif; ?>
+		</div>
+	</section>
+	<?php
+/* ---------------------------------------------------------------- Klassiek */
+else :
+	/* Tekst links, foto rechts. De wisselende foto's vloeien een voor een in elkaar over; anders het hoofdbeeld. */
+	$wissel = array_slice( array_values( array_unique( array_filter( array_map( 'intval', $fotos ? $fotos : array( $beeld ) ) ) ) ), 0, 6 );
+	?>
+	<section id="<?php echo esc_attr( $anker ); ?>" class="sectie sectie-hero hero-klassiek<?php echo esc_attr( $compact ); ?>">
+		<div class="hero-klassiek-kaart">
+			<div class="hero-klassiek-raster">
+				<div class="hero-klassiek-tekst">
+					<?php echo $kop( true, 'paars' ); ?>
+					<?php if ( $sub ) : ?><p class="hero-sub" data-hero-fade><?php echo $sub; ?></p><?php endif; ?>
+					<?php if ( $knop ) : ?><span data-hero-fade><?php echo thema_blok_knop( $knop, $b, 'paars' ); ?></span><?php endif; ?>
+				</div>
+				<div class="hero-klassiek-media">
+					<div class="hero-klassiek-beeld" data-hero-img<?php echo count( $wissel ) > 1 ? ' data-wissel' : ''; ?> data-cursor="Feest!">
+						<?php foreach ( $wissel as $i => $id ) : ?>
+							<?php echo thema_afbeelding( $id, 'breed', 0 === $i ? 'is-actief' : '', 0 !== $i, 0 === $i ? array() : array( 'alt' => '' ) ); ?>
+						<?php endforeach; ?>
+					</div>
+					<?php if ( $s['score'] && ! empty( $b['toon_score'] ) ) : ?>
+						<div class="hero-badge" data-spin>
+							<span class="hero-badge-getal"><?php echo esc_html( $s['score'] ); ?></span>
+							<span class="sterren">★★★★★</span>
+							<span class="hero-badge-label"><?php echo esc_html( $s['score_label'] ); ?></span>
+						</div>
+					<?php endif; ?>
+				</div>
+			</div>
 		</div>
 	</section>
 	<?php

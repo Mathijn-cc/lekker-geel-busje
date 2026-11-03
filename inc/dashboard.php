@@ -192,7 +192,8 @@ function thema_schets( $soort, $keuze ) {
 			'foto'     => "<rect width='160' height='90' fill='{$p}'/><rect width='160' height='90' fill='url(#s-foto)' opacity='.55'/><rect x='12' y='44' width='80' height='10' rx='2' fill='{$c}'/><rect x='12' y='58' width='44' height='11' rx='3' fill='{$g}' transform='rotate(-3 34 63)'/><path d='M104 90 L116 74 L160 74 L160 90Z' fill='{$g}'/>",
 			'collage'  => "<rect width='160' height='90' fill='{$g}'/><rect x='10' y='22' width='26' height='34' rx='4' fill='{$c}' transform='rotate(-8 23 39)'/><rect x='124' y='18' width='26' height='32' rx='4' fill='{$c}' transform='rotate(7 137 34)'/><rect x='48' y='28' width='64' height='10' rx='2' fill='{$p}'/><rect x='58' y='42' width='44' height='10' rx='2' fill='{$p}'/><rect x='62' y='58' width='36' height='10' rx='5' fill='{$p}'/>",
 			'bento'    => "<rect width='160' height='90' fill='{$g}'/><rect x='8' y='8' width='70' height='46' rx='6' fill='{$c}'/><rect x='82' y='8' width='70' height='46' rx='6' fill='{$p}'/><rect x='8' y='58' width='33' height='24' rx='6' fill='{$p}'/><rect x='45' y='58' width='33' height='24' rx='6' fill='{$p}' opacity='.6'/><rect x='82' y='58' width='70' height='24' rx='6' fill='{$r}'/><rect x='14' y='22' width='40' height='7' rx='2' fill='{$p}'/><rect x='14' y='32' width='30' height='7' rx='2' fill='{$p}'/>",
-			'klassiek' => "<rect width='160' height='90' rx='6' fill='{$g}'/><rect x='50' y='14' width='60' height='9' rx='2' fill='{$p}'/><rect x='56' y='26' width='48' height='9' rx='2' fill='{$p}'/><rect x='46' y='39' width='68' height='8' rx='2' fill='{$p}' transform='rotate(-3 80 43)'/><rect x='22' y='62' width='26' height='34' rx='4' fill='{$c}' transform='rotate(-12 35 79)'/><rect x='50' y='58' width='26' height='34' rx='4' fill='{$c}' transform='rotate(-5 63 75)'/><rect x='80' y='56' width='26' height='34' rx='4' fill='{$c}'/><rect x='110' y='59' width='26' height='34' rx='4' fill='{$c}' transform='rotate(7 123 76)'/>",
+			'klassiek' => "<rect width='160' height='90' fill='{$g}'/><rect x='12' y='26' width='54' height='9' rx='2' fill='{$p}'/><rect x='12' y='38' width='42' height='9' rx='2' fill='{$p}'/><rect x='12' y='52' width='32' height='9' rx='2' fill='{$p}' transform='rotate(-3 28 56)'/><rect x='84' y='16' width='66' height='56' rx='8' fill='{$p}'/><circle cx='86' cy='72' r='12' fill='{$c}'/>",
+			'fotorol' => "<rect width='160' height='90' rx='6' fill='{$g}'/><rect x='50' y='14' width='60' height='9' rx='2' fill='{$p}'/><rect x='56' y='26' width='48' height='9' rx='2' fill='{$p}'/><rect x='46' y='39' width='68' height='8' rx='2' fill='{$p}' transform='rotate(-3 80 43)'/><rect x='22' y='62' width='26' height='34' rx='4' fill='{$c}' transform='rotate(-12 35 79)'/><rect x='50' y='58' width='26' height='34' rx='4' fill='{$c}' transform='rotate(-5 63 75)'/><rect x='80' y='56' width='26' height='34' rx='4' fill='{$c}'/><rect x='110' y='59' width='26' height='34' rx='4' fill='{$c}' transform='rotate(7 123 76)'/>",
 		),
 		'menu'    => array(
 			'zwevend' => "<rect width='160' height='90' fill='{$c}'/><rect x='10' y='10' width='140' height='18' rx='9' fill='#fff'/><rect x='18' y='15' width='24' height='8' rx='2' fill='{$p}'/><rect x='96' y='13' width='28' height='12' rx='6' fill='{$g}'/><rect x='128' y='13' width='18' height='12' rx='6' fill='{$p}'/>",
@@ -383,7 +384,8 @@ function thema_dashboard_pagina() {
 								'foto'     => array( 'naam' => 'Fotobreed', 'uitleg' => 'Wisselende foto\'s achter de kop', 'beeld' => thema_schets( 'hero', 'foto' ) ),
 								'collage'  => array( 'naam' => 'Collage', 'uitleg' => 'Gele hero met zwevende foto\'s', 'beeld' => thema_schets( 'hero', 'collage' ) ),
 								'bento'    => array( 'naam' => 'Bento', 'uitleg' => 'Tegels met foto, score en voordeel', 'beeld' => thema_schets( 'hero', 'bento' ) ),
-								'klassiek' => array( 'naam' => 'Fotorol', 'uitleg' => 'Kop in het midden, fotokaarten eronder', 'beeld' => thema_schets( 'hero', 'klassiek' ) ),
+								'klassiek' => array( 'naam' => 'Klassiek', 'uitleg' => 'Kop links, wisselende foto rechts', 'beeld' => thema_schets( 'hero', 'klassiek' ) ),
+								'fotorol'  => array( 'naam' => 'Fotorol', 'uitleg' => 'Kop in het midden, fotokaarten eronder', 'beeld' => thema_schets( 'hero', 'fotorol' ) ),
 							), 'vier stijlschetsen' );
 							?>
 						</div>
@@ -611,7 +613,7 @@ function thema_dashboard_pagina() {
 									<h3 class="kaartje-titel">Hero en cursor</h3>
 									<?php
 									thema_veld_rij( 'Plaats wisselt elke', 'De plaatsnaam in het label van de hero.', thema_schuif( 'plaats_interval', 'ms', 100 ) );
-									thema_veld_rij( 'Foto wisselt elke', 'Bij de hero Fotobreed en Collage.', thema_schuif( 'hero_interval', 'ms', 500 ) );
+									thema_veld_rij( 'Foto wisselt elke', 'Bij de hero Fotobreed, Collage en Klassiek.', thema_schuif( 'hero_interval', 'ms', 500 ) );
 									thema_veld_rij( 'Cursor', 'Alleen met een muis. Op telefoons blijft de gewone aanraking.', thema_segmenten( 'cursor', array( 'ring' => 'Subtiel', 'ster' => 'Ster', 'uit' => 'Standaard' ) ) );
 									?>
 								</div>
