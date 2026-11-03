@@ -1979,6 +1979,18 @@ section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaierkaart div.hero-
     rotate:    calc(var(--draai) * -.4);
   }
 }
+/*Klassiek -- Klikbaar voor confetti*/
+section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaierkaart div.hero-waaierkaart-beweeg {
+  cursor: pointer;
+}
+canvas.confetti-doek {
+  position:       fixed;
+  inset:          0;
+  z-index:        99;
+  width:          100%;
+  height:         100%;
+  pointer-events: none;
+}
 /*Klassiek -- Google-score als kaartje tussen de foto's*/
 section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaier-score {
   position:        absolute;

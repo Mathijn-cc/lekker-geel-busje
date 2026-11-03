@@ -1139,4 +1139,127 @@
 			requestAnimationFrame( loop );
 		}() );
 	}() );
+	/* ------------------------------------------------------------ Confetti in de gele hero */
+
+	/* Klik op een fotokaart: een glinsterende confettiregen in de merkkleuren vanaf het klikpunt. */
+	( function () {
+		var kaarten = alle( '[data-waaier] [data-waaierkaart]' );
+		if ( ! kaarten.length || rustig ) {
+			return;
+		}
+		var doek = null, ctx = null, deeltjes = [], loopt = false, dpr = 1;
+		var stijl = getComputedStyle( html );
+		/* Geen geel: dat valt weg tegen de gele hero. Paars en roze dubbel voor meer kleur. */
+		var kleuren = [ '--kleur-paars', '--kleur-paars', '--kleur-roze', '--kleur-roze', '--kleur-creme' ].map( function ( v ) {
+			return stijl.getPropertyValue( v ).trim();
+		} ).filter( Boolean ).concat( [ '#ffffff' ] );
+
+		function maakDoek() {
+			doek = document.createElement( 'canvas' );
+			doek.className = 'confetti-doek';
+			doek.setAttribute( 'aria-hidden', 'true' );
+			document.body.appendChild( doek );
+			ctx = doek.getContext( '2d' );
+			meet();
+			window.addEventListener( 'resize', meet, { passive: true } );
+		}
+		function meet() {
+			dpr = Math.min( 2, window.devicePixelRatio || 1 );
+			doek.width = window.innerWidth * dpr;
+			doek.height = window.innerHeight * dpr;
+		}
+
+		function strooi( x, y ) {
+			for ( var i = 0; i < 170; i++ ) {
+				var hoek = -Math.PI / 2 + ( Math.random() - .5 ) * Math.PI * .9;
+				var kracht = 11 + Math.random() * 15;
+				deeltjes.push( {
+					x: x, y: y,
+					vx: Math.cos( hoek ) * kracht,
+					vy: Math.sin( hoek ) * kracht,
+					maat: 8 + Math.random() * 9,
+					kleur: kleuren[ ( Math.random() * kleuren.length ) | 0 ],
+					vorm: Math.random() < .18 ? 'ster' : ( Math.random() < .55 ? 'strook' : 'rond' ),
+					draai: Math.random() * Math.PI * 2,
+					draaiSnelheid: ( Math.random() - .5 ) * .35,
+					fase: Math.random() * Math.PI * 2,
+					faseSnelheid: .12 + Math.random() * .22,
+					leven: 0,
+					duur: 170 + Math.random() * 90
+				} );
+			}
+			if ( ! loopt ) {
+				loopt = true;
+				requestAnimationFrame( teken );
+			}
+		}
+
+		function ster( r ) {
+			ctx.beginPath();
+			for ( var i = 0; i < 8; i++ ) {
+				var straal = i % 2 ? r * .38 : r;
+				var a = i * Math.PI / 4;
+				ctx.lineTo( Math.cos( a ) * straal, Math.sin( a ) * straal );
+			}
+			ctx.closePath();
+			ctx.fill();
+		}
+
+		function teken() {
+			ctx.setTransform( 1, 0, 0, 1, 0, 0 );
+			ctx.clearRect( 0, 0, doek.width, doek.height );
+			ctx.scale( dpr, dpr );
+			deeltjes = deeltjes.filter( function ( d ) {
+				return d.leven < d.duur && d.y < window.innerHeight + 40;
+			} );
+			deeltjes.forEach( function ( d ) {
+				d.leven++;
+				d.vx *= .975;
+				d.vy = d.vy * .975 + .26;
+				d.x += d.vx + Math.sin( d.fase ) * .6;
+				d.y += d.vy;
+				d.draai += d.draaiSnelheid;
+				d.fase += d.faseSnelheid;
+				/* Glinsteren: het deeltje kantelt en licht op als het naar je toe draait. */
+				var kant = Math.cos( d.fase );
+				var uit = Math.min( 1, ( d.duur - d.leven ) / 30 );
+				ctx.save();
+				ctx.translate( d.x, d.y );
+				ctx.rotate( d.draai );
+				ctx.globalAlpha = uit * ( .55 + .45 * Math.abs( kant ) );
+				ctx.fillStyle = Math.abs( kant ) > .92 ? '#ffffff' : d.kleur;
+				if ( 'ster' === d.vorm ) {
+					ctx.scale( .6 + .4 * Math.abs( kant ), .6 + .4 * Math.abs( kant ) );
+					ster( d.maat * .9 );
+				} else if ( 'strook' === d.vorm ) {
+					ctx.scale( 1, kant );
+					ctx.fillRect( -d.maat / 2, -d.maat / 4, d.maat, d.maat / 2 );
+				} else {
+					ctx.scale( kant, 1 );
+					ctx.beginPath();
+					ctx.arc( 0, 0, d.maat / 2.4, 0, Math.PI * 2 );
+					ctx.fill();
+				}
+				ctx.restore();
+			} );
+			if ( deeltjes.length ) {
+				requestAnimationFrame( teken );
+			} else {
+				loopt = false;
+				ctx.clearRect( 0, 0, doek.width, doek.height );
+			}
+		}
+
+		kaarten.forEach( function ( kaart ) {
+			kaart.addEventListener( 'click', function ( e ) {
+				if ( ! doek ) {
+					maakDoek();
+				}
+				strooi( e.clientX, e.clientY );
+				if ( gsap ) {
+					gsap.fromTo( kaart, { scale: .93 }, { scale: 1, duration: .6, ease: 'back.out(3)', overwrite: 'auto' } );
+				}
+			} );
+		} );
+	}() );
 }() );
