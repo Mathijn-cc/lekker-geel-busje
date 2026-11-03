@@ -820,16 +820,18 @@
 		lopendeBanden();
 
 		/* Intro van de hero. */
-		gsap.from( '[data-word]', { yPercent: 110, duration: 1.1, ease: 'expo.out', stagger: .09, delay: .1 } );
-		gsap.from( '[data-pop-word]', { scale: .3, rotation: -12, opacity: 0, duration: .9, ease: 'back.out(2)', delay: .45 } );
-		gsap.from( '[data-hero-fade]', { opacity: 0, y: 24, duration: .9, ease: 'power3.out', stagger: .08, delay: .65 } );
+		/* fromTo: de beginstand staat al via html.intro-wacht, dus de intro begint zonder flits. */
+		gsap.fromTo( '[data-word]', { yPercent: 110, opacity: 1 }, { yPercent: 0, duration: 1.1, ease: 'expo.out', stagger: .09, delay: .1 } );
+		gsap.fromTo( '[data-pop-word]', { scale: .3, rotation: -12, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: .9, ease: 'back.out(2)', delay: .45 } );
+		gsap.fromTo( '[data-hero-fade]', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: .9, ease: 'power3.out', stagger: .08, delay: .65 } );
 		var heroBeeld = document.querySelector( '[data-hero-img]' );
 		if ( heroBeeld ) {
 			gsap.fromTo( heroBeeld, { clipPath: 'inset(100% 0% 0% 0% round 32px)' }, { clipPath: 'inset(0% 0% 0% 0% round 32px)', duration: 1.3, ease: 'expo.inOut', delay: .3 } );
 		}
+		html.classList.remove( 'intro-wacht' );
 		var hero = document.querySelector( '.sectie-hero' );
 		alle( '[data-spin]' ).forEach( function ( el ) {
-			gsap.from( el, { scale: 0, rotation: -120, duration: 1.1, ease: 'back.out(1.8)', delay: 1 } );
+			gsap.fromTo( el, { scale: 0, rotation: -120, opacity: 1 }, { scale: 1, rotation: 0, duration: 1.1, ease: 'back.out(1.8)', delay: 1 } );
 			if ( hero ) {
 				gsap.to( el, { rotation: 360, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } } );
 			}
@@ -1000,6 +1002,10 @@
 		ST.refresh();
 	}
 
+	/* Geen beweging: de hero-intro meteen tonen. */
+	if ( ! ( gsap && ST && beweging ) ) {
+		html.classList.remove( 'intro-wacht' );
+	}
 	if ( gsap && ST && beweging ) {
 		if ( inst.vloeiend && window.Lenis ) {
 			lenis = new window.Lenis( { lerp: .12 } );

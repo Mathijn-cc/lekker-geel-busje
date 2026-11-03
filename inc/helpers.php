@@ -201,7 +201,7 @@ function thema_logo_url() {
 
 function thema_logo( $class = 'logo' ) {
 	return sprintf(
-		'<a class="%s" href="%s" rel="home"><img src="%s" alt="%s" width="220" height="60"></a>',
+		'<a class="%s" href="%s" rel="home"><img src="%s" alt="%s" width="220" height="60" fetchpriority="high" decoding="sync"></a>',
 		esc_attr( $class ),
 		esc_url( home_url( '/' ) ),
 		esc_url( thema_logo_url() ),

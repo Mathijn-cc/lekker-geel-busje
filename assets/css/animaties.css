@@ -136,3 +136,17 @@
 		transition: none !important;
 	}
 }
+
+/**Animaties -- Hero-intro**/
+
+/*Hero-intro -- Beginstand vanaf de eerste render, de JavaScript speelt daarna alleen de beweging af*/
+html.intro-wacht [data-word],
+html.intro-wacht [data-pop-word],
+html.intro-wacht [data-hero-fade],
+html.intro-wacht [data-spin] {
+	opacity: 0;
+}
+
+html.intro-wacht [data-hero-img] {
+	clip-path: inset(100% 0% 0% 0% round 32px);
+}

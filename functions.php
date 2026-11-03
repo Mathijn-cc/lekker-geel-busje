@@ -5,7 +5,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'THEMA_VERSIE', '2.10.1' );
+define( 'THEMA_VERSIE', '2.10.2' );
 define( 'THEMA_PAD', get_template_directory() );
 define( 'THEMA_URL', get_template_directory_uri() );
 
@@ -100,7 +100,10 @@ add_action( 'wp_enqueue_scripts', function () {
  * Preload van de gekozen lettertypes, en de js-class voor animaties zonder flits.
  */
 add_action( 'wp_head', function () {
-	echo "<script>document.documentElement.classList.add('js');</script>\n";
+	$s = thema_instellingen();
+	/* Bij animaties staat de hero-intro meteen in de beginstand, zodat er na het laden niets verdwijnt en opnieuw verschijnt. Vangnet: na 3 seconden altijd zichtbaar. */
+	$intro = $s['animaties'] ? "if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('intro-wacht');setTimeout(function(){d.classList.remove('intro-wacht');},3000);}" : '';
+	echo "<script>(function(d){d.classList.add('js');" . $intro . "}(document.documentElement));</script>\n";
 	foreach ( thema_actieve_fonts() as $font ) {
 		$bestand = $font['bestanden']['normal'] ?? reset( $font['bestanden'] );
 		printf(

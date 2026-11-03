@@ -1911,9 +1911,14 @@ section.sectie-hero.hero-bento div.bento a.bento-tegel.bento-roze:hover span.ben
 
 /*Hero -- Klassiek*/
 section.sectie-hero.hero-klassiek {
-  padding:    clamp(120px, 11vw, 150px) var(--rand) clamp(32px, 4vw, 56px);
-  background: var(--kleur-geel);
-  overflow:   hidden;
+  padding: var(--rand-smal) var(--rand-smal) 0;
+}
+/*Klassiek -- De gele kaart zit binnen de sectie, zodat de sectie zonder marge kan blijven staan bij het scrollen*/
+section.sectie-hero.hero-klassiek div.hero-klassiek-kaart {
+  padding:       clamp(120px, 11vw, 150px) var(--rand) clamp(56px, 6vw, 96px);
+  border-radius: var(--afronding-groot);
+  background:    var(--kleur-geel);
+  overflow:      hidden;
 }
 section.sectie-hero.hero-klassiek div.hero-klassiek-raster {
   position:              relative;
@@ -1986,11 +1991,6 @@ section.sectie-hero.hero-klassiek div.hero-badge span.hero-badge-label {
   font-style:  var(--accent-stijl);
   font-size:   16px;
 }
-/*Klassiek -- Kaart met ronde hoeken en ruimte rondom, net als de andere hero's*/
-section.sectie-hero.hero-klassiek {
-  margin:        var(--rand-smal) var(--rand-smal) 0;
-  border-radius: var(--afronding-groot);
-}
 /*Klassiek -- Kop blijft stevig op subpagina's*/
 section.sectie-hero.hero-klassiek.hero-compact {
   --kop-schaal: .84;
@@ -2017,10 +2017,6 @@ section.sectie-hero.hero-klassiek div.hero-klassiek-media::before {
   border-radius: 32px;
   background:    var(--kleur-paars);
   rotate:        3deg;
-}
-/*Klassiek -- Meer ruimte onder de foto*/
-section.sectie-hero.hero-klassiek {
-  padding-bottom: clamp(56px, 6vw, 96px);
 }
 /*Klassiek -- Stapel: extra foto's liggen als afdrukken op het hoofdbeeld*/
 section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-badge {
@@ -2051,8 +2047,7 @@ section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-klassiek-beel
   scale:     .78;
 }
 @media (max-width: 699px) {
-  section.sectie-hero.hero-klassiek {
-    margin:        var(--rand-smal) var(--rand-smal) 0;
+  section.sectie-hero.hero-klassiek div.hero-klassiek-kaart {
     border-radius: 28px;
   }
   section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-klassiek-beeld.hero-stapelfoto {
@@ -2689,7 +2684,8 @@ section.sectie-gelegenheden {
   --kaart-boven: clamp(40px, 5vw, 80px);
   --kaart-onder: clamp(40px, 5vw, 80px);
 }
-section.sectie + section.sectie-gelegenheden {
+section.sectie + section.sectie-gelegenheden,
+div.pin-spacer + section.sectie-gelegenheden {
   margin-top: var(--kaart-boven);
 }
 section.sectie-gelegenheden:has(+ section.sectie) {
@@ -3858,29 +3854,33 @@ section.sectie div.formulier-vak .gform_wrapper .gform_footer button:hover {
   animation-duration:        .6s;
   animation-timing-function: var(--duw);
 }
-/*Gelegenheid -- Overgang tussen alle pagina's*/
-div.navhouder {
+/*Gelegenheid -- Overgang tussen alle pagina's, het menu blijft staan*/
+div.navhouder nav.nav {
   view-transition-name: menubalk;
 }
 ::view-transition-old(root) {
-  animation: pagina-uit .32s var(--duw) both;
+  animation: pagina-uit .24s ease-in both;
 }
 ::view-transition-new(root) {
-  animation: pagina-in .62s var(--zacht) .08s both;
+  animation: pagina-in .48s var(--zacht) both;
+}
+::view-transition-old(menubalk),
+::view-transition-new(menubalk) {
+  animation: none;
 }
 ::view-transition-group(menubalk) {
-  animation-duration: .4s;
+  animation-duration: .3s;
+  z-index:            10;
 }
 @keyframes pagina-uit {
   to {
-    opacity:   0;
-    transform: translateY(-28px) scale(.985);
+    opacity: 0;
   }
 }
 @keyframes pagina-in {
   from {
     opacity:   0;
-    transform: translateY(40px);
+    transform: translateY(14px);
   }
 }
 @media (prefers-reduced-motion: reduce) {

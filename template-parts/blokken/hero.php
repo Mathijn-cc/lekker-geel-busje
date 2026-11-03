@@ -160,32 +160,34 @@ elseif ( 'bento' === $stijl ) :
 else :
 	?>
 	<section id="<?php echo esc_attr( $anker ); ?>" class="sectie sectie-hero hero-klassiek<?php echo esc_attr( $compact ); ?>">
-		<div class="hero-klassiek-raster">
-			<div class="hero-klassiek-tekst">
-				<?php echo $kop( true, 'paars' ); ?>
-				<?php if ( $sub ) : ?><p class="hero-sub" data-hero-fade><?php echo $sub; ?></p><?php endif; ?>
-				<span data-hero-fade><?php echo thema_blok_knop( $knop, $b, 'paars' ); ?></span>
-			</div>
-			<?php
-			/* Met wisselende foto's alleen die als stapel (maximaal vier), anders het hoofdbeeld. */
-			$stapel = array_slice( array_values( array_unique( array_filter( array_map( 'intval', $fotos ? $fotos : array( $beeld ) ) ) ) ), 0, 4 );
-			?>
-			<div class="hero-klassiek-media<?php echo count( $stapel ) > 1 ? ' heeft-stapel' : ''; ?>"<?php echo count( $stapel ) > 1 ? ' data-hero-stapel' : ''; ?>>
-				<div class="hero-klassiek-beeld" data-hero-img data-cursor="Feest!">
-					<?php echo thema_afbeelding( $stapel[0] ?? 0, 'breed', '', false ); ?>
+		<div class="hero-klassiek-kaart">
+			<div class="hero-klassiek-raster">
+				<div class="hero-klassiek-tekst">
+					<?php echo $kop( true, 'paars' ); ?>
+					<?php if ( $sub ) : ?><p class="hero-sub" data-hero-fade><?php echo $sub; ?></p><?php endif; ?>
+					<span data-hero-fade><?php echo thema_blok_knop( $knop, $b, 'paars' ); ?></span>
 				</div>
-				<?php foreach ( array_slice( $stapel, 1 ) as $i => $id ) : ?>
-					<div class="hero-klassiek-beeld hero-stapelfoto hero-stapelfoto-<?php echo (int) $i + 1; ?>" data-stapelfoto data-cursor="Feest!">
-						<?php echo thema_afbeelding( $id, 'breed', '', true, array( 'alt' => '' ) ); ?>
+				<?php
+				/* Met wisselende foto's alleen die als stapel (maximaal vier), anders het hoofdbeeld. */
+				$stapel = array_slice( array_values( array_unique( array_filter( array_map( 'intval', $fotos ? $fotos : array( $beeld ) ) ) ) ), 0, 4 );
+				?>
+				<div class="hero-klassiek-media<?php echo count( $stapel ) > 1 ? ' heeft-stapel' : ''; ?>"<?php echo count( $stapel ) > 1 ? ' data-hero-stapel' : ''; ?>>
+					<div class="hero-klassiek-beeld" data-hero-img data-cursor="Feest!">
+						<?php echo thema_afbeelding( $stapel[0] ?? 0, 'breed', '', false ); ?>
 					</div>
-				<?php endforeach; ?>
-				<?php if ( $s['score'] ) : ?>
-					<div class="hero-badge" data-spin>
-						<span class="hero-badge-getal"><?php echo esc_html( $s['score'] ); ?></span>
-						<span class="sterren">★★★★★</span>
-						<span class="hero-badge-label"><?php echo esc_html( $s['score_label'] ); ?></span>
-					</div>
-				<?php endif; ?>
+					<?php foreach ( array_slice( $stapel, 1 ) as $i => $id ) : ?>
+						<div class="hero-klassiek-beeld hero-stapelfoto hero-stapelfoto-<?php echo (int) $i + 1; ?>" data-stapelfoto data-cursor="Feest!">
+							<?php echo thema_afbeelding( $id, 'breed', '', true, array( 'alt' => '' ) ); ?>
+						</div>
+					<?php endforeach; ?>
+					<?php if ( $s['score'] ) : ?>
+						<div class="hero-badge" data-spin>
+							<span class="hero-badge-getal"><?php echo esc_html( $s['score'] ); ?></span>
+							<span class="sterren">★★★★★</span>
+							<span class="hero-badge-label"><?php echo esc_html( $s['score_label'] ); ?></span>
+						</div>
+					<?php endif; ?>
+				</div>
 			</div>
 		</div>
 	</section>
