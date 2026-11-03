@@ -10,6 +10,7 @@ defined( 'ABSPATH' ) || exit;
 function thema_uitroltaken() {
 	return array(
 		'over-ons-v1' => 'thema_plaats_overonspagina',
+		'stickers-naar-bento-v1' => 'thema_stickers_naar_bento',
 	);
 }
 
@@ -27,3 +28,18 @@ add_action( 'thema_na_uitrol', function () {
 		}
 	}
 } );
+
+/**
+ * De weergave Stickers is vervangen door Bento: opgeslagen blokken omzetten, zodat opnieuw opslaan ze niet terugzet naar Tabs.
+ */
+function thema_stickers_naar_bento() {
+	global $wpdb;
+	return (int) $wpdb->query(
+		$wpdb->prepare(
+			"UPDATE {$wpdb->postmeta} SET meta_value = %s WHERE meta_key LIKE %s AND meta_value = %s",
+			'bento',
+			$wpdb->esc_like( 'blokken_' ) . '%' . $wpdb->esc_like( '_weergave' ),
+			'stickers'
+		)
+	);
+}

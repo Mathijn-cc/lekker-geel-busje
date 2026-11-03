@@ -9,30 +9,29 @@ if ( ! $items ) {
 }
 $uid = 'voordelen-' . (int) ( $args['index'] ?? 0 );
 
-/* Weergave Stickers: kaarten in de kleuren van de site, met icoon en groot nummer. De eerste is breed, met foto. */
-if ( 'stickers' === ( $b['weergave'] ?? 'tabs' ) ) :
-	$kleuren = array( 'zand', 'paars', 'zand', 'geel', 'zand' );
-	echo thema_sectie_open( $b, 'voordelen', 'voordelen-stickers' );
+/* Weergave Bento: de eerste is een grote fototegel, de rest kleine tegels in zand, paars en geel (met foto: foto met waas). */
+if ( in_array( $b['weergave'] ?? 'tabs', array( 'bento', 'stickers' ), true ) ) :
+	$kleuren = array( 'paars', 'zand', 'geel', 'zand' );
+	echo thema_sectie_open( $b, 'voordelen', 'voordelen-bento' );
 	?>
 	<div class="voordelen-binnen">
-		<div class="stickers">
+		<div class="bentoraster">
 			<?php foreach ( $items as $i => $item ) : ?>
-				<?php $met_foto = 0 === $i && ! empty( $item['beeld'] ); ?>
-				<article class="sticker sticker-<?php echo esc_attr( $kleuren[ $i % count( $kleuren ) ] ); ?><?php echo 0 === $i ? ' sticker-breed' : ''; ?><?php echo $met_foto ? ' sticker-met-foto' : ''; ?>" data-animeer style="--i:<?php echo (int) $i; ?>">
-					<div class="sticker-binnen">
-						<div class="sticker-tekst">
-							<div class="sticker-kop">
-								<span class="sticker-badge" aria-hidden="true"><?php echo thema_icoon( $item['icoon'] ?: 'vonk', 26, 2 ); ?></span>
-								<span class="sticker-nummer" aria-hidden="true"><?php echo esc_html( str_pad( $i + 1, 2, '0', STR_PAD_LEFT ) ); ?></span>
-							</div>
-							<div class="sticker-inhoud">
-								<h3 class="sticker-titel"><?php echo esc_html( $item['titel'] ); ?></h3>
-								<?php if ( ! empty( $item['tekst'] ) ) : ?><p class="sticker-omschrijving"><?php echo esc_html( $item['tekst'] ); ?></p><?php endif; ?>
-							</div>
+				<?php
+				$foto  = ! empty( $item['beeld'] );
+				$kleur = 0 === $i ? 'groot' : $kleuren[ ( $i - 1 ) % count( $kleuren ) ];
+				?>
+				<article class="bentotegel bentotegel-<?php echo esc_attr( $kleur ); ?><?php echo $foto ? ' bentotegel-foto' : ''; ?>" data-animeer style="--i:<?php echo (int) $i; ?>">
+					<?php if ( $foto ) : ?>
+						<?php echo thema_afbeelding( $item['beeld'], 0 === $i ? 'breed' : 'kaart', 'bentotegel-beeld', true, array( 'alt' => $item['titel'] ) ); ?>
+						<span class="bentotegel-waas" aria-hidden="true"></span>
+					<?php endif; ?>
+					<div class="bentotegel-inhoud">
+						<span class="bentotegel-nummer" aria-hidden="true"><?php echo esc_html( str_pad( $i + 1, 2, '0', STR_PAD_LEFT ) ); ?></span>
+						<div class="bentotegel-tekst">
+							<h3 class="bentotegel-titel"><?php echo esc_html( $item['titel'] ); ?></h3>
+							<?php if ( ! empty( $item['tekst'] ) ) : ?><p class="bentotegel-omschrijving"><?php echo esc_html( $item['tekst'] ); ?></p><?php endif; ?>
 						</div>
-						<?php if ( $met_foto ) : ?>
-							<div class="sticker-beeld"><?php echo thema_afbeelding( $item['beeld'], 'kaart', 'sticker-foto', true, array( 'alt' => $item['titel'] ) ); ?></div>
-						<?php endif; ?>
 					</div>
 				</article>
 			<?php endforeach; ?>

@@ -300,9 +300,9 @@ function thema_layouts() {
 		thema_veld( $p, 'knop', 'Knop eronder', 'link' ),
 	), thema_extra_velden( $p, '', array(
 		thema_veld( $p, 'weergave', 'Weergave', 'button_group', array(
-			'choices'       => array( 'tabs' => 'Tabs met wisselende foto', 'tegels' => 'Tegels met foto en tekst', 'stickers' => 'Stickers met groot nummer' ),
+			'choices'       => array( 'tabs' => 'Tabs met wisselende foto', 'tegels' => 'Tegels met foto en tekst', 'bento' => 'Bento-raster' ),
 			'default_value' => 'tabs',
-			'instructions'  => 'Tegels: alle voordelen tegelijk in beeld, elk met eigen foto en tekst. Stickers: kaarten in zand, paars en geel met icoon en groot nummer, zonder foto. De eerste is breed en toont zijn foto, de rest heeft geen foto nodig.',
+			'instructions'  => 'Tegels: alle voordelen tegelijk in beeld, elk met eigen foto en tekst. Bento: de eerste is een grote fototegel met de tekst erover, de rest zijn kleine tegels in paars, zand en geel. Geef je een kleine tegel een foto, dan wordt het een fototegel met waas. Vijf voordelen vult het raster precies.',
 		) ),
 		thema_veld( $p, 'foto_kant', 'Foto staat', 'button_group', array(
 			'choices'           => array( 'links' => 'Links, tabs rechts', 'rechts' => 'Rechts, tabs links' ),

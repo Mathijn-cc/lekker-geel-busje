@@ -17,7 +17,7 @@ function thema_blok_info() {
 		'brede_foto'    => array( 'feest', 'Schermbrede foto die openklapt tijdens scrollen.' ),
 		'fotoslider'    => array( 'feest', 'Schermbrede fotoslider met grote schuine knoppen onderaan.' ),
 		'aan_boord'     => array( 'bus', 'Label en grote kop links, alinea rechts. Handig als opening van een sectie.' ),
-		'voordelen'     => array( 'stoel', 'Voordelen als tabs met foto, als tegels of als stickers met een groot nummer.' ),
+		'voordelen'     => array( 'stoel', 'Voordelen als tabs met foto, als tegels of als bento-raster.' ),
 		'gelegenheden'  => array( 'groep', 'Kaarten van de gelegenheden, meeschuivend of in een raster.' ),
 		'werkgebied'    => array( 'route', 'Kaart van Nederland met plaatsen en reistijden.' ),
 		'prijs'         => array( 'kalender', 'Waar de prijs van afhangt en wat er altijd bij zit.' ),

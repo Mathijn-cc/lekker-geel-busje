@@ -733,7 +733,7 @@ function thema_plaats_overonspagina() {
 		),
 		array(
 			'acf_fc_layout' => 'voordelen',
-			'weergave'      => 'stickers',
+			'weergave'      => 'bento',
 			'items'         => array(
 				array( 'titel' => 'Eigen gele bussen', 'icoon' => 'bus', 'beeld' => $b['bus-plein.jpg'], 'tekst' => 'Geen bemiddelaar die een willekeurige touringcar stuurt. Je rijdt in onze eigen bussen, goed onderhouden en met onze eigen mensen aan boord.' ),
 				array( 'titel' => 'Feest aan boord', 'icoon' => 'speaker', 'beeld' => 0, 'tekst' => 'Professionele verlichting, lasers, rook en een geluidsinstallatie die er staat. Allemaal inbegrepen in de prijs.' ),
