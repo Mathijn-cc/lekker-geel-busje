@@ -310,7 +310,7 @@ function thema_icoon_keuzes() {
 function thema_rating_pil( $class = '' ) {
 	$s = thema_instellingen();
 	return sprintf(
-		'<span class="score-pil score-pil-trustindex %1$s" data-rating data-label="%2$s"><span class="sterren">★★★★★</span><span class="score-tekst" data-rating-tekst>%3$s %4$s</span><span class="score-aantal" data-rating-aantal></span>%5$s</span>',
+		'<span class="score-pil score-pil-trustindex %1$s" data-rating data-label="%2$s"><span class="sterren">★★★★★</span><span class="score-tekst" data-rating-tekst><span class="score-getal" data-rating-getal>%3$s</span> <span class="score-label">%4$s</span></span><span class="score-aantal" data-rating-aantal></span>%5$s</span>',
 		$class,
 		esc_attr( $s['score_label'] ),
 		esc_html( $s['score'] ?: '5,0' ),

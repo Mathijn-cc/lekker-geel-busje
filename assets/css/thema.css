@@ -4882,9 +4882,74 @@ section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustinde
   padding:    0;
   background: none;
 }
+/*Reviews -- Score als buskaartje: paars, inkepingen aan de zijkant, groot geel cijfer*/
+section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex {
+  rotate:     -3deg;
+  transition: rotate .5s var(--veer), scale .5s var(--veer);
+}
+section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex:hover {
+  rotate: 1.5deg;
+  scale:  1.04;
+}
 section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil {
-  padding:   12px 20px;
-  font-size: 15px;
+  display:               grid;
+  grid-template-columns: auto auto auto;
+  grid-template-areas:   "getal sterren aantal" "getal label aantal";
+  align-items:           center;
+  column-gap:            14px;
+  row-gap:               2px;
+  padding:               14px 30px;
+  border-radius:         18px;
+  background:            var(--kleur-paars);
+  color:                 var(--kleur-creme);
+  font-size:             15px;
+  -webkit-mask:          radial-gradient(circle 11px at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 11px at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
+  mask:                  radial-gradient(circle 11px at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 11px at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
+  filter:                drop-shadow(0 18px 22px rgba(56, 6, 94, .28));
+}
+section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil span.score-tekst {
+  display: contents;
+}
+section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil span.score-getal {
+  grid-area:      getal;
+  font-family:    var(--kop-letter);
+  font-weight:    var(--kop-gewicht);
+  font-size:      44px;
+  line-height:    1;
+  letter-spacing: -.01em;
+  color:          var(--kleur-geel);
+}
+section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil span.sterren {
+  grid-area:      sterren;
+  color:          var(--kleur-geel);
+  font-size:      15px;
+  letter-spacing: .12em;
+}
+section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil span.score-label {
+  grid-area:   label;
+  font-family: var(--accent-letter);
+  font-style:  var(--accent-stijl);
+  font-weight: 400;
+  font-size:   20px;
+  line-height: 1;
+}
+/*Reviews -- Geperforeerde scheidslijn naar het aantal recensies*/
+section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil span.score-aantal {
+  grid-area:      aantal;
+  align-self:     stretch;
+  display:        flex;
+  align-items:    center;
+  margin-left:    4px;
+  padding-left:   18px;
+  border-left:    2px dashed rgba(250, 245, 238, .35);
+  font-size:      13px;
+  font-weight:    600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  opacity:        .8;
+}
+section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil span.score-aantal:empty {
+  display: none;
 }
 /*Hero -- Meer ruimte boven de knop*/
 section.sectie-hero.hero-foto div.hero-inhoud div.hero-acties {
@@ -5663,9 +5728,20 @@ section.sectie-reviews.reviews-compact div.reviews-trustindex:not(.is-omgezet) {
 /*Reviews -- Scorepil op smalle schermen op één regel*/
 @media (max-width: 480px) {
   section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil {
-    padding:     10px 16px;
+    column-gap:  10px;
+    padding:     12px 24px;
     font-size:   13px;
     white-space: nowrap;
+  }
+  section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil span.score-getal {
+    font-size: 34px;
+  }
+  section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil span.score-label {
+    font-size: 17px;
+  }
+  section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil span.score-aantal {
+    padding-left: 12px;
+    font-size:    11px;
   }
 }
 

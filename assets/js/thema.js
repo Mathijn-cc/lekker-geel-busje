@@ -535,7 +535,13 @@
 			}
 			var score = sterk[0].textContent.trim().replace( '.', ',' );
 			var aantal = sterk[1] ? sterk[1].textContent.trim() : '';
-			pil.querySelector( '[data-rating-tekst]' ).textContent = score + ' ' + ( pil.getAttribute( 'data-label' ) || '' );
+			/* Alleen het cijfer vervangen, zodat cijfer en label apart opgemaakt kunnen worden. */
+			var getal = pil.querySelector( '[data-rating-getal]' );
+			if ( getal ) {
+				getal.textContent = score;
+			} else {
+				pil.querySelector( '[data-rating-tekst]' ).textContent = score + ' ' + ( pil.getAttribute( 'data-label' ) || '' );
+			}
 			if ( aantal ) {
 				pil.querySelector( '[data-rating-aantal]' ).textContent = aantal;
 			}
