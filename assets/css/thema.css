@@ -2587,6 +2587,10 @@ section.sectie-gelegenheden {
   color:         var(--kleur-creme);
   overflow:      hidden;
 }
+/*Gelegenheden -- Ruimte boven de kaart als er een sectie direct boven staat*/
+section.sectie + section.sectie-gelegenheden {
+  margin-top: var(--rand-smal);
+}
 section.sectie-gelegenheden div.gelegenheden-binnen {
   display:        flex;
   flex-direction: column;
@@ -2616,14 +2620,31 @@ section.sectie-gelegenheden div.gelegenheden-venster div.gelegenheden-spoor {
   width:   max-content;
   padding: 24px clamp(56px, 9vw, 160px) 24px var(--rand);
 }
-/*Gelegenheden -- Raster*/
+/*Gelegenheden -- Raster, drie per rij en de laatste rij in het midden*/
 section.sectie-gelegenheden.gelegenheden-raster div.gelegenheden-venster div.gelegenheden-spoor {
-  display:               grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
-  width:                 auto;
-  max-width:             var(--breedte);
-  margin:                0 auto;
-  padding:               12px var(--rand);
+  --per-rij:       3;
+  --tussenruimte:  clamp(18px, 2vw, 28px);
+  display:         flex;
+  flex-wrap:       wrap;
+  justify-content: center;
+  gap:             var(--tussenruimte);
+  width:           auto;
+  max-width:       1240px;
+  margin:          0 auto;
+  padding:         12px var(--rand);
+}
+section.sectie-gelegenheden.gelegenheden-raster div.gelegenheden-venster div.gelegenheden-spoor a.gelegenheid {
+  width: calc((100% - (var(--per-rij) - 1) * var(--tussenruimte)) / var(--per-rij));
+}
+@media (max-width: 899px) {
+  section.sectie-gelegenheden.gelegenheden-raster div.gelegenheden-venster div.gelegenheden-spoor {
+    --per-rij: 2;
+  }
+}
+@media (max-width: 559px) {
+  section.sectie-gelegenheden.gelegenheden-raster div.gelegenheden-venster div.gelegenheden-spoor {
+    --per-rij: 1;
+  }
 }
 /*Gelegenheden -- Kaart*/
 a.gelegenheid {
@@ -5827,8 +5848,25 @@ section.sectie-hero.hero-foto.hero-kaart:has(div.pagineervlak) {
 section.sectie-hero.hero-foto.hero-kaart div.pagineervlak {
   right:      -1px;
   width:      min(340px, 70%);
-  padding:    8px clamp(20px, 2.4vw, 32px) 0 clamp(64px, 6vw, 84px);
-  background: var(--achtergrond);
+  height:     clamp(68px, 5.6vw, 80px);
+  padding:    6px clamp(20px, 2.4vw, 32px) 0 clamp(64px, 6vw, 84px);
+  background: transparent;
+  clip-path:  none;
+  overflow:   hidden;
+}
+/*Paginering -- Schuine vorm met zachte ronding links*/
+section.sectie-hero.hero-foto.hero-kaart div.pagineervlak::before {
+  content:          "";
+  position:         absolute;
+  top:              0;
+  bottom:           0;
+  left:             0;
+  right:            -80px;
+  z-index:          -1;
+  background:       var(--achtergrond);
+  border-radius:    22px 0 0 22px;
+  transform:        skewX(-24deg);
+  transform-origin: 0 100%;
 }
 section.sectie-hero.hero-foto div.pagineervlak div.pagineerbalk {
   width:         100%;
@@ -5838,7 +5876,11 @@ section.sectie-hero.hero-foto div.pagineervlak div.pagineerbalk {
 @media (max-width: 699px) {
   section.sectie-hero.hero-foto.hero-kaart div.pagineervlak {
     width:   min(220px, 62%);
-    padding: 6px 16px 0 48px;
+    height:  54px;
+    padding: 4px 16px 0 48px;
+  }
+  section.sectie-hero.hero-foto.hero-kaart div.pagineervlak::before {
+    border-radius: 16px 0 0 16px;
   }
 }
 
