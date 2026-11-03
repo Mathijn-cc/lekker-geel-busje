@@ -9,9 +9,9 @@ if ( ! $items ) {
 }
 $uid = 'voordelen-' . (int) ( $args['index'] ?? 0 );
 
-/* Weergave Stickers: gekleurde kaarten met dikke rand en groot nummer. De eerste is breed, met foto. */
+/* Weergave Stickers: kaarten in de kleuren van de site, met icoon en groot nummer. De eerste is breed, met foto. */
 if ( 'stickers' === ( $b['weergave'] ?? 'tabs' ) ) :
-	$kleuren = array( 'geel', 'paars', 'wit', 'zand', 'roze' );
+	$kleuren = array( 'zand', 'paars', 'zand', 'geel', 'zand' );
 	echo thema_sectie_open( $b, 'voordelen', 'voordelen-stickers' );
 	?>
 	<div class="voordelen-binnen">
@@ -21,7 +21,10 @@ if ( 'stickers' === ( $b['weergave'] ?? 'tabs' ) ) :
 				<article class="sticker sticker-<?php echo esc_attr( $kleuren[ $i % count( $kleuren ) ] ); ?><?php echo 0 === $i ? ' sticker-breed' : ''; ?><?php echo $met_foto ? ' sticker-met-foto' : ''; ?>" data-animeer style="--i:<?php echo (int) $i; ?>">
 					<div class="sticker-binnen">
 						<div class="sticker-tekst">
-							<span class="sticker-nummer" aria-hidden="true"><?php echo esc_html( str_pad( $i + 1, 2, '0', STR_PAD_LEFT ) ); ?></span>
+							<div class="sticker-kop">
+								<span class="sticker-badge" aria-hidden="true"><?php echo thema_icoon( $item['icoon'] ?: 'vonk', 26, 2 ); ?></span>
+								<span class="sticker-nummer" aria-hidden="true"><?php echo esc_html( str_pad( $i + 1, 2, '0', STR_PAD_LEFT ) ); ?></span>
+							</div>
 							<div class="sticker-inhoud">
 								<h3 class="sticker-titel"><?php echo esc_html( $item['titel'] ); ?></h3>
 								<?php if ( ! empty( $item['tekst'] ) ) : ?><p class="sticker-omschrijving"><?php echo esc_html( $item['tekst'] ); ?></p><?php endif; ?>
