@@ -2614,6 +2614,10 @@ section.sectie-voordelen div.voordelen-binnen div.voordelen-knop {
     border-radius: 32px;
     box-shadow:    none;
   }
+  /*Voordelen -- Foto rechts, tabs links*/
+  section.sectie-voordelen.voordelen-foto-rechts div.voordeelpodium div.voordeelbeeld {
+    order: 2;
+  }
 }
 /*Voordelen -- Gestapelde kaarten op mobiel (position: sticky, je scrolt in je eigen tempo)*/
 @media (max-width: 999px) {

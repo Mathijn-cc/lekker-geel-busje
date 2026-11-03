@@ -73,7 +73,7 @@ if ( 'tegels' === ( $b['weergave'] ?? 'tabs' ) ) :
 	return;
 endif;
 
-echo thema_sectie_open( $b, 'voordelen' );
+echo thema_sectie_open( $b, 'voordelen', 'rechts' === ( $b['foto_kant'] ?? 'links' ) ? 'voordelen-foto-rechts' : '' );
 ?>
 	<div class="voordelen-binnen">
 		<div class="voordeelpodium" data-voordelen>

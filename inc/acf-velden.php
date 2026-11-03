@@ -291,7 +291,13 @@ function thema_layouts() {
 		thema_veld( $p, 'weergave', 'Weergave', 'button_group', array(
 			'choices'       => array( 'tabs' => 'Tabs met wisselende foto', 'tegels' => 'Tegels met foto en tekst', 'stickers' => 'Stickers met groot nummer' ),
 			'default_value' => 'tabs',
-			'instructions'  => 'Tegels: alle voordelen tegelijk in beeld, elk met eigen foto en tekst. Stickers: gekleurde kaarten met een dikke rand en een groot nummer, licht scheef. De eerste is breed en toont zijn foto, de rest heeft geen foto nodig.',
+			'instructions'  => 'Tegels: alle voordelen tegelijk in beeld, elk met eigen foto en tekst. Stickers: kaarten in zand, paars en geel met icoon en groot nummer, zonder foto. De eerste is breed en toont zijn foto, de rest heeft geen foto nodig.',
+		) ),
+		thema_veld( $p, 'foto_kant', 'Foto staat', 'button_group', array(
+			'choices'           => array( 'links' => 'Links, tabs rechts', 'rechts' => 'Rechts, tabs links' ),
+			'default_value'     => 'links',
+			'instructions'      => 'Alleen op desktop. Op mobiel staat de foto altijd boven de tabs.',
+			'conditional_logic' => array( array( array( 'field' => 'field_voordelen_weergave', 'operator' => '==', 'value' => 'tabs' ) ) ),
 		) ),
 	) ) ) );
 
