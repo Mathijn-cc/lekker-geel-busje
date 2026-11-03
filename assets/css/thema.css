@@ -2601,6 +2601,9 @@ section.sectie-voordelen div.voordeelpodium div.voordeelbeeld span.voordeelbeeld
   position:       absolute;
   left:           clamp(16px, 3vw, 40px);
   bottom:         clamp(16px, 3vw, 36px);
+  max-width:      calc(100% - 2 * clamp(16px, 3vw, 40px));
+  padding:        16px 24px 12px;
+  font-size:      calc(clamp(26px, 2.8vw, 40px) * var(--kop-schaal));
   pointer-events: none;
 }
 /*Voordelen -- Lijst met tabs*/
