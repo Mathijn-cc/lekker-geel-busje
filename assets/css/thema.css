@@ -2002,10 +2002,45 @@ section.sectie-hero.hero-klassiek div.hero-klassiek-media::before {
   background:    var(--kleur-paars);
   rotate:        3deg;
 }
+/*Klassiek -- Meer ruimte onder de foto*/
+section.sectie-hero.hero-klassiek {
+  padding-bottom: clamp(56px, 6vw, 96px);
+}
+/*Klassiek -- Stapel: extra foto's liggen als afdrukken op het hoofdbeeld*/
+section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-badge {
+  z-index: 6;
+}
+section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-klassiek-beeld.hero-stapelfoto {
+  position:   absolute;
+  inset:      0;
+  border:     6px solid var(--kleur-creme);
+  box-shadow: 0 24px 48px -22px rgba(38, 4, 63, .55);
+}
+section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-klassiek-beeld.hero-stapelfoto-1 {
+  z-index:   2;
+  translate: -7% 5%;
+  rotate:    -5deg;
+  scale:     .88;
+}
+section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-klassiek-beeld.hero-stapelfoto-2 {
+  z-index:   3;
+  translate: 6% -4%;
+  rotate:    4deg;
+  scale:     .84;
+}
+section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-klassiek-beeld.hero-stapelfoto-3 {
+  z-index:   4;
+  translate: 1% 10%;
+  rotate:    -2deg;
+  scale:     .78;
+}
 @media (max-width: 699px) {
   section.sectie-hero.hero-klassiek {
     margin:        var(--rand-smal) var(--rand-smal) 0;
     border-radius: 28px;
+  }
+  section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-klassiek-beeld.hero-stapelfoto {
+    border-width: 4px;
   }
   section.sectie-hero.hero-klassiek.hero-compact {
     --kop-schaal: .62;
@@ -2633,9 +2668,16 @@ section.sectie-gelegenheden {
   color:         var(--kleur-creme);
   overflow:      hidden;
 }
-/*Gelegenheden -- Ruimte boven de kaart als er een sectie direct boven staat*/
+/*Gelegenheden -- Ruimte boven en onder de kaart, in te stellen met Ruimte boven en Ruimte onder bij het blok*/
+section.sectie-gelegenheden {
+  --kaart-boven: clamp(40px, 5vw, 80px);
+  --kaart-onder: clamp(40px, 5vw, 80px);
+}
 section.sectie + section.sectie-gelegenheden {
-  margin-top: var(--rand-smal);
+  margin-top: var(--kaart-boven);
+}
+section.sectie-gelegenheden:has(+ section.sectie) {
+  margin-bottom: var(--kaart-onder);
 }
 section.sectie-gelegenheden div.gelegenheden-binnen {
   display:        flex;
@@ -3419,6 +3461,11 @@ section.sectie-faq div.faq-lijst div.faq-item {
   border:        1.5px solid rgba(56, 6, 94, .08);
   color:         var(--kleur-paars);
   transition:    background .3s, border-color .3s, color .3s;
+}
+/*Vragen -- Inloop: eigen kleurovergang naast de vervaging, anders springen de vragen zonder fade in beeld*/
+.js section.sectie-faq div.faq-lijst div.faq-item[data-animeer]:not(.is-klaar) {
+  transition:       opacity var(--animatie-duur) var(--animatie-easing), transform var(--animatie-duur) var(--animatie-easing), filter var(--animatie-duur) var(--animatie-easing), background .3s, border-color .3s, color .3s;
+  transition-delay: calc(var(--volgorde, 0) * var(--animatie-vertraging)), calc(var(--volgorde, 0) * var(--animatie-vertraging)), calc(var(--volgorde, 0) * var(--animatie-vertraging)), 0s, 0s, 0s;
 }
 section.sectie-faq div.faq-lijst div.faq-item.is-open {
   background:   var(--kleur-paars);
@@ -4453,6 +4500,23 @@ section.sectie.ruimte-onder-klein {
 }
 section.sectie.ruimte-onder-geen {
   padding-bottom: 0;
+}
+/*Ruimte -- Gelegenheden is een kaart: de instelling bepaalt de ruimte rond de kaart, de binnenkant blijft gelijk*/
+section.sectie.sectie-gelegenheden.ruimte-boven-klein {
+  --kaart-boven: var(--rand-smal);
+  padding-top:   clamp(56px, 6vw, 88px);
+}
+section.sectie.sectie-gelegenheden.ruimte-boven-geen {
+  --kaart-boven: 0px;
+  padding-top:   clamp(56px, 6vw, 88px);
+}
+section.sectie.sectie-gelegenheden.ruimte-onder-klein {
+  --kaart-onder:  var(--rand-smal);
+  padding-bottom: clamp(60px, 6vw, 88px);
+}
+section.sectie.sectie-gelegenheden.ruimte-onder-geen {
+  --kaart-onder:  0px;
+  padding-bottom: clamp(60px, 6vw, 88px);
 }
 
 /**Hero -- Kaart op subpagina's**/

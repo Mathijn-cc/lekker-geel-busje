@@ -839,6 +839,21 @@
 			gsap.to( el, { y: i % 2 ? 14 : -14, duration: 2.6 + i * .35, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.5 } );
 		} );
 
+		/* Klassieke hero: extra foto's vallen bij het scrollen een voor een op de stapel. */
+		alle( '[data-hero-stapel]' ).forEach( function ( stapel ) {
+			var fotos = alle( '[data-stapelfoto]', stapel );
+			if ( ! fotos.length ) {
+				return;
+			}
+			var tl = gsap.timeline( inst.scrollEffecten ? {
+				scrollTrigger: { trigger: stapel.closest( 'section' ) || stapel, start: 'top top', end: 'bottom 40%', scrub: .7 },
+			} : { delay: 1.2 } );
+			fotos.forEach( function ( foto, i ) {
+				var kant = i % 2 ? 1 : -1;
+				tl.from( foto, { yPercent: 70, xPercent: kant * 24, rotation: kant * 16, opacity: 0, duration: 1, ease: inst.scrollEffecten ? 'power2.out' : 'back.out(1.4)' }, i * ( inst.scrollEffecten ? .8 : .25 ) );
+			} );
+		} );
+
 		if ( ! inst.scrollEffecten ) {
 			return;
 		}

@@ -164,10 +164,19 @@ else :
 				<?php if ( $sub ) : ?><p class="hero-sub" data-hero-fade><?php echo $sub; ?></p><?php endif; ?>
 				<span data-hero-fade><?php echo thema_blok_knop( $knop, $b, 'paars' ); ?></span>
 			</div>
-			<div class="hero-klassiek-media">
+			<?php
+			/* Hoofdbeeld eerst, daarna de wisselende foto's als stapel (maximaal vier in totaal). */
+			$stapel = array_slice( array_values( array_unique( array_filter( array_map( 'intval', array_merge( array( $beeld ), $fotos ) ) ) ) ), 0, 4 );
+			?>
+			<div class="hero-klassiek-media<?php echo count( $stapel ) > 1 ? ' heeft-stapel' : ''; ?>"<?php echo count( $stapel ) > 1 ? ' data-hero-stapel' : ''; ?>>
 				<div class="hero-klassiek-beeld" data-hero-img data-cursor="Feest!">
-					<?php echo thema_afbeelding( $beeld ?: ( $fotos ? reset( $fotos ) : 0 ), 'breed', '', false ); ?>
+					<?php echo thema_afbeelding( $stapel[0] ?? 0, 'breed', '', false ); ?>
 				</div>
+				<?php foreach ( array_slice( $stapel, 1 ) as $i => $id ) : ?>
+					<div class="hero-klassiek-beeld hero-stapelfoto hero-stapelfoto-<?php echo (int) $i + 1; ?>" data-stapelfoto data-cursor="Feest!">
+						<?php echo thema_afbeelding( $id, 'breed', '', true, array( 'alt' => '' ) ); ?>
+					</div>
+				<?php endforeach; ?>
 				<?php if ( $s['score'] ) : ?>
 					<div class="hero-badge" data-spin>
 						<span class="hero-badge-getal"><?php echo esc_html( $s['score'] ); ?></span>

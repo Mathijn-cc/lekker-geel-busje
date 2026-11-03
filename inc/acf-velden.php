@@ -143,7 +143,7 @@ function thema_layouts() {
 			'choices'       => array( 'standaard' => 'Uit instellingen', 'foto' => 'Fotobreed', 'collage' => 'Collage', 'bento' => 'Bento', 'klassiek' => 'Klassiek' ),
 			'default_value' => 'standaard',
 		) ),
-		thema_veld( $p, 'fotos', 'Wisselende foto\'s', 'gallery', array( 'return_format' => 'id', 'preview_size' => 'thumbnail', 'instructions' => 'Fotobreed: schuiven achter de kop. Collage: subtiel op de achtergrond. Drie werkt het best.' ) ),
+		thema_veld( $p, 'fotos', 'Wisselende foto\'s', 'gallery', array( 'return_format' => 'id', 'preview_size' => 'thumbnail', 'instructions' => 'Fotobreed: schuiven achter de kop. Collage: subtiel op de achtergrond. Klassiek: komen bij het scrollen als stapel op het hoofdbeeld (maximaal drie extra). Drie werkt het best.' ) ),
 		thema_veld( $p, 'beeld', 'Hoofdbeeld', 'image', array_merge( thema_breed( 50 ), array( 'return_format' => 'id', 'preview_size' => 'medium', 'instructions' => 'Voor Klassiek en Bento.' ) ) ),
 		thema_veld( $p, 'extra', 'Extra beelden', 'gallery', array_merge( thema_breed( 50 ), array( 'return_format' => 'id', 'preview_size' => 'thumbnail', 'instructions' => 'Collage: vier zwevende foto\'s. Bento: de kleine fototegel.' ) ) ),
 		thema_veld( $p, 'bento_klein', 'Bento: roze tegel klein', 'text', array_merge( thema_breed( 33 ), array( 'default_value' => 'Chauffeur en gastvrouwke' ) ) ),
