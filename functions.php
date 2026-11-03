@@ -5,7 +5,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'THEMA_VERSIE', '2.10.0' );
+define( 'THEMA_VERSIE', '2.10.1' );
 define( 'THEMA_PAD', get_template_directory() );
 define( 'THEMA_URL', get_template_directory_uri() );
 
@@ -17,6 +17,7 @@ require THEMA_PAD . '/inc/acf-velden.php';
 require THEMA_PAD . '/inc/acf-admin.php';
 require THEMA_PAD . '/inc/dashboard.php';
 require THEMA_PAD . '/inc/voorbeeldinhoud.php';
+require THEMA_PAD . '/inc/na-uitrol.php';
 require THEMA_PAD . '/inc/offerteformulier.php';
 
 /**

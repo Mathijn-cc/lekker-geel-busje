@@ -703,7 +703,7 @@ function thema_dashboard_pagina() {
 
 					<div class="kaartje">
 						<h3 class="kaartje-titel">Pagina Over ons</h3>
-						<p class="kaartje-tekst">Zet de pagina Over ons klaar volgens het wireframe: persoonlijk verhaal, stickers, de rit, veiligheid, huisregels als lopende band, feiten en vragen. Bestaat de pagina al, dan worden de blokken vervangen; anders komt er een concept.</p>
+						<p class="kaartje-tekst">Zet de pagina Over ons klaar volgens het wireframe: persoonlijk verhaal, stickers, de rit, veiligheid, huisregels als lopende band, feiten en vragen. Bestaat de pagina al, dan worden de blokken vervangen; anders wordt hij aangemaakt.</p>
 						<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" data-bevestig="De blokken van de pagina Over ons worden vervangen. Doorgaan?">
 							<input type="hidden" name="action" value="thema_overons">
 							<?php wp_nonce_field( 'thema_overons' ); ?>

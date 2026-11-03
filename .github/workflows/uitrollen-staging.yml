@@ -49,6 +49,11 @@ jobs:
             -e "ssh -i ~/.ssh/sleutel -p $SSH_PORT" \
             ./ "$SSH_USER@$SSH_HOST:$DOEL"
 
+      - name: Eenmalige taken na de uitrol (zie inc/na-uitrol.php)
+        run: |
+          ssh -i ~/.ssh/sleutel -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
+            "cd $SITE && wp eval 'do_action( \"thema_na_uitrol\" );'"
+
       - name: Cache legen
         run: |
           ssh -i ~/.ssh/sleutel -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \

@@ -657,7 +657,7 @@ function thema_voorbeeld_menus( $hub_id, $contact_id, $gel_ids, $juridisch ) {
 
 /**
  * Concept van de pagina Over ons (/over-ons), volgens het wireframe van november 2026.
- * Bestaat de pagina al, dan krijgt die de nieuwe blokken; anders komt er een concept.
+ * Bestaat de pagina al, dan krijgt die de nieuwe blokken; anders wordt hij aangemaakt.
  */
 function thema_plaats_overonspagina() {
 	if ( ! function_exists( 'update_field' ) ) {
@@ -668,7 +668,7 @@ function thema_plaats_overonspagina() {
 		'post_type'   => 'page',
 		'post_name'   => 'over-ons',
 		'post_title'  => 'Over ons',
-		'post_status' => 'draft',
+		'post_status' => 'publish',
 		'menu_order'  => 7,
 	) );
 	if ( ! $id ) {
@@ -808,7 +808,6 @@ function thema_plaats_overonspagina() {
 				array( 'label' => 'Aan boord', 'waarde' => 'Professionele verlichting, lasers, rook en geluidsinstallatie' ),
 				array( 'label' => 'Altijd inbegrepen', 'waarde' => 'Chauffeur, gastvrouwke, licht en geluid, brandstof en btw' ),
 				array( 'label' => 'Werkgebied', 'waarde' => 'Heel Nederland en daarbuiten, vanuit Brabant' ),
-				array( 'label' => 'Vestiging', 'waarde' => '[Adres]' ),
 				array( 'label' => 'Huisregels', 'waarde' => 'Niet roken, geen eigen drank, respect voor bus, personeel en elkaar' ),
 			),
 			'achtergrond'   => 'standaard',
