@@ -1917,7 +1917,7 @@ section.sectie-hero.hero-klassiek {
 section.sectie-hero.hero-klassiek div.hero-klassiek-kaart {
   --kaart-breed:  clamp(170px, 17vw, 270px);
   position:       relative;
-  padding:        clamp(128px, 11vw, 156px) var(--rand) 0;
+  padding:        clamp(112px, 9.5vw, 140px) var(--rand) 0;
   border-radius:  var(--afronding-groot);
   background:     var(--kleur-geel);
   overflow:       hidden;
@@ -1931,7 +1931,7 @@ section.sectie-hero.hero-klassiek div.hero-klassiek-kaart div.hero-klassiek-teks
   display:        flex;
   flex-direction: column;
   align-items:    center;
-  gap:            clamp(18px, 2vw, 26px);
+  gap:            clamp(14px, 1.6vw, 22px);
   text-align:     center;
 }
 section.sectie-hero.hero-klassiek .hero-kop {
@@ -1947,15 +1947,15 @@ section.sectie-hero.hero-klassiek p.hero-sub {
 /*Klassiek -- Waaier van fotokaarten*/
 section.sectie-hero.hero-klassiek div.hero-klassiek-kaart div.hero-waaier {
   position:   relative;
-  height:     calc(var(--kaart-breed) * .95);
-  margin:     clamp(36px, 4vw, 56px) calc(-1 * var(--rand)) 0;
+  height:     calc(var(--kaart-breed) * 1.12);
+  margin:     clamp(24px, 2.6vw, 40px) calc(-1 * var(--rand)) 0;
 }
 section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaierkaart {
   position:  absolute;
   top:       0;
   left:      calc(50% + var(--plek) * var(--kaart-breed) * .9);
   width:     var(--kaart-breed);
-  translate: -50% calc(var(--zak) * var(--kaart-breed) * .16);
+  translate: -50% calc(var(--zak) * var(--kaart-breed) * .12);
   rotate:    var(--draai);
 }
 section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaierkaart div.hero-waaierkaart-beweeg div.hero-waaierkaart-binnen {

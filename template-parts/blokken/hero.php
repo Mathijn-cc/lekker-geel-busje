@@ -25,8 +25,13 @@ $sub = trim( esc_html( $b['sub_1'] ?? '' ) . ' <span class="accent">' . esc_html
  */
 $kop = function ( $regels_apart, $pil = 'paars' ) use ( $b, $plaatsen, $eerste, $tag ) {
 	$html = '<' . $tag . ' class="hero-kop" data-plaatsen="' . esc_attr( wp_json_encode( $plaatsen ) ) . '">';
-	$html .= '<span class="hero-regel"><span data-word>' . esc_html( $b['kop_1'] ?? '' ) . '</span></span> ';
-	$html .= '<span class="hero-regel"><span data-word>' . esc_html( $b['kop_2'] ?? '' ) . '</span></span>';
+	/* Lege regels worden overgeslagen, zodat er geen gat in de kop valt. */
+	foreach ( array( 'kop_1', 'kop_2' ) as $regel ) {
+		if ( '' !== trim( (string) ( $b[ $regel ] ?? '' ) ) ) {
+			$html .= '<span class="hero-regel"><span data-word>' . esc_html( $b[ $regel ] ) . '</span></span> ';
+		}
+	}
+	$html  = rtrim( $html );
 	if ( ! $regels_apart ) {
 		$html .= '<br class="hero-breuk">';
 	}
@@ -156,7 +161,7 @@ elseif ( 'bento' === $stijl ) :
 	</section>
 	<?php
 
-/* ---------------------------------------------------------------- Klassiek */
+/* ---------------------------------------------------------------- Fotorol (waarde: klassiek) */
 else :
 	/* Waaier van fotokaarten onder de kop: de wisselende foto's (maximaal vijf), anders het hoofdbeeld. */
 	$waaier = array_slice( array_values( array_unique( array_filter( array_map( 'intval', $fotos ? $fotos : array( $beeld ) ) ) ) ), 0, 5 );

@@ -24,6 +24,17 @@ function thema_tab( $prefix, $label ) {
 	);
 }
 
+/**
+ * Alleen tonen bij deze hero-stijlen. "Uit instellingen" toont alles, omdat de stijl dan pas op de site bekend is.
+ */
+function thema_hero_alleen( $stijlen ) {
+	$regels = array();
+	foreach ( array_merge( array( 'standaard' ), $stijlen ) as $stijl ) {
+		$regels[] = array( array( 'field' => 'field_hero_stijl', 'operator' => '==', 'value' => $stijl ) );
+	}
+	return array( 'conditional_logic' => $regels );
+}
+
 function thema_breed( $breedte ) {
 	return array( 'wrapper' => array( 'width' => $breedte ) );
 }
@@ -133,7 +144,7 @@ function thema_layouts() {
 	$l[] = thema_layout( $p, 'Hero (opening)', array_merge( array(
 		thema_tab( $p, 'Inhoud' ),
 		thema_veld( $p, 'kop_1', 'Kop regel 1', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'Partybus' ) ) ),
-		thema_veld( $p, 'kop_2', 'Kop regel 2', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'huren in' ) ) ),
+		thema_veld( $p, 'kop_2', 'Kop regel 2', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'huren in', 'instructions' => 'Leeg laten mag: dan valt de regel weg.' ) ) ),
 		thema_veld( $p, 'plaatsen', 'Wisselende plaatsen', 'textarea', array( 'rows' => 4, 'instructions' => 'Eén per regel. Ze wisselen elkaar af in het gele label. Leeg laten voor een vaste kop.' ) ),
 		thema_veld( $p, 'sub_1', 'Subkop', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'Jouw feest begint' ) ) ),
 		thema_veld( $p, 'sub_2', 'Subkop schuin', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'in de bus!' ) ) ),
@@ -142,21 +153,21 @@ function thema_layouts() {
 		thema_veld( $p, 'toon_score', 'Google-score tonen', 'true_false', array_merge( thema_breed( 50 ), array( 'ui' => 1, 'default_value' => 1 ) ) ),
 		thema_tab( $p, 'Beelden' ),
 		thema_veld( $p, 'stijl', 'Hero-stijl', 'button_group', array(
-			'choices'       => array( 'standaard' => 'Uit instellingen', 'foto' => 'Fotobreed', 'collage' => 'Collage', 'bento' => 'Bento', 'klassiek' => 'Klassiek' ),
+			'choices'       => array( 'standaard' => 'Uit instellingen', 'foto' => 'Fotobreed', 'collage' => 'Collage', 'bento' => 'Bento', 'klassiek' => 'Fotorol' ),
 			'default_value' => 'standaard',
 		) ),
-		thema_veld( $p, 'fotos', 'Wisselende foto\'s', 'gallery', array( 'return_format' => 'id', 'preview_size' => 'thumbnail', 'instructions' => 'Fotobreed: schuiven achter de kop. Collage: subtiel op de achtergrond. Klassiek: als waaier van fotokaarten onder de kop (maximaal vijf, oneven staat mooist). Vervangt dan het hoofdbeeld. Drie werkt het best.' ) ),
-		thema_veld( $p, 'beeld', 'Hoofdbeeld', 'image', array_merge( thema_breed( 50 ), array( 'return_format' => 'id', 'preview_size' => 'medium', 'instructions' => 'Voor Bento, en voor Klassiek als er geen wisselende foto\'s zijn.' ) ) ),
-		thema_veld( $p, 'extra', 'Extra beelden', 'gallery', array_merge( thema_breed( 50 ), array( 'return_format' => 'id', 'preview_size' => 'thumbnail', 'instructions' => 'Collage: vier zwevende foto\'s. Bento: de kleine fototegel.' ) ) ),
-		thema_veld( $p, 'bento_klein', 'Bento: roze tegel klein', 'text', array_merge( thema_breed( 33 ), array( 'default_value' => 'Chauffeur en gastvrouwke' ) ) ),
-		thema_veld( $p, 'bento_groot', 'Bento: roze tegel groot', 'text', array_merge( thema_breed( 33 ), array( 'default_value' => 'Tot 88 personen' ) ) ),
-		thema_veld( $p, 'bento_link', 'Bento: link roze tegel', 'link', thema_breed( 34 ) ),
+		thema_veld( $p, 'fotos', 'Wisselende foto\'s', 'gallery', array_merge( thema_hero_alleen( array( 'foto', 'collage', 'klassiek' ) ), array( 'return_format' => 'id', 'preview_size' => 'thumbnail', 'instructions' => 'Fotobreed: schuiven achter de kop, drie werkt het best. Collage: subtiel op de achtergrond. Fotorol: als waaier van fotokaarten onder de kop, maximaal vijf (oneven staat mooist).' ) ) ),
+		thema_veld( $p, 'beeld', 'Hoofdbeeld', 'image', array_merge( thema_breed( 50 ), thema_hero_alleen( array( 'bento', 'klassiek', 'foto' ) ), array( 'return_format' => 'id', 'preview_size' => 'medium', 'instructions' => 'Bento: de grote fototegel. Fotorol en Fotobreed: alleen gebruikt als er geen wisselende foto\'s zijn.' ) ) ),
+		thema_veld( $p, 'extra', 'Extra beelden', 'gallery', array_merge( thema_breed( 50 ), thema_hero_alleen( array( 'collage', 'bento' ) ), array( 'return_format' => 'id', 'preview_size' => 'thumbnail', 'instructions' => 'Collage: vier zwevende foto\'s. Bento: de kleine fototegel.' ) ) ),
+		thema_veld( $p, 'bento_klein', 'Bento: roze tegel klein', 'text', array_merge( thema_breed( 33 ), thema_hero_alleen( array( 'bento' ) ), array( 'default_value' => 'Chauffeur en gastvrouwke' ) ) ),
+		thema_veld( $p, 'bento_groot', 'Bento: roze tegel groot', 'text', array_merge( thema_breed( 33 ), thema_hero_alleen( array( 'bento' ) ), array( 'default_value' => 'Tot 88 personen' ) ) ),
+		thema_veld( $p, 'bento_link', 'Bento: link roze tegel', 'link', array_merge( thema_breed( 34 ), thema_hero_alleen( array( 'bento' ) ) ) ),
 	), thema_extra_velden( $p, 'top', array(
-		thema_veld( $p, 'vorm', 'Vorm bij Fotobreed', 'button_group', array(
+		thema_veld( $p, 'vorm', 'Vorm bij Fotobreed', 'button_group', array_merge( thema_hero_alleen( array( 'foto' ) ), array(
 			'choices'       => array( 'auto' => 'Automatisch', 'breed' => 'Rand tot rand', 'kaart' => 'Kaart met ronde hoeken' ),
 			'default_value' => 'auto',
 			'instructions'  => 'Automatisch: rand tot rand op de homepage, als kaart met ronde hoeken op subpagina\'s (zoals bij een gelegenheid).',
-		) ),
+		) ) ),
 		thema_veld( $p, 'hoogte', 'Hoogte', 'button_group', array(
 			'choices'       => array( 'auto' => 'Automatisch', 'vol' => 'Volle hoogte', 'compact' => 'Compact' ),
 			'default_value' => 'auto',
