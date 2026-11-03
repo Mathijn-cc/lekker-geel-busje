@@ -1913,62 +1913,83 @@ section.sectie-hero.hero-bento div.bento a.bento-tegel.bento-roze:hover span.ben
 section.sectie-hero.hero-klassiek {
   padding: var(--rand-smal) var(--rand-smal) 0;
 }
-/*Klassiek -- De gele kaart zit binnen de sectie, zodat de sectie zonder marge kan blijven staan bij het scrollen*/
+/*Klassiek -- Gele kaart, de fotokaarten steken er onderaan uit en worden afgesneden*/
 section.sectie-hero.hero-klassiek div.hero-klassiek-kaart {
-  padding:       clamp(120px, 11vw, 150px) var(--rand) clamp(56px, 6vw, 96px);
-  border-radius: var(--afronding-groot);
-  background:    var(--kleur-geel);
-  overflow:      hidden;
-}
-section.sectie-hero.hero-klassiek div.hero-klassiek-raster {
-  position:              relative;
-  max-width:             var(--breedte);
-  margin:                0 auto;
-  display:               grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 500px), 1fr));
-  gap:                   clamp(32px, 4vw, 64px);
-  align-items:           center;
-}
-section.sectie-hero.hero-klassiek div.hero-klassiek-raster div.hero-klassiek-tekst {
+  --kaart-breed:  clamp(170px, 17vw, 270px);
   position:       relative;
-  z-index:        2;
+  padding:        clamp(128px, 11vw, 156px) var(--rand) 0;
+  border-radius:  var(--afronding-groot);
+  background:     var(--kleur-geel);
+  overflow:       hidden;
+}
+/*Klassiek -- Tekst gecentreerd*/
+section.sectie-hero.hero-klassiek div.hero-klassiek-kaart div.hero-klassiek-tekst {
+  position:       relative;
+  z-index:        12;
+  max-width:      1100px;
+  margin:         0 auto;
   display:        flex;
   flex-direction: column;
-  align-items:    flex-start;
+  align-items:    center;
   gap:            clamp(18px, 2vw, 26px);
+  text-align:     center;
 }
 section.sectie-hero.hero-klassiek .hero-kop {
-  font-size: calc(clamp(48px, 6.2vw, 108px) * var(--kop-schaal));
+  font-size: calc(clamp(56px, 7.6vw, 136px) * var(--kop-schaal));
+}
+section.sectie-hero.hero-klassiek.hero-compact {
+  --kop-schaal: .84;
 }
 section.sectie-hero.hero-klassiek p.hero-sub {
+  margin:    0;
   font-size: calc(clamp(22px, 2.2vw, 34px) * var(--kop-schaal));
 }
-section.sectie-hero.hero-klassiek div.hero-klassiek-media {
-  position: relative;
+/*Klassiek -- Waaier van fotokaarten*/
+section.sectie-hero.hero-klassiek div.hero-klassiek-kaart div.hero-waaier {
+  position:   relative;
+  height:     calc(var(--kaart-breed) * .95);
+  margin:     clamp(36px, 4vw, 56px) calc(-1 * var(--rand)) 0;
 }
-section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-klassiek-beeld {
-  position:      relative;
-  aspect-ratio:  638 / 540;
-  border-radius: 32px;
+section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaierkaart {
+  position:  absolute;
+  top:       0;
+  left:      calc(50% + var(--plek) * var(--kaart-breed) * .9);
+  width:     var(--kaart-breed);
+  translate: -50% calc(var(--zak) * var(--kaart-breed) * .16);
+  rotate:    var(--draai);
+}
+section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaierkaart div.hero-waaierkaart-beweeg div.hero-waaierkaart-binnen {
+  aspect-ratio:  4 / 5;
+  border:        6px solid var(--kleur-creme);
+  border-radius: 28px;
   overflow:      hidden;
   background:    var(--kleur-paars);
+  box-shadow:    0 26px 48px -26px rgba(38, 4, 63, .6);
+  transition:    translate .5s var(--veer), rotate .5s var(--veer);
 }
-section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-klassiek-beeld img {
-  position:   absolute;
-  inset:      0;
+section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaierkaart div.hero-waaierkaart-beweeg div.hero-waaierkaart-binnen img {
+  display:    block;
   width:      100%;
   height:     100%;
   object-fit: cover;
 }
-section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-badge {
+@media (hover: hover) {
+  section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaierkaart:hover div.hero-waaierkaart-beweeg div.hero-waaierkaart-binnen {
+    translate: 0 -18px;
+    rotate:    calc(var(--draai) * -.4);
+  }
+}
+/*Klassiek -- Google-score als kaartje tussen de foto's*/
+section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaier-score {
   position:        absolute;
-  left:            clamp(-28px, -2vw, -16px);
-  bottom:          clamp(-28px, -2vw, -16px);
-  z-index:         3;
+  top:             calc(var(--kaart-breed) * -.32);
+  left:            calc(50% + var(--kaart-breed) * 1.05);
+  z-index:         11;
   width:           clamp(104px, 9vw, 132px);
   aspect-ratio:    1;
-  border-radius:   50%;
+  border-radius:   24px;
   background:      var(--kleur-creme);
+  rotate:          9deg;
   display:         flex;
   flex-direction:  column;
   align-items:     center;
@@ -1977,89 +1998,40 @@ section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-badge {
   pointer-events:  none;
   box-shadow:      0 18px 40px -16px rgba(56, 6, 94, .45);
 }
-section.sectie-hero.hero-klassiek div.hero-badge span.hero-badge-getal {
+section.sectie-hero.hero-klassiek div.hero-waaier-score span.hero-badge-getal {
   font-family: var(--kop-letter);
   font-weight: var(--kop-gewicht);
   font-size:   calc(clamp(28px, 2.8vw, 40px) * var(--kop-schaal));
   line-height: 1;
 }
-section.sectie-hero.hero-klassiek div.hero-badge span.sterren {
+section.sectie-hero.hero-klassiek div.hero-waaier-score span.sterren {
   font-size: 12px;
 }
-section.sectie-hero.hero-klassiek div.hero-badge span.hero-badge-label {
+section.sectie-hero.hero-klassiek div.hero-waaier-score span.hero-badge-label {
   font-family: var(--accent-letter);
   font-style:  var(--accent-stijl);
   font-size:   16px;
 }
-/*Klassiek -- Kop blijft stevig op subpagina's*/
-section.sectie-hero.hero-klassiek.hero-compact {
-  --kop-schaal: .84;
-}
-/*Klassiek -- Tekst en beeld dichter bij elkaar, tekstkolom iets breder*/
-@media (min-width: 1000px) {
-  section.sectie-hero.hero-klassiek div.hero-klassiek-raster {
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-    gap:                   clamp(40px, 4.5vw, 80px);
-  }
-}
-/*Klassiek -- Gekanteld paars vlak achter de foto*/
-section.sectie-hero.hero-klassiek div.hero-klassiek-media {
-  isolation: isolate;
-}
-section.sectie-hero.hero-klassiek div.hero-klassiek-media::before {
-  content:       "";
-  position:      absolute;
-  top:           7%;
-  right:         -3.5%;
-  bottom:        -5%;
-  left:          9%;
-  z-index:       -1;
-  border-radius: 32px;
-  background:    var(--kleur-paars);
-  rotate:        3deg;
-}
-/*Klassiek -- Stapel: extra foto's liggen als afdrukken op het hoofdbeeld*/
-section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-badge {
-  z-index: 6;
-}
-section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-klassiek-beeld.hero-stapelfoto {
-  position:   absolute;
-  inset:      0;
-  border:     6px solid var(--kleur-creme);
-  box-shadow: 0 24px 48px -22px rgba(38, 4, 63, .55);
-}
-section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-klassiek-beeld.hero-stapelfoto-1 {
-  z-index:   2;
-  translate: -7% 5%;
-  rotate:    -5deg;
-  scale:     .88;
-}
-section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-klassiek-beeld.hero-stapelfoto-2 {
-  z-index:   3;
-  translate: 6% -4%;
-  rotate:    4deg;
-  scale:     .84;
-}
-section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-klassiek-beeld.hero-stapelfoto-3 {
-  z-index:   4;
-  translate: 1% 10%;
-  rotate:    -2deg;
-  scale:     .78;
-}
 @media (max-width: 699px) {
   section.sectie-hero.hero-klassiek div.hero-klassiek-kaart {
+    --kaart-breed: 40vw;
     border-radius: 28px;
-  }
-  section.sectie-hero.hero-klassiek div.hero-klassiek-media div.hero-klassiek-beeld.hero-stapelfoto {
-    border-width: 4px;
   }
   section.sectie-hero.hero-klassiek.hero-compact {
     --kop-schaal: .62;
   }
-  section.sectie-hero.hero-klassiek div.hero-klassiek-media::before {
-    right:  -2%;
-    bottom: -3%;
-    rotate: 2.5deg;
+  section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaierkaart.is-buiten {
+    display: none;
+  }
+  section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaierkaart div.hero-waaierkaart-beweeg div.hero-waaierkaart-binnen {
+    border-width:  4px;
+    border-radius: 20px;
+  }
+  section.sectie-hero.hero-klassiek div.hero-waaier div.hero-waaier-score {
+    top:   calc(var(--kaart-breed) * -.42);
+    left:  auto;
+    right: 6%;
+    width: 92px;
   }
 }
 

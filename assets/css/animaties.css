@@ -143,7 +143,9 @@
 html.intro-wacht [data-word],
 html.intro-wacht [data-pop-word],
 html.intro-wacht [data-hero-fade],
-html.intro-wacht [data-spin] {
+html.intro-wacht [data-spin],
+html.intro-wacht [data-waaierkaart],
+html.intro-wacht [data-waaier-score] {
 	opacity: 0;
 }
 

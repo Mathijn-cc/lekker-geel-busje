@@ -841,36 +841,28 @@
 			gsap.to( el, { y: i % 2 ? 14 : -14, duration: 2.6 + i * .35, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.5 } );
 		} );
 
-		/* Klassieke hero: extra foto's vallen bij het scrollen een voor een op de stapel. */
-		alle( '[data-hero-stapel]' ).forEach( function ( stapel ) {
-			var fotos = alle( '[data-stapelfoto]', stapel );
-			if ( ! fotos.length ) {
-				return;
-			}
-			var sectie = stapel.closest( 'section' ) || stapel;
-			var vul = function ( tl, scroll ) {
-				fotos.forEach( function ( foto, i ) {
-					var kant = i % 2 ? 1 : -1;
-					tl.from( foto, { yPercent: 70, xPercent: kant * 24, rotation: kant * 16, opacity: 0, duration: 1, ease: scroll ? 'power2.out' : 'back.out(1.4)' }, i * ( scroll ? 1 : .25 ) );
-				} );
-				return tl;
-			};
-			if ( ! inst.scrollEffecten ) {
-				vul( gsap.timeline( { delay: 1.2 } ), false );
-				return;
-			}
-			var mm = gsap.matchMedia();
-			/* Desktop: de hero blijft staan tot alle foto's op de stapel liggen, daarna scrollt de pagina verder. */
-			mm.add( '(min-width: 1000px) and (min-height: 600px)', function () {
-				vul( gsap.timeline( {
-					scrollTrigger: { trigger: sectie, start: 0, end: '+=' + ( fotos.length * 55 ) + '%', pin: true, scrub: .7, anticipatePin: 1 },
-				} ), true );
+		/* Klassieke hero: de fotokaarten komen vanuit het midden binnen en waaieren bij het scrollen iets verder uit. */
+		alle( '[data-waaier]' ).forEach( function ( waaier ) {
+			var kaarten = alle( '[data-waaierkaart]', waaier ).sort( function ( a, b ) {
+				return Math.abs( parseFloat( a.getAttribute( 'data-plek' ) ) ) - Math.abs( parseFloat( b.getAttribute( 'data-plek' ) ) );
 			} );
-			/* Smalle schermen: de foto's staan onder de tekst, dus ze komen tijdens het gewone scrollen. */
-			mm.add( '(max-width: 999px), (max-height: 599px)', function () {
-				vul( gsap.timeline( {
-					scrollTrigger: { trigger: stapel, start: 'top 75%', end: 'bottom 45%', scrub: .7 },
-				} ), true );
+			var score = waaier.querySelector( '[data-waaier-score]' );
+			gsap.fromTo( kaarten, { y: 240, opacity: 1 }, { y: 0, duration: 1.2, ease: 'expo.out', stagger: .09, delay: .35 } );
+			if ( score ) {
+				gsap.fromTo( score, { scale: 0, opacity: 1 }, { scale: 1, duration: .9, ease: 'back.out(1.8)', delay: 1 } );
+			}
+			if ( ! inst.scrollEffecten ) {
+				return;
+			}
+			var sectie = waaier.closest( 'section' ) || waaier;
+			kaarten.forEach( function ( kaart ) {
+				var plek = parseFloat( kaart.getAttribute( 'data-plek' ) ) || 0;
+				gsap.to( kaart, {
+					x:             plek * 46,
+					rotation:      plek * 3,
+					ease:          'none',
+					scrollTrigger: { trigger: sectie, start: 'top top', end: 'bottom top', scrub: .6 },
+				} );
 			} );
 		} );
 

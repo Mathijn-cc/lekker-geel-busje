@@ -158,37 +158,47 @@ elseif ( 'bento' === $stijl ) :
 
 /* ---------------------------------------------------------------- Klassiek */
 else :
+	/* Waaier van fotokaarten onder de kop: de wisselende foto's (maximaal vijf), anders het hoofdbeeld. */
+	$waaier = array_slice( array_values( array_unique( array_filter( array_map( 'intval', $fotos ? $fotos : array( $beeld ) ) ) ) ), 0, 5 );
+	$aantal = count( $waaier );
+	$midden = ( $aantal - 1 ) / 2;
 	?>
 	<section id="<?php echo esc_attr( $anker ); ?>" class="sectie sectie-hero hero-klassiek<?php echo esc_attr( $compact ); ?>">
 		<div class="hero-klassiek-kaart">
-			<div class="hero-klassiek-raster">
-				<div class="hero-klassiek-tekst">
-					<?php echo $kop( true, 'paars' ); ?>
-					<?php if ( $sub ) : ?><p class="hero-sub" data-hero-fade><?php echo $sub; ?></p><?php endif; ?>
-					<span data-hero-fade><?php echo thema_blok_knop( $knop, $b, 'paars' ); ?></span>
-				</div>
-				<?php
-				/* Met wisselende foto's alleen die als stapel (maximaal vier), anders het hoofdbeeld. */
-				$stapel = array_slice( array_values( array_unique( array_filter( array_map( 'intval', $fotos ? $fotos : array( $beeld ) ) ) ) ), 0, 4 );
-				?>
-				<div class="hero-klassiek-media<?php echo count( $stapel ) > 1 ? ' heeft-stapel' : ''; ?>"<?php echo count( $stapel ) > 1 ? ' data-hero-stapel' : ''; ?>>
-					<div class="hero-klassiek-beeld" data-hero-img data-cursor="Feest!">
-						<?php echo thema_afbeelding( $stapel[0] ?? 0, 'breed', '', false ); ?>
-					</div>
-					<?php foreach ( array_slice( $stapel, 1 ) as $i => $id ) : ?>
-						<div class="hero-klassiek-beeld hero-stapelfoto hero-stapelfoto-<?php echo (int) $i + 1; ?>" data-stapelfoto data-cursor="Feest!">
-							<?php echo thema_afbeelding( $id, 'breed', '', true, array( 'alt' => '' ) ); ?>
+			<div class="hero-klassiek-tekst">
+				<?php echo $kop( true, 'paars' ); ?>
+				<?php if ( $sub ) : ?><p class="hero-sub" data-hero-fade><?php echo $sub; ?></p><?php endif; ?>
+				<span data-hero-fade><?php echo thema_blok_knop( $knop, $b, 'paars' ); ?></span>
+			</div>
+			<?php if ( $waaier ) : ?>
+				<div class="hero-waaier" data-waaier>
+					<?php
+					foreach ( $waaier as $i => $id ) :
+						$afstand = $i - $midden;
+						$stijl   = sprintf(
+							'--plek:%s;--draai:%sdeg;--zak:%s;z-index:%d',
+							esc_attr( $afstand ),
+							esc_attr( round( $afstand * 5.5 + ( $i % 2 ? .8 : -.8 ), 2 ) ),
+							esc_attr( round( pow( abs( $afstand ), 1.5 ), 2 ) ),
+							10 - (int) round( abs( $afstand ) * 2 )
+						);
+						?>
+						<div class="hero-waaierkaart<?php echo abs( $afstand ) > 1 ? ' is-buiten' : ''; ?>" style="<?php echo $stijl; ?>">
+							<?php /* Drie lagen: plek (CSS), beweging (GSAP) en hover (CSS), zodat ze elkaar niet overschrijven. */ ?>
+							<div class="hero-waaierkaart-beweeg" data-waaierkaart data-plek="<?php echo esc_attr( $afstand ); ?>" data-cursor="Feest!">
+								<div class="hero-waaierkaart-binnen"><?php echo thema_afbeelding( $id, 'kaart', '', 0 === (int) round( abs( $afstand ) ), array( 'alt' => '' ) ); ?></div>
+							</div>
 						</div>
 					<?php endforeach; ?>
 					<?php if ( $s['score'] ) : ?>
-						<div class="hero-badge" data-spin>
+						<div class="hero-waaier-score" data-waaier-score>
 							<span class="hero-badge-getal"><?php echo esc_html( $s['score'] ); ?></span>
 							<span class="sterren">★★★★★</span>
 							<span class="hero-badge-label"><?php echo esc_html( $s['score_label'] ); ?></span>
 						</div>
 					<?php endif; ?>
 				</div>
-			</div>
+			<?php endif; ?>
 		</div>
 	</section>
 	<?php

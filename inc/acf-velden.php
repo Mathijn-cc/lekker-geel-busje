@@ -145,7 +145,7 @@ function thema_layouts() {
 			'choices'       => array( 'standaard' => 'Uit instellingen', 'foto' => 'Fotobreed', 'collage' => 'Collage', 'bento' => 'Bento', 'klassiek' => 'Klassiek' ),
 			'default_value' => 'standaard',
 		) ),
-		thema_veld( $p, 'fotos', 'Wisselende foto\'s', 'gallery', array( 'return_format' => 'id', 'preview_size' => 'thumbnail', 'instructions' => 'Fotobreed: schuiven achter de kop. Collage: subtiel op de achtergrond. Klassiek: de eerste staat er meteen, de rest komt bij het scrollen op de stapel (maximaal vier). Vervangt dan het hoofdbeeld. Drie werkt het best.' ) ),
+		thema_veld( $p, 'fotos', 'Wisselende foto\'s', 'gallery', array( 'return_format' => 'id', 'preview_size' => 'thumbnail', 'instructions' => 'Fotobreed: schuiven achter de kop. Collage: subtiel op de achtergrond. Klassiek: als waaier van fotokaarten onder de kop (maximaal vijf, oneven staat mooist). Vervangt dan het hoofdbeeld. Drie werkt het best.' ) ),
 		thema_veld( $p, 'beeld', 'Hoofdbeeld', 'image', array_merge( thema_breed( 50 ), array( 'return_format' => 'id', 'preview_size' => 'medium', 'instructions' => 'Voor Bento, en voor Klassiek als er geen wisselende foto\'s zijn.' ) ) ),
 		thema_veld( $p, 'extra', 'Extra beelden', 'gallery', array_merge( thema_breed( 50 ), array( 'return_format' => 'id', 'preview_size' => 'thumbnail', 'instructions' => 'Collage: vier zwevende foto\'s. Bento: de kleine fototegel.' ) ) ),
 		thema_veld( $p, 'bento_klein', 'Bento: roze tegel klein', 'text', array_merge( thema_breed( 33 ), array( 'default_value' => 'Chauffeur en gastvrouwke' ) ) ),
