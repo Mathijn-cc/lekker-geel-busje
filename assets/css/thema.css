@@ -1970,6 +1970,52 @@ section.sectie-hero.hero-klassiek div.hero-badge span.hero-badge-label {
   font-style:  var(--accent-stijl);
   font-size:   16px;
 }
+/*Klassiek -- Kaart met ronde hoeken en ruimte rondom, net als de andere hero's*/
+section.sectie-hero.hero-klassiek {
+  margin:        var(--rand-smal) var(--rand-smal) 0;
+  border-radius: var(--afronding-groot);
+}
+/*Klassiek -- Kop blijft stevig op subpagina's*/
+section.sectie-hero.hero-klassiek.hero-compact {
+  --kop-schaal: .84;
+}
+/*Klassiek -- Tekst en beeld dichter bij elkaar, tekstkolom iets breder*/
+@media (min-width: 1000px) {
+  section.sectie-hero.hero-klassiek div.hero-klassiek-raster {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap:                   clamp(40px, 4.5vw, 80px);
+  }
+}
+/*Klassiek -- Gekanteld paars vlak achter de foto*/
+section.sectie-hero.hero-klassiek div.hero-klassiek-media {
+  isolation: isolate;
+}
+section.sectie-hero.hero-klassiek div.hero-klassiek-media::before {
+  content:       "";
+  position:      absolute;
+  top:           7%;
+  right:         -3.5%;
+  bottom:        -5%;
+  left:          9%;
+  z-index:       -1;
+  border-radius: 32px;
+  background:    var(--kleur-paars);
+  rotate:        3deg;
+}
+@media (max-width: 699px) {
+  section.sectie-hero.hero-klassiek {
+    margin:        var(--rand-smal) var(--rand-smal) 0;
+    border-radius: 28px;
+  }
+  section.sectie-hero.hero-klassiek.hero-compact {
+    --kop-schaal: .62;
+  }
+  section.sectie-hero.hero-klassiek div.hero-klassiek-media::before {
+    right:  -2%;
+    bottom: -3%;
+    rotate: 2.5deg;
+  }
+}
 
 /**Blokken -- Offerte**/
 /*Offerte -- Gele sectie*/
@@ -4425,28 +4471,41 @@ section.sectie-hero.hero-foto.hero-kaart {
 /**Voordelen -- Tegels**/
 /*Tegels -- Raster, de middelste kolom staat iets lager*/
 section.sectie-voordelen.voordelen-tegels div.voordeeltegels {
+  --verspringing:        0px;
   display:               grid;
   grid-template-columns: minmax(0, 1fr);
   gap:                   clamp(16px, 2vw, 28px);
-  align-items:           start;
+  align-items:           stretch;
+  padding-bottom:        var(--verspringing);
 }
+/*Tegels -- Tegels in een rij even hoog, zodat de ruimte tussen de rijen overal gelijk is*/
+section.sectie-voordelen.voordelen-tegels div.voordeeltegels article.voordeeltegel {
+  display:        flex;
+  flex-direction: column;
+}
+section.sectie-voordelen.voordelen-tegels div.voordeeltegels article.voordeeltegel div.voordeeltegel-binnen {
+  flex: 1;
+}
+/*Tegels -- Verspringende kolom via translate, zodat de rijhoogte niet meegroeit en de tegels verticaal dicht op elkaar blijven*/
 @media (min-width: 700px) {
   section.sectie-voordelen.voordelen-tegels div.voordeeltegels {
+    --verspringing:        56px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   section.sectie-voordelen.voordelen-tegels div.voordeeltegels article.voordeeltegel:nth-child(2n) {
-    margin-top: 56px;
+    translate: 0 var(--verspringing);
   }
 }
 @media (min-width: 1100px) {
   section.sectie-voordelen.voordelen-tegels div.voordeeltegels {
+    --verspringing:        72px;
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   section.sectie-voordelen.voordelen-tegels div.voordeeltegels article.voordeeltegel:nth-child(2n) {
-    margin-top: 0;
+    translate: none;
   }
   section.sectie-voordelen.voordelen-tegels div.voordeeltegels article.voordeeltegel:nth-child(3n+2) {
-    margin-top: 72px;
+    translate: 0 var(--verspringing);
   }
 }
 /*Tegels -- Kaart*/
@@ -5864,7 +5923,7 @@ section.sectie-hero.hero-foto.hero-kaart div.pagineervlak::before {
   right:            -80px;
   z-index:          -1;
   background:       var(--achtergrond);
-  border-radius:    22px 0 0 22px;
+  border-radius:    22px 0 0 0;
   transform:        skewX(-24deg);
   transform-origin: 0 100%;
 }
@@ -5880,7 +5939,7 @@ section.sectie-hero.hero-foto div.pagineervlak div.pagineerbalk {
     padding: 4px 16px 0 48px;
   }
   section.sectie-hero.hero-foto.hero-kaart div.pagineervlak::before {
-    border-radius: 16px 0 0 16px;
+    border-radius: 16px 0 0 0;
   }
 }
 
