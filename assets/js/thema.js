@@ -845,12 +845,30 @@
 			if ( ! fotos.length ) {
 				return;
 			}
-			var tl = gsap.timeline( inst.scrollEffecten ? {
-				scrollTrigger: { trigger: stapel.closest( 'section' ) || stapel, start: 'top top', end: 'bottom 40%', scrub: .7 },
-			} : { delay: 1.2 } );
-			fotos.forEach( function ( foto, i ) {
-				var kant = i % 2 ? 1 : -1;
-				tl.from( foto, { yPercent: 70, xPercent: kant * 24, rotation: kant * 16, opacity: 0, duration: 1, ease: inst.scrollEffecten ? 'power2.out' : 'back.out(1.4)' }, i * ( inst.scrollEffecten ? .8 : .25 ) );
+			var sectie = stapel.closest( 'section' ) || stapel;
+			var vul = function ( tl, scroll ) {
+				fotos.forEach( function ( foto, i ) {
+					var kant = i % 2 ? 1 : -1;
+					tl.from( foto, { yPercent: 70, xPercent: kant * 24, rotation: kant * 16, opacity: 0, duration: 1, ease: scroll ? 'power2.out' : 'back.out(1.4)' }, i * ( scroll ? 1 : .25 ) );
+				} );
+				return tl;
+			};
+			if ( ! inst.scrollEffecten ) {
+				vul( gsap.timeline( { delay: 1.2 } ), false );
+				return;
+			}
+			var mm = gsap.matchMedia();
+			/* Desktop: de hero blijft staan tot alle foto's op de stapel liggen, daarna scrollt de pagina verder. */
+			mm.add( '(min-width: 1000px) and (min-height: 600px)', function () {
+				vul( gsap.timeline( {
+					scrollTrigger: { trigger: sectie, start: 0, end: '+=' + ( fotos.length * 55 ) + '%', pin: true, scrub: .7, anticipatePin: 1 },
+				} ), true );
+			} );
+			/* Smalle schermen: de foto's staan onder de tekst, dus ze komen tijdens het gewone scrollen. */
+			mm.add( '(max-width: 999px), (max-height: 599px)', function () {
+				vul( gsap.timeline( {
+					scrollTrigger: { trigger: stapel, start: 'top 75%', end: 'bottom 45%', scrub: .7 },
+				} ), true );
 			} );
 		} );
 

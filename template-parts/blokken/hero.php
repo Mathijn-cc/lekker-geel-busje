@@ -165,8 +165,8 @@ else :
 				<span data-hero-fade><?php echo thema_blok_knop( $knop, $b, 'paars' ); ?></span>
 			</div>
 			<?php
-			/* Hoofdbeeld eerst, daarna de wisselende foto's als stapel (maximaal vier in totaal). */
-			$stapel = array_slice( array_values( array_unique( array_filter( array_map( 'intval', array_merge( array( $beeld ), $fotos ) ) ) ) ), 0, 4 );
+			/* Met wisselende foto's alleen die als stapel (maximaal vier), anders het hoofdbeeld. */
+			$stapel = array_slice( array_values( array_unique( array_filter( array_map( 'intval', $fotos ? $fotos : array( $beeld ) ) ) ) ), 0, 4 );
 			?>
 			<div class="hero-klassiek-media<?php echo count( $stapel ) > 1 ? ' heeft-stapel' : ''; ?>"<?php echo count( $stapel ) > 1 ? ' data-hero-stapel' : ''; ?>>
 				<div class="hero-klassiek-beeld" data-hero-img data-cursor="Feest!">
