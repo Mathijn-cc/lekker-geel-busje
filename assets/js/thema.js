@@ -794,8 +794,12 @@
 
 			/* Met scrollen: de band schuift mee zolang de sectie in beeld is. */
 			if ( el.hasAttribute( 'data-scroll' ) ) {
-				gsap.fromTo( el, { xPercent: terug ? -11 : -4 }, {
-					xPercent:      terug ? -4 : -11,
+				/* De snelheid bepaalt hoe ver de band schuift over de hele scroll, voor beide richtingen gelijk. */
+				var afstand = Math.min( 40, 7 * ( factor > 0 ? factor / 100 : 1 ) );
+				var begin   = -4;
+				var eind    = begin - afstand;
+				gsap.fromTo( el, { xPercent: terug ? eind : begin }, {
+					xPercent:      terug ? begin : eind,
 					ease:          'none',
 					scrollTrigger: { trigger: el.closest( 'section' ) || el, start: 'top bottom', end: 'bottom top', scrub: .6 },
 				} );

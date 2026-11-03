@@ -602,7 +602,7 @@ function thema_dashboard_pagina() {
 								<div class="kaartje">
 									<h3 class="kaartje-titel">Lopende banden</h3>
 									<?php
-									thema_veld_rij( 'Snelheid lopende band', 'Het blok Lopende band en de plaatsen bij Werkgebied. 100% is de standaard, hoger is sneller.', thema_schuif( 'band_snelheid', '%', 5 ) );
+									thema_veld_rij( 'Snelheid lopende band', 'Het blok Lopende band (vanzelf en met scrollen) en de plaatsen bij Werkgebied. 100% is de standaard, hoger is sneller.', thema_schuif( 'band_snelheid', '%', 5 ) );
 									thema_veld_rij( 'Snelheid reviews', 'De lopende reviewkaarten, groot en compact. 100% is de standaard, hoger is sneller.', thema_schuif( 'reviews_snelheid', '%', 5 ) );
 									?>
 								</div>
