@@ -6543,14 +6543,11 @@ section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel {
   border-radius: 30px;
   background:    var(--kleur-zand);
   color:         var(--kleur-paars);
-  transition:    transform .5s var(--veer), background .4s var(--zacht);
+  transition:    transform .5s var(--veer);
 }
 @media (hover: hover) {
   section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel:hover {
     transform: translateY(-6px) rotate(-.6deg);
-  }
-  section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bentotegel-zand:not(.bentotegel-foto):hover {
-    background: var(--kleur-geel);
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -6558,16 +6555,26 @@ section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel {
     transition: none;
   }
 }
-/*Bento -- Kleuren*/
-section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bentotegel-paars,
-section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bentotegel-groot {
+/*Bento -- Achtergrond per tegel, de tekstkleur volgt vanzelf (licht op paars en op een foto, paars op de rest)*/
+section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bentotegel-paars {
   background: var(--kleur-paars);
-  color:      var(--kleur-creme);
 }
 section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bentotegel-geel {
   background: var(--kleur-geel);
 }
-section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bentotegel-foto {
+section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bentotegel-zand {
+  background: var(--kleur-zand);
+}
+section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bentotegel-wit {
+  background: var(--kleur-wit);
+}
+section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bentotegel-roze {
+  background: var(--kleur-roze);
+}
+section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bentotegel-licht {
+  color: var(--kleur-paars);
+}
+section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bentotegel-donker {
   color: var(--kleur-creme);
 }
 /*Bento -- Foto met waas*/
@@ -6613,13 +6620,11 @@ section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel div.
   line-height: .9;
   color:       var(--kleur-roze);
 }
-section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bentotegel-paars div.bentotegel-inhoud span.bentotegel-nummer,
-section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bentotegel-groot div.bentotegel-inhoud span.bentotegel-nummer,
-section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bentotegel-foto div.bentotegel-inhoud span.bentotegel-nummer {
+section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bentotegel-donker div.bentotegel-inhoud span.bentotegel-nummer {
   color: var(--kleur-geel);
 }
 section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bentotegel-geel div.bentotegel-inhoud span.bentotegel-nummer,
-section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bentotegel-zand:not(.bentotegel-foto):hover div.bentotegel-inhoud span.bentotegel-nummer {
+section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bentotegel-roze:not(.bentotegel-foto) div.bentotegel-inhoud span.bentotegel-nummer {
   color: var(--kleur-paars);
 }
 section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bentotegel-groot div.bentotegel-inhoud span.bentotegel-nummer {
@@ -6638,7 +6643,7 @@ section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel div.
   line-height:    1;
   letter-spacing: -.03em;
 }
-section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bentotegel-paars div.bentotegel-inhoud div.bentotegel-tekst h3.bentotegel-titel {
+section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bentotegel-paars:not(.bentotegel-foto) div.bentotegel-inhoud div.bentotegel-tekst h3.bentotegel-titel {
   color: var(--kleur-geel);
 }
 section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bentotegel-groot div.bentotegel-inhoud div.bentotegel-tekst h3.bentotegel-titel {

@@ -295,6 +295,12 @@ function thema_layouts() {
 				thema_veld( 'voordelen_item', 'beeld', 'Foto', 'image', array_merge( thema_breed( 40 ), array( 'return_format' => 'id', 'preview_size' => 'thumbnail' ) ) ),
 				thema_veld( 'voordelen_item', 'icoon', 'Icoon', 'select', array( 'choices' => thema_icoon_keuzes(), 'wrapper' => array( 'class' => 'icoonveld' ) ) ),
 				thema_veld( 'voordelen_item', 'tekst', 'Tekst', 'textarea', array( 'rows' => 2 ) ),
+				thema_veld( 'voordelen_item', 'kleur', 'Achtergrond (alleen bij Bento)', 'button_group', array(
+					'choices'       => array( 'auto' => 'Automatisch', 'paars' => 'Paars', 'geel' => 'Geel', 'zand' => 'Zand', 'wit' => 'Wit', 'roze' => 'Roze' ),
+					'default_value' => 'auto',
+					'instructions'  => 'De tekstkleur past zich vanzelf aan. Met een foto ligt er een paarse waas over de foto en is de tekst licht.',
+					'wrapper'       => array( 'class' => 'kleurkeuze' ),
+				) ),
 			),
 		) ),
 		thema_veld( $p, 'knop', 'Knop eronder', 'link' ),

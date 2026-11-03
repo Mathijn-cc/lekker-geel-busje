@@ -9,7 +9,7 @@ if ( ! $items ) {
 }
 $uid = 'voordelen-' . (int) ( $args['index'] ?? 0 );
 
-/* Weergave Bento: de eerste is een grote fototegel, de rest kleine tegels in zand, paars en geel (met foto: foto met waas). */
+/* Weergave Bento: de eerste is groot (met foto: tekst over de foto), de rest klein. Achtergrond per tegel te kiezen, tekstkleur volgt vanzelf. */
 if ( in_array( $b['weergave'] ?? 'tabs', array( 'bento', 'stickers' ), true ) ) :
 	$kleuren = array( 'paars', 'zand', 'geel', 'zand' );
 	echo thema_sectie_open( $b, 'voordelen', 'voordelen-bento' );
@@ -19,9 +19,13 @@ if ( in_array( $b['weergave'] ?? 'tabs', array( 'bento', 'stickers' ), true ) ) 
 			<?php foreach ( $items as $i => $item ) : ?>
 				<?php
 				$foto  = ! empty( $item['beeld'] );
-				$kleur = 0 === $i ? 'groot' : $kleuren[ ( $i - 1 ) % count( $kleuren ) ];
+				$kleur = $item['kleur'] ?? 'auto';
+				if ( ! in_array( $kleur, array( 'paars', 'geel', 'zand', 'wit', 'roze' ), true ) ) {
+					$kleur = 0 === $i ? 'paars' : $kleuren[ ( $i - 1 ) % count( $kleuren ) ];
+				}
+				$donker = $foto || 'paars' === $kleur;
 				?>
-				<article class="bentotegel bentotegel-<?php echo esc_attr( $kleur ); ?><?php echo $foto ? ' bentotegel-foto' : ''; ?>" data-animeer style="--i:<?php echo (int) $i; ?>">
+				<article class="bentotegel bentotegel-<?php echo esc_attr( $kleur ); ?><?php echo 0 === $i ? ' bentotegel-groot' : ''; ?><?php echo $foto ? ' bentotegel-foto' : ''; ?><?php echo $donker ? ' bentotegel-donker' : ' bentotegel-licht'; ?>" data-animeer style="--i:<?php echo (int) $i; ?>">
 					<?php if ( $foto ) : ?>
 						<?php echo thema_afbeelding( $item['beeld'], 0 === $i ? 'breed' : 'kaart', 'bentotegel-beeld', true, array( 'alt' => $item['titel'] ) ); ?>
 						<span class="bentotegel-waas" aria-hidden="true"></span>
