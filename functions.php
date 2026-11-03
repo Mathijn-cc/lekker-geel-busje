@@ -5,13 +5,14 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'THEMA_VERSIE', '2.12.1' );
+define( 'THEMA_VERSIE', '2.13.0' );
 define( 'THEMA_PAD', get_template_directory() );
 define( 'THEMA_URL', get_template_directory_uri() );
 
 require THEMA_PAD . '/inc/instellingen.php';
 require THEMA_PAD . '/inc/helpers.php';
 require THEMA_PAD . '/inc/gelegenheden.php';
+require THEMA_PAD . '/inc/kruimels.php';
 require THEMA_PAD . '/inc/menu.php';
 require THEMA_PAD . '/inc/acf-velden.php';
 require THEMA_PAD . '/inc/acf-admin.php';

@@ -42,6 +42,7 @@ $kop = function ( $regels_apart, $pil = 'paars' ) use ( $b, $plaatsen, $eerste, 
 };
 
 $score = ! empty( $b['toon_score'] ) ? thema_score_pil() : '';
+$terug = $is_h1 ? thema_terug_link() : '';
 $anker = ! empty( $b['anker'] ) ? sanitize_title( $b['anker'] ) : 'top';
 $hoogte  = $b['hoogte'] ?? 'auto';
 $compact = ( 'compact' === $hoogte || ( 'vol' !== $hoogte && ! is_front_page() ) ) ? ' hero-compact' : '';
@@ -64,6 +65,7 @@ if ( 'foto' === $stijl ) :
 		<div class="hero-foto-waas" aria-hidden="true"></div>
 		<div class="hero-inhoud">
 			<div class="hero-inhoud-tekst">
+				<?php echo $terug; ?>
 				<?php echo $score; ?>
 				<?php echo $kop( false, 'geel' ); ?>
 				<div class="hero-acties" data-hero-fade>
@@ -114,6 +116,7 @@ elseif ( 'collage' === $stijl ) :
 			</div>
 		<?php endif; ?>
 		<div class="hero-collage-tekst">
+			<?php echo $terug; ?>
 			<?php echo $score; ?>
 			<?php echo $kop( true, 'paars' ); ?>
 			<?php if ( $sub ) : ?><p class="hero-sub" data-hero-fade><?php echo $sub; ?></p><?php endif; ?>
@@ -138,6 +141,7 @@ elseif ( 'bento' === $stijl ) :
 		<div class="bento">
 			<div class="bento-tegel bento-tekst">
 				<?php echo $score ? str_replace( 'score-pil', 'score-pil score-pil-zand', $score ) : '<span></span>'; ?>
+				<?php echo $terug; ?>
 				<?php echo $kop( true, 'paars' ); ?>
 				<div class="hero-acties hero-acties-tussen" data-hero-fade>
 					<?php if ( $sub ) : ?><span class="hero-sub-accent"><?php echo $sub; ?></span><?php endif; ?>
@@ -171,6 +175,7 @@ elseif ( 'fotorol' === $stijl ) :
 	<section id="<?php echo esc_attr( $anker ); ?>" class="sectie sectie-hero hero-fotorol<?php echo esc_attr( $compact ); ?>">
 		<div class="hero-fotorol-kaart">
 			<div class="hero-fotorol-tekst">
+				<?php echo $terug; ?>
 				<?php echo $kop( true, 'paars' ); ?>
 				<?php if ( $sub ) : ?><p class="hero-sub" data-hero-fade><?php echo $sub; ?></p><?php endif; ?>
 				<span data-hero-fade><?php echo thema_blok_knop( $knop, $b, 'paars' ); ?></span>
@@ -216,6 +221,7 @@ else :
 		<div class="hero-klassiek-kaart">
 			<div class="hero-klassiek-raster">
 				<div class="hero-klassiek-tekst">
+					<?php echo $terug; ?>
 					<?php echo $kop( true, 'paars' ); ?>
 					<?php if ( $sub ) : ?><p class="hero-sub" data-hero-fade><?php echo $sub; ?></p><?php endif; ?>
 					<?php if ( $knop ) : ?><span data-hero-fade><?php echo thema_blok_knop( $knop, $b, 'paars' ); ?></span><?php endif; ?>

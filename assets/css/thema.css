@@ -1910,6 +1910,32 @@ section.sectie-hero.hero-bento div.bento a.bento-tegel.bento-roze:hover span.ben
   }
 }
 
+/*Hero -- Terug-link op subpagina's, bijvoorbeeld van een locatie naar Locaties*/
+section.sectie-hero a.terugpil {
+  display:       inline-flex;
+  align-items:   center;
+  gap:           8px;
+  padding:       8px 16px;
+  border-radius: 999px;
+  background:    rgba(56, 6, 94, .1);
+  color:         var(--kleur-paars);
+  font-weight:   600;
+  font-size:     14px;
+  transition:    background .25s;
+}
+section.sectie-hero a.terugpil:hover {
+  background: rgba(56, 6, 94, .18);
+}
+section.sectie-hero.hero-foto a.terugpil {
+  align-self:              flex-start;
+  background:              rgba(250, 245, 238, .16);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter:         blur(10px);
+  color:                   var(--kleur-creme);
+}
+section.sectie-hero.hero-foto a.terugpil:hover {
+  background: rgba(250, 245, 238, .28);
+}
 /*Hero -- Klassiek*/
 section.sectie-hero.hero-klassiek {
   padding: var(--rand-smal) var(--rand-smal) 0;
@@ -3434,7 +3460,7 @@ section.sectie-reviews div.reviews-kop {
   padding:         0 var(--rand);
   display:         flex;
   justify-content: space-between;
-  align-items:     start;
+  align-items:     center;
   gap:             24px;
   flex-wrap:       wrap;
 }
