@@ -454,10 +454,11 @@ function thema_layouts() {
 			'layout'       => 'table',
 			'collapsed'    => 'field_feiten_rij_label',
 			'button_label' => 'Feit toevoegen',
-			'instructions' => 'Korte, feitelijke regels. Google en AI-assistenten lezen dit als de vaste gegevens van het bedrijf.',
+			'instructions' => 'Korte, feitelijke regels. Google en AI-assistenten lezen dit als de vaste gegevens van het bedrijf. Zonder icoon kiest het thema er zelf een. Het eerste feit wordt uitgelicht in paars.',
 			'sub_fields'   => array(
-				thema_veld( 'feiten_rij', 'label', 'Onderwerp', 'text', thema_breed( 30 ) ),
-				thema_veld( 'feiten_rij', 'waarde', 'Gegeven', 'text', thema_breed( 70 ) ),
+				thema_veld( 'feiten_rij', 'icoon', 'Icoon', 'select', array_merge( thema_breed( 20 ), array( 'choices' => thema_icoon_keuzes(), 'allow_null' => 1, 'wrapper' => array( 'width' => 20, 'class' => 'icoonveld' ) ) ) ),
+				thema_veld( 'feiten_rij', 'label', 'Onderwerp', 'text', thema_breed( 25 ) ),
+				thema_veld( 'feiten_rij', 'waarde', 'Gegeven', 'text', thema_breed( 55 ) ),
 			),
 		) ),
 	), thema_extra_velden( $p, 'in-het-kort' ) ) );

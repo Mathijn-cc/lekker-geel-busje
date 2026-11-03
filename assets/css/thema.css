@@ -6671,7 +6671,7 @@ section.sectie-lopende_band.band-subtiel div.band span.band-item span.band-kop s
 }
 
 /**Blokken -- Feiten**/
-/*Feiten -- Kop links, lijst rechts*/
+/*Feiten -- Kop links (plakt mee), kaartjes rechts*/
 section.sectie-feiten {
   padding: var(--sectie-ruimte) var(--rand);
 }
@@ -6679,9 +6679,18 @@ section.sectie-feiten div.feiten-raster {
   max-width:             var(--breedte);
   margin:                0 auto;
   display:               grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
-  gap:                   clamp(32px, 5vw, 96px);
+  grid-template-columns: minmax(0, 1fr);
+  gap:                   clamp(32px, 5vw, 80px);
   align-items:           start;
+}
+@media (min-width: 1000px) {
+  section.sectie-feiten div.feiten-raster {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  }
+  section.sectie-feiten div.feiten-raster div.feiten-kop {
+    position: sticky;
+    top:      var(--plak-afstand);
+  }
 }
 section.sectie-feiten div.feiten-raster div.feiten-kop {
   display:        flex;
@@ -6692,32 +6701,104 @@ section.sectie-feiten div.feiten-raster div.feiten-kop {
 section.sectie-feiten div.feiten-raster div.feiten-kop :is(h1, h2, h3).kop span.accent {
   color: var(--kleur-roze);
 }
-/*Feiten -- Lijst*/
+/*Feiten -- Kaartjes in twee kolommen, een oneven laatste kaartje loopt door*/
 section.sectie-feiten div.feiten-raster dl.feiten-lijst {
-  margin:        0;
-  padding:       clamp(8px, 1vw, 12px) clamp(24px, 3vw, 40px);
-  border-radius: 28px;
-  background:    var(--kleur-wit);
-  color:         var(--kleur-diep);
-}
-section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feiten-rij {
+  margin:                0;
   display:               grid;
-  grid-template-columns: minmax(120px, 200px) minmax(0, 1fr);
-  gap:                   6px 24px;
-  padding:               18px 0;
-  border-bottom:         var(--lijn-dun) solid var(--kleur-zand);
+  grid-template-columns: minmax(0, 1fr);
+  gap:                   12px;
 }
-section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feiten-rij:last-child {
-  border-bottom: 0;
-}
-section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feiten-rij dt.feiten-label {
-  font-weight: 700;
-}
-section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feiten-rij dd.feiten-waarde {
-  margin: 0;
-}
-@media (max-width: 559px) {
-  section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feiten-rij {
-    grid-template-columns: minmax(0, 1fr);
+@media (min-width: 640px) {
+  section.sectie-feiten div.feiten-raster dl.feiten-lijst {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feit.feit-uitgelicht,
+  section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feit:last-child:nth-child(even) {
+    grid-column: span 2;
+  }
+}
+/*Feiten -- Kaartje*/
+section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feit {
+  display:               grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows:    auto auto;
+  column-gap:            18px;
+  row-gap:               4px;
+  align-items:           start;
+  align-content:         start;
+  padding:               20px 22px;
+  border-radius:         24px;
+  background:            var(--kleur-zand);
+  color:                 var(--kleur-paars);
+  transition:            background .4s var(--zacht), transform .5s var(--veer);
+}
+@media (hover: hover) {
+  section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feit:hover {
+    background: var(--kleur-geel);
+    transform:  translateY(-4px) rotate(-.4deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feit {
+    transition: none;
+  }
+}
+/*Feiten -- Schuine badge met icoon, zoals bij de voordelen*/
+section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feit span.feit-badge {
+  grid-row:        span 2;
+  width:           54px;
+  height:          48px;
+  padding-top:     5px;
+  box-sizing:      border-box;
+  background:      var(--kleur-geel);
+  clip-path:       polygon(5% 20%, 100% 0, 95% 92%, 0 100%);
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  color:           var(--kleur-paars);
+  transition:      background .4s, transform .5s var(--veer);
+}
+section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feit:hover span.feit-badge {
+  background: var(--kleur-wit);
+  transform:  rotate(-7deg) scale(1.08);
+}
+/*Feiten -- Onderwerp in de accentletter, gegeven eronder*/
+section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feit dt.feit-label {
+  font-family: var(--accent-letter);
+  font-style:  var(--accent-stijl);
+  font-size:   calc(22px * var(--accent-schaal));
+  line-height: 1.05;
+  color:       var(--kleur-roze);
+}
+section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feit:hover dt.feit-label {
+  color: var(--kleur-paars);
+}
+section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feit dd.feit-waarde {
+  margin:      0;
+  font-size:   16px;
+  font-weight: 600;
+  line-height: 1.45;
+  text-wrap:   pretty;
+}
+/*Feiten -- Eerste kaartje uitgelicht in paars*/
+section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feit.feit-uitgelicht {
+  padding:    26px 28px;
+  background: var(--kleur-paars);
+  color:      var(--kleur-creme);
+}
+section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feit.feit-uitgelicht dt.feit-label {
+  color: var(--kleur-geel);
+}
+section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feit.feit-uitgelicht dd.feit-waarde {
+  font-family:    var(--kop-letter);
+  font-weight:    var(--kop-gewicht);
+  font-size:      calc(clamp(20px, 1.8vw, 26px) * var(--kop-schaal));
+  line-height:    1.1;
+  letter-spacing: -.02em;
+}
+section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feit.feit-uitgelicht:hover {
+  background: var(--kleur-paars);
+}
+section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feit.feit-uitgelicht:hover dt.feit-label {
+  color: var(--kleur-geel);
 }
