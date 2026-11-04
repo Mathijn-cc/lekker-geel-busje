@@ -2622,7 +2622,7 @@ section.sectie-voordelen div.voordeellijst button.voordeelknop {
   gap:           18px;
   align-items:   flex-start;
   width:         100%;
-  padding:       18px 22px;
+  padding:       12px 22px;
   border:        0;
   border-radius: 24px;
   cursor:        pointer;
@@ -2666,13 +2666,14 @@ section.sectie-voordelen div.voordeellijst button.voordeelknop span.voordeel-inh
   min-width:      0;
   display:        flex;
   flex-direction: column;
-  padding-top:    6px;
 }
+/*Voordelen -- Titel verticaal gecentreerd naast het icoon, ook als de kaart dicht is*/
 section.sectie-voordelen div.voordeellijst button.voordeelknop span.voordeel-kop {
   display:         flex;
   justify-content: space-between;
-  align-items:     baseline;
+  align-items:     center;
   gap:             12px;
+  min-height:      54px;
 }
 section.sectie-voordelen div.voordeellijst button.voordeelknop span.voordeel-titel {
   font-family:    var(--kop-letter);
