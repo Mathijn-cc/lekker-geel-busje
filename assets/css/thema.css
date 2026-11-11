@@ -7789,7 +7789,7 @@ article.blogkaart p.blogkaart-meta {
   article.blogkaart.blogkaart-uitgelicht a.blogkaart-beeld {
     position:     relative;
     aspect-ratio: auto;
-    height:       clamp(300px, 26vw, 380px);
+    min-height:   clamp(280px, 24vw, 340px);
   }
   article.blogkaart.blogkaart-uitgelicht a.blogkaart-beeld img {
     position: absolute;
