@@ -89,7 +89,7 @@ function thema_blog_artikel_plaatsen( $a, $categorie, $gelegenheid ) {
 	if ( ! $id || is_wp_error( $id ) ) {
 		return 0;
 	}
-	$beeld = thema_beeld_op_naam( $a['beeld'] );
+	$beeld = thema_beeld_op_naam( $a['beeld'] ) ?: thema_beeld_op_naam( $a['beeld_oud'] ?? '' );
 	if ( $beeld ) {
 		set_post_thumbnail( $id, $beeld );
 	}
@@ -130,7 +130,8 @@ function thema_blog_eerste_artikelen() {
 			'titel'        => 'Vrijgezellenfeest organiseren: 8 tips voor de organisator',
 			'seo_titel'    => 'Vrijgezellenfeest organiseren: 8 tips | Lekker Geel Busje',
 			'samenvatting' => 'Organiseer jij het vrijgezellenfeest? Met deze acht tips houd je het leuk voor de groep en overzichtelijk voor jezelf, van datum en budget tot playlist.',
-			'beeld'        => 'slingers.jpg',
+			'beeld'        => 'selfie-in-de-feestbus-met-rood-licht',
+			'beeld_oud'    => 'slingers.jpg',
 			'kort'         => "Begin twee tot drie maanden van tevoren en leg eerst de datum vast.\nMaak de kosten vooraf duidelijk en laat iedereen vooraf betalen.\nStem het programma af op de vrijgezel en plan liever te weinig dan te veel.",
 			'faq_kop'      => 'Vragen over het *organiseren*',
 			'vragen'       => array(
@@ -191,7 +192,8 @@ HTML,
 			'titel'        => 'Checklist vrijgezellenfeest: zo regel je alles op tijd',
 			'seo_titel'    => 'Checklist vrijgezellenfeest: alles op tijd | Lekker Geel Busje',
 			'samenvatting' => 'De complete checklist voor het vrijgezellenfeest: wat regel je drie maanden, een maand en een week van tevoren? Met een lijst om zelf af te vinken.',
-			'beeld'        => 'groep-in-bus.jpg',
+			'beeld'        => 'gasten-lachen-aan-tafel-in-sfeerbus',
+			'beeld_oud'    => 'groep-in-bus.jpg',
 			'kort'         => "Drie maanden van tevoren: datum, gastenlijst, budget en vervoer.\nEen maand van tevoren: activiteit en eten vastleggen, bijdrage innen.\nDe week ervoor: draaiboek, playlist en opdrachten klaarzetten.",
 			'faq_kop'      => 'Vragen over de *voorbereiding*',
 			'vragen'       => array(
@@ -269,4 +271,20 @@ HTML,
 HTML,
 		),
 	);
+}
+
+/**
+ * Uitroltaak blog-fotos-v1: de artikelen krijgen een foto uit de fotoselectie.
+ */
+function thema_blog_fotos() {
+	$uit = array();
+	foreach ( thema_blog_eerste_artikelen() as $a ) {
+		$post  = get_page_by_path( $a['slug'], OBJECT, 'post' );
+		$beeld = thema_beeld_op_naam( $a['beeld'] );
+		if ( $post && $beeld ) {
+			set_post_thumbnail( $post->ID, $beeld );
+			$uit[ $a['slug'] ] = $beeld;
+		}
+	}
+	return $uit;
 }

@@ -11,6 +11,12 @@ defined( 'ABSPATH' ) || exit;
  * Een beeld uit de mediabibliotheek op bestandsnaam, ook als het niet via de voorbeeldinhoud is geplaatst.
  */
 function thema_beeld_op_naam( $bestand ) {
+	/* Eerst de fotoselectie (nieuwe foto's met SEO-namen), dan de oude voorbeeldbeelden. */
+	$selectie = (array) get_option( 'thema_fotoselectie', array() );
+	$naam     = pathinfo( $bestand, PATHINFO_FILENAME );
+	if ( ! empty( $selectie[ $naam ] ) && get_post( (int) $selectie[ $naam ] ) ) {
+		return (int) $selectie[ $naam ];
+	}
 	$id = function_exists( 'thema_voorbeeld_beeld' ) ? thema_voorbeeld_beeld( $bestand ) : 0;
 	if ( $id ) {
 		return $id;
@@ -35,9 +41,18 @@ function thema_plaats_vrijgezellenfeest() {
 	}
 	$id = (int) $post->ID;
 	$b  = array();
-	foreach ( array( 'vrienden-proosten.jpg', 'dansen.jpg', 'uitstappen.jpg', 'groep-in-bus.jpg', 'proosten.jpg', 'slingers.jpg' ) as $bestand ) {
-		$b[ $bestand ] = thema_beeld_op_naam( $bestand );
-	}
+	/* Foto's uit de fotoselectie, met de oude voorbeeldbeelden als terugval. */
+	$kies = function ( $nieuw, $oud ) {
+		return thema_beeld_op_naam( $nieuw ) ?: thema_beeld_op_naam( $oud );
+	};
+	$b = array(
+		'vrienden-proosten.jpg' => $kies( 'vriendinnen-feesten-in-de-bus', 'vrienden-proosten.jpg' ),
+		'dansen.jpg'            => $kies( 'tropisch-themafeest-in-de-sfeerbus', 'dansen.jpg' ),
+		'uitstappen.jpg'        => $kies( 'dansen-met-discolicht-in-de-partybus', 'uitstappen.jpg' ),
+		'groep-in-bus.jpg'      => $kies( 'proosten-in-het-gangpad-van-de-bus', 'groep-in-bus.jpg' ),
+		'proosten.jpg'          => $kies( 'meezingen-met-microfoon-in-sfeerbus', 'proosten.jpg' ),
+		'slingers.jpg'          => $kies( 'vrouw-danst-en-proost-in-sfeerbus', 'slingers.jpg' ),
+	);
 	$locaties = get_page_by_path( 'locaties' );
 	$locaties = $locaties ? get_permalink( $locaties ) : home_url( '/locaties/' );
 	$onderwerp = get_category_by_slug( 'vrijgezellenfeest' );
@@ -166,4 +181,33 @@ function thema_plaats_vrijgezellenfeest() {
 	), $id );
 
 	return $id;
+}
+
+/**
+ * Uitroltaak vrijgezellenfeest-fotos-v1: de foto's uit de fotoselectie terugzetten op de vrijgezellenpagina,
+ * nadat vrijgezellenfeest-v2 de blokken opnieuw had geschreven met de oude beelden.
+ */
+function thema_vrijgezellenfeest_fotos_terug() {
+	$post = get_page_by_path( 'vrijgezellenfeest', OBJECT, 'gelegenheid' );
+	if ( ! $post ) {
+		return 0;
+	}
+	$b = array(
+		'blokken_0_fotos'   => array( 'vriendinnen-feesten-in-de-bus', 'tropisch-themafeest-in-de-sfeerbus', 'dansen-met-discolicht-in-de-partybus' ),
+		'blokken_1_beelden' => array( 'proosten-in-het-gangpad-van-de-bus', 'meezingen-met-microfoon-in-sfeerbus', 'vrouw-danst-en-proost-in-sfeerbus' ),
+	);
+	$gezet = 0;
+	foreach ( $b as $sleutel => $namen ) {
+		$ids = array_values( array_filter( array_map( fn( $n ) => (string) thema_beeld_op_naam( $n ), $namen ) ) );
+		if ( count( $ids ) === count( $namen ) ) {
+			update_post_meta( $post->ID, $sleutel, $ids );
+			$gezet++;
+		}
+	}
+	$duim = thema_beeld_op_naam( 'selfie-met-lichtstaven-in-de-bus' );
+	if ( $duim ) {
+		set_post_thumbnail( $post->ID, $duim );
+	}
+	clean_post_cache( $post->ID );
+	return $gezet;
 }

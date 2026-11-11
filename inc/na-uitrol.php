@@ -24,6 +24,8 @@ function thema_uitroltaken() {
 		'fotoselectie-uploaden-v1' => 'thema_fotoselectie_uploaden',
 		'fotoselectie-toewijzen-v1' => 'thema_fotoselectie_toewijzen',
 		'citaat-over-ons-v1'      => 'thema_citaat_over_ons',
+		'vrijgezellenfeest-fotos-v1' => 'thema_vrijgezellenfeest_fotos_terug',
+		'blog-fotos-v1'           => 'thema_blog_fotos',
 	);
 }
 
