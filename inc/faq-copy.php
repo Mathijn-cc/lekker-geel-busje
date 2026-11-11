@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function thema_faq_vragen() {
 	return array(
-		'boeken'      => array( 'Hoe ver van tevoren moet ik boeken?', 'Hoe eerder, hoe beter. Vrijdagen, zaterdagen en het festivalseizoen zitten snel vol. Staat de datum vast? Vraag dan meteen je offerte aan, dan houden we de bus voor je vrij.' ),
+		'boeken'      => array( 'Hoe ver van tevoren moet ik boeken?', 'Hoe eerder, hoe beter. Vrijdagen, zaterdagen en het festivalseizoen zitten snel vol. Staat de datum vast? Vraag dan meteen je offerte aan, dan ben je er op tijd bij.' ),
 		'drinken'     => array( 'Mag je drinken in de bus?', 'Zeker. Aan boord staat een koeling vol koude drankjes en het gastvrouwke schenkt in. Proosten kan dus al voordat je er bent.' ),
 		'eigen-drank' => array( 'Mogen we eigen drank meenemen?', 'Nee, en dat hoeft ook niet. De koeling aan boord ligt vol koude drank en het gastvrouwke zorgt dat niemand droog staat.' ),
 		'buiten'      => array( 'Rijden jullie ook buiten Brabant?', 'Zeker. Vanuit Oisterwijk rijden we door heel Brabant en ver daarbuiten. Zelfs een voetbalwedstrijd in Oostenrijk was geen brug te ver.' ),
@@ -119,7 +119,7 @@ function thema_faq_per_pagina() {
 			'wachten',
 			'later',
 			'drinken',
-			array( 'Hoe ver van tevoren moeten we boeken?', 'Een trouwdatum staat vaak lang vast, en de zaterdagen in het trouwseizoen gaan snel. Vraag dus op tijd een offerte aan, dan houden we de bus voor jullie vrij.' ),
+			array( 'Hoe ver van tevoren moeten we boeken?', 'Een trouwdatum staat vaak lang vast, en de zaterdagen in het trouwseizoen gaan snel. Vraag dus op tijd een offerte aan, dan zijn jullie er vroeg bij.' ),
 		),
 
 		'gelegenheid/trip-met-vrienden' => array(
