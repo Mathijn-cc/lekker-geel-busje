@@ -595,3 +595,44 @@ function thema_blog_onderwerp_adres() {
 	delete_option( 'rewrite_rules' );
 	return 'blog/onderwerp';
 }
+
+/**
+ * Uitroltaak blog-in-footer-v1: Blog in de eerste footerkolom (Snel naar), voor Contact.
+ * Laat de rest van het menu staan zoals het in WordPress is ingericht.
+ */
+function thema_blog_in_footer() {
+	$blog = thema_blog_pagina();
+	$plek = get_nav_menu_locations();
+	if ( ! $blog || empty( $plek['footer_1'] ) ) {
+		return 'geen blog of footermenu';
+	}
+	$menu  = (int) $plek['footer_1'];
+	$items = (array) wp_get_nav_menu_items( $menu );
+	foreach ( $items as $item ) {
+		if ( (int) $item->object_id === (int) $blog->ID ) {
+			return 'staat er al';
+		}
+	}
+	/* Plek: voor Contact, anders achteraan. Alles vanaf die plek schuift een op. */
+	$positie = count( $items ) + 1;
+	foreach ( $items as $item ) {
+		if ( 'contact' === strtolower( trim( $item->title ) ) ) {
+			$positie = (int) $item->menu_order;
+			break;
+		}
+	}
+	foreach ( $items as $item ) {
+		if ( (int) $item->menu_order >= $positie ) {
+			wp_update_post( array( 'ID' => $item->ID, 'menu_order' => (int) $item->menu_order + 1 ) );
+		}
+	}
+	$id = wp_update_nav_menu_item( $menu, 0, array(
+		'menu-item-object-id' => $blog->ID,
+		'menu-item-object'    => 'page',
+		'menu-item-type'      => 'post_type',
+		'menu-item-title'     => 'Blog',
+		'menu-item-position'  => $positie,
+		'menu-item-status'    => 'publish',
+	) );
+	return is_wp_error( $id ) ? $id->get_error_message() : array( 'item' => $id, 'positie' => $positie );
+}
