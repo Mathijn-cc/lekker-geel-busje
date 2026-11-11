@@ -13,7 +13,8 @@ function thema_uitroltaken() {
 		'stickers-naar-bento-v1' => 'thema_stickers_naar_bento',
 		'beelden-opnieuw-v1'     => 'thema_beelden_opnieuw',
 		'vloeiend-scrollen-uit-v1' => 'thema_vloeiend_scrollen_uit',
-		'webp-kopieen-v3'        => 'thema_webp_kopieen',
+		'beelden-opnieuw-v2'     => 'thema_beelden_opnieuw',
+		'webp-kopieen-v4'        => 'thema_webp_kopieen',
 	);
 }
 
@@ -98,9 +99,9 @@ function thema_vloeiend_scrollen_uit() {
 
 /**
  * WebP-kopieen naast elk formaat zetten (bestand.jpg.webp), in de naamgeving van SiteGround Speed Optimizer.
- * SiteGround levert die kopie automatisch uit aan browsers met WebP-ondersteuning, maar maakt hem niet aan
- * voor formaten die later opnieuw gegenereerd zijn. Bestaande kopieen worden overschreven, zodat ook die
- * van de lichtere bronbestanden komen.
+ * SiteGround levert die kopie uit aan browsers met WebP-ondersteuning, maar maakt hem niet aan voor formaten
+ * die later opnieuw gegenereerd zijn. Elke kopie wordt direct uit het origineel geschaald, niet uit de
+ * verkleinde JPEG, zodat er maar een keer gecomprimeerd wordt en de foto scherp blijft.
  */
 function thema_webp_kopieen() {
 	if ( ! wp_image_editor_supports( array( 'mime_type' => 'image/webp' ) ) ) {
@@ -111,47 +112,48 @@ function thema_webp_kopieen() {
 	}
 	/* WordPress zet de kwaliteit terug naar het filter zodra het uitvoerformaat wisselt; daarom via het filter. */
 	$kwaliteit = function ( $q, $mime ) {
-		return 'image/webp' === $mime ? 70 : $q;
+		return 'image/webp' === $mime ? 80 : $q;
 	};
 	add_filter( 'wp_editor_set_quality', $kwaliteit, 99, 2 );
-	$ids      = get_posts( array(
+	$ids     = get_posts( array(
 		'post_type'      => 'attachment',
 		'post_mime_type' => array( 'image/jpeg', 'image/png' ),
 		'post_status'    => 'inherit',
 		'posts_per_page' => -1,
 		'fields'         => 'ids',
 	) );
-	$gemaakt  = 0;
-	$fouten   = 0;
+	$gemaakt = 0;
+	$fouten  = 0;
 	foreach ( $ids as $id ) {
-		$hoofd = get_attached_file( $id );
-		$meta  = wp_get_attachment_metadata( $id );
-		if ( ! $hoofd || empty( $meta ) ) {
+		$hoofd  = get_attached_file( $id );
+		$bron   = wp_get_original_image_path( $id );
+		$meta   = wp_get_attachment_metadata( $id );
+		if ( ! $hoofd || ! $bron || ! file_exists( $bron ) || empty( $meta['width'] ) ) {
 			continue;
 		}
-		$map       = trailingslashit( dirname( $hoofd ) );
-		$bestanden = array( $hoofd );
+		$map    = trailingslashit( dirname( $hoofd ) );
+		$doelen = array( $hoofd => array( (int) $meta['width'], (int) $meta['height'] ) );
 		foreach ( (array) ( $meta['sizes'] ?? array() ) as $maat ) {
 			if ( ! empty( $maat['file'] ) ) {
-				$bestanden[] = $map . $maat['file'];
+				$doelen[ $map . $maat['file'] ] = array( (int) $maat['width'], (int) $maat['height'] );
 			}
 		}
-		foreach ( array_unique( $bestanden ) as $bestand ) {
-			if ( ! file_exists( $bestand ) ) {
-				continue;
-			}
-			$editor = wp_get_image_editor( $bestand );
+		foreach ( $doelen as $bestand => $wh ) {
+			$editor = wp_get_image_editor( $bron );
 			if ( is_wp_error( $editor ) ) {
 				$fouten++;
 				continue;
 			}
-			/* 70 is voor foto's visueel gelijk aan de JPEG en komt uit op het niveau van de kopieen van SiteGround zelf. */
+			$grootte = $editor->get_size();
+			if ( $wh[0] < $grootte['width'] ) {
+				/* Zelfde breedte en hoogte als de JPEG van dit formaat, met dezelfde uitsnede uit het midden. */
+				$editor->resize( $wh[0], $wh[1], true );
+			}
 			$uit = $editor->save( $bestand . '.webp', 'image/webp' );
 			if ( is_wp_error( $uit ) ) {
 				$fouten++;
 				continue;
 			}
-			/* WordPress plakt zelf .webp achter de naam als die niet op .webp eindigt; zet hem terug op de SiteGround-naam. */
 			if ( ! empty( $uit['path'] ) && $uit['path'] !== $bestand . '.webp' && file_exists( $uit['path'] ) ) {
 				rename( $uit['path'], $bestand . '.webp' );
 			}

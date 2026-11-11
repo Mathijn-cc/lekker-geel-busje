@@ -40,11 +40,11 @@ echo thema_sectie_open( $b, 'video', 'video-' . $breedte . ' video-hoogte-' . $h
 		<?php elseif ( $embed && $autoplay ) : ?>
 			<?php /* De embed (Vimeo of YouTube) pas invoegen als hij bijna in beeld is: de player en de stream laden anders bij elk bezoek. */ ?>
 			<?php if ( $poster ) : ?>
-				<?php echo thema_afbeelding( $poster, 'breed', 'video-poster' ); ?>
+				<?php echo thema_afbeelding( $poster, 'breed', 'video-poster', true, array( 'sizes' => thema_sizes( 'vol' ) ) ); ?>
 			<?php endif; ?>
 			<template data-video-auto><?php echo $embed; // oEmbed-html van WordPress. ?></template>
 		<?php elseif ( $poster ) : ?>
-			<?php echo thema_afbeelding( $poster, 'breed', 'video-poster' ); ?>
+			<?php echo thema_afbeelding( $poster, 'breed', 'video-poster', true, array( 'sizes' => thema_sizes( 'vol' ) ) ); ?>
 		<?php endif; ?>
 		<?php if ( $embed && ! $mp4 && ! $autoplay ) : ?>
 			<template data-video-embed><?php echo $embed; // oEmbed-html van WordPress. ?></template>

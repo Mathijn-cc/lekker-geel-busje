@@ -59,7 +59,7 @@ if ( 'foto' === $stijl ) :
 	<section id="<?php echo esc_attr( $anker ); ?>" class="sectie sectie-hero hero-foto<?php echo $kaart ? ' hero-kaart' : ''; ?><?php echo esc_attr( $compact ); ?>" data-donker data-hero-slider>
 		<div class="hero-foto-beelden" data-zoom>
 			<?php foreach ( $fotos as $i => $id ) : ?>
-				<?php echo thema_afbeelding( $id, 'breed', 'hero-foto-beeld' . ( 0 === $i ? ' is-actief' : '' ), 0 !== $i, array( 'data-slide' => $i ) ); ?>
+				<?php echo thema_afbeelding( $id, 'breed', 'hero-foto-beeld' . ( 0 === $i ? ' is-actief' : '' ), 0 !== $i, array( 'data-slide' => $i, 'sizes' => thema_sizes( 'hero' ) ) ); ?>
 			<?php endforeach; ?>
 		</div>
 		<div class="hero-foto-waas" aria-hidden="true"></div>
@@ -100,7 +100,7 @@ elseif ( 'collage' === $stijl ) :
 		<?php if ( $fotos ) : ?>
 			<div class="hero-collage-achtergrond" data-zoom aria-hidden="true">
 				<?php foreach ( $fotos as $i => $id ) : ?>
-					<?php echo thema_afbeelding( $id, 'breed', 'hero-foto-beeld' . ( 0 === $i ? ' is-actief' : '' ), true, array( 'alt' => '', 'data-slide' => $i ) ); ?>
+					<?php echo thema_afbeelding( $id, 'breed', 'hero-foto-beeld' . ( 0 === $i ? ' is-actief' : '' ), true, array( 'alt' => '', 'data-slide' => $i, 'sizes' => thema_sizes( 'hero' ) ) ); ?>
 				<?php endforeach; ?>
 			</div>
 		<?php endif; ?>

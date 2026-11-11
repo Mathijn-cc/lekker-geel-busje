@@ -5,7 +5,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'THEMA_VERSIE', '2.14.0' );
+define( 'THEMA_VERSIE', '2.14.1' );
 define( 'THEMA_PAD', get_template_directory() );
 define( 'THEMA_URL', get_template_directory_uri() );
 
@@ -164,11 +164,21 @@ add_filter( 'excerpt_length', fn() => 24 );
 
 
 /**
- * Beeldkwaliteit: 82 (JPEG) en 78 (WebP) is visueel gelijk aan 90, maar 30 tot 40% lichter. Grote foto's terug naar 2560 px.
+ * Beeldkwaliteit: 86 (JPEG) en 80 (WebP) houdt fijne details en huidtinten scherp. Grote foto's terug naar 2560 px.
  */
 add_filter( 'wp_editor_set_quality', function ( $kwaliteit, $mime ) {
-	return 'image/webp' === $mime ? 78 : 82;
+	return 'image/webp' === $mime ? 80 : 86;
 }, 10, 2 );
+
+/**
+ * Scherpte: geen sizes="auto". Daarmee rekent de browser met de getoonde breedte, maar niet met de uitsnede
+ * van object-fit: cover, zodat hij op mobiel veel te kleine formaten kiest. De thema-sizes houden daar wel rekening mee.
+ * En formaten tot 2560 px in de srcset (WordPress stopt standaard bij 2048), voor scherpe foto's op retinaschermen.
+ */
+add_filter( 'wp_img_tag_add_auto_sizes', '__return_false' );
+add_filter( 'max_srcset_image_width', function () {
+	return 2560;
+} );
 add_filter( 'big_image_size_threshold', function () {
 	return 2560;
 } );

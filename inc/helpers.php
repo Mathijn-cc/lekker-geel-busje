@@ -106,7 +106,8 @@ function thema_blok_knop( $link, $blok, $kleur = 'paars', $schuin = false ) {
 /**
  * Waarde voor het sizes-attribuut per soort afbeelding, gemeten op de werkelijke weergavebreedte.
  * Zonder sizes rekent WordPress met de volle schermbreedte en laadt de browser veel te grote formaten.
- * Waar een foto met object-fit: cover hoger wordt getoond dan zijn verhouding, is de waarde ruimer.
+ * Waar een foto met object-fit: cover hoger wordt getoond dan zijn verhouding, is de waarde ruimer:
+ * gerekend met de breedte van de hele foto, niet met de zichtbare uitsnede.
  */
 function thema_sizes( $soort ) {
 	$sizes = array(
@@ -116,8 +117,13 @@ function thema_sizes( $soort ) {
 		'tip'            => '(min-width: 1000px) 470px, 92vw',
 		'tegel'          => '(min-width: 1000px) 460px, 90vw',
 		'helft'          => '(min-width: 1000px) 720px, (min-width: 700px) 500px, 100vw',
-		'helft-hoog'     => '(min-width: 1000px) 980px, (min-width: 700px) 700px, 100vw',
-		'hero-klassiek'  => '(min-width: 1000px) 760px, 100vw',
+		'helft-hoog'     => '(min-width: 1000px) 980px, (min-width: 700px) 700px, 170vw',
+		'hero-klassiek'  => '(min-width: 1000px) 760px, 115vw',
+		/* Volle breedte met cover: op mobiel staat een liggende foto in een staand vlak, dus is de foto 2 tot 3 keer breder dan het scherm. */
+		'hero'           => '(max-width: 699px) 280vw, (max-width: 999px) 180vw, 110vw',
+		'vol'            => '(max-width: 699px) 210vw, 100vw',
+		'brede-foto'     => '(max-width: 699px) 130vw, 110vw',
+		'gebied'         => '(min-width: 1000px) 1100px, 180vw',
 	);
 	return $sizes[ $soort ] ?? '100vw';
 }

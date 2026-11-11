@@ -8,7 +8,7 @@ echo thema_sectie_open( $b, 'gebied', ! empty( $b['spiegel'] ) ? 'gebied-spiegel
 ?>
 	<div class="gebied-raster">
 		<?php if ( ! empty( $b['beeld'] ) ) : ?>
-			<div class="gebied-beeld" data-animeer><?php echo thema_foto_met_credit( $b['beeld'], 'breed', ! empty( $b['tijdelijk'] ) ); ?></div>
+			<div class="gebied-beeld" data-animeer><?php echo thema_foto_met_credit( $b['beeld'], 'breed', ! empty( $b['tijdelijk'] ), '', array( 'sizes' => thema_sizes( 'gebied' ) ) ); ?></div>
 		<?php endif; ?>
 		<div class="gebied-tekst">
 			<?php echo thema_eyebrow( $b['eyebrow'] ?? '' ); ?>

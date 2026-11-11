@@ -11,7 +11,7 @@ echo thema_sectie_open( $b, 'brede_foto', 'brede-foto-' . sanitize_html_class( $
 ?>
 	<div class="brede-foto-vlak" data-wide>
 		<div class="brede-foto-zoom" data-zoom>
-			<?php echo thema_afbeelding( $b['beeld'], 'breed', '', true, array( 'style' => 'object-position:' . esc_attr( $focus ) ) ); ?>
+			<?php echo thema_afbeelding( $b['beeld'], 'breed', '', true, array( 'style' => 'object-position:' . esc_attr( $focus ), 'sizes' => thema_sizes( 'brede-foto' ) ) ); ?>
 		</div>
 	</div>
 </section>
