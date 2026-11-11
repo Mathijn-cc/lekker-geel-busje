@@ -41,7 +41,7 @@ function thema_faq_per_pagina() {
 			array( 'Hoeveel mensen kunnen er mee?', 'Tot 88 personen in één bus. Elke bus heeft minstens 39 zitplaatsen en onze verlengde bus heeft er 53, plus 35 staanplaatsen. Vertel hoeveel jullie zijn, dan kiezen wij de bus die past.' ),
 			array( 'Zijn licht en geluid inbegrepen?', 'Altijd. Geluidssysteem, feestverlichting, lasers en rookmachine gaan standaard mee. Daar betaal je geen cent extra voor.' ),
 			array( 'Hoe zit het met de veiligheid?', 'Goed geregeld. Onze bussen krijgen het onderhoud dat nodig is voor alle veiligheidseisen. Het gastvrouwke houdt een oogje op de groep, zodat de chauffeur zijn aandacht bij de weg kan houden. Zo blijft het feest voor iedereen leuk.' ),
-			array( 'Wie rijdt er met ons mee?', 'Een chauffeur en een gastvrouwke van ons eigen team. De chauffeur stelt zich vooraf aan je voor, dus je stapt nooit in bij een vreemde.' ),
+			array( 'Wie rijdt er met ons mee?', 'Een chauffeur en een gastvrouwke van ons eigen team. We hebben allemaal geleerd dat je niet bij vreemden instapt. Daarom stelt de chauffeur zich vooraf aan je voor.' ),
 			'eigen-drank',
 			'roken',
 			'muziek',

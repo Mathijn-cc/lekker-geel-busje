@@ -16,7 +16,7 @@ function thema_uitroltaken() {
 		'beelden-opnieuw-v2'     => 'thema_beelden_opnieuw',
 		'webp-kopieen-v4'        => 'thema_webp_kopieen',
 		'menu-prijzen-faq-weg-v1' => 'thema_menu_prijzen_faq_weg',
-		'faq-copy-v2'            => 'thema_faq_copy_zetten',
+		'faq-copy-v3'            => 'thema_faq_copy_zetten',
 		'vrijgezellenfeest-v1'    => 'thema_plaats_vrijgezellenfeest',
 		'blog-v1'                 => 'thema_blog_opzetten',
 		'vrijgezellenfeest-v2'    => 'thema_plaats_vrijgezellenfeest',
