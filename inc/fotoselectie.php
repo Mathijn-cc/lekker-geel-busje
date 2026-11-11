@@ -362,3 +362,29 @@ function thema_fotoselectie_opruimen() {
 	}
 	return array( 'dubbel_weg' => $dubbel, 'blijft' => $blijft, 'vervangen' => $vervang );
 }
+
+/**
+ * Over ons: de foto van Robbie en Joyce staat al groot bij de quote, dus in de opening een andere foto.
+ */
+function thema_fotoselectie_over_ons_hero() {
+	$ids    = (array) get_option( 'thema_fotoselectie', array() );
+	$weg    = (string) (int) ( $ids['gastheer-en-gastvrouw-voor-de-gele-bus'] ?? 0 );
+	$erin   = (string) (int) ( $ids['gastheer-bij-de-gele-sfeerbus'] ?? 0 );
+	$pagina = get_page_by_path( 'over-ons', OBJECT, 'page' );
+	if ( ! $pagina || '0' === $weg || '0' === $erin ) {
+		return 'niets te doen';
+	}
+	foreach ( (array) get_post_meta( $pagina->ID, 'blokken', true ) as $i => $layout ) {
+		if ( 'hero' !== $layout ) {
+			continue;
+		}
+		$fotos = array_map( 'strval', (array) get_post_meta( $pagina->ID, "blokken_{$i}_fotos", true ) );
+		$fotos = array_map( function ( $x ) use ( $weg, $erin ) {
+			return $x === $weg ? $erin : $x;
+		}, $fotos );
+		update_post_meta( $pagina->ID, "blokken_{$i}_fotos", $fotos );
+		clean_post_cache( $pagina->ID );
+		return $fotos;
+	}
+	return 'geen hero';
+}

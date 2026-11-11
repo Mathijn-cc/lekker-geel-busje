@@ -28,6 +28,7 @@ function thema_uitroltaken() {
 		'blog-fotos-v1'           => 'thema_blog_fotos',
 		'fotoselectie-opruimen-v1' => 'thema_fotoselectie_opruimen',
 		'fotos-inventaris-v2'      => 'thema_fotos_inventaris',
+		'fotoselectie-over-ons-v1' => 'thema_fotoselectie_over_ons_hero',
 	);
 }
 
