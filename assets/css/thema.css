@@ -2828,6 +2828,14 @@ section.sectie-gelegenheden {
   color:         var(--kleur-creme);
   overflow:      hidden;
 }
+/*Gelegenheden -- Op mobiel loopt het paarse vlak rechts door tot de schermrand, zonder afronding*/
+@media (max-width: 699px) {
+  section.sectie-gelegenheden {
+    margin-right:               0;
+    border-top-right-radius:    0;
+    border-bottom-right-radius: 0;
+  }
+}
 /*Gelegenheden -- Ruimte boven en onder de kaart, in te stellen met Ruimte boven en Ruimte onder bij het blok*/
 section.sectie-gelegenheden {
   --kaart-boven: clamp(40px, 5vw, 80px);
