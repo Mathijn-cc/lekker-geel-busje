@@ -23,7 +23,6 @@ while ( have_posts() ) :
 			<?php the_post_thumbnail( 'breed', array( 'class' => 'gel-hero-foto', 'loading' => 'eager', 'fetchpriority' => 'high', 'sizes' => thema_sizes( 'vol' ), 'style' => '--gel-naam:gel-' . $id ) ); ?>
 			<span class="gel-hero-waas" aria-hidden="true"></span>
 			<div class="gel-hero-inhoud" data-gel-in>
-				<a class="terugpil" href="<?php echo esc_url( $terug ); ?>"><span aria-hidden="true">←</span> Alle gelegenheden</a>
 				<h1 class="gel-hero-titel"><?php echo esc_html( $naam ); ?></h1>
 				<?php if ( $sub ) : ?><p class="gel-hero-sub"><?php echo esc_html( $sub ); ?></p><?php endif; ?>
 			</div>

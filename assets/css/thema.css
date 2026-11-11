@@ -4225,7 +4225,7 @@ section.sectie-gel-hero div.gel-hero div.gel-hero-inhoud a.terugpil:hover {
 section.sectie-gel-hero div.gel-hero div.gel-hero-inhoud h1.gel-hero-titel {
   font-size:     calc(clamp(52px, 7vw, 120px) * var(--kop-schaal));
   line-height:   .9;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 section.sectie-gel-hero div.gel-hero div.gel-hero-inhoud p.gel-hero-sub {
   max-width:   640px;
@@ -4530,7 +4530,7 @@ body.admin-bar div.menulaag div.menulaag-scroll {
     font-size: calc(42px * var(--kop-schaal));
   }
   section.sectie-gel-hero div.gel-hero div.gel-hero-inhoud h1.gel-hero-titel {
-    font-size: calc(56px * var(--kop-schaal));
+    font-size: min(calc(56px * var(--kop-schaal)), 10.5vw);
   }
 }
 
