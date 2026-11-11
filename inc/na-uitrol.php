@@ -13,7 +13,7 @@ function thema_uitroltaken() {
 		'stickers-naar-bento-v1' => 'thema_stickers_naar_bento',
 		'beelden-opnieuw-v1'     => 'thema_beelden_opnieuw',
 		'vloeiend-scrollen-uit-v1' => 'thema_vloeiend_scrollen_uit',
-		'webp-kopieen-v2'        => 'thema_webp_kopieen',
+		'webp-kopieen-v3'        => 'thema_webp_kopieen',
 	);
 }
 
@@ -109,6 +109,11 @@ function thema_webp_kopieen() {
 	if ( function_exists( 'set_time_limit' ) ) {
 		set_time_limit( 0 );
 	}
+	/* WordPress zet de kwaliteit terug naar het filter zodra het uitvoerformaat wisselt; daarom via het filter. */
+	$kwaliteit = function ( $q, $mime ) {
+		return 'image/webp' === $mime ? 70 : $q;
+	};
+	add_filter( 'wp_editor_set_quality', $kwaliteit, 99, 2 );
 	$ids      = get_posts( array(
 		'post_type'      => 'attachment',
 		'post_mime_type' => array( 'image/jpeg', 'image/png' ),
@@ -141,7 +146,6 @@ function thema_webp_kopieen() {
 				continue;
 			}
 			/* 70 is voor foto's visueel gelijk aan de JPEG en komt uit op het niveau van de kopieen van SiteGround zelf. */
-			$editor->set_quality( 70 );
 			$uit = $editor->save( $bestand . '.webp', 'image/webp' );
 			if ( is_wp_error( $uit ) ) {
 				$fouten++;
@@ -154,5 +158,6 @@ function thema_webp_kopieen() {
 			$gemaakt++;
 		}
 	}
+	remove_filter( 'wp_editor_set_quality', $kwaliteit, 99 );
 	return array( 'webp' => $gemaakt, 'fouten' => $fouten );
 }
