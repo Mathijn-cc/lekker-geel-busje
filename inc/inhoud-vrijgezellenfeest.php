@@ -38,8 +38,9 @@ function thema_plaats_vrijgezellenfeest() {
 	foreach ( array( 'vrienden-proosten.jpg', 'dansen.jpg', 'uitstappen.jpg', 'groep-in-bus.jpg', 'proosten.jpg', 'slingers.jpg' ) as $bestand ) {
 		$b[ $bestand ] = thema_beeld_op_naam( $bestand );
 	}
-	$tilburg  = get_page_by_path( 'locaties/tilburg' );
-	$tilburg  = $tilburg ? get_permalink( $tilburg ) : home_url( '/locaties/tilburg/' );
+	$locaties = get_page_by_path( 'locaties' );
+	$locaties = $locaties ? get_permalink( $locaties ) : home_url( '/locaties/' );
+	$onderwerp = get_category_by_slug( 'vrijgezellenfeest' );
 	$regels   = get_page_by_path( 'huisregels' );
 	$regels   = $regels ? get_permalink( $regels ) : home_url( '/huisregels/' );
 	$bussen   = get_page_by_path( 'onze-bussen' );
@@ -60,7 +61,7 @@ function thema_plaats_vrijgezellenfeest() {
 		array( 'Wat kost een partybus voor een vrijgezellenfeest?', 'Dat hangt af van de grootte van de groep, de afstand en rijtijd, de dag en eventuele wachttijd. Binnen 2 werkdagen heb je een vaste all-in prijs, met chauffeur, gastvrouwke, licht en geluid, brandstof en btw erin. Deel je die door de groep, dan weet iedereen vooraf precies wat zijn deel is.' ),
 		'personen',
 		'ophalen',
-		array( 'Waar rijden jullie naartoe?', 'Overal waar jullie feest is. Tilburg, Breda, Den Bosch, Eindhoven of juist Amsterdam: we rijden door heel Nederland en daarbuiten. Vertel waar jullie heen willen, dan krijg je een vaste prijs.' ),
+		array( 'Waar rijden jullie naartoe?', 'Overal waar jullie feest is. We rijden door heel Nederland en daarbuiten, dus kies gerust de stad, het festival of de activiteit die bij de vrijgezel past. Vertel waar jullie heen willen, dan krijg je een vaste prijs.' ),
 		array( 'Is een partybus veilig voor een vrijgezellenfeest?', 'Je rijdt in een van onze eigen bussen, die het onderhoud krijgen dat nodig is voor alle veiligheidseisen. De chauffeur houdt zijn aandacht bij de weg en het gastvrouwke let op de groep. Zo blijft het feest leuk voor iedereen, ook voor de vrijgezel.' ),
 	);
 	$lijst  = function_exists( 'thema_faq_per_pagina' ) ? ( thema_faq_per_pagina()['gelegenheid/vrijgezellenfeest'] ?? array() ) : array();
@@ -107,38 +108,19 @@ function thema_plaats_vrijgezellenfeest() {
 			'acf_fc_layout' => 'route',
 			'eyebrow'       => 'Voorbeelddag',
 			'kop'           => 'Zo kan jullie *vrijgezellendag* eruitzien',
-			'intro'         => 'Een voorbeeld van een dag naar Tilburg, voor een groep vriendinnen of vrienden. Elke groep is anders: vertel ons jullie plan, dan rijden wij de route.',
+			'intro'         => 'Zo ziet een vrijgezellendag met de bus er bijvoorbeeld uit. Elke groep is anders: vertel ons jullie plan, dan rijden wij de route.',
 			'stappen'       => array(
 				array( 'tijd' => '13:00', 'icoon' => 'bus', 'titel' => 'Ophalen als een ster', 'tekst' => 'De gele bus staat voor de deur, of haalt de groep op meerdere opstapplekken op. Muziek aan, eerste toost, en de vrijgezel weet meteen: dit wordt een dag om nooit te vergeten.' ),
-				array( 'tijd' => '14:00', 'icoon' => 'beker', 'titel' => 'Proeven of spelen', 'tekst' => 'Een proeverij bij La Trappe of Schrobbelèr, of een activiteit waarbij de vrijgezel flink aan de bak moet. De bus wacht, of komt op een afgesproken tijd terug.' ),
-				array( 'tijd' => '17:30', 'icoon' => 'bestek', 'titel' => 'Samen eten', 'tekst' => 'Op naar een restaurant aan de Piushaven. Geen gezoek naar parkeerplekken, geen groepjes die de weg kwijt zijn.' ),
+				array( 'tijd' => '14:00', 'icoon' => 'beker', 'titel' => 'Activiteit in de middag', 'tekst' => 'Een proeverij, een workshop of een spel waarbij de vrijgezel flink aan de bak moet. De bus wacht, of komt op een afgesproken tijd terug.' ),
+				array( 'tijd' => '17:30', 'icoon' => 'bestek', 'titel' => 'Samen eten', 'tekst' => 'Op naar het restaurant. Geen gezoek naar parkeerplekken, geen groepjes die de weg kwijt zijn.' ),
 				array( 'tijd' => '20:30', 'icoon' => 'muziek', 'titel' => 'Feestrit naar de stad', 'tekst' => 'Licht, lasers en rook aan. Tussen eten en stappen is de bus jullie eigen feestzaal op wielen, met de opdrachten verderop op deze pagina.' ),
-				array( 'tijd' => '21:00', 'icoon' => 'glas', 'titel' => 'Stappen in het centrum', 'tekst' => 'Het Piusplein en de Korte Heuvel liggen naast elkaar. Daar is de hele avond een kroeg waar jullie groep past.' ),
+				array( 'tijd' => '21:00', 'icoon' => 'glas', 'titel' => 'De stad in', 'tekst' => 'De bus zet jullie af midden in het uitgaansleven. Daar wacht de kroeg of club waar de groep de avond afsluit.' ),
 				array( 'tijd' => 'Einde avond', 'icoon' => 'huis', 'titel' => 'Iedereen veilig thuis', 'tekst' => 'Op de afgesproken tijd staat de bus klaar. Op de terugweg komen de verhalen, en iedereen wordt netjes afgezet.' ),
 			),
-			'slot'          => '<p>Meer plekken, proeverijen en stapadressen vind je op onze pagina over een <a href="' . esc_url( $tilburg ) . '">vrijgezellenfeest in Tilburg</a>. Liever naar Breda, Den Bosch, Eindhoven of juist Amsterdam? We rijden door heel Nederland en daarbuiten.</p>',
+			'slot'          => '<p>Nog op zoek naar een bestemming? Bij onze <a href="' . esc_url( $locaties ) . '">bestemmingen</a> vind je ideeën voor een dag uit met de groep. We rijden door heel Nederland en daarbuiten.</p>',
 			'knop'          => $naar_offerte,
 			'achtergrond'   => 'standaard',
 			'anker'         => 'voorbeelddag',
-		),
-		array(
-			'acf_fc_layout' => 'tips',
-			'eyebrow'       => 'Tips voor de organisator',
-			'kop'           => 'Acht tips voor een *geslaagd vrijgezellenfeest*',
-			'intro'         => 'Van planning tot playlist: zo houd je het leuk voor de groep en overzichtelijk voor jezelf.',
-			'kolommen'      => '2',
-			'items'         => array(
-				array( 'soort' => 'Planning', 'titel' => 'Begin op tijd', 'tekst' => 'Een vrijgezellenfeest valt vaak op een vrijdag of zaterdag, en die zitten snel vol. Prik de datum met de getuigen en de partner, en vraag de bus aan zodra die vaststaat. Dan heb je de meeste keus.' ),
-				array( 'soort' => 'Groep', 'titel' => 'Weet met hoeveel je bent', 'tekst' => 'Vraag iedereen vroeg om een ja of nee, met een duidelijke deadline. Met een vast aantal krijg je een vaste prijs, en reserveer je makkelijker bij een activiteit of restaurant.' ),
-				array( 'soort' => 'Budget', 'titel' => 'Maak de kosten vooraf duidelijk', 'tekst' => 'Tel bus, activiteit en eten bij elkaar op en deel het door het aantal deelnemers. Stuur iedereen vooraf een betaalverzoek. Dan hoef je achteraf niemand achter de broek te zitten.' ),
-				array( 'soort' => 'De vrijgezel', 'titel' => 'Houd het leuk voor de vrijgezel', 'tekst' => 'Een verrassing is leuk, een vrijgezel die zich de hele dag schaamt niet. Kies opdrachten en activiteiten die bij haar of hem passen, en vraag de partner gerust om tips.' ),
-				array( 'soort' => 'Programma', 'titel' => 'Plan niet te veel', 'tekst' => 'Een middag, een diner en een avond stappen is genoeg voor een topdag. De ritten ertussen zijn je natuurlijke pauzes: even zitten, iets drinken en bijkletsen.' ),
-				array( 'soort' => 'Sfeer', 'titel' => 'Kies een thema of dresscode', 'tekst' => 'Iedereen in het geel, een bijpassend shirt of een sjerp voor de vrijgezel. Op de foto’s in de bus en in de stad ziet dat er meteen feestelijk uit.' ),
-				array( 'soort' => 'Muziek', 'titel' => 'Maak een gezamenlijke playlist', 'tekst' => 'Vraag iedereen een paar nummers toe te voegen, met de favorieten van de vrijgezel erin. Zo zit de sfeer er vanaf de eerste kilometer in.' ),
-				array( 'soort' => 'Afspraken', 'titel' => 'Deel tijden en adressen vooraf', 'tekst' => 'Zet in de groepsapp hoe laat de bus vertrekt bij elke stop. Dan hoef jij niet de hele dag te bellen en te zoeken, en is iedereen op tijd terug.' ),
-			),
-			'achtergrond'   => 'standaard',
-			'anker'         => 'tips',
 		),
 		array(
 			'acf_fc_layout' => 'opdrachten',
@@ -168,24 +150,16 @@ function thema_plaats_vrijgezellenfeest() {
 		),
 		$reviews,
 		array(
-			'acf_fc_layout' => 'checklist',
-			'eyebrow'       => 'Checklist',
-			'kop'           => 'Alles geregeld *voor de grote dag?*',
-			'intro'         => 'Vink af wat je al gedaan hebt. Je vinkjes blijven op dit apparaat bewaard, dus kom gerust later terug.',
-			'items'         => array(
-				array( 'wanneer' => 'Zo snel mogelijk', 'taak' => 'Datum prikken met de getuigen en de partner', 'link' => '' ),
-				array( 'wanneer' => 'Zo snel mogelijk', 'taak' => 'Gastenlijst maken en iedereen om een ja of nee vragen', 'link' => '' ),
-				array( 'wanneer' => 'Als de datum staat', 'taak' => 'Partybus aanvragen met datum, aantal en ophaalplek', 'link' => thema_link( 'Vraag je prijs aan', '#offerte' ) ),
-				array( 'wanneer' => 'Een maand van tevoren', 'taak' => 'Activiteit en restaurant reserveren', 'link' => '' ),
-				array( 'wanneer' => 'Een maand van tevoren', 'taak' => 'De bijdrage per persoon innen', 'link' => '' ),
-				array( 'wanneer' => 'Een paar weken van tevoren', 'taak' => 'Thema of dresscode doorgeven aan de groep', 'link' => '' ),
-				array( 'wanneer' => 'De week ervoor', 'taak' => 'Playlist en opdrachten voor in de bus klaarzetten', 'link' => '' ),
-				array( 'wanneer' => 'De week ervoor', 'taak' => 'Tijden en adressen delen in de groepsapp', 'link' => '' ),
-				array( 'wanneer' => 'Op de dag zelf', 'taak' => 'Genieten. De rit is geregeld.', 'link' => '' ),
-			),
+			'acf_fc_layout' => 'artikelen',
+			'eyebrow'       => 'Voor de organisator',
+			'kop'           => 'Organiseer jij het *vrijgezellenfeest?*',
+			'intro'         => 'Tips voor een geslaagde dag en een checklist om af te vinken. Zo weet je zeker dat alles op tijd geregeld is.',
+			'keuze'         => array(),
+			'onderwerp'     => $onderwerp ? (int) $onderwerp->term_id : 0,
+			'aantal'        => 3,
 			'knop'          => '',
 			'achtergrond'   => 'standaard',
-			'anker'         => 'checklist',
+			'anker'         => 'organiseren',
 		),
 		$faq,
 		$offerte,

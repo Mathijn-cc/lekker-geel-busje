@@ -207,7 +207,7 @@ function thema_blok_klassen( $html, $layout, $blok ) {
 	}, $html, 1 );
 }
 
-function thema_blokken( $post_id = null ) {
+function thema_blokken( $post_id = null, $eerste_h1 = true ) {
 	if ( ! function_exists( 'get_field' ) ) {
 		echo '<div class="melding">Activeer Advanced Custom Fields PRO om de blokken te tonen.</div>';
 		return false;
@@ -223,7 +223,7 @@ function thema_blokken( $post_id = null ) {
 			get_template_part( 'template-parts/blokken/' . $layout, null, array( 'blok' => $blok, 'index' => $index ) );
 			$niveau = $blok['kopniveau'] ?? 'auto';
 			if ( ! in_array( $niveau, array( 'h1', 'h2', 'h3' ), true ) ) {
-				$niveau = 0 === $index ? 'h1' : 'h2';
+				$niveau = 0 === $index && $eerste_h1 ? 'h1' : 'h2';
 			}
 			echo thema_blok_klassen( thema_blok_kop( ob_get_clean(), $niveau ), $layout, $blok ); // phpcs:ignore
 		}
@@ -444,7 +444,7 @@ function thema_alineas( $tekst, $class = 'tekst-groot' ) {
  * Wijst naar het offerteblok op de pagina zelf als dat er is, anders naar de offertepagina.
  */
 function thema_onderbalk() {
-	if ( ! is_singular( 'gelegenheid' ) && ! ( is_page() && 'locaties' === get_post_field( 'post_name', wp_get_post_parent_id( get_queried_object_id() ) ) ) ) {
+	if ( ! is_singular( array( 'gelegenheid', 'post' ) ) && ! ( is_page() && 'locaties' === get_post_field( 'post_name', wp_get_post_parent_id( get_queried_object_id() ) ) ) ) {
 		return '';
 	}
 	$url = '';

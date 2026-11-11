@@ -1484,7 +1484,7 @@
 		if ( ! balk || ! ( 'IntersectionObserver' in window ) ) {
 			return;
 		}
-		var hero = document.querySelector( 'section.sectie-hero, section.sectie-gel-hero' );
+		var hero = document.querySelector( 'section.sectie-hero, section.sectie-gel-hero, header.sectie-artikelkop' );
 		var doelen = alle( 'section.sectie-offerte, footer.voet' );
 		var voorbij = ! hero;
 		var inBeeld = 0;
@@ -1514,4 +1514,33 @@
 		} );
 		zet();
 	}() );
+	/* ------------------------------------------------------------ Inhoudsopgave: dicht op mobiel, actieve kop gemarkeerd */
+
+	alle( '[data-inhoudsopgave]' ).forEach( function ( lijst ) {
+		if ( window.matchMedia( '(max-width: 999px)' ).matches ) {
+			lijst.removeAttribute( 'open' );
+		}
+		if ( ! ( 'IntersectionObserver' in window ) ) {
+			return;
+		}
+		var links = alle( 'a[href^="#"]', lijst );
+		var koppen = links.map( function ( a ) {
+			return document.getElementById( decodeURIComponent( a.getAttribute( 'href' ).slice( 1 ) ) );
+		} );
+		var io = new IntersectionObserver( function ( items ) {
+			items.forEach( function ( item ) {
+				if ( item.isIntersecting ) {
+					var i = koppen.indexOf( item.target );
+					links.forEach( function ( a, j ) {
+						a.classList.toggle( 'is-actief', i === j );
+					} );
+				}
+			} );
+		}, { rootMargin: '-20% 0px -70% 0px' } );
+		koppen.forEach( function ( k ) {
+			if ( k ) {
+				io.observe( k );
+			}
+		} );
+	} );
 }() );

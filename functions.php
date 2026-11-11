@@ -5,7 +5,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'THEMA_VERSIE', '2.15.0' );
+define( 'THEMA_VERSIE', '2.16.0' );
 define( 'THEMA_PAD', get_template_directory() );
 define( 'THEMA_URL', get_template_directory_uri() );
 
@@ -14,12 +14,14 @@ require THEMA_PAD . '/inc/helpers.php';
 require THEMA_PAD . '/inc/gelegenheden.php';
 require THEMA_PAD . '/inc/kruimels.php';
 require THEMA_PAD . '/inc/zoekmachines.php';
+require THEMA_PAD . '/inc/blog.php';
 require THEMA_PAD . '/inc/menu.php';
 require THEMA_PAD . '/inc/acf-velden.php';
 require THEMA_PAD . '/inc/acf-admin.php';
 require THEMA_PAD . '/inc/dashboard.php';
 require THEMA_PAD . '/inc/voorbeeldinhoud.php';
 require THEMA_PAD . '/inc/inhoud-vrijgezellenfeest.php';
+require THEMA_PAD . '/inc/inhoud-blog.php';
 require THEMA_PAD . '/inc/na-uitrol.php';
 require THEMA_PAD . '/inc/offerteformulier.php';
 require THEMA_PAD . '/inc/faq-copy.php';

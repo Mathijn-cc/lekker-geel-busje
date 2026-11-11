@@ -18,6 +18,8 @@ function thema_uitroltaken() {
 		'menu-prijzen-faq-weg-v1' => 'thema_menu_prijzen_faq_weg',
 		'faq-copy-v2'            => 'thema_faq_copy_zetten',
 		'vrijgezellenfeest-v1'    => 'thema_plaats_vrijgezellenfeest',
+		'blog-v1'                 => 'thema_blog_opzetten',
+		'vrijgezellenfeest-v2'    => 'thema_plaats_vrijgezellenfeest',
 		'fotos-inventaris-v1'     => 'thema_fotos_inventaris',
 		'fotoselectie-uploaden-v1' => 'thema_fotoselectie_uploaden',
 		'fotoselectie-toewijzen-v1' => 'thema_fotoselectie_toewijzen',

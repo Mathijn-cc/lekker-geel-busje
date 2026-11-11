@@ -64,6 +64,7 @@ function thema_blok_achtergronden() {
 		'tips'         => 'standaard',
 		'feiten'       => 'standaard',
 		'opdrachten'   => 'paars',
+		'artikelen'    => 'standaard',
 		'checklist'    => 'standaard',
 		'citaat'       => 'standaard',
 	);
@@ -633,6 +634,19 @@ function thema_layouts() {
 		thema_veld( $p, 'noot', 'Regel onder de kaarten', 'text', array( 'instructions' => 'Bijvoorbeeld een afspraak over veiligheid. Leeg = geen regel.' ) ),
 	), thema_extra_velden( $p, 'opdrachten' ) ) );
 
+	// Artikelen.
+	$p   = 'artikelen';
+	$l[] = thema_layout( $p, 'Artikelen van de blog', array_merge( array(
+		thema_tab( $p, 'Inhoud' ),
+		thema_veld( $p, 'eyebrow', 'Label', 'text', array_merge( thema_breed( 35 ), array( 'default_value' => 'Uit de blog' ) ) ),
+		thema_veld( $p, 'kop', 'Kop', 'text', array_merge( thema_breed( 65 ), array( 'instructions' => THEMA_ACCENT_UITLEG ) ) ),
+		thema_veld( $p, 'intro', 'Intro', 'textarea', array( 'rows' => 2 ) ),
+		thema_veld( $p, 'keuze', 'Welke artikelen', 'relationship', array_merge( thema_breed( 50 ), array( 'post_type' => array( 'post' ), 'filters' => array( 'search', 'taxonomy' ), 'return_format' => 'id', 'max' => 6, 'instructions' => 'Leeg = de nieuwste uit het onderwerp hiernaast.' ) ) ),
+		thema_veld( $p, 'onderwerp', 'Onderwerp', 'taxonomy', array_merge( thema_breed( 25 ), array( 'taxonomy' => 'category', 'field_type' => 'select', 'allow_null' => 1, 'return_format' => 'id', 'add_term' => 0, 'save_terms' => 0, 'load_terms' => 0 ) ) ),
+		thema_veld( $p, 'aantal', 'Aantal', 'number', array_merge( thema_breed( 25 ), array( 'default_value' => 3, 'min' => 1, 'max' => 6 ) ) ),
+		thema_veld( $p, 'knop', 'Knop', 'link', array( 'instructions' => 'Leeg = Alle artikelen, naar de blog.' ) ),
+	), thema_extra_velden( $p, 'artikelen' ) ) );
+
 	// Checklist.
 	$p   = 'checklist';
 	$l[] = thema_layout( $p, 'Checklist om af te vinken', array_merge( array(
@@ -706,6 +720,7 @@ add_action( 'acf/include_fields', function () {
 		'location'        => array(
 			array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'page' ) ),
 			array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'gelegenheid' ) ),
+			array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'post' ) ),
 		),
 		'menu_order'      => 10,
 		'position'        => 'normal',

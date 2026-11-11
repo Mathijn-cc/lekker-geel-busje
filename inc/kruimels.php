@@ -10,13 +10,37 @@ defined( 'ABSPATH' ) || exit;
  * Het kruimelpad van de huidige pagina als lijst van naam en url. Leeg op de homepage.
  */
 function thema_kruimelpad() {
-	if ( is_front_page() || ! is_singular() ) {
+	if ( is_front_page() ) {
 		return array();
 	}
-	$post   = get_queried_object();
 	$kruims = array( array( 'naam' => 'Home', 'url' => home_url( '/' ) ) );
+	$blog   = function_exists( 'thema_blog_pagina' ) ? thema_blog_pagina() : null;
 
-	if ( is_singular( 'gelegenheid' ) ) {
+	/* Blogoverzicht en onderwerpen. */
+	if ( is_home() || is_category() ) {
+		if ( $blog ) {
+			$kruims[] = array( 'naam' => get_the_title( $blog ), 'url' => get_permalink( $blog ) );
+		}
+		if ( is_category() ) {
+			$cat      = get_queried_object();
+			$kruims[] = array( 'naam' => $cat->name, 'url' => get_category_link( $cat ) );
+		}
+		return $kruims;
+	}
+	if ( ! is_singular() ) {
+		return array();
+	}
+	$post = get_queried_object();
+
+	if ( is_singular( 'post' ) ) {
+		if ( $blog ) {
+			$kruims[] = array( 'naam' => get_the_title( $blog ), 'url' => get_permalink( $blog ) );
+		}
+		$cat = function_exists( 'thema_blog_categorie' ) ? thema_blog_categorie( $post ) : null;
+		if ( $cat && 'algemeen' !== $cat->slug ) {
+			$kruims[] = array( 'naam' => $cat->name, 'url' => get_category_link( $cat ) );
+		}
+	} elseif ( is_singular( 'gelegenheid' ) ) {
 		$hub = get_page_by_path( 'gelegenheden' );
 		if ( $hub ) {
 			$kruims[] = array( 'naam' => get_the_title( $hub ), 'url' => get_permalink( $hub ) );

@@ -9,6 +9,9 @@ $contact  = get_page_by_path( 'contact' );
 $actie    = thema_instellingen( 'offerte_link' ) ?: ( $contact ? get_permalink( $contact ) : home_url( '/' ) );
 $uid      = 'offerte-' . (int) ( $args['index'] ?? 0 );
 $feest    = is_singular( 'gelegenheid' ) ? get_the_title() : sanitize_text_field( wp_unslash( $_GET['uitje'] ?? '' ) ); // phpcs:ignore
+if ( ! $feest && is_singular( 'post' ) && function_exists( 'get_field' ) && get_field( 'gelegenheid' ) ) {
+	$feest = get_the_title( (int) get_field( 'gelegenheid' ) );
+}
 
 echo thema_sectie_open( $b, 'offerte', '', '' );
 ?>

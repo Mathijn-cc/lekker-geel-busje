@@ -33,6 +33,7 @@ function thema_blok_info() {
 		'route'         => array( 'route', 'De invulling van een dag als route met haltes, waar de bus over meerijdt.' ),
 		'opdrachten'    => array( 'feest', 'Genummerde kaarten met opdrachten of spelletjes, bijvoorbeeld voor in de bus.' ),
 		'citaat'        => array( 'hart', 'Persoonlijke quote naast een foto, met naam en rol.' ),
+		'artikelen'     => array( 'mail', 'Kaarten van blogartikelen: zelf gekozen of de nieuwste uit een onderwerp.' ),
 		'checklist'     => array( 'kalender', 'Checklist die bezoekers zelf afvinken, met een uitgelicht punt en een knop.' ),
 		'formulier'     => array( 'beker', 'Een Gravity Forms formulier met kop en intro.' ),
 		'contact'       => array( 'telefoon', 'Bel- en mailkaarten, formulier en adres. Gegevens komen uit de thema-instellingen.' ),
@@ -41,7 +42,7 @@ function thema_blok_info() {
 
 add_action( 'admin_enqueue_scripts', function () {
 	$scherm = get_current_screen();
-	if ( ! $scherm || ! in_array( $scherm->post_type, array( 'page', 'gelegenheid' ), true ) || 'post' !== $scherm->base ) {
+	if ( ! $scherm || ! in_array( $scherm->post_type, array( 'page', 'gelegenheid', 'post' ), true ) || 'post' !== $scherm->base ) {
 		return;
 	}
 

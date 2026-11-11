@@ -34,6 +34,7 @@ add_action( 'acf/include_fields', function () {
 		'location'   => array(
 			array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'page' ) ),
 			array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'gelegenheid' ) ),
+			array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'post' ) ),
 		),
 		'menu_order' => 30,
 		'position'   => 'normal',
@@ -49,24 +50,51 @@ add_filter( 'document_title_separator', function ( $teken ) {
 } );
 
 add_filter( 'pre_get_document_title', function ( $titel ) {
-	if ( thema_seo_plugin_actief() || ! is_singular() || ! function_exists( 'get_field' ) ) {
+	if ( thema_seo_plugin_actief() || ! function_exists( 'get_field' ) ) {
 		return $titel;
 	}
-	$eigen = trim( (string) get_field( 'seo_titel', get_queried_object_id() ) );
-	return '' !== $eigen ? $eigen : $titel;
+	$id = thema_seo_id();
+	if ( ! $id ) {
+		if ( is_category() ) {
+			return single_cat_title( '', false ) . ' | Blog | ' . get_bloginfo( 'name' );
+		}
+		return $titel;
+	}
+	$eigen = trim( (string) get_field( 'seo_titel', $id ) );
+	if ( '' !== $eigen ) {
+		$pagina = (int) get_query_var( 'paged' );
+		return $pagina > 1 ? $eigen . ' | Pagina ' . $pagina : $eigen;
+	}
+	return $titel;
 } );
+
+/**
+ * Het bericht waar de SEO-velden van komen: de pagina of het artikel zelf, en op het blogoverzicht de berichtenpagina.
+ */
+function thema_seo_id() {
+	if ( is_home() && ! is_front_page() ) {
+		return (int) get_option( 'page_for_posts' );
+	}
+	return is_singular() ? get_queried_object_id() : 0;
+}
 
 /**
  * De omschrijving van de huidige pagina. Zonder eigen tekst: de ondertitel van een gelegenheid, anders de slogan.
  */
 function thema_seo_omschrijving() {
 	$tekst = '';
-	if ( is_singular() && function_exists( 'get_field' ) ) {
-		$id    = get_queried_object_id();
+	$id    = thema_seo_id();
+	if ( $id && function_exists( 'get_field' ) ) {
 		$tekst = (string) get_field( 'seo_omschrijving', $id );
 		if ( '' === trim( $tekst ) && is_singular( 'gelegenheid' ) ) {
 			$tekst = (string) get_field( 'ondertitel', $id );
 		}
+		if ( '' === trim( $tekst ) && is_singular( 'post' ) ) {
+			$tekst = has_excerpt( $id ) ? get_the_excerpt( $id ) : wp_trim_words( wp_strip_all_tags( get_post_field( 'post_content', $id ) ), 26, '…' );
+		}
+	}
+	if ( '' === trim( $tekst ) && is_category() ) {
+		$tekst = category_description();
 	}
 	if ( '' === trim( $tekst ) ) {
 		$tekst = get_bloginfo( 'description' );
@@ -82,15 +110,15 @@ add_action( 'wp_head', function () {
 	if ( $omschrijving ) {
 		printf( '<meta name="description" content="%s">' . "\n", esc_attr( $omschrijving ) );
 	}
-	if ( ! is_singular() && ! is_front_page() ) {
+	if ( ! is_singular() && ! is_front_page() && ! is_home() ) {
 		return;
 	}
-	$id   = get_queried_object_id();
+	$id   = thema_seo_id() ?: get_queried_object_id();
 	$url  = is_front_page() ? home_url( '/' ) : get_permalink( $id );
 	$foto = has_post_thumbnail( $id ) ? get_the_post_thumbnail_url( $id, 'breed' ) : '';
 	$og   = array(
 		'og:locale'      => 'nl_NL',
-		'og:type'        => 'website',
+		'og:type'        => is_singular( 'post' ) ? 'article' : 'website',
 		'og:site_name'   => get_bloginfo( 'name' ),
 		'og:title'       => wp_get_document_title(),
 		'og:description' => $omschrijving,

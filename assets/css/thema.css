@@ -7394,3 +7394,503 @@ div.onderbalk a.onderbalk-bel {
   border-radius:   50%;
   color:           var(--kleur-geel);
 }
+
+/**Blog -- Overzicht**/
+/*Overzicht -- Kop met intro en onderwerpen*/
+section.sectie-blogkop {
+  padding: clamp(150px, 14vw, 200px) var(--rand) clamp(32px, 4vw, 56px);
+}
+section.sectie-blogkop div.blogkop-binnen {
+  display:        flex;
+  flex-direction: column;
+  align-items:    flex-start;
+  gap:            24px;
+  max-width:      var(--breedte);
+  margin:         0 auto;
+}
+section.sectie-blogkop div.blogkop-binnen div.blogkop-intro {
+  max-width: 640px;
+}
+section.sectie-blogkop div.blogkop-binnen a.terugpil {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             8px;
+  padding:         8px 16px;
+  border-radius:   999px;
+  background:      rgba(56, 6, 94, .1);
+  color:           var(--kleur-paars);
+  font-size:       14px;
+  font-weight:     600;
+  text-decoration: none;
+}
+section.sectie-blogkop div.blogkop-binnen nav.blogkop-onderwerpen {
+  display:   flex;
+  flex-wrap: wrap;
+  gap:       10px;
+}
+section.sectie-blogkop div.blogkop-binnen nav.blogkop-onderwerpen a.onderwerp-pil {
+  padding:         10px 18px;
+  border:          var(--lijn-dun) solid var(--kleur-paars);
+  border-radius:   999px;
+  color:           var(--kleur-paars);
+  font-size:       15px;
+  font-weight:     700;
+  text-decoration: none;
+  transition:      background .3s var(--zacht), color .3s var(--zacht);
+}
+section.sectie-blogkop div.blogkop-binnen nav.blogkop-onderwerpen a.onderwerp-pil:hover,
+section.sectie-blogkop div.blogkop-binnen nav.blogkop-onderwerpen a.onderwerp-pil.is-actief {
+  background: var(--kleur-paars);
+  color:      var(--kleur-geel);
+}
+/*Overzicht -- Raster, de eerste kaart is uitgelicht over de volle breedte*/
+section.sectie-blogoverzicht {
+  padding: 0 var(--rand) var(--sectie-ruimte);
+}
+section.sectie-blogoverzicht div.blogoverzicht-binnen {
+  display:        flex;
+  flex-direction: column;
+  gap:            clamp(40px, 5vw, 64px);
+  max-width:      var(--breedte);
+  margin:         0 auto;
+}
+section.sectie-blogoverzicht div.blogoverzicht-binnen div.blogoverzicht-raster {
+  display:               grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap:                   clamp(20px, 2.4vw, 32px);
+}
+@media (min-width: 700px) {
+  section.sectie-blogoverzicht div.blogoverzicht-binnen div.blogoverzicht-raster {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  section.sectie-blogoverzicht div.blogoverzicht-binnen div.blogoverzicht-raster article.blogkaart-uitgelicht {
+    grid-column: 1 / -1;
+  }
+}
+@media (min-width: 1100px) {
+  section.sectie-blogoverzicht div.blogoverzicht-binnen div.blogoverzicht-raster {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+/*Overzicht -- Paginering*/
+section.sectie-blogoverzicht div.blogoverzicht-binnen nav.pagination div.nav-links {
+  display:         flex;
+  flex-wrap:       wrap;
+  justify-content: center;
+  gap:             8px;
+}
+section.sectie-blogoverzicht div.blogoverzicht-binnen nav.pagination div.nav-links .page-numbers {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  gap:             6px;
+  min-width:       48px;
+  min-height:      48px;
+  padding:         0 16px;
+  border-radius:   999px;
+  background:      var(--kleur-zand);
+  color:           var(--kleur-paars);
+  font-weight:     700;
+  text-decoration: none;
+}
+section.sectie-blogoverzicht div.blogoverzicht-binnen nav.pagination div.nav-links .page-numbers.current {
+  background: var(--kleur-paars);
+  color:      var(--kleur-geel);
+}
+
+/**Blog -- Kaart**/
+/*Kaart -- Standaard: foto boven, tekst onder*/
+article.blogkaart {
+  position:       relative;
+  display:        flex;
+  flex-direction: column;
+  border-radius:  28px;
+  overflow:       hidden;
+  background:     var(--kleur-wit);
+  color:          var(--kleur-paars);
+  box-shadow:     0 30px 60px -44px rgba(56, 6, 94, .45);
+  transition:     transform .5s var(--veer);
+}
+@media (hover: hover) {
+  article.blogkaart:hover {
+    transform: translateY(-6px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  article.blogkaart {
+    transition: none;
+  }
+}
+article.blogkaart a.blogkaart-beeld {
+  display:      block;
+  aspect-ratio: 3 / 2;
+  overflow:     hidden;
+  background:   var(--kleur-zand);
+}
+article.blogkaart a.blogkaart-beeld img {
+  display:    block;
+  width:      100%;
+  height:     100%;
+  object-fit: cover;
+  transition: transform .8s var(--zacht);
+}
+article.blogkaart:hover a.blogkaart-beeld img {
+  transform: scale(1.04);
+}
+article.blogkaart div.blogkaart-tekst {
+  display:        flex;
+  flex:           1;
+  flex-direction: column;
+  align-items:    flex-start;
+  gap:            12px;
+  padding:        24px 26px 28px;
+}
+article.blogkaart span.blogkaart-onderwerp,
+article.artikel header.sectie-artikelkop a.blogkaart-onderwerp {
+  padding:         6px 12px;
+  border-radius:   999px;
+  background:      var(--kleur-geel);
+  color:           var(--kleur-paars);
+  font-size:       12px;
+  font-weight:     800;
+  letter-spacing:  .06em;
+  text-decoration: none;
+  text-transform:  uppercase;
+}
+article.blogkaart :is(h2, h3).blogkaart-titel {
+  margin:      0;
+  font-family: var(--kop-letter);
+  font-size:   calc(clamp(22px, 2vw, 27px) * var(--kop-schaal));
+  font-weight: var(--kop-gewicht);
+  line-height: 1.08;
+}
+article.blogkaart :is(h2, h3).blogkaart-titel a {
+  color:           inherit;
+  text-decoration: none;
+}
+/*Kaart -- De hele kaart is klikbaar via de titel*/
+article.blogkaart :is(h2, h3).blogkaart-titel a::after {
+  content:  '';
+  position: absolute;
+  inset:    0;
+}
+article.blogkaart :is(h2, h3).blogkaart-titel a:focus-visible {
+  outline: none;
+}
+article.blogkaart:has(:is(h2, h3).blogkaart-titel a:focus-visible) {
+  outline:        3px solid var(--kleur-roze);
+  outline-offset: 4px;
+}
+article.blogkaart p.blogkaart-samenvatting {
+  margin:      0;
+  font-size:   16px;
+  line-height: 1.55;
+}
+article.blogkaart p.blogkaart-meta {
+  margin-top: auto;
+  font-size:  14px;
+  opacity:    .7;
+}
+/*Kaart -- Uitgelicht: foto links, tekst rechts*/
+@media (min-width: 900px) {
+  article.blogkaart.blogkaart-uitgelicht {
+    display:               grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+  article.blogkaart.blogkaart-uitgelicht a.blogkaart-beeld {
+    aspect-ratio: auto;
+    min-height:   420px;
+  }
+  article.blogkaart.blogkaart-uitgelicht div.blogkaart-tekst {
+    justify-content: center;
+    gap:             16px;
+    padding:         clamp(32px, 4vw, 56px);
+  }
+  article.blogkaart.blogkaart-uitgelicht :is(h2, h3).blogkaart-titel {
+    font-size: calc(clamp(30px, 3vw, 44px) * var(--kop-schaal));
+  }
+  article.blogkaart.blogkaart-uitgelicht p.blogkaart-samenvatting {
+    font-size: 18px;
+  }
+  article.blogkaart.blogkaart-uitgelicht p.blogkaart-meta {
+    margin-top: 8px;
+  }
+}
+
+/**Blog -- Artikel**/
+/*Artikel -- Kop*/
+article.artikel header.sectie-artikelkop {
+  padding: clamp(150px, 14vw, 200px) var(--rand) clamp(28px, 3vw, 40px);
+}
+article.artikel header.sectie-artikelkop div.artikelkop-binnen {
+  display:        flex;
+  flex-direction: column;
+  align-items:    flex-start;
+  gap:            20px;
+  max-width:      900px;
+  margin:         0 auto;
+}
+article.artikel header.sectie-artikelkop div.artikelkop-binnen a.terugpil {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             8px;
+  padding:         8px 16px;
+  border-radius:   999px;
+  background:      rgba(56, 6, 94, .1);
+  color:           var(--kleur-paars);
+  font-size:       14px;
+  font-weight:     600;
+  text-decoration: none;
+}
+article.artikel header.sectie-artikelkop div.artikelkop-binnen p.artikel-meta {
+  display:     flex;
+  flex-wrap:   wrap;
+  align-items: center;
+  gap:         6px 10px;
+  margin:      0;
+  font-size:   15px;
+  font-weight: 600;
+}
+article.artikel header.sectie-artikelkop div.artikelkop-binnen p.artikel-meta span.artikel-leestijd {
+  display:     inline-flex;
+  align-items: center;
+  gap:         6px;
+}
+article.artikel header.sectie-artikelkop div.artikelkop-binnen p.artikel-meta span.blog-bijgewerkt {
+  opacity: .75;
+}
+/*Artikel -- Foto*/
+article.artikel div.artikel-foto {
+  max-width: 1100px;
+  margin:    0 auto;
+  padding:   0 var(--rand);
+}
+article.artikel div.artikel-foto figure.foto-credit {
+  margin:        0;
+  aspect-ratio:  16 / 9;
+  border-radius: var(--afronding-groot);
+  overflow:      hidden;
+}
+article.artikel div.artikel-foto figure.foto-credit img {
+  display:    block;
+  width:      100%;
+  height:     100%;
+  object-fit: cover;
+}
+/*Artikel -- Raster: inhoudsopgave links (plakt mee), tekst rechts*/
+article.artikel div.sectie-artikel {
+  padding: clamp(40px, 5vw, 72px) var(--rand) clamp(56px, 6vw, 96px);
+}
+article.artikel div.sectie-artikel div.artikel-raster {
+  display:               grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap:                   32px;
+  max-width:             1100px;
+  margin:                0 auto;
+}
+@media (min-width: 1000px) {
+  article.artikel div.sectie-artikel div.artikel-raster {
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap:                   clamp(40px, 5vw, 80px);
+    align-items:           start;
+  }
+  article.artikel div.sectie-artikel div.artikel-raster aside.artikel-zijkant {
+    position: sticky;
+    top:      var(--plak-afstand);
+  }
+  article.artikel div.sectie-artikel div.artikel-raster:not(:has(aside.artikel-zijkant)) {
+    grid-template-columns: minmax(0, 760px);
+    justify-content:       center;
+  }
+}
+/*Artikel -- Inhoudsopgave*/
+article.artikel div.artikel-raster aside.artikel-zijkant details.inhoudsopgave {
+  padding:       20px 22px;
+  border-radius: 24px;
+  background:    var(--kleur-zand);
+}
+article.artikel div.artikel-raster aside.artikel-zijkant details.inhoudsopgave summary.inhoudsopgave-kop {
+  font-family: var(--accent-letter);
+  font-style:  var(--accent-stijl);
+  font-size:   calc(22px * var(--accent-schaal, 1));
+  color:       var(--kleur-roze);
+  cursor:      pointer;
+}
+article.artikel div.artikel-raster aside.artikel-zijkant details.inhoudsopgave ol.inhoudsopgave-lijst {
+  display:        flex;
+  flex-direction: column;
+  gap:            10px;
+  margin:         14px 0 0;
+  padding-left:   1.2em;
+  font-size:      15px;
+  font-weight:    600;
+  line-height:    1.35;
+}
+article.artikel div.artikel-raster aside.artikel-zijkant details.inhoudsopgave ol.inhoudsopgave-lijst a {
+  color:           inherit;
+  text-decoration: none;
+}
+article.artikel div.artikel-raster aside.artikel-zijkant details.inhoudsopgave ol.inhoudsopgave-lijst a:hover,
+article.artikel div.artikel-raster aside.artikel-zijkant details.inhoudsopgave ol.inhoudsopgave-lijst a.is-actief {
+  color: var(--kleur-roze);
+}
+/*Artikel -- In het kort*/
+article.artikel div.artikel-raster div.artikel-hoofd {
+  display:        flex;
+  flex-direction: column;
+  gap:            40px;
+  max-width:      760px;
+}
+article.artikel div.artikel-raster div.artikel-hoofd div.artikel-kort {
+  padding:       24px 28px;
+  border-radius: 24px;
+  background:    var(--kleur-paars);
+  color:         var(--kleur-creme);
+}
+article.artikel div.artikel-raster div.artikel-hoofd div.artikel-kort span.artikel-kort-kop {
+  font-family: var(--accent-letter);
+  font-style:  var(--accent-stijl);
+  font-size:   calc(24px * var(--accent-schaal, 1));
+  color:       var(--kleur-geel);
+}
+article.artikel div.artikel-raster div.artikel-hoofd div.artikel-kort ul {
+  display:        flex;
+  flex-direction: column;
+  gap:            8px;
+  margin:         12px 0 0;
+  padding-left:   1.2em;
+  font-size:      17px;
+  font-weight:    600;
+  line-height:    1.45;
+}
+/*Artikel -- Tekst*/
+article.artikel div.artikel-raster div.artikel-hoofd div.artikel-tekst h2 {
+  scroll-margin-top: 120px;
+}
+article.artikel div.artikel-raster div.artikel-hoofd div.artikel-tekst h3 {
+  font-size: calc(clamp(22px, 2vw, 28px) * var(--kop-schaal));
+}
+article.artikel div.artikel-raster div.artikel-hoofd div.artikel-tekst li + li {
+  margin-top: .4em;
+}
+/*Artikel -- Schrijver en kaart naar de gelegenheid*/
+article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet {
+  display:        flex;
+  flex-direction: column;
+  gap:            20px;
+  padding-top:    32px;
+  border-top:     var(--lijn-dun) solid rgba(56, 6, 94, .15);
+}
+article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet div.artikel-schrijver {
+  display:     flex;
+  align-items: center;
+  gap:         16px;
+}
+article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet div.artikel-schrijver span.artikel-schrijver-icoon {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           56px;
+  height:          56px;
+  border-radius:   50%;
+  background:      var(--kleur-geel);
+  color:           var(--kleur-paars);
+}
+article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet div.artikel-schrijver span.artikel-schrijver-tekst {
+  display:        flex;
+  flex-direction: column;
+}
+article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet div.artikel-schrijver span.artikel-schrijver-naam {
+  font-weight: 800;
+}
+article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet div.artikel-schrijver span.artikel-schrijver-rol {
+  font-size: 15px;
+  opacity:   .75;
+}
+article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet a.artikel-gelegenheid {
+  display:         flex;
+  align-items:     center;
+  gap:             18px;
+  padding:         14px 22px 14px 14px;
+  border-radius:   24px;
+  background:      var(--kleur-paars);
+  color:           var(--kleur-creme);
+  text-decoration: none;
+  transition:      transform .5s var(--veer);
+}
+@media (hover: hover) {
+  article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet a.artikel-gelegenheid:hover {
+    transform: translateY(-4px) rotate(-.6deg);
+  }
+}
+article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet a.artikel-gelegenheid img.artikel-gelegenheid-foto {
+  flex-shrink:   0;
+  width:         72px;
+  height:        90px;
+  border-radius: 16px;
+  object-fit:    cover;
+}
+article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet a.artikel-gelegenheid span.artikel-gelegenheid-tekst {
+  display:        flex;
+  flex:           1;
+  flex-direction: column;
+  gap:            4px;
+}
+article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet a.artikel-gelegenheid span.artikel-gelegenheid-label {
+  font-family: var(--accent-letter);
+  font-style:  var(--accent-stijl);
+  font-size:   calc(19px * var(--accent-schaal, 1));
+  color:       var(--kleur-geel);
+}
+article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet a.artikel-gelegenheid span.artikel-gelegenheid-titel {
+  font-family: var(--kop-letter);
+  font-size:   calc(clamp(20px, 1.8vw, 24px) * var(--kop-schaal));
+  font-weight: var(--kop-gewicht);
+  line-height: 1.1;
+}
+article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet a.artikel-gelegenheid span.artikel-gelegenheid-pijl {
+  display:         flex;
+  flex-shrink:     0;
+  align-items:     center;
+  justify-content: center;
+  width:           44px;
+  height:          44px;
+  border-radius:   50%;
+  background:      var(--kleur-geel);
+  color:           var(--kleur-paars);
+}
+
+/**Blokken -- Artikelen**/
+/*Artikelen -- Kop links, kaarten rechts op brede schermen*/
+section.sectie-artikelen {
+  padding: var(--sectie-ruimte) var(--rand);
+}
+section.sectie-artikelen div.artikelen-binnen {
+  display:        flex;
+  flex-direction: column;
+  gap:            clamp(32px, 4vw, 56px);
+  max-width:      var(--breedte);
+  margin:         0 auto;
+}
+section.sectie-artikelen div.artikelen-binnen div.artikelen-kop {
+  display:        flex;
+  flex-direction: column;
+  align-items:    flex-start;
+  gap:            22px;
+  max-width:      760px;
+}
+section.sectie-artikelen div.artikelen-binnen div.artikelen-raster {
+  display:               grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap:                   clamp(20px, 2.4vw, 32px);
+}
+@media (min-width: 700px) {
+  section.sectie-artikelen div.artikelen-binnen div.artikelen-raster {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1100px) {
+  section.sectie-artikelen div.artikelen-binnen div.artikelen-raster.artikelen-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
