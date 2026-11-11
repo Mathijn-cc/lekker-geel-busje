@@ -2686,7 +2686,7 @@ section.sectie-voordelen div.voordeellijst button.voordeelknop span.voordeel-num
   font-family: var(--accent-letter);
   font-style:  var(--accent-stijl);
   font-size:   20px;
-  opacity:     .6;
+  opacity:     .8;
 }
 section.sectie-voordelen div.voordeellijst button.voordeelknop span.voordeel-uitklap {
   display:            grid;
@@ -5415,6 +5415,51 @@ section.sectie div.formulier-vak div.gform_confirmation_wrapper div.gform_confir
   section.sectie div.formulier-vak div.gform_wrapper div.gform_page_footer button.gform_previous_button {
     flex:  1 1 100%;
     order: 2;
+  }
+}
+
+/**Prestaties -- Laden zonder verspringen**/
+/*Offerteformulier -- Ruimte vasthouden zolang Gravity Forms het formulier nog verbergt*/
+section.sectie-formulier div.formulier-vak:has(> div.lekkergeelbusje-offerte_wrapper[style*="display:none"]) {
+  min-height: 960px;
+}
+@media (min-width: 600px) {
+  section.sectie-formulier div.formulier-vak:has(> div.lekkergeelbusje-offerte_wrapper[style*="display:none"]) {
+    min-height: 880px;
+  }
+}
+@media (min-width: 768px) {
+  section.sectie-formulier div.formulier-vak:has(> div.lekkergeelbusje-offerte_wrapper[style*="display:none"]) {
+    min-height: 720px;
+  }
+}
+
+/*Menu -- Geen vervaging achter de menubalk op mobiel, scheelt veel herschilderen tijdens het scrollen*/
+@media (max-width: 699px) {
+  div.navhouder nav.nav.nav-zwevend div.nav-pil {
+    background:              rgba(255, 255, 255, .94);
+    -webkit-backdrop-filter: none;
+    backdrop-filter:         none;
+  }
+}
+
+/**Toegankelijkheid -- Aanraakvlakken**/
+/*Hero -- Paginatiestippen krijgen een onzichtbaar aanraakvlak van minimaal 24 bij 24 pixels*/
+section.sectie-hero.hero-foto div.pagineervlak button.pagineer-stip {
+  position: relative;
+}
+section.sectie-hero.hero-foto div.pagineervlak button.pagineer-stip::after {
+  content:   "";
+  position:  absolute;
+  left:      50%;
+  top:       50%;
+  width:     max(100%, 24px);
+  height:    24px;
+  transform: translate(-50%, -50%);
+}
+@media (max-width: 699px) {
+  section.sectie-hero.hero-foto div.pagineervlak div.pagineer-stippen {
+    gap: 16px;
   }
 }
 
