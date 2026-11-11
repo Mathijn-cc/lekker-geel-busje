@@ -6657,6 +6657,14 @@ section.sectie-hero.hero-foto div.pagineervlak div.pagineerbalk {
   section.sectie-hero.hero-foto div.hero-inhoud span.score-pil span.score-aantal {
     display: none;
   }
+  /*Hero -- Zonder terug-link zakt de kop wat verder onder het menu*/
+  section.sectie-hero.hero-foto div.hero-inhoud div.hero-inhoud-tekst:not(:has(> a.terugpil)) {
+    padding-top: 44px;
+  }
+  /*Hero -- Lange woorden zoals vrijgezellenfeest passen binnen de breedte*/
+  section.sectie-hero.hero-foto.hero-compact :is(h1, h2).hero-kop {
+    font-size: min(39px, 9.6vw);
+  }
 }
 
 /**Algemeen -- Linklijn**/
