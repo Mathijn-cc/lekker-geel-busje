@@ -5,7 +5,7 @@
  */
 $kaart   = $args['post'];
 $variant = $args['variant'] ?? 'standaard';
-$kop     = in_array( $args['kop'] ?? 'h3', array( 'h2', 'h3' ), true ) ? $args['kop'] : 'h3';
+$kop     = in_array( $args['kop'] ?? '', array( 'h2', 'h3' ), true ) ? $args['kop'] : 'h3';
 $cat     = thema_blog_categorie( $kaart );
 $tekst   = has_excerpt( $kaart ) ? get_the_excerpt( $kaart ) : wp_trim_words( wp_strip_all_tags( $kaart->post_content ), 24, '…' );
 ?>

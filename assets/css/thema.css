@@ -7726,69 +7726,22 @@ article.artikel div.artikel-foto figure.foto-credit img {
   height:     100%;
   object-fit: cover;
 }
-/*Artikel -- Raster: inhoudsopgave links (plakt mee), tekst rechts*/
+/*Artikel -- Tekstkolom in het midden*/
 article.artikel div.sectie-artikel {
   padding: clamp(40px, 5vw, 72px) var(--rand) clamp(56px, 6vw, 96px);
 }
 article.artikel div.sectie-artikel div.artikel-raster {
-  display:               grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap:                   32px;
-  max-width:             1100px;
-  margin:                0 auto;
-}
-@media (min-width: 1000px) {
-  article.artikel div.sectie-artikel div.artikel-raster {
-    grid-template-columns: 260px minmax(0, 1fr);
-    gap:                   clamp(40px, 5vw, 80px);
-    align-items:           start;
-  }
-  article.artikel div.sectie-artikel div.artikel-raster aside.artikel-zijkant {
-    position: sticky;
-    top:      var(--plak-afstand);
-  }
-  article.artikel div.sectie-artikel div.artikel-raster:not(:has(aside.artikel-zijkant)) {
-    grid-template-columns: minmax(0, 760px);
-    justify-content:       center;
-  }
-}
-/*Artikel -- Inhoudsopgave*/
-article.artikel div.artikel-raster aside.artikel-zijkant details.inhoudsopgave {
-  padding:       20px 22px;
-  border-radius: 24px;
-  background:    var(--kleur-zand);
-}
-article.artikel div.artikel-raster aside.artikel-zijkant details.inhoudsopgave summary.inhoudsopgave-kop {
-  font-family: var(--accent-letter);
-  font-style:  var(--accent-stijl);
-  font-size:   calc(22px * var(--accent-schaal, 1));
-  color:       var(--kleur-roze);
-  cursor:      pointer;
-}
-article.artikel div.artikel-raster aside.artikel-zijkant details.inhoudsopgave ol.inhoudsopgave-lijst {
-  display:        flex;
-  flex-direction: column;
-  gap:            10px;
-  margin:         14px 0 0;
-  padding-left:   1.2em;
-  font-size:      15px;
-  font-weight:    600;
-  line-height:    1.35;
-}
-article.artikel div.artikel-raster aside.artikel-zijkant details.inhoudsopgave ol.inhoudsopgave-lijst a {
-  color:           inherit;
-  text-decoration: none;
-}
-article.artikel div.artikel-raster aside.artikel-zijkant details.inhoudsopgave ol.inhoudsopgave-lijst a:hover,
-article.artikel div.artikel-raster aside.artikel-zijkant details.inhoudsopgave ol.inhoudsopgave-lijst a.is-actief {
-  color: var(--kleur-roze);
+  display:   flex;
+  max-width: 760px;
+  margin:    0 auto;
 }
 /*Artikel -- In het kort*/
 article.artikel div.artikel-raster div.artikel-hoofd {
   display:        flex;
+  flex:           1;
   flex-direction: column;
   gap:            40px;
-  max-width:      760px;
+  min-width:      0;
 }
 article.artikel div.artikel-raster div.artikel-hoofd div.artikel-kort {
   padding:       24px 28px;

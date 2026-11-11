@@ -1,6 +1,6 @@
 <?php
 /**
- * Artikel van de blog: kop met datum en leestijd, foto, in het kort, inhoudsopgave, tekst,
+ * Artikel van de blog: kop met datum en leestijd, foto, in het kort, tekst (H2's met een anker),
  * auteur, kaart naar de gelegenheid, blokken (bijv. checklist, vragen, offerte) en gerelateerde artikelen.
  */
 get_header();
@@ -42,18 +42,6 @@ while ( have_posts() ) :
 
 		<div class="sectie sectie-artikel">
 			<div class="artikel-raster">
-				<?php if ( count( $inhoud['inhoud'] ) > 2 ) : ?>
-					<aside class="artikel-zijkant">
-						<details class="inhoudsopgave" open data-inhoudsopgave>
-							<summary class="inhoudsopgave-kop">In dit artikel</summary>
-							<ol class="inhoudsopgave-lijst">
-								<?php foreach ( $inhoud['inhoud'] as $anker => $kop ) : ?>
-									<li><a href="#<?php echo esc_attr( $anker ); ?>"><?php echo esc_html( $kop ); ?></a></li>
-								<?php endforeach; ?>
-							</ol>
-						</details>
-					</aside>
-				<?php endif; ?>
 				<div class="artikel-hoofd">
 					<?php if ( $kort ) : ?>
 						<div class="artikel-kort">

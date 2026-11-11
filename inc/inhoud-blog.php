@@ -288,3 +288,40 @@ function thema_blog_fotos() {
 	}
 	return $uit;
 }
+
+/**
+ * Uitroltaak blog-tips-en-tricks-v1: het onderwerp heet Tips en tricks, niet Vrijgezellenfeest
+ * (dat label herhaalde op de vrijgezellenpagina alleen de paginanaam). De vrijgezellenpagina toont
+ * daarom de twee artikelen zelf gekozen, in plaats van alles uit het onderwerp.
+ */
+function thema_blog_tips_en_tricks() {
+	$uit  = array();
+	$term = get_category_by_slug( 'vrijgezellenfeest' ) ?: get_category_by_slug( 'tips-en-tricks' );
+	if ( $term ) {
+		wp_update_term( $term->term_id, 'category', array(
+			'name'        => 'Tips en tricks',
+			'slug'        => 'tips-en-tricks',
+			'description' => 'Tips, checklists en ideeën voor de organisator: zo regel je een vrijgezellenfeest, bedrijfsuitje of dag uit met de groep zonder gedoe.',
+		) );
+		$uit['onderwerp'] = (int) $term->term_id;
+	}
+	$ids = array();
+	foreach ( array( 'vrijgezellenfeest-organiseren-tips', 'checklist-vrijgezellenfeest' ) as $slug ) {
+		$p = get_page_by_path( $slug, OBJECT, 'post' );
+		if ( $p ) {
+			$ids[] = (string) $p->ID;
+		}
+	}
+	$gel = get_page_by_path( 'vrijgezellenfeest', OBJECT, 'gelegenheid' );
+	if ( $gel && $ids ) {
+		foreach ( (array) get_post_meta( $gel->ID, 'blokken', true ) as $i => $layout ) {
+			if ( 'artikelen' === $layout ) {
+				update_post_meta( $gel->ID, "blokken_{$i}_keuze", $ids );
+				update_post_meta( $gel->ID, "blokken_{$i}_onderwerp", '' );
+				$uit['blok'] = $i;
+			}
+		}
+		clean_post_cache( $gel->ID );
+	}
+	return $uit;
+}
