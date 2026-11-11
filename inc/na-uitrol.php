@@ -24,6 +24,7 @@ function thema_uitroltaken() {
 		'fotoselectie-uploaden-v1' => 'thema_fotoselectie_uploaden',
 		'fotoselectie-toewijzen-v1' => 'thema_fotoselectie_toewijzen',
 		'citaat-over-ons-v1'      => 'thema_citaat_over_ons',
+		'ruimte-standaard-v1'     => 'thema_ruimte_standaard',
 		'vrijgezellenfeest-fotos-v1' => 'thema_vrijgezellenfeest_fotos_terug',
 		'blog-fotos-v1'           => 'thema_blog_fotos',
 		'fotoselectie-opruimen-v1' => 'thema_fotoselectie_opruimen',
@@ -269,4 +270,30 @@ function thema_citaat_over_ons() {
 	update_field( 'field_blokken', $rijen, $pagina->ID );
 	clean_post_cache( $pagina->ID );
 	return array( 'foto' => (int) $foto, 'plek' => $plek );
+}
+
+/**
+ * Nieuw ruimtesysteem: handmatige ruimte-instellingen die de oude, te grote witruimte compenseerden,
+ * terug naar Standaard. De hero houdt zijn instelling. Geeft terug wat er veranderd is.
+ */
+function thema_ruimte_standaard() {
+	$veranderd = array();
+	foreach ( get_posts( array( 'post_type' => array( 'page', 'gelegenheid', 'post' ), 'post_status' => 'any', 'posts_per_page' => -1, 'fields' => 'ids' ) ) as $id ) {
+		$layouts = (array) get_post_meta( $id, 'blokken', true );
+		foreach ( $layouts as $i => $layout ) {
+			if ( 'hero' === $layout ) {
+				continue;
+			}
+			foreach ( array( 'boven', 'onder' ) as $kant ) {
+				$sleutel = "blokken_{$i}_ruimte_{$kant}";
+				$waarde  = get_post_meta( $id, $sleutel, true );
+				if ( $waarde && 'normaal' !== $waarde ) {
+					update_post_meta( $id, $sleutel, 'normaal' );
+					$veranderd[] = get_post_field( 'post_name', $id ) . ':' . $i . ':' . $layout . ':' . $kant . '=' . $waarde;
+				}
+			}
+		}
+		clean_post_cache( $id );
+	}
+	return $veranderd;
 }
