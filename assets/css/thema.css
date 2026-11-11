@@ -2779,7 +2779,7 @@ section.sectie-voordelen div.voordelen-binnen div.voordelen-knop {
   section.sectie-voordelen div.voordeelpodium div.voordeelbeeld {
     align-self:    stretch;
     height:        auto;
-    min-height:    clamp(360px, 44vw, 640px);
+    min-height:    clamp(340px, 30vw, 460px);
     border-radius: 32px;
     box-shadow:    none;
   }
