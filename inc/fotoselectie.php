@@ -78,7 +78,7 @@ function thema_fotos_inventaris() {
 }
 
 /**
- * Nieuwe foto's met hun alt-tekst. De bestanden staan tijdelijk in assets/fotoselectie en gaan na het plaatsen uit het thema.
+ * Nieuwe foto's met hun alt-tekst. De bestanden stonden tijdelijk in assets/fotoselectie en zijn na het plaatsen weer uit het thema gehaald.
  */
 function thema_fotoselectie_lijst() {
 	return array(
@@ -192,4 +192,117 @@ function thema_fotos_context() {
 		$uit[ $p->post_name ] = $blokken;
 	}
 	return $uit;
+}
+
+/**
+ * Welke foto waar staat, per bericht-ID op de staging. Waarden zijn de bestandsnamen uit thema_fotoselectie_lijst().
+ * Elke foto staat hooguit een keer per pagina; over de hele site komt een foto twee tot vier keer terug.
+ */
+function thema_fotoselectie_plan() {
+	return array(
+		27 => array( // home
+			'blokken_0_beeld' => 'vriendinnen-feesten-in-de-bus',
+			'blokken_0_fotos' => array( 'dansen-met-discolicht-in-de-partybus', 'selfie-in-de-feestbus-met-rood-licht', 'gele-sfeerbus-bij-paleis-raadhuis-tilburg' ),
+			'blokken_0_extra' => array( 'gasten-stappen-in-lekker-geel-busje', 'gastvrouw-schenkt-drankje-aan-de-bar', 'vrouw-danst-en-proost-in-sfeerbus', 'gastvrouw-verwelkomt-gasten-bij-de-bus' ),
+			'blokken_3_beelden' => array( 'gasten-delen-shotjes-uit-in-de-bus', 'proosten-in-het-gangpad-van-de-bus', 'gastheer-deelt-drankjes-uit-aan-de-bar' ),
+			'blokken_6_items_0_beeld' => 'gasten-lachen-aan-tafel-in-sfeerbus',
+			'blokken_6_items_1_beeld' => 'discolicht-en-feest-in-de-sfeerbus',
+			'blokken_6_items_2_beeld' => 'feest-met-blauw-licht-in-de-sfeerbus',
+			'blokken_6_items_3_beeld' => 'gastheer-en-gastvrouw-voor-de-gele-bus',
+			'blokken_6_items_4_beeld' => 'chauffeur-zwaait-vanuit-de-gele-bus',
+			'blokken_6_items_5_beeld' => 'gele-sfeerbus-in-de-avond-op-het-plein',
+			'blokken_8_beeld' => 'verlichte-sfeerbus-van-buiten',
+			'blokken_11_poster' => 'tropisch-themafeest-in-de-sfeerbus',
+		),
+		198 => array( // over-ons
+			'blokken_0_fotos' => array( 'gastheer-en-gastvrouw-voor-de-gele-bus', 'high-five-bij-het-instappen', 'gastheer-deelt-drankjes-uit-aan-de-bar', 'gastvrouw-schenkt-drankje-aan-de-bar', 'portret-gastheer-lekker-geel-busje' ),
+			'blokken_1_beelden' => array( 'gasten-stappen-in-lekker-geel-busje', 'gastvrouw-verwelkomt-gasten-bij-de-bus', 'feest-met-armen-omhoog-in-de-bus' ),
+			'blokken_3_items_0_beeld' => 'gele-sfeerbus-in-de-avond-op-het-plein',
+			'blokken_6_items_0_beeld' => 'verlichte-sfeerbus-van-buiten',
+			'blokken_6_items_1_beeld' => 'vriendengroep-aan-tafel-in-sfeerbus',
+			'blokken_6_items_2_beeld' => 'chauffeur-zwaait-vanuit-de-gele-bus',
+			'blokken_6_items_3_beeld' => 'drankjes-halen-aan-de-bar-in-de-bus',
+			'blokken_6_items_4_beeld' => 'vriendinnen-feesten-in-de-bus',
+		),
+		124 => array( // onze-bussen
+			'blokken_0_beeld' => 'gele-sfeerbus-in-de-avond-op-het-plein',
+			'blokken_0_fotos' => array( 'gele-sfeerbus-bij-paleis-raadhuis-tilburg', 'verlichte-sfeerbus-van-buiten', 'discolicht-en-feest-in-de-sfeerbus' ),
+			'blokken_2_items_0_beeld' => 'gasten-lachen-aan-tafel-in-sfeerbus',
+			'blokken_2_items_1_beeld' => 'handen-in-de-lucht-in-de-gele-bus',
+			'blokken_2_items_2_beeld' => 'dansen-met-discolicht-in-de-partybus',
+			'blokken_2_items_3_beeld' => 'gastvrouw-verwelkomt-gasten-bij-de-bus',
+			'blokken_2_items_4_beeld' => 'chauffeur-zwaait-vanuit-de-gele-bus',
+			'blokken_2_items_5_beeld' => 'gastheer-bij-de-gele-sfeerbus',
+			'blokken_4_beelden' => array( 'selfie-in-de-feestbus-met-rood-licht', 'feest-met-microfoons-en-bloemenkransen', 'vrouw-danst-en-proost-in-sfeerbus' ),
+			'blokken_5_fotos' => array( 'feest-met-blauw-licht-in-de-sfeerbus', 'tropisch-themafeest-in-de-sfeerbus', 'groepsselfie-met-lichtstaven-in-partybus', 'gasten-delen-shotjes-uit-in-de-bus', 'selfie-met-lichtstaven-in-de-bus' ),
+		),
+		26 => array( // gelegenheden
+			'blokken_0_beeld' => 'high-five-bij-het-instappen',
+			'blokken_0_fotos' => array( 'tropisch-themafeest-in-de-sfeerbus', 'selfie-in-de-feestbus-met-rood-licht', 'feest-met-blauw-licht-in-de-sfeerbus' ),
+		),
+		140 => array( // offerte-aanvragen
+			'blokken_3_items_0_beeld' => 'gastheer-deelt-drankjes-uit-aan-de-bar',
+			'blokken_3_items_1_beeld' => 'portret-gastheer-lekker-geel-busje',
+			'blokken_3_items_2_beeld' => 'gasten-stappen-in-lekker-geel-busje',
+			'blokken_4_beeld' => 'discolicht-en-feest-in-de-sfeerbus',
+		),
+		192 => array( // tilburg
+			'blokken_0_fotos' => array( 'gele-sfeerbus-bij-paleis-raadhuis-tilburg', 'feest-met-armen-omhoog-in-de-bus', 'gasten-lachen-aan-tafel-in-sfeerbus' ),
+			'blokken_2_items_2_beeld' => 'gasten-delen-shotjes-uit-in-de-bus',
+			'blokken_2_items_3_beeld' => 'feest-met-blauw-licht-in-de-sfeerbus',
+			'blokken_2_items_4_beeld' => 'discolicht-en-feest-in-de-sfeerbus',
+		),
+		21 => array( // vrijgezellenfeest
+			'_thumbnail_id' => 'selfie-met-lichtstaven-in-de-bus',
+			'blokken_0_fotos' => array( 'vriendinnen-feesten-in-de-bus', 'tropisch-themafeest-in-de-sfeerbus', 'dansen-met-discolicht-in-de-partybus' ),
+			'blokken_1_beelden' => array( 'proosten-in-het-gangpad-van-de-bus', 'meezingen-met-microfoon-in-sfeerbus', 'vrouw-danst-en-proost-in-sfeerbus' ),
+		),
+		69 => array( // trip-met-vrienden
+			'_thumbnail_id' => 'groepsselfie-met-lichtstaven-in-partybus',
+		),
+		71 => array( // festival
+			'_thumbnail_id' => 'handen-in-de-lucht-in-de-gele-bus',
+		),
+		23 => array( // bruiloft
+			'_thumbnail_id' => 'feest-met-microfoons-en-bloemenkransen',
+		),
+		22 => array( // bedrijfsuitje
+			'_thumbnail_id' => 'vriendengroep-aan-tafel-in-sfeerbus',
+		),
+	);
+}
+
+function thema_fotoselectie_toewijzen() {
+	$ids    = (array) get_option( 'thema_fotoselectie', array() );
+	$gezet  = 0;
+	$missen = array();
+	foreach ( thema_fotoselectie_plan() as $post_id => $velden ) {
+		if ( ! get_post( $post_id ) ) {
+			$missen[] = $post_id;
+			continue;
+		}
+		foreach ( $velden as $sleutel => $namen ) {
+			$lijst = array();
+			foreach ( (array) $namen as $naam ) {
+				if ( ! empty( $ids[ $naam ] ) ) {
+					$lijst[] = (string) (int) $ids[ $naam ];
+				}
+			}
+			if ( ! $lijst ) {
+				$missen[] = $post_id . ':' . $sleutel;
+				continue;
+			}
+			if ( '_thumbnail_id' === $sleutel ) {
+				set_post_thumbnail( $post_id, (int) $lijst[0] );
+			} elseif ( metadata_exists( 'post', $post_id, '_' . $sleutel ) ) {
+				update_post_meta( $post_id, $sleutel, is_array( $namen ) ? $lijst : $lijst[0] );
+			} else {
+				$missen[] = $post_id . ':' . $sleutel;
+				continue;
+			}
+			$gezet++;
+		}
+		clean_post_cache( $post_id );
+	}
+	return array( 'gezet' => $gezet, 'missen' => $missen );
 }

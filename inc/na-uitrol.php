@@ -20,6 +20,7 @@ function thema_uitroltaken() {
 		'vrijgezellenfeest-v1'    => 'thema_plaats_vrijgezellenfeest',
 		'fotos-inventaris-v1'     => 'thema_fotos_inventaris',
 		'fotoselectie-uploaden-v1' => 'thema_fotoselectie_uploaden',
+		'fotoselectie-toewijzen-v1' => 'thema_fotoselectie_toewijzen',
 	);
 }
 
