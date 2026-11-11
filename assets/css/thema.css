@@ -4121,14 +4121,17 @@ section.sectie-gel-hero div.gel-hero div.gel-hero-inhoud p.gel-hero-sub {
   font-size:   clamp(24px, 2.4vw, 36px);
   line-height: 1.15;
 }
-/*Gelegenheid -- Inhoud infaden*/
-div[data-gel-in] {
+/*Gelegenheid -- Uitklappen vanaf de kaart op de homepage: de foto groeit uit de kaart en de inhoud schuift daarna in*/
+html.gel-vanaf-kaart section.sectie-gel-hero div.gel-hero img.gel-hero-foto {
+  view-transition-name: var(--gel-naam);
+}
+html.gel-vanaf-kaart div[data-gel-in] {
   animation: gelin .8s var(--zacht) .35s both;
 }
-section.sectie-gel-inhoud div[data-gel-in] {
+html.gel-vanaf-kaart section.sectie-gel-inhoud div[data-gel-in] {
   animation-delay: .6s;
 }
-section.sectie-andere div[data-gel-in] {
+html.gel-vanaf-kaart section.sectie-andere div[data-gel-in] {
   animation-delay: .8s;
 }
 @keyframes gelin {

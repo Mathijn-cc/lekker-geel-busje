@@ -5,7 +5,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'THEMA_VERSIE', '2.14.3' );
+define( 'THEMA_VERSIE', '2.14.4' );
 define( 'THEMA_PAD', get_template_directory() );
 define( 'THEMA_URL', get_template_directory_uri() );
 
@@ -20,6 +20,7 @@ require THEMA_PAD . '/inc/dashboard.php';
 require THEMA_PAD . '/inc/voorbeeldinhoud.php';
 require THEMA_PAD . '/inc/na-uitrol.php';
 require THEMA_PAD . '/inc/offerteformulier.php';
+require THEMA_PAD . '/inc/faq-copy.php';
 
 /**
  * Basis thema-ondersteuning.
@@ -110,6 +111,11 @@ add_action( 'wp_head', function () {
 	/* Bij animaties staat de hero-intro meteen in de beginstand, zodat er na het laden niets verdwijnt en opnieuw verschijnt. Vangnet: na 3 seconden altijd zichtbaar. */
 	$intro = $s['animaties'] ? "if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('intro-wacht');setTimeout(function(){d.classList.remove('intro-wacht');},3000);}" : '';
 	echo "<script>(function(d){d.classList.add('js');" . $intro . "}(document.documentElement));</script>\n";
+	/* Gelegenheid: de uitklap-overgang (foto groeit uit de kaart, tekst schuift in) alleen als je vanaf de homepage komt. */
+	if ( is_singular( 'gelegenheid' ) ) {
+		$thuis = wp_json_encode( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ) );
+		echo "<script>(function(d){try{var v=window.navigation&&navigation.activation&&navigation.activation.from;if(v&&new URL(v.url).pathname===" . $thuis . "){d.classList.add('gel-vanaf-kaart');}}catch(e){}}(document.documentElement));</script>\n"; // phpcs:ignore
+	}
 	foreach ( thema_actieve_fonts() as $sleutel => $font ) {
 		/* Het accentlettertype wordt in zijn eigen stijl gebruikt (Instrument Serif cursief): dat bestand voorladen, niet het rechte. */
 		$stijl   = $sleutel === $s['font_accent'] ? ( $font['stijl'] ?? 'normal' ) : 'normal';
