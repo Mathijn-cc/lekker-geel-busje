@@ -18,6 +18,7 @@ function thema_uitroltaken() {
 		'menu-prijzen-faq-weg-v1' => 'thema_menu_prijzen_faq_weg',
 		'faq-copy-v2'            => 'thema_faq_copy_zetten',
 		'vrijgezellenfeest-v1'    => 'thema_plaats_vrijgezellenfeest',
+		'fotos-inventaris-v1'     => 'thema_fotos_inventaris',
 	);
 }
 

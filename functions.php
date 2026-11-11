@@ -23,6 +23,7 @@ require THEMA_PAD . '/inc/inhoud-vrijgezellenfeest.php';
 require THEMA_PAD . '/inc/na-uitrol.php';
 require THEMA_PAD . '/inc/offerteformulier.php';
 require THEMA_PAD . '/inc/faq-copy.php';
+require THEMA_PAD . '/inc/fotoselectie.php';
 
 /**
  * Basis thema-ondersteuning.
