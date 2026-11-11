@@ -306,3 +306,59 @@ function thema_fotoselectie_toewijzen() {
 	}
 	return array( 'gezet' => $gezet, 'missen' => $missen );
 }
+
+/**
+ * Opruimen: de foto van Robbie en Joyce stond twee keer in de mediabibliotheek (ook via het citaatblok).
+ * De versie met hun namen blijft, het dubbele exemplaar gaat weg en overal waar dat stond komt de blijvende.
+ * Daarnaast alt-teksten met namen waar Robbie en Joyce herkenbaar in beeld zijn.
+ */
+function thema_fotoselectie_opruimen() {
+	$ids    = (array) get_option( 'thema_fotoselectie', array() );
+	$dubbel = (int) ( $ids['gastheer-en-gastvrouw-voor-de-gele-bus'] ?? 0 );
+	$blijft = get_posts( array(
+		'post_type'      => 'attachment',
+		'post_status'    => 'inherit',
+		'posts_per_page' => 1,
+		'fields'         => 'ids',
+		'meta_query'     => array( array( 'key' => '_wp_attached_file', 'value' => 'robbie-en-joyce-bij-de-gele-sfeerbus', 'compare' => 'LIKE' ) ),
+	) );
+	$blijft  = $blijft ? (int) $blijft[0] : 0;
+	$vervang = 0;
+	if ( $dubbel && $blijft && $dubbel !== $blijft ) {
+		foreach ( thema_fotos_beeldvelden() as $p ) {
+			foreach ( $p['velden'] as $v ) {
+				$w = $v['waarde'];
+				if ( is_array( $w ) && in_array( (string) $dubbel, array_map( 'strval', $w ), true ) ) {
+					$w = array_map( function ( $x ) use ( $dubbel, $blijft ) {
+						return (int) $x === $dubbel ? (string) $blijft : (string) $x;
+					}, $w );
+					update_post_meta( $p['id'], $v['sleutel'], $w );
+					$vervang++;
+				} elseif ( ! is_array( $w ) && (int) $w === $dubbel ) {
+					update_post_meta( $p['id'], $v['sleutel'], (string) $blijft );
+					$vervang++;
+				}
+			}
+			if ( (int) $p['uitgel'] === $dubbel ) {
+				set_post_thumbnail( $p['id'], $blijft );
+				$vervang++;
+			}
+			clean_post_cache( $p['id'] );
+		}
+		wp_delete_attachment( $dubbel, true );
+		$ids['gastheer-en-gastvrouw-voor-de-gele-bus'] = $blijft;
+		update_option( 'thema_fotoselectie', $ids, false );
+	}
+	$alt = array(
+		'portret-gastheer-lekker-geel-busje'     => 'Robbie van den Biggelaar, eigenaar van Lekker Geel Busje, bij de gele bus',
+		'chauffeur-zwaait-vanuit-de-gele-bus'    => 'Robbie van Lekker Geel Busje zwaait vanuit het raam van de gele bus',
+		'gastvrouw-schenkt-drankje-aan-de-bar'   => 'Joyce van Lekker Geel Busje geeft een drankje aan een gast aan de bar in de bus',
+		'gastvrouw-verwelkomt-gasten-bij-de-bus' => 'Joyce van Lekker Geel Busje verwelkomt gasten bij de deur van de bus',
+	);
+	foreach ( $alt as $naam => $tekst ) {
+		if ( ! empty( $ids[ $naam ] ) ) {
+			update_post_meta( (int) $ids[ $naam ], '_wp_attachment_image_alt', $tekst );
+		}
+	}
+	return array( 'dubbel_weg' => $dubbel, 'blijft' => $blijft, 'vervangen' => $vervang );
+}
