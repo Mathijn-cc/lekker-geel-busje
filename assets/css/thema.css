@@ -2526,7 +2526,15 @@ section.sectie-brede_foto div.brede-foto-vlak div.brede-foto-zoom img {
 /**Blokken -- Aan boord**/
 /*Aan boord -- Intro*/
 section.sectie-aan_boord {
-  padding: var(--sectie-ruimte) var(--rand) 0;
+  padding: calc(var(--sectie-ruimte) * .35) var(--rand) 0;
+}
+/*Aan boord -- Volle ruimte na een gekleurd blok*/
+:where(section.sectie.achtergrond-geel, section.sectie.achtergrond-paars, section.sectie-video, section.sectie-reviews, section.sectie-gelegenheden, section.sectie-slot_cta, section.sectie-lopende_band.band-paars) + section.sectie-aan_boord {
+  padding-top: var(--sectie-ruimte);
+}
+/*Aan boord -- Ruimte boven klein blijft kleiner dan standaard*/
+section.sectie.sectie-aan_boord.ruimte-boven-klein {
+  padding-top: calc(var(--sectie-ruimte) * .15);
 }
 section.sectie-aan_boord div.aan-boord-raster {
   max-width:             var(--breedte);
@@ -6917,7 +6925,7 @@ section.sectie-voordelen.voordelen-bento div.bentoraster article.bentotegel.bent
 section.sectie-lopende_band div.band-knop {
   display:         flex;
   justify-content: center;
-  padding:         clamp(40px, 5vw, 64px) var(--rand) 0;
+  padding:         clamp(40px, 5vw, 64px) var(--rand);
 }
 /*Band -- Accent binnen een punt, met sterretjes in de tekst*/
 section.sectie-lopende_band div.band span.band-item span.band-kop span.band-accent {

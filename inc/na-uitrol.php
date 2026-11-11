@@ -23,6 +23,7 @@ function thema_uitroltaken() {
 		'fotos-inventaris-v1'     => 'thema_fotos_inventaris',
 		'fotoselectie-uploaden-v1' => 'thema_fotoselectie_uploaden',
 		'fotoselectie-toewijzen-v1' => 'thema_fotoselectie_toewijzen',
+		'citaat-over-ons-v1'      => 'thema_citaat_over_ons',
 	);
 }
 
@@ -188,4 +189,75 @@ function thema_menu_prijzen_faq_weg() {
 		}
 	}
 	return array( 'verwijderd' => $weg );
+}
+
+/**
+ * Foto + quote van Robbie op Over ons: de foto in de mediabibliotheek (map Fotoselectie) en het blok
+ * voor de route ("Zo gaat een rit bij ons"). Staat het blok er al, dan gebeurt er niets.
+ */
+function thema_citaat_over_ons() {
+	if ( ! function_exists( 'get_field' ) ) {
+		return 'geen acf';
+	}
+	$pagina = get_page_by_path( 'over-ons', OBJECT, 'page' );
+	if ( ! $pagina ) {
+		return 'geen pagina';
+	}
+	$rijen = (array) get_field( 'field_blokken', $pagina->ID, false );
+	foreach ( $rijen as $rij ) {
+		if ( 'citaat' === ( $rij['acf_fc_layout'] ?? '' ) ) {
+			return 'staat er al';
+		}
+	}
+
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+	require_once ABSPATH . 'wp-admin/includes/media.php';
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+	$naam = 'robbie-en-joyce-bij-de-gele-sfeerbus';
+	$alt  = 'Robbie en Joyce van den Biggelaar bij de gele sfeerbus van Lekker Geel Busje';
+	$bron = THEMA_PAD . '/assets/fotoselectie/' . $naam . '.jpg';
+	$foto = 0;
+	if ( file_exists( $bron ) ) {
+		$tijdelijk = wp_tempnam( $naam . '.jpg' );
+		copy( $bron, $tijdelijk );
+		$foto = media_handle_sideload( array( 'name' => $naam . '.jpg', 'tmp_name' => $tijdelijk ), 0, $alt );
+		if ( is_wp_error( $foto ) ) {
+			@unlink( $tijdelijk ); // phpcs:ignore
+			$foto = 0;
+		} else {
+			update_post_meta( $foto, '_wp_attachment_image_alt', $alt );
+			wp_update_post( array( 'ID' => $foto, 'post_content' => 'Foto: Jules van Iperen' ) );
+			$map = function_exists( 'thema_fotoselectie_map' ) ? thema_fotoselectie_map() : 0;
+			if ( $map ) {
+				wp_set_object_terms( $foto, array( $map ), 'happyfiles_category' );
+			}
+			if ( function_exists( 'thema_webp_kopieen' ) ) {
+				thema_webp_kopieen( array( $foto ) );
+			}
+		}
+	}
+
+	$blok = array(
+		'acf_fc_layout'            => 'citaat',
+		'field_citaat_foto'        => $foto ? (string) $foto : '',
+		'field_citaat_citaat'      => 'Elke rit kijk ik nog even achterom. Zie ik de hele bus meezingen, dan weet ik het weer: *dit is het mooiste werk dat er is.*',
+		'field_citaat_naam'        => 'Robbie van den Biggelaar',
+		'field_citaat_rol'         => 'Eigenaar Lekker Geel Busje',
+		'field_citaat_eyebrow'     => '',
+		'field_citaat_foto_kant'   => 'links',
+		'field_citaat_achtergrond' => 'standaard',
+		'field_citaat_anker'       => 'robbie',
+	);
+	$plek = count( $rijen );
+	foreach ( array_values( $rijen ) as $i => $rij ) {
+		if ( 'route' === ( $rij['acf_fc_layout'] ?? '' ) ) {
+			$plek = $i;
+			break;
+		}
+	}
+	$rijen = array_values( $rijen );
+	array_splice( $rijen, $plek, 0, array( $blok ) );
+	update_field( 'field_blokken', $rijen, $pagina->ID );
+	clean_post_cache( $pagina->ID );
+	return array( 'foto' => (int) $foto, 'plek' => $plek );
 }
