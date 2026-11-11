@@ -6184,7 +6184,7 @@ section.sectie-gebied div.gebied-binnen div.gebied-intro {
   display:               grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
   gap:                   24px clamp(32px, 5vw, 96px);
-  align-items:           end;
+  align-items:           start;
 }
 section.sectie-gebied div.gebied-binnen div.gebied-intro div.gebied-kop {
   display:        flex;
