@@ -50,8 +50,8 @@ $blog_url  = $blog ? get_permalink( $blog ) : home_url( '/' );
 				$i = 0;
 				while ( have_posts() ) :
 					the_post();
-					/* Uitgelicht alleen als er daarna nog minstens twee volle rijen van drie volgen. */
-					$uitgelicht = 0 === $i && 1 === $pagina && ! $is_cat && (int) $GLOBALS['wp_query']->found_posts >= 7;
+					/* Uitgelicht als de rest dan precies volle rijen van drie vult (4, 7 of 10 artikelen op de pagina). */
+					$uitgelicht = 0 === $i && 1 === $pagina && ! $is_cat && 1 === (int) $GLOBALS['wp_query']->post_count % 3;
 					get_template_part( 'template-parts/kaart-blog', null, array(
 						'post'    => get_post(),
 						'variant' => $uitgelicht ? 'uitgelicht' : 'standaard',

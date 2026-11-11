@@ -123,6 +123,7 @@ function thema_blog_eerste_artikelen() {
 	$landing = home_url( '/gelegenheden/vrijgezellenfeest/' );
 	$tips    = home_url( '/blog/vrijgezellenfeest-organiseren-tips/' );
 	$lijst   = home_url( '/blog/checklist-vrijgezellenfeest/' );
+	$opdrachten = home_url( '/blog/spelletjes-opdrachten-vrijgezellenfeest-bus/' );
 
 	return array(
 		array(
@@ -171,7 +172,7 @@ function thema_blog_eerste_artikelen() {
 <p>Kies je voor een <a href="{$landing}">partybus voor je vrijgezellenfeest</a>, dan wordt de rit zelf onderdeel van het feest. In onze sfeerbus zitten professionele verlichting, lasers, rook en een goede geluidsinstallatie, en het gastvrouwke zorgt voor de drankjes. Je krijgt binnen 2 werkdagen een vaste all-in prijs, zodat je die meteen in het budget kunt zetten.</p>
 
 <h2>7. Zorg voor sfeer: dresscode, playlist en opdrachten</h2>
-<p>Kleine dingen maken het verschil. Een dresscode of thema, zoals iedereen in dezelfde kleur of een sjerp voor de vrijgezel, ziet er op elke foto feestelijk uit. Een gezamenlijke playlist met de favorieten van de vrijgezel zet meteen de toon. En met een paar <a href="{$landing}#opdrachten">opdrachten voor in de bus</a> vliegt de tijd tussen twee stops voorbij.</p>
+<p>Kleine dingen maken het verschil. Een dresscode of thema, zoals iedereen in dezelfde kleur of een sjerp voor de vrijgezel, ziet er op elke foto feestelijk uit. Een gezamenlijke playlist met de favorieten van de vrijgezel zet meteen de toon. En met een paar <a href="{$opdrachten}">opdrachten voor in de bus</a> vliegt de tijd tussen twee stops voorbij.</p>
 
 <h2>8. Deel een draaiboek met de groep</h2>
 <p>Zet in de groepsapp hoe laat jullie waar moeten zijn, wat iedereen mee moet nemen en wie het aanspreekpunt is. Dan hoef jij niet de hele dag te bellen en te zoeken. Wil je zeker weten dat je niets vergeet? Gebruik onze <a href="{$lijst}">checklist voor het vrijgezellenfeest</a> en vink af wat je al geregeld hebt.</p>
@@ -255,7 +256,7 @@ HTML,
 <h2>Twee weken van tevoren</h2>
 <ul>
 <li><strong>Dresscode of thema doorgeven,</strong> zodat iedereen tijd heeft om iets te regelen.</li>
-<li><strong>Opdrachten en spelletjes voorbereiden.</strong> Denk aan een quiz over het stel, een bingokaart voor de dag of kaartjes met advies voor het huwelijk. Inspiratie vind je bij onze <a href="{$landing}#opdrachten">opdrachten voor in de bus</a>.</li>
+<li><strong>Opdrachten en spelletjes voorbereiden.</strong> Denk aan een quiz over het stel, een bingokaart voor de dag of kaartjes met advies voor het huwelijk. Inspiratie vind je bij onze <a href="{$opdrachten}">opdrachten voor in de bus</a>.</li>
 <li><strong>Cadeautje of aandenken</strong> voor de vrijgezel regelen.</li>
 </ul>
 
@@ -348,6 +349,7 @@ function thema_blog_artikel_ideeen() {
 	$landing = home_url( '/gelegenheden/vrijgezellenfeest/' );
 	$tips    = home_url( '/blog/vrijgezellenfeest-organiseren-tips/' );
 	$lijst   = home_url( '/blog/checklist-vrijgezellenfeest/' );
+	$opdrachten = home_url( '/blog/spelletjes-opdrachten-vrijgezellenfeest-bus/' );
 	return array(
 		'slug'         => 'vrijgezellenfeest-ideeen',
 		'titel'        => 'Vrijgezellenfeest ideeën: 20 leuke activiteiten voor de groep',
@@ -407,7 +409,7 @@ function thema_blog_artikel_ideeen() {
 <h2>Onderweg: maak van de rit een feest</h2>
 <ul>
 <li><strong>Een feestrit in de partybus:</strong> licht, lasers, rook en muziek aan boord, met een gastvrouwke dat voor de drankjes zorgt. Zo begint het feest al voordat jullie er zijn. Lees meer over een <a href="{$landing}">partybus voor je vrijgezellenfeest</a>.</li>
-<li><strong>Opdrachten en spelletjes:</strong> een quiz over het stel, een bingokaart voor de dag of toosten met een verhaal. Bekijk onze <a href="{$landing}#opdrachten">opdrachten voor in de bus</a>.</li>
+<li><strong>Opdrachten en spelletjes:</strong> een quiz over het stel, een bingokaart voor de dag of toosten met een verhaal. Bekijk onze <a href="{$opdrachten}">opdrachten voor in de bus</a>.</li>
 </ul>
 
 <h2>Ideeën voor vrouwen en mannen</h2>
@@ -452,4 +454,132 @@ function thema_blog_ideeen_plaatsen() {
 		clean_post_cache( $gel->ID );
 	}
 	return array( 'artikel' => $id, 'getoond' => $ids );
+}
+
+/**
+ * Vierde artikel: spelletjes en opdrachten voor in de bus (zoektermen "vrijgezellenfeest opdrachten" ca. 390
+ * en "vrijgezellenfeest spelletjes" ca. 110 per maand). De acht opdrachten staan in het blok Opdrachten.
+ */
+function thema_blog_artikel_opdrachten() {
+	$landing = home_url( '/gelegenheden/vrijgezellenfeest/' );
+	$ideeen  = home_url( '/blog/vrijgezellenfeest-ideeen/' );
+	$lijst   = home_url( '/blog/checklist-vrijgezellenfeest/' );
+	return array(
+		'slug'         => 'spelletjes-opdrachten-vrijgezellenfeest-bus',
+		'titel'        => 'Spelletjes voor het vrijgezellenfeest: 8 opdrachten voor in de bus',
+		'seo_titel'    => 'Vrijgezellenfeest opdrachten: 8 spelletjes | Lekker Geel Busje',
+		'samenvatting' => 'Acht spelletjes en opdrachten voor het vrijgezellenfeest die je gewoon op je plek in de bus speelt. Van een quiz over het stel tot vrijgezellenbingo.',
+		'beeld'        => 'meezingen-met-microfoon-in-sfeerbus',
+		'beeld_oud'    => 'feest-disco.jpg',
+		'kort'         => "Alle acht opdrachten speel je op je plek, ook tijdens de rit.\nBereid ze een week van tevoren voor: vragen, kaartjes en een bingokaart.\nHoud het leuk voor de vrijgezel en kies niets wat de chauffeur afleidt.",
+		'faq_kop'      => 'Vragen over *spelletjes*',
+		'vragen'       => array(
+			array( 'Welke spelletjes kun je doen op een vrijgezellenfeest?', 'Een quiz over het stel, vrijgezellenbingo, songteksten raden of een fotojacht. Spelletjes die je in een groep op je plek speelt, werken het best: overal te doen en iedereen doet mee.' ),
+			array( 'Wat heb je nodig voor de opdrachten?', 'Weinig: een lijst met vragen, wat kaartjes en pennen, een bingokaart per persoon en een telefoon voor de muziek en de foto\'s. Bereid het een week van tevoren voor en neem het mee in een tas.' ),
+			array( 'Hoe zorg je dat de vrijgezel het leuk blijft vinden?', 'Houd het luchtig en persoonlijk. Vraag de partner wat wel en niet kan, en kies opdrachten waar de vrijgezel om kan lachen in plaats van zich te schamen.' ),
+		),
+		'blokken'      => array(
+			array(
+				'acf_fc_layout' => 'opdrachten',
+				'eyebrow'       => 'Voor onderweg',
+				'kop'           => 'Acht opdrachten voor *in de bus*',
+				'intro'         => 'Allemaal op je plek te doen. Bereid ze voor, dan vliegt de tijd tussen twee stops voorbij.',
+				'items'         => array(
+				array( 'soort' => 'Quiz', 'titel' => 'Hoe goed ken jij je partner?', 'tekst' => 'Stel vooraf tien vragen aan de partner van de vrijgezel en neem de antwoorden op. In de bus raadt de vrijgezel. Elk fout antwoord wordt een opdracht bij de volgende stop.' ),
+				array( 'soort' => 'Muziek', 'titel' => 'Zing de volgende regel', 'tekst' => 'Zet een nummer na een paar seconden stil. Wie zingt de volgende regel goed? De vrijgezel mag als eerste, de rest van de bus zingt mee.' ),
+				array( 'soort' => 'Kennismaken', 'titel' => 'Van wie is dit feitje?', 'tekst' => 'Iedereen schrijft vooraf een onbekend feitje over zichzelf op. Lees ze voor in de bus en laat de vrijgezel raden van wie het is. Ideaal als vrienden, familie en collega’s elkaar nog niet kennen.' ),
+				array( 'soort' => 'Lachen', 'titel' => 'Het grote liefdesverhaal', 'tekst' => 'Vertel om de beurt één zin van het verhaal hoe het stel elkaar leerde kennen. Het mag kloppen, het mag ook helemaal verzonnen zijn.' ),
+				array( 'soort' => 'Hele dag', 'titel' => 'Vrijgezellenbingo', 'tekst' => 'Maak bingokaarten met dingen die vandaag gaan gebeuren: iemand die zijn jas vergeet, een toost op het bruidspaar, een selfie met een vreemde. Wie heeft als eerste een volle rij?' ),
+				array( 'soort' => 'Aandenken', 'titel' => 'Tips voor het huwelijk', 'tekst' => 'Iedereen schrijft een advies voor het huwelijk op een kaartje. De vrijgezel leest ze voor in de bus, en de kaartjes gaan mee naar huis als aandenken.' ),
+				array( 'soort' => 'Foto', 'titel' => 'De fotojacht', 'tekst' => 'Geef de groep een lijstje foto’s voor onderweg: iedereen in één selfie, iets geels, de vrijgezel met een vreemde hoed. Op de terugweg kiezen jullie samen de beste.' ),
+				array( 'soort' => 'Proosten', 'titel' => 'Toost met een verhaal', 'tekst' => 'Bij elke rit brengt één iemand een toost uit met een mooi of gênant verhaal over de vrijgezel. Kort houden, glazen omhoog.' ),
+			),
+				'noot'          => 'Alles op je plek te doen en niets wat de chauffeur afleidt. Zo blijft het leuk voor iedereen.',
+				'achtergrond'   => 'paars',
+				'anker'         => 'opdrachten',
+			),
+		),
+		'tekst'        => <<<HTML
+<p>De rit tussen twee onderdelen van het vrijgezellenfeest is geen dode tijd. Met een paar goede spelletjes wordt het juist een van de leukste momenten van de dag: de groep zit bij elkaar, de muziek staat aan en de vrijgezel staat in het middelpunt. Hieronder vind je acht opdrachten voor in de bus die je allemaal op je plek speelt.</p>
+
+<h2>Waarom spelletjes in de bus zo goed werken</h2>
+<p>In de bus is iedereen samen, ook de mensen die elkaar nog niet kennen. Vrienden van vroeger, familie en collega's raken met een quiz of een bingokaart sneller aan de praat dan aan een lange tafel in een restaurant. En omdat een rit een vast begin en einde heeft, past er precies een spelletje of twee in.</p>
+<p>In een <a href="{$landing}">partybus voor je vrijgezellenfeest</a> zitten licht, geluid en een gastvrouwke dat voor de drankjes zorgt. Jij hoeft alleen nog de opdrachten mee te nemen.</p>
+
+<h2>Zo bereid je de opdrachten voor</h2>
+<ul>
+<li><strong>Een week van tevoren:</strong> stel de vragen voor de quiz op met de partner en maak de bingokaarten.</li>
+<li><strong>Verdeel de rollen:</strong> wie leest voor, wie houdt de score bij en wie doet de muziek?</li>
+<li><strong>Neem een tas mee</strong> met kaartjes, pennen, de bingokaarten en eventueel kleine prijsjes.</li>
+<li><strong>Plan per rit één of twee opdrachten,</strong> dan blijft er ook tijd om gewoon te kletsen en te zingen.</li>
+</ul>
+<p>Zoek je ideeën voor de rest van de dag? Bekijk onze <a href="{$ideeen}">vrijgezellenfeest ideeën</a>, en vink met de <a href="{$lijst}">checklist</a> af wat je al geregeld hebt.</p>
+HTML,
+	);
+}
+
+/**
+ * Uitroltaak blog-opdrachten-v1: het artikel met de opdrachten plaatsen, het blok Opdrachten van de
+ * vrijgezellenpagina halen en de links en kaarten bijwerken.
+ */
+function thema_blog_opdrachten_plaatsen() {
+	$uit  = array();
+	$term = get_category_by_slug( 'tips-en-tricks' ) ?: get_category_by_slug( 'vrijgezellenfeest' );
+	$gel  = get_page_by_path( 'vrijgezellenfeest', OBJECT, 'gelegenheid' );
+	$id   = thema_blog_artikel_plaatsen( thema_blog_artikel_opdrachten(), $term ? (int) $term->term_id : 0, $gel ? (int) $gel->ID : 0 );
+	if ( function_exists( 'update_field' ) ) {
+		update_field( 'field_blog_auteur_rol', 'Rijdt groepen door heel Nederland en daarbuiten', $id );
+	}
+	$uit['artikel'] = $id;
+
+	/* Links in de andere artikelen naar het nieuwe artikel. */
+	$oud  = home_url( '/gelegenheden/vrijgezellenfeest/' ) . '#opdrachten';
+	$nieuw = get_permalink( $id );
+	foreach ( array( 'vrijgezellenfeest-organiseren-tips', 'checklist-vrijgezellenfeest', 'vrijgezellenfeest-ideeen' ) as $slug ) {
+		$p = get_page_by_path( $slug, OBJECT, 'post' );
+		if ( $p && false !== strpos( $p->post_content, $oud ) ) {
+			wp_update_post( array( 'ID' => $p->ID, 'post_content' => str_replace( $oud, $nieuw, $p->post_content ) ) );
+			$uit['links'][] = $slug;
+		}
+	}
+
+	if ( $gel && function_exists( 'delete_row' ) ) {
+		$layouts = (array) get_post_meta( $gel->ID, 'blokken', true );
+		/* Routetekst die naar het blok verwees. */
+		foreach ( $layouts as $i => $layout ) {
+			if ( 'route' === $layout ) {
+				$n = (int) get_post_meta( $gel->ID, "blokken_{$i}_stappen", true );
+				for ( $j = 0; $j < $n; $j++ ) {
+					$sleutel = "blokken_{$i}_stappen_{$j}_tekst";
+					$tekst   = (string) get_post_meta( $gel->ID, $sleutel, true );
+					if ( false !== strpos( $tekst, 'opdrachten verderop op deze pagina' ) ) {
+						update_post_meta( $gel->ID, $sleutel, str_replace( 'met de opdrachten verderop op deze pagina.', 'met spelletjes en opdrachten voor de hele groep.', $tekst ) );
+					}
+				}
+			}
+		}
+		/* Drie artikelen in de kaarten: opdrachten, ideeën en de checklist. */
+		$ids = array();
+		foreach ( array( 'spelletjes-opdrachten-vrijgezellenfeest-bus', 'vrijgezellenfeest-ideeen', 'checklist-vrijgezellenfeest' ) as $slug ) {
+			$p = get_page_by_path( $slug, OBJECT, 'post' );
+			if ( $p ) {
+				$ids[] = (string) $p->ID;
+			}
+		}
+		foreach ( $layouts as $i => $layout ) {
+			if ( 'artikelen' === $layout ) {
+				update_post_meta( $gel->ID, "blokken_{$i}_keuze", $ids );
+				update_post_meta( $gel->ID, "blokken_{$i}_intro", 'Spelletjes voor in de bus, ideeën voor de dag en een checklist om af te vinken. Zo weet je zeker dat alles op tijd geregeld is.' );
+			}
+		}
+		/* Het blok Opdrachten eruit (van achter naar voren, zodat de nummering klopt). */
+		foreach ( array_reverse( $layouts, true ) as $i => $layout ) {
+			if ( 'opdrachten' === $layout ) {
+				delete_row( 'field_blokken', (int) $i + 1, $gel->ID );
+				$uit['blok_weg'] = $i;
+			}
+		}
+		clean_post_cache( $gel->ID );
+	}
+	return $uit;
 }

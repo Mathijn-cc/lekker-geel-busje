@@ -32,6 +32,7 @@ function thema_uitroltaken() {
 		'blog-tips-en-tricks-v1'  => 'thema_blog_tips_en_tricks',
 		'blog-auteur-rol-v1'      => 'thema_blog_auteur_rol',
 		'blog-ideeen-v1'          => 'thema_blog_ideeen_plaatsen',
+		'blog-opdrachten-v1'      => 'thema_blog_opdrachten_plaatsen',
 	);
 }
 
