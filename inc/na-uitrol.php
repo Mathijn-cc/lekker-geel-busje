@@ -13,7 +13,7 @@ function thema_uitroltaken() {
 		'stickers-naar-bento-v1' => 'thema_stickers_naar_bento',
 		'beelden-opnieuw-v1'     => 'thema_beelden_opnieuw',
 		'vloeiend-scrollen-uit-v1' => 'thema_vloeiend_scrollen_uit',
-		'webp-kopieen-v1'        => 'thema_webp_kopieen',
+		'webp-kopieen-v2'        => 'thema_webp_kopieen',
 	);
 }
 
@@ -140,7 +140,8 @@ function thema_webp_kopieen() {
 				$fouten++;
 				continue;
 			}
-			$editor->set_quality( 78 );
+			/* 70 is voor foto's visueel gelijk aan de JPEG en komt uit op het niveau van de kopieen van SiteGround zelf. */
+			$editor->set_quality( 70 );
 			$uit = $editor->save( $bestand . '.webp', 'image/webp' );
 			if ( is_wp_error( $uit ) ) {
 				$fouten++;
