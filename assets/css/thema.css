@@ -2772,7 +2772,7 @@ section.sectie-voordelen div.voordelen-binnen div.voordelen-knop {
 @media (max-width: 999px) {
   section.sectie-voordelen div.voordeelpodium {
     --plak-boven:   88px;
-    --beeld-hoogte: min(30vh, 240px);
+    --beeld-hoogte: min(36vh, 300px);
     display:        block;
   }
   body.admin-bar section.sectie-voordelen div.voordeelpodium {
