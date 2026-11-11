@@ -557,8 +557,7 @@
 			} else if ( score ) {
 				pil.querySelector( '[data-rating-tekst]' ).textContent = score + ' ' + ( pil.getAttribute( 'data-label' ) || '' );
 			}
-			/* Een vast aantal uit de thema-instellingen gaat voor op het aantal van Trustindex. */
-			if ( aantal && ! pil.hasAttribute( 'data-vast-aantal' ) ) {
+			if ( aantal ) {
 				pil.querySelector( '[data-rating-aantal]' ).textContent = aantal;
 			}
 			pil.classList.add( 'is-live' );

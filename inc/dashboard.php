@@ -365,7 +365,6 @@ function thema_dashboard_pagina() {
 								<?php
 								thema_veld_rij( 'Vaste score', 'Leeg = de score nergens tonen.', thema_tekstveld( 'score', 'text', '5,0' ) );
 								thema_veld_rij( 'Label', '', thema_tekstveld( 'score_label', 'text', 'op Google' ) );
-								thema_veld_rij( 'Aantal reviews', 'Het aantal reviews op Google, getoond in de rating-knop. Leeg = het aantal van Trustindex gebruiken.', thema_tekstveld( 'score_aantal', 'text', '66' ) );
 								?>
 							</div>
 						</div>

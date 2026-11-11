@@ -309,19 +309,13 @@ function thema_icoon_keuzes() {
  */
 function thema_rating_pil( $class = '' ) {
 	$s = thema_instellingen();
-	$aantal = trim( (string) ( $s['score_aantal'] ?? '' ) );
-	if ( '' !== $aantal && ctype_digit( $aantal ) ) {
-		$aantal .= ' recensies';
-	}
 	return sprintf(
-		'<span class="score-pil score-pil-trustindex %1$s" data-rating data-label="%2$s"%6$s><span class="sterren">★★★★★</span><span class="score-tekst" data-rating-tekst><span class="score-getal" data-rating-getal>%3$s</span> <span class="score-label">%4$s</span></span><span class="score-aantal" data-rating-aantal>%7$s</span>%5$s</span>',
+		'<span class="score-pil score-pil-trustindex %1$s" data-rating data-label="%2$s"><span class="sterren">★★★★★</span><span class="score-tekst" data-rating-tekst><span class="score-getal" data-rating-getal>%3$s</span> <span class="score-label">%4$s</span></span><span class="score-aantal" data-rating-aantal></span>%5$s</span>',
 		$class,
 		esc_attr( $s['score_label'] ),
 		esc_html( $s['score'] ?: '5,0' ),
 		esc_html( $s['score_label'] ),
-		thema_trustindex( 'ti_rating', 'trustindex-bron' ),
-		'' !== $aantal ? ' data-vast-aantal' : '',
-		esc_html( $aantal )
+		thema_trustindex( 'ti_rating', 'trustindex-bron' )
 	);
 }
 
