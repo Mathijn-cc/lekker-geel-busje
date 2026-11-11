@@ -629,8 +629,6 @@ function thema_voorbeeld_menus( $hub_id, $contact_id, $gel_ids, $juridisch ) {
 	$locaties['footer_1'] = thema_vul_menu( 'Snel naar', array(
 		array( 'titel' => 'Partybus huren', 'url' => $home ),
 		array( 'titel' => 'Onze bussen', 'url' => $home . '#bussen' ),
-		array( 'titel' => 'Prijzen', 'url' => $home . '#prijzen' ),
-		array( 'titel' => 'Veelgestelde vragen', 'url' => $home . '#faq' ),
 		array( 'titel' => 'Over ons', 'url' => $home . '#overons' ),
 		array( 'post' => $contact_id, 'titel' => 'Contact' ),
 	) );

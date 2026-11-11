@@ -15,6 +15,7 @@ function thema_uitroltaken() {
 		'vloeiend-scrollen-uit-v1' => 'thema_vloeiend_scrollen_uit',
 		'beelden-opnieuw-v2'     => 'thema_beelden_opnieuw',
 		'webp-kopieen-v4'        => 'thema_webp_kopieen',
+		'menu-prijzen-faq-weg-v1' => 'thema_menu_prijzen_faq_weg',
 	);
 }
 
@@ -162,4 +163,21 @@ function thema_webp_kopieen() {
 	}
 	remove_filter( 'wp_editor_set_quality', $kwaliteit, 99 );
 	return array( 'webp' => $gemaakt, 'fouten' => $fouten );
+}
+
+/**
+ * Geen losse links meer naar Prijzen en Veelgestelde vragen in de menu's: de vragen staan op de pagina's
+ * waar ze bij horen, en een aparte vragenpagina levert in Google niets extra's op.
+ */
+function thema_menu_prijzen_faq_weg() {
+	$weg = 0;
+	foreach ( wp_get_nav_menus() as $menu ) {
+		foreach ( (array) wp_get_nav_menu_items( $menu->term_id ) as $item ) {
+			if ( in_array( strtolower( trim( $item->title ) ), array( 'prijzen', 'veelgestelde vragen' ), true ) ) {
+				wp_delete_post( $item->ID, true );
+				$weg++;
+			}
+		}
+	}
+	return array( 'verwijderd' => $weg );
 }

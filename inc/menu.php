@@ -55,7 +55,6 @@ function thema_hoofdmenu_items() {
 		array( 'titel' => 'Gelegenheden', 'url' => home_url( '/#gelegenheden' ), 'actief' => false, 'doel' => '' ),
 		array( 'titel' => 'Bussen', 'url' => home_url( '/#bussen' ), 'actief' => false, 'doel' => '' ),
 		array( 'titel' => 'Over ons', 'url' => home_url( '/#overons' ), 'actief' => false, 'doel' => '' ),
-		array( 'titel' => 'Veelgestelde vragen', 'url' => home_url( '/#faq' ), 'actief' => false, 'doel' => '' ),
 		array( 'titel' => 'Contact', 'url' => home_url( '/#contact' ), 'actief' => false, 'doel' => '' ),
 	);
 }
