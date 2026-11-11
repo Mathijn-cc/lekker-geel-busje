@@ -31,6 +31,7 @@ function thema_uitroltaken() {
 		'fotoselectie-over-ons-v1' => 'thema_fotoselectie_over_ons_hero',
 		'blog-tips-en-tricks-v1'  => 'thema_blog_tips_en_tricks',
 		'blog-auteur-rol-v1'      => 'thema_blog_auteur_rol',
+		'blog-ideeen-v1'          => 'thema_blog_ideeen_plaatsen',
 	);
 }
 

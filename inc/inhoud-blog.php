@@ -340,3 +340,116 @@ function thema_blog_auteur_rol() {
 	}
 	return $uit;
 }
+
+/**
+ * Derde artikel: ideeën voor het vrijgezellenfeest (zoekterm "vrijgezellenfeest ideeen", ca. 590 per maand).
+ */
+function thema_blog_artikel_ideeen() {
+	$landing = home_url( '/gelegenheden/vrijgezellenfeest/' );
+	$tips    = home_url( '/blog/vrijgezellenfeest-organiseren-tips/' );
+	$lijst   = home_url( '/blog/checklist-vrijgezellenfeest/' );
+	return array(
+		'slug'         => 'vrijgezellenfeest-ideeen',
+		'titel'        => 'Vrijgezellenfeest ideeën: 20 leuke activiteiten voor de groep',
+		'seo_titel'    => 'Vrijgezellenfeest ideeën: 20 activiteiten | Lekker Geel Busje',
+		'samenvatting' => 'Op zoek naar ideeën voor het vrijgezellenfeest? Twintig activiteiten voor elke vrijgezel, van actief en creatief tot proeven, ontspannen en feesten.',
+		'beeld'        => 'groepsselfie-met-lichtstaven-in-partybus',
+		'beeld_oud'    => 'selfie.jpg',
+		'kort'         => "Kies één hoofdactiviteit die bij de vrijgezel past, niet bij de groep.\nCombineer een activiteit overdag met samen eten en een avond uit.\nLet op groepsgrootte, budget en seizoen voordat je reserveert.",
+		'faq_kop'      => 'Vragen over *ideeën*',
+		'vragen'       => array(
+			array( 'Wat is een leuk idee voor een vrijgezellenfeest?', 'Een activiteit die past bij de vrijgezel, gevolgd door samen eten en een avond uit. Denk aan een proeverij, een workshop of iets actiefs, en sluit af met karaoke of een feestrit. Zo heeft de dag een begin, een midden en een knallend einde.' ),
+			array( 'Wat doe je op een vrijgezellenfeest voor vrouwen of mannen?', 'Dat hangt veel meer af van de vrijgezel dan van man of vrouw. Kies wat hij of zij zelf leuk vindt: de een wil een spa-dag, de ander een middag lasergamen. Vraag de partner gerust om tips.' ),
+			array( 'Hoe combineer je meerdere activiteiten op één dag?', 'Kies er niet meer dan twee, plus eten. Plan de onderdelen dicht bij elkaar of regel vervoer voor de hele groep, zodat niemand tijd verliest met zoeken of parkeren.' ),
+		),
+		'blokken'      => array(),
+		'tekst'        => <<<HTML
+<p>Het vrijgezellenfeest staat op de planning, maar wat ga je eigenlijk doen? Een goed idee past bij de vrijgezel, werkt voor de hele groep en laat genoeg ruimte om gewoon samen te zijn. Hier vind je twintig ideeën om uit te kiezen, in vijf richtingen. Combineer er één of twee met samen eten en een avond uit, en de dag staat.</p>
+
+<h2>Actief: voor de vrijgezel die niet stil kan zitten</h2>
+<ul>
+<li><strong>Escape room:</strong> samen puzzelen tegen de klok. Werkt het best met groepjes van vier tot zes.</li>
+<li><strong>Lasergamen of paintball:</strong> fanatiek, luid en vol lachmomenten, ook voor wie niet sportief is.</li>
+<li><strong>Suppen of kanoën:</strong> lekker buiten in de zomer, met grote kans op een nat pak voor de vrijgezel.</li>
+<li><strong>Dansworkshop:</strong> leer samen een choreografie en voer die later op voor het bruidspaar.</li>
+</ul>
+
+<h2>Proeven en eten: voor de genieter</h2>
+<ul>
+<li><strong>Bierproeverij:</strong> proeven, vergelijken en ontdekken welk bier de vrijgezel het lekkerst vindt.</li>
+<li><strong>Wijnproeverij:</strong> een rustige start van de dag, met veel te bespreken.</li>
+<li><strong>Cocktailworkshop:</strong> iedereen shaket zijn eigen drankje, met de vrijgezel als hoofdbarman.</li>
+<li><strong>Kookworkshop:</strong> samen koken en daarna samen aan tafel, dan is het diner meteen geregeld.</li>
+</ul>
+
+<h2>Creatief: voor wie iets wil maken</h2>
+<ul>
+<li><strong>Schilderworkshop:</strong> iedereen schildert hetzelfde onderwerp, het resultaat is altijd hilarisch.</li>
+<li><strong>Keramiek of mokken beschilderen:</strong> een aandenken dat de vrijgezel echt gebruikt.</li>
+<li><strong>Bloemenkransen maken:</strong> leuk om tijdens de rest van de dag te dragen.</li>
+<li><strong>Fotoshoot met de groep:</strong> met een fotograaf of gewoon met een lijst foto-opdrachten.</li>
+</ul>
+
+<h2>Ontspannen: voor de vrijgezel die vooral wil genieten</h2>
+<ul>
+<li><strong>Wellness of spa:</strong> een middag bijkomen voordat de avond begint.</li>
+<li><strong>Picknick of brunch:</strong> eenvoudig, gezellig en makkelijk voor een grote groep.</li>
+<li><strong>Boottocht:</strong> rustig varen met een drankje en een hapje.</li>
+</ul>
+
+<h2>Feest: voor wie de avond wil laten knallen</h2>
+<ul>
+<li><strong>Karaoke:</strong> de vrijgezel opent, de rest volgt. Bereid alvast een duet voor.</li>
+<li><strong>Festival of feestavond:</strong> kies een evenement met muziek die de vrijgezel goed vindt.</li>
+<li><strong>Themafeest:</strong> iedereen verkleed in hetzelfde thema, van jaren tachtig tot tropisch.</li>
+</ul>
+
+<h2>Onderweg: maak van de rit een feest</h2>
+<ul>
+<li><strong>Een feestrit in de partybus:</strong> licht, lasers, rook en muziek aan boord, met een gastvrouwke dat voor de drankjes zorgt. Zo begint het feest al voordat jullie er zijn. Lees meer over een <a href="{$landing}">partybus voor je vrijgezellenfeest</a>.</li>
+<li><strong>Opdrachten en spelletjes:</strong> een quiz over het stel, een bingokaart voor de dag of toosten met een verhaal. Bekijk onze <a href="{$landing}#opdrachten">opdrachten voor in de bus</a>.</li>
+</ul>
+
+<h2>Ideeën voor vrouwen en mannen</h2>
+<p>Veel lijstjes splitsen ideeën voor een vrijgezellenfeest voor vrouwen en een vrijgezellenfeest voor mannen. In de praktijk zegt dat weinig: de een houdt van een spa-dag, de ander van lasergamen, en dat staat los van man of vrouw. Kijk naar wat de vrijgezel zelf leuk vindt en wat de groep samen kan doen. Twijfel je? Vraag de partner, die weet het meestal precies.</p>
+
+<h2>Zo kies je het juiste idee</h2>
+<ul>
+<li><strong>Groepsgrootte:</strong> niet elke activiteit werkt met dertig mensen. Vraag naar het maximum voordat je kiest.</li>
+<li><strong>Budget:</strong> tel activiteit, eten en vervoer bij elkaar op en bepaal wat het per persoon mag kosten.</li>
+<li><strong>Seizoen:</strong> buitenactiviteiten zijn heerlijk in de zomer, maar zorg voor een plan B bij slecht weer.</li>
+<li><strong>Afwisseling:</strong> één actief onderdeel, samen eten en een avond uit is genoeg voor een topdag.</li>
+</ul>
+<p>Heb je een idee gekozen? Lees dan onze <a href="{$tips}">tips voor het organiseren</a> en gebruik de <a href="{$lijst}">checklist voor het vrijgezellenfeest</a>, zodat je niets vergeet.</p>
+HTML,
+	);
+}
+
+/**
+ * Uitroltaak blog-ideeen-v1: het derde artikel plaatsen en op de vrijgezellenpagina tonen.
+ */
+function thema_blog_ideeen_plaatsen() {
+	$term = get_category_by_slug( 'tips-en-tricks' ) ?: get_category_by_slug( 'vrijgezellenfeest' );
+	$gel  = get_page_by_path( 'vrijgezellenfeest', OBJECT, 'gelegenheid' );
+	$id   = thema_blog_artikel_plaatsen( thema_blog_artikel_ideeen(), $term ? (int) $term->term_id : 0, $gel ? (int) $gel->ID : 0 );
+	if ( function_exists( 'update_field' ) ) {
+		update_field( 'field_blog_auteur_rol', 'Rijdt groepen door heel Nederland en daarbuiten', $id );
+	}
+	$ids = array();
+	foreach ( array( 'vrijgezellenfeest-ideeen', 'vrijgezellenfeest-organiseren-tips', 'checklist-vrijgezellenfeest' ) as $slug ) {
+		$p = get_page_by_path( $slug, OBJECT, 'post' );
+		if ( $p ) {
+			$ids[] = (string) $p->ID;
+		}
+	}
+	if ( $gel && $ids ) {
+		foreach ( (array) get_post_meta( $gel->ID, 'blokken', true ) as $i => $layout ) {
+			if ( 'artikelen' === $layout ) {
+				update_post_meta( $gel->ID, "blokken_{$i}_keuze", $ids );
+				update_post_meta( $gel->ID, "blokken_{$i}_intro", 'Ideeën voor de dag, tips voor een geslaagd feest en een checklist om af te vinken. Zo weet je zeker dat alles op tijd geregeld is.' );
+			}
+		}
+		clean_post_cache( $gel->ID );
+	}
+	return array( 'artikel' => $id, 'getoond' => $ids );
+}
