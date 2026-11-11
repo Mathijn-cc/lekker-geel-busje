@@ -170,6 +170,33 @@
 		}, inst.plaatsInterval || 2400 );
 	} );
 
+	/* ------------------------------------------------------------ Uitgestelde foto's (wisselfoto's in de hero) */
+
+	function laadUitgesteld( img ) {
+		if ( ! img || ! img.hasAttribute( 'data-uitgesteld' ) ) {
+			return;
+		}
+		img.removeAttribute( 'data-uitgesteld' );
+		[ 'sizes', 'srcset', 'src' ].forEach( function ( a ) {
+			var w = img.getAttribute( 'data-' + a );
+			if ( w ) {
+				img.setAttribute( a, w );
+				img.removeAttribute( 'data-' + a );
+			}
+		} );
+	}
+	/* Na het laden van de pagina, zodat de eerste foto en de rest van de pagina voorgaan. */
+	function laadAlleUitgesteld() {
+		setTimeout( function () {
+			alle( 'img[data-uitgesteld]' ).forEach( laadUitgesteld );
+		}, 1200 );
+	}
+	if ( 'complete' === document.readyState ) {
+		laadAlleUitgesteld();
+	} else {
+		window.addEventListener( 'load', laadAlleUitgesteld, { once: true } );
+	}
+
 	/* ------------------------------------------------------------ Hero: wisselende foto's */
 
 	alle( '[data-hero-slider]' ).forEach( function ( hero ) {
@@ -198,8 +225,11 @@
 			nu = ( i + fotos.length ) % fotos.length;
 			fotos.forEach( function ( f, j ) {
 				f.classList.toggle( 'is-actief', j === nu );
-				if ( j === nu && f.loading === 'lazy' ) {
-					f.loading = 'eager';
+				if ( j === nu ) {
+					laadUitgesteld( f );
+					if ( f.loading === 'lazy' ) {
+						f.loading = 'eager';
+					}
 				}
 			} );
 			stippen.forEach( function ( s, j ) {

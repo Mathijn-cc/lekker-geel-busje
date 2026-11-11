@@ -128,6 +128,18 @@ function thema_sizes( $soort ) {
 	return $sizes[ $soort ] ?? '100vw';
 }
 
+/**
+ * Afbeelding die pas na het laden van de pagina binnenkomt (thema.js zet data-src en data-srcset terug).
+ * Voor de wisselfoto's in de hero: die staan onzichtbaar in beeld, dus lazy loading helpt daar niet.
+ */
+function thema_uitgesteld( $html ) {
+	if ( ! $html ) {
+		return '';
+	}
+	$html = preg_replace( '/\s(src|srcset|sizes)="/', ' data-$1="', $html );
+	return str_replace( '<img ', '<img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-uitgesteld ', $html );
+}
+
 function thema_afbeelding( $beeld, $maat = 'large', $class = '', $lazy = true, $attr = array() ) {
 	$id = is_array( $beeld ) ? ( $beeld['ID'] ?? 0 ) : (int) $beeld;
 	if ( ! $id ) {
