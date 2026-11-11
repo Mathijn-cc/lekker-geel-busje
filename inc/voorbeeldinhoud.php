@@ -765,6 +765,7 @@ function thema_plaats_overonspagina() {
 			'eyebrow'       => 'Veilig en respectvol',
 			'kop'           => 'Feest, *met verantwoordelijkheid*',
 			'tekst'         => 'Een busrit moet gewoon leuk blijven, voor iedereen. Daarom nemen we veiligheid net zo serieus als het feest.',
+			'plaatsing'     => 'onder',
 			'achtergrond'   => 'standaard',
 			'anker'         => 'veiligheid',
 		),

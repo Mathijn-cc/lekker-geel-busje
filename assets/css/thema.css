@@ -2550,6 +2550,18 @@ section.sectie-aan_boord div.aan-boord-raster :is(h1, h2, h3).kop-groot span.acc
   color: var(--kleur-roze);
 }
 
+/*Aan boord -- Plaatsing tekst*/
+section.sectie-aan_boord div.aan-boord-raster.tekst-onder {
+  align-items: end;
+}
+section.sectie-aan_boord div.aan-boord-raster.tekst-eronder {
+  grid-template-columns: minmax(0, 1fr);
+  gap:                   28px;
+}
+section.sectie-aan_boord div.aan-boord-raster.tekst-eronder p.tekst-groot {
+  max-width: 62ch;
+}
+
 /**Blokken -- Voordelen**/
 /*Voordelen -- Podium*/
 section.sectie-voordelen {

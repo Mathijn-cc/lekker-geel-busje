@@ -279,6 +279,10 @@ function thema_layouts() {
 		thema_veld( $p, 'eyebrow', 'Label', 'text', array_merge( thema_breed( 35 ), array( 'default_value' => 'Aan boord van onze bussen' ) ) ),
 		thema_veld( $p, 'kop', 'Kop', 'text', array_merge( thema_breed( 65 ), array( 'instructions' => THEMA_ACCENT_UITLEG . ' Het accent is hier roze.' ) ) ),
 		thema_veld( $p, 'tekst', 'Tekst', 'textarea', array( 'rows' => 3 ) ),
+		thema_veld( $p, 'plaatsing', 'Plaatsing tekst', 'button_group', array(
+			'choices'       => array( 'boven' => 'Naast de kop, bovenaan', 'onder' => 'Naast de kop, onderaan', 'eronder' => 'Onder de kop' ),
+			'default_value' => 'boven',
+		) ),
 	), thema_extra_velden( $p, 'bussen' ) ) );
 
 	// Voordelen.
