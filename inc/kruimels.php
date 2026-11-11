@@ -56,6 +56,14 @@ add_action( 'wp_head', function () {
  * Terug-link naar de bovenliggende pagina, voor in de hero van een subpagina (bijvoorbeeld een locatie).
  */
 function thema_terug_link() {
+	if ( is_singular( 'gelegenheid' ) ) {
+		$hub = get_page_by_path( 'gelegenheden' );
+		return $hub ? sprintf(
+			'<a class="terugpil" href="%s" data-hero-fade><span aria-hidden="true">←</span> %s</a>',
+			esc_url( get_permalink( $hub ) ),
+			esc_html( get_the_title( $hub ) )
+		) : '';
+	}
 	if ( ! is_page() || is_front_page() ) {
 		return '';
 	}

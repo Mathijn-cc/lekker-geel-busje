@@ -17,6 +17,7 @@ function thema_uitroltaken() {
 		'webp-kopieen-v4'        => 'thema_webp_kopieen',
 		'menu-prijzen-faq-weg-v1' => 'thema_menu_prijzen_faq_weg',
 		'faq-copy-v2'            => 'thema_faq_copy_zetten',
+		'vrijgezellenfeest-v1'    => 'thema_plaats_vrijgezellenfeest',
 	);
 }
 

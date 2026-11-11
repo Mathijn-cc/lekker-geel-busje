@@ -297,6 +297,7 @@ function thema_iconen() {
 		'huis'      => '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9v11a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9"/>',
 		'bestek'    => '<path d="M7 2v9"/><path d="M4 2v6a3 3 0 0 0 6 0V2"/><path d="M7 11v11"/><path d="M18 22V2c-2.2 1.3-3.5 3.7-3.5 6.5V13H18"/>',
 		'maan'      => '<path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11z"/>',
+		'vink'      => '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
 		'extern'    => '<path d="M14 4h6v6"/><path d="M20 4 11 13"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
 		'glas'      => '<path d="M8 22h8"/><path d="M12 15v7"/><path d="M5 3h14l-1 6a6 6 0 0 1-12 0z"/><path d="M5.6 7h12.8"/>',
 	);
@@ -436,4 +437,39 @@ function thema_alineas( $tekst, $class = 'tekst-groot' ) {
 		}
 	}
 	return $uit;
+}
+
+/**
+ * Vaste onderbalk op mobiel met Vraag je prijs aan en bellen, op gelegenheden en plaatspagina's.
+ * Wijst naar het offerteblok op de pagina zelf als dat er is, anders naar de offertepagina.
+ */
+function thema_onderbalk() {
+	if ( ! is_singular( 'gelegenheid' ) && ! ( is_page() && 'locaties' === get_post_field( 'post_name', wp_get_post_parent_id( get_queried_object_id() ) ) ) ) {
+		return '';
+	}
+	$url = '';
+	if ( function_exists( 'get_field' ) ) {
+		foreach ( (array) get_field( 'blokken', get_queried_object_id() ) as $blok ) {
+			if ( 'offerte' === ( $blok['acf_fc_layout'] ?? '' ) ) {
+				$url = '#' . sanitize_title( $blok['anker'] ?: 'offerte' );
+				break;
+			}
+		}
+	}
+	if ( ! $url ) {
+		$url = thema_offerte_url( is_singular( 'gelegenheid' ) ? array( 'uitje' => get_the_title() ) : array() );
+	}
+	$s   = thema_instellingen();
+	$bel = $s['telefoon'] ? sprintf(
+		'<a class="onderbalk-bel" href="%s" aria-label="Bel ons op %s">%s</a>',
+		esc_attr( thema_telefoon_link() ),
+		esc_attr( $s['telefoon'] ),
+		thema_icoon( 'telefoon', 22 )
+	) : '';
+	return sprintf(
+		'<div class="onderbalk" data-onderbalk><a class="onderbalk-knop" href="%s">%s</a>%s</div>',
+		esc_url( $url ),
+		esc_html( 'Vraag je prijs aan' ),
+		$bel
+	);
 }

@@ -6930,3 +6930,338 @@ section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feit.feit-uitgelicht
 section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feit.feit-uitgelicht:hover dt.feit-label {
   color: var(--kleur-geel);
 }
+
+/**Blokken -- Opdrachten**/
+/*Opdrachten -- Sectie*/
+section.sectie-opdrachten {
+  padding: var(--sectie-ruimte) var(--rand);
+}
+section.sectie-opdrachten div.opdrachten-binnen {
+  display:        flex;
+  flex-direction: column;
+  gap:            clamp(32px, 4vw, 56px);
+  max-width:      var(--breedte);
+  margin:         0 auto;
+}
+section.sectie-opdrachten div.opdrachten-binnen div.opdrachten-kop {
+  display:        flex;
+  flex-direction: column;
+  align-items:    flex-start;
+  gap:            22px;
+  max-width:      760px;
+}
+/*Opdrachten -- Raster: een, twee of vier kolommen*/
+section.sectie-opdrachten div.opdrachten-binnen ol.opdrachten-raster {
+  display:               grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap:                   clamp(14px, 1.6vw, 22px);
+  margin:                0;
+  padding:               0;
+  list-style:            none;
+}
+@media (min-width: 640px) {
+  section.sectie-opdrachten div.opdrachten-binnen ol.opdrachten-raster {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1100px) {
+  section.sectie-opdrachten div.opdrachten-binnen ol.opdrachten-raster {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+/*Opdrachten -- Kaart*/
+section.sectie-opdrachten div.opdrachten-binnen ol.opdrachten-raster li.opdracht {
+  position:       relative;
+  display:        flex;
+  flex-direction: column;
+  align-items:    flex-start;
+  gap:            10px;
+  padding:        26px 24px 28px;
+  border-radius:  28px;
+  background:     var(--kleur-creme);
+  color:          var(--kleur-paars);
+  transition:     transform .5s var(--veer), background .4s var(--zacht);
+}
+@media (hover: hover) {
+  section.sectie-opdrachten div.opdrachten-binnen ol.opdrachten-raster li.opdracht:hover {
+    background: var(--kleur-geel);
+    transform:  translateY(-6px) rotate(-.8deg);
+  }
+  section.sectie-opdrachten div.opdrachten-binnen ol.opdrachten-raster li.opdracht:nth-child(even):hover {
+    transform: translateY(-6px) rotate(.8deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  section.sectie-opdrachten div.opdrachten-binnen ol.opdrachten-raster li.opdracht {
+    transition: none;
+  }
+}
+/*Opdrachten -- Nummer, label, titel en tekst*/
+section.sectie-opdrachten div.opdrachten-binnen ol.opdrachten-raster li.opdracht span.opdracht-nummer {
+  font-family:          var(--kop-letter);
+  font-weight:          var(--kop-gewicht);
+  font-size:            clamp(52px, 5vw, 72px);
+  line-height:          .85;
+  color:                var(--kleur-geel);
+  -webkit-text-stroke:  var(--lijn-dik) var(--kleur-paars);
+  paint-order:          stroke fill;
+}
+section.sectie-opdrachten div.opdrachten-binnen ol.opdrachten-raster li.opdracht:hover span.opdracht-nummer {
+  color: var(--kleur-wit);
+}
+section.sectie-opdrachten div.opdrachten-binnen ol.opdrachten-raster li.opdracht span.opdracht-soort {
+  padding:        6px 12px;
+  border-radius:  999px;
+  background:     var(--kleur-paars);
+  color:          var(--kleur-geel);
+  font-size:      12px;
+  font-weight:    800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+section.sectie-opdrachten div.opdrachten-binnen ol.opdrachten-raster li.opdracht h3.opdracht-titel {
+  margin:      0;
+  font-family: var(--kop-letter);
+  font-size:   clamp(21px, 1.8vw, 24px);
+  font-weight: var(--kop-gewicht);
+  line-height: 1.1;
+}
+section.sectie-opdrachten div.opdrachten-binnen ol.opdrachten-raster li.opdracht p.opdracht-tekst {
+  margin:      0;
+  font-size:   16px;
+  line-height: 1.55;
+  text-wrap:   pretty;
+}
+/*Opdrachten -- Regel onder de kaarten*/
+section.sectie-opdrachten div.opdrachten-binnen p.opdrachten-noot {
+  display:     flex;
+  align-items: center;
+  gap:         12px;
+  margin:      0;
+  font-size:   16px;
+  font-weight: 600;
+}
+section.sectie-opdrachten div.opdrachten-binnen p.opdrachten-noot svg.icoon {
+  flex-shrink: 0;
+  color:       var(--kleur-geel);
+}
+section.sectie-opdrachten.achtergrond-paars div.opdrachten-binnen p.opdrachten-noot {
+  color: var(--kleur-creme);
+}
+
+/**Blokken -- Checklist**/
+/*Checklist -- Kop links (plakt mee), punten rechts*/
+section.sectie-checklist {
+  padding: var(--sectie-ruimte) var(--rand);
+}
+section.sectie-checklist div.checklist-raster {
+  display:               grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap:                   clamp(32px, 5vw, 80px);
+  align-items:           start;
+  max-width:             var(--breedte);
+  margin:                0 auto;
+}
+@media (min-width: 1000px) {
+  section.sectie-checklist div.checklist-raster {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  }
+  section.sectie-checklist div.checklist-raster div.checklist-kop {
+    position: sticky;
+    top:      var(--plak-afstand);
+  }
+}
+section.sectie-checklist div.checklist-raster div.checklist-kop {
+  display:        flex;
+  flex-direction: column;
+  align-items:    flex-start;
+  gap:            24px;
+}
+/*Checklist -- Voortgang*/
+section.sectie-checklist div.checklist-raster div.checklist-kop p.checklist-voortgang {
+  margin:        0;
+  padding:       8px 16px;
+  border-radius: 999px;
+  background:    var(--kleur-zand);
+  font-size:     15px;
+  font-weight:   700;
+  transition:    background .4s var(--zacht);
+}
+section.sectie-checklist.is-klaar div.checklist-raster div.checklist-kop p.checklist-voortgang {
+  background: var(--kleur-geel);
+}
+/*Checklist -- Lijst*/
+section.sectie-checklist div.checklist-raster ul.checklist-lijst {
+  display:        flex;
+  flex-direction: column;
+  gap:            10px;
+  margin:         0;
+  padding:        0;
+  list-style:     none;
+}
+section.sectie-checklist div.checklist-raster ul.checklist-lijst li.checklist-punt {
+  position:      relative;
+  display:       flex;
+  flex-wrap:     wrap;
+  align-items:   center;
+  gap:           8px 18px;
+  padding:       18px 22px;
+  border-radius: 22px;
+  background:    var(--kleur-zand);
+  color:         var(--kleur-paars);
+  transition:    background .4s var(--zacht);
+}
+section.sectie-checklist div.checklist-raster ul.checklist-lijst li.checklist-punt:has(input.checklist-vink:checked) {
+  background: var(--kleur-geel);
+}
+/*Checklist -- Vinkje: echt invoerveld, verborgen achter het eigen hokje*/
+section.sectie-checklist div.checklist-raster ul.checklist-lijst li.checklist-punt input.checklist-vink {
+  position: absolute;
+  opacity:  0;
+  width:    1px;
+  height:   1px;
+  margin:   0;
+}
+section.sectie-checklist div.checklist-raster ul.checklist-lijst li.checklist-punt label.checklist-label {
+  display:     flex;
+  flex:        1 1 260px;
+  align-items: center;
+  gap:         16px;
+  cursor:      pointer;
+}
+section.sectie-checklist div.checklist-raster ul.checklist-lijst li.checklist-punt label.checklist-label span.checklist-hokje {
+  display:         flex;
+  flex-shrink:     0;
+  align-items:     center;
+  justify-content: center;
+  width:           30px;
+  height:          30px;
+  border:          var(--lijn-dik) solid var(--kleur-paars);
+  border-radius:   9px;
+  background:      var(--kleur-wit);
+  color:           transparent;
+  transition:      background .3s var(--zacht), color .3s var(--zacht), transform .4s var(--veer);
+}
+section.sectie-checklist div.checklist-raster ul.checklist-lijst li.checklist-punt input.checklist-vink:checked + label.checklist-label span.checklist-hokje {
+  background: var(--kleur-paars);
+  color:      var(--kleur-geel);
+  transform:  rotate(-6deg) scale(1.06);
+}
+section.sectie-checklist div.checklist-raster ul.checklist-lijst li.checklist-punt input.checklist-vink:focus-visible + label.checklist-label span.checklist-hokje {
+  outline:        3px solid var(--kleur-roze);
+  outline-offset: 3px;
+}
+section.sectie-checklist div.checklist-raster ul.checklist-lijst li.checklist-punt label.checklist-label span.checklist-tekst {
+  display:        flex;
+  flex-direction: column;
+  gap:            2px;
+}
+section.sectie-checklist div.checklist-raster ul.checklist-lijst li.checklist-punt label.checklist-label span.checklist-tekst span.checklist-wanneer {
+  font-family: var(--accent-letter);
+  font-style:  var(--accent-stijl);
+  font-size:   calc(19px * var(--accent-schaal, 1));
+  line-height: 1.1;
+  color:       var(--kleur-roze);
+}
+section.sectie-checklist div.checklist-raster ul.checklist-lijst li.checklist-punt label.checklist-label span.checklist-tekst span.checklist-taak {
+  font-size:   17px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+section.sectie-checklist div.checklist-raster ul.checklist-lijst li.checklist-punt input.checklist-vink:checked + label.checklist-label span.checklist-tekst span.checklist-taak {
+  text-decoration:           line-through;
+  text-decoration-thickness: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  section.sectie-checklist div.checklist-raster ul.checklist-lijst li.checklist-punt,
+  section.sectie-checklist div.checklist-raster ul.checklist-lijst li.checklist-punt label.checklist-label span.checklist-hokje {
+    transition: none;
+  }
+}
+/*Checklist -- Uitgelicht punt met link, in paars*/
+section.sectie-checklist div.checklist-raster ul.checklist-lijst li.checklist-punt.checklist-punt-uitgelicht {
+  background: var(--kleur-paars);
+  color:      var(--kleur-creme);
+}
+section.sectie-checklist div.checklist-raster ul.checklist-lijst li.checklist-punt.checklist-punt-uitgelicht label.checklist-label span.checklist-tekst span.checklist-wanneer {
+  color: var(--kleur-geel);
+}
+section.sectie-checklist div.checklist-raster ul.checklist-lijst li.checklist-punt.checklist-punt-uitgelicht label.checklist-label span.checklist-hokje {
+  border-color: var(--kleur-geel);
+}
+section.sectie-checklist div.checklist-raster ul.checklist-lijst li.checklist-punt.checklist-punt-uitgelicht:has(input.checklist-vink:checked) {
+  background: var(--kleur-diep);
+}
+section.sectie-checklist div.checklist-raster ul.checklist-lijst li.checklist-punt.checklist-punt-uitgelicht a.checklist-link {
+  padding:         10px 18px;
+  border-radius:   999px;
+  background:      var(--kleur-geel);
+  color:           var(--kleur-paars);
+  font-size:       15px;
+  font-weight:     800;
+  text-decoration: none;
+  white-space:     nowrap;
+  transition:      transform .4s var(--veer);
+}
+@media (hover: hover) {
+  section.sectie-checklist div.checklist-raster ul.checklist-lijst li.checklist-punt.checklist-punt-uitgelicht a.checklist-link:hover {
+    transform: translateY(-2px) rotate(-2deg);
+  }
+}
+
+/**Gelegenheden -- Onderbalk op mobiel**/
+/*Onderbalk -- Balk*/
+div.onderbalk {
+  display: none;
+}
+@media (max-width: 899px) {
+  div.onderbalk {
+    position:      fixed;
+    right:         12px;
+    bottom:        calc(12px + env(safe-area-inset-bottom, 0px));
+    left:          12px;
+    z-index:       60;
+    display:       flex;
+    align-items:   center;
+    gap:           10px;
+    padding:       8px;
+    border-radius: 999px;
+    background:    var(--kleur-paars);
+    box-shadow:    0 18px 40px -16px rgba(38, 4, 63, .6);
+    transform:     translateY(calc(100% + 40px));
+    transition:    transform .5s var(--zacht);
+  }
+  div.onderbalk.is-zichtbaar {
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  div.onderbalk {
+    transition: none;
+  }
+}
+/*Onderbalk -- Knoppen*/
+div.onderbalk a.onderbalk-knop {
+  display:         flex;
+  flex:            1;
+  align-items:     center;
+  justify-content: center;
+  min-height:      52px;
+  border-radius:   999px;
+  background:      var(--kleur-geel);
+  color:           var(--kleur-paars);
+  font-size:       17px;
+  font-weight:     800;
+  text-decoration: none;
+}
+div.onderbalk a.onderbalk-bel {
+  display:         flex;
+  flex-shrink:     0;
+  align-items:     center;
+  justify-content: center;
+  width:           52px;
+  height:          52px;
+  border:          var(--lijn-dun) solid var(--kleur-geel);
+  border-radius:   50%;
+  color:           var(--kleur-geel);
+}

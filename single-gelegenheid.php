@@ -13,6 +13,10 @@ while ( have_posts() ) :
 	$voordelen = function_exists( 'get_field' ) ? (array) get_field( 'voordelen' ) : array();
 	$hub       = get_page_by_path( 'gelegenheden' );
 	$terug     = $hub ? get_permalink( $hub ) : home_url( '/#gelegenheden' );
+	$blokken   = function_exists( 'get_field' ) ? (array) get_field( 'blokken' ) : array();
+	/* Begint de pagina met een eigen hero, dan vervalt de vaste kop: zo staat er maar één H1 op de pagina. */
+	$eigen     = 'hero' === ( $blokken[0]['acf_fc_layout'] ?? '' );
+	if ( ! $eigen ) :
 	?>
 	<section class="sectie sectie-gel-hero" id="gel-top" data-donker>
 		<div class="gel-hero">
@@ -53,6 +57,7 @@ while ( have_posts() ) :
 			<?php endif; ?>
 		</div>
 	</section>
+	<?php endif; ?>
 
 	<?php thema_blokken(); ?>
 

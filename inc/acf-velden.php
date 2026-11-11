@@ -63,6 +63,8 @@ function thema_blok_achtergronden() {
 		'route'        => 'standaard',
 		'tips'         => 'standaard',
 		'feiten'       => 'standaard',
+		'opdrachten'   => 'paars',
+		'checklist'    => 'standaard',
 	);
 }
 
@@ -608,6 +610,48 @@ function thema_layouts() {
 		thema_veld( $p, 'slot', 'Tekst onder de route', 'wysiwyg', array( 'tabs' => 'all', 'toolbar' => 'basic', 'media_upload' => 0 ) ),
 		thema_veld( $p, 'knop', 'Knop', 'link' ),
 	), thema_extra_velden( $p ) ) );
+
+	// Opdrachten.
+	$p   = 'opdrachten';
+	$l[] = thema_layout( $p, 'Opdrachten: genummerde kaarten', array_merge( array(
+		thema_tab( $p, 'Inhoud' ),
+		thema_veld( $p, 'eyebrow', 'Label', 'text', thema_breed( 35 ) ),
+		thema_veld( $p, 'kop', 'Kop', 'text', array_merge( thema_breed( 65 ), array( 'instructions' => THEMA_ACCENT_UITLEG ) ) ),
+		thema_veld( $p, 'intro', 'Intro', 'textarea', array( 'rows' => 2 ) ),
+		thema_veld( $p, 'items', 'Opdrachten', 'repeater', array(
+			'layout'       => 'block',
+			'collapsed'    => 'field_opdrachten_item_titel',
+			'button_label' => 'Opdracht toevoegen',
+			'instructions' => 'Vier, zes of acht werkt het best. Ze krijgen vanzelf een nummer.',
+			'sub_fields'   => array(
+				thema_veld( 'opdrachten_item', 'titel', 'Titel', 'text', thema_breed( 60 ) ),
+				thema_veld( 'opdrachten_item', 'soort', 'Label', 'text', array_merge( thema_breed( 40 ), array( 'instructions' => 'Bijvoorbeeld Quiz of Muziek.' ) ) ),
+				thema_veld( 'opdrachten_item', 'tekst', 'Tekst', 'textarea', array( 'rows' => 3 ) ),
+			),
+		) ),
+		thema_veld( $p, 'noot', 'Regel onder de kaarten', 'text', array( 'instructions' => 'Bijvoorbeeld een afspraak over veiligheid. Leeg = geen regel.' ) ),
+	), thema_extra_velden( $p, 'opdrachten' ) ) );
+
+	// Checklist.
+	$p   = 'checklist';
+	$l[] = thema_layout( $p, 'Checklist om af te vinken', array_merge( array(
+		thema_tab( $p, 'Inhoud' ),
+		thema_veld( $p, 'eyebrow', 'Label', 'text', array_merge( thema_breed( 35 ), array( 'default_value' => 'Checklist' ) ) ),
+		thema_veld( $p, 'kop', 'Kop', 'text', array_merge( thema_breed( 65 ), array( 'instructions' => THEMA_ACCENT_UITLEG ) ) ),
+		thema_veld( $p, 'intro', 'Intro', 'textarea', array( 'rows' => 2 ) ),
+		thema_veld( $p, 'items', 'Punten', 'repeater', array(
+			'layout'       => 'table',
+			'collapsed'    => 'field_checklist_item_taak',
+			'button_label' => 'Punt toevoegen',
+			'instructions' => 'Bezoekers kunnen de punten afvinken; de vinkjes blijven op hun eigen apparaat bewaard. Met een link wordt het punt uitgelicht.',
+			'sub_fields'   => array(
+				thema_veld( 'checklist_item', 'wanneer', 'Wanneer', 'text', array_merge( thema_breed( 25 ), array( 'instructions' => 'Bijv. Zo snel mogelijk.' ) ) ),
+				thema_veld( 'checklist_item', 'taak', 'Taak', 'text', thema_breed( 45 ) ),
+				thema_veld( 'checklist_item', 'link', 'Link', 'link', thema_breed( 30 ) ),
+			),
+		) ),
+		thema_veld( $p, 'knop', 'Knop', 'link' ),
+	), thema_extra_velden( $p, 'checklist' ) ) );
 
 	return $l;
 }

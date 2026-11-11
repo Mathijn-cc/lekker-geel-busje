@@ -1435,4 +1435,83 @@
 			} );
 		} );
 	}() );
+	/* ------------------------------------------------------------ Checklist: afvinken, bewaard op het eigen apparaat */
+
+	alle( '[data-checklist]' ).forEach( function ( lijst ) {
+		var sleutel = 'lgb-' + lijst.getAttribute( 'data-checklist' );
+		var vinken = alle( '[data-checklist-vink]', lijst );
+		var sectie = lijst.closest( 'section' );
+		var teller = sectie ? sectie.querySelector( '[data-checklist-gedaan]' ) : null;
+		var bewaard = [];
+		try {
+			bewaard = JSON.parse( window.localStorage.getItem( sleutel ) || '[]' ) || [];
+		} catch ( e ) {
+			bewaard = [];
+		}
+		function tel() {
+			var gedaan = vinken.filter( function ( v ) {
+				return v.checked;
+			} ).length;
+			if ( teller ) {
+				teller.textContent = gedaan;
+			}
+			if ( sectie ) {
+				sectie.classList.toggle( 'is-klaar', gedaan === vinken.length );
+			}
+		}
+		vinken.forEach( function ( vink, i ) {
+			vink.checked = bewaard.indexOf( i ) > -1;
+			vink.addEventListener( 'change', function () {
+				var lijstje = [];
+				vinken.forEach( function ( v, j ) {
+					if ( v.checked ) {
+						lijstje.push( j );
+					}
+				} );
+				try {
+					window.localStorage.setItem( sleutel, JSON.stringify( lijstje ) );
+				} catch ( e ) {}
+				tel();
+			} );
+		} );
+		tel();
+	} );
+
+	/* ------------------------------------------------------------ Onderbalk op mobiel: in beeld na de hero, weg bij de offerte en de voet */
+
+	( function () {
+		var balk = document.querySelector( '[data-onderbalk]' );
+		if ( ! balk || ! ( 'IntersectionObserver' in window ) ) {
+			return;
+		}
+		var hero = document.querySelector( 'section.sectie-hero, section.sectie-gel-hero' );
+		var doelen = alle( 'section.sectie-offerte, footer.voet' );
+		var voorbij = ! hero;
+		var inBeeld = 0;
+		function zet() {
+			balk.classList.toggle( 'is-zichtbaar', voorbij && 0 === inBeeld );
+		}
+		if ( hero ) {
+			new IntersectionObserver( function ( items ) {
+				voorbij = ! items[ 0 ].isIntersecting;
+				zet();
+			} ).observe( hero );
+		}
+		var zichtbaar = new Set();
+		var io = new IntersectionObserver( function ( items ) {
+			items.forEach( function ( item ) {
+				if ( item.isIntersecting ) {
+					zichtbaar.add( item.target );
+				} else {
+					zichtbaar.delete( item.target );
+				}
+			} );
+			inBeeld = zichtbaar.size;
+			zet();
+		} );
+		doelen.forEach( function ( d ) {
+			io.observe( d );
+		} );
+		zet();
+	}() );
 }() );

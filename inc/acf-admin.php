@@ -31,6 +31,8 @@ function thema_blok_info() {
 		'gebied'        => array( 'route', 'Een gebied in de stad: foto, tekst en een lijst plekken met website.' ),
 		'tips'          => array( 'vonk', 'Tips als kaarten met foto, tekst en een link naar de website.' ),
 		'route'         => array( 'route', 'De invulling van een dag als route met haltes, waar de bus over meerijdt.' ),
+		'opdrachten'    => array( 'feest', 'Genummerde kaarten met opdrachten of spelletjes, bijvoorbeeld voor in de bus.' ),
+		'checklist'     => array( 'kalender', 'Checklist die bezoekers zelf afvinken, met een uitgelicht punt en een knop.' ),
 		'formulier'     => array( 'beker', 'Een Gravity Forms formulier met kop en intro.' ),
 		'contact'       => array( 'telefoon', 'Bel- en mailkaarten, formulier en adres. Gegevens komen uit de thema-instellingen.' ),
 	);
