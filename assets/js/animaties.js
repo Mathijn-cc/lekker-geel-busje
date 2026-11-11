@@ -8,11 +8,32 @@
 	var bewegingUit = window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
 
 	/**
-	 * Splitst een kop in woorden en letters. Accentwoorden en regelafbrekingen blijven behouden.
-	 * Schermlezers krijgen de volledige tekst via een verborgen kopie.
+	 * Hoe ver een kop gesplitst moet worden voor de gekozen kop-animatie.
+	 * Letters alleen bij de animatie Letters; Woorden en Masker hebben genoeg aan woorden;
+	 * Omhoog, Vervaging en Geen animeren de hele kop. Zonder kop-class (dashboard) altijd letters.
+	 */
+	function niveau() {
+		var c = document.body ? document.body.className : '';
+		if ( /\bkoppen-letters\b/.test( c ) || ! /\bkoppen-/.test( c ) ) {
+			return 'letters';
+		}
+		if ( /\bkoppen-(woorden|masker)\b/.test( c ) ) {
+			return 'woorden';
+		}
+		return 'geen';
+	}
+
+	/**
+	 * Splitst een kop in woorden (en zo nodig letters). Accentwoorden en regelafbrekingen blijven behouden.
+	 * Schermlezers krijgen de volledige tekst via aria-label op de kop; de spans zelf zijn verborgen.
+	 * Zo staat de koptekst maar een keer in de pagina.
 	 */
 	function splits( kop ) {
 		if ( kop.dataset.gesplitst ) {
+			return;
+		}
+		var diepte = niveau();
+		if ( 'geen' === diepte ) {
 			return;
 		}
 		kop.dataset.gesplitst = '1';
@@ -39,13 +60,17 @@
 						var binnen = document.createElement( 'span' );
 						binnen.className = 'woord-binnen';
 						binnen.style.setProperty( '--w', teller.woord++ );
-						Array.from( deel ).forEach( function ( teken ) {
-							var letter = document.createElement( 'span' );
-							letter.className = 'letter';
-							letter.style.setProperty( '--l', teller.letter++ );
-							letter.textContent = teken;
-							binnen.appendChild( letter );
-						} );
+						if ( 'letters' === diepte ) {
+							Array.from( deel ).forEach( function ( teken ) {
+								var letter = document.createElement( 'span' );
+								letter.className = 'letter';
+								letter.style.setProperty( '--l', teller.letter++ );
+								letter.textContent = teken;
+								binnen.appendChild( letter );
+							} );
+						} else {
+							binnen.textContent = deel;
+						}
 						woord.appendChild( binnen );
 						doel.appendChild( woord );
 					} );
@@ -63,12 +88,8 @@
 
 		verwerk( kop, omhulsel );
 
-		var sr = document.createElement( 'span' );
-		sr.className = 'sr-tekst';
-		sr.textContent = volledig;
-
+		kop.setAttribute( 'aria-label', volledig );
 		kop.textContent = '';
-		kop.appendChild( sr );
 		kop.appendChild( omhulsel );
 	}
 

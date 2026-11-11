@@ -25,9 +25,13 @@
 	/* ------------------------------------------------------------ Navigatie */
 
 	var navhouder = document.querySelector( '[data-navhouder]' );
+	var gescrold = null;
 	function bijScroll() {
-		if ( navhouder ) {
-			navhouder.classList.toggle( 'is-gescrold', window.scrollY > 40 );
+		/* Alleen de class wisselen als de toestand verandert, niet bij elk scroll-event. */
+		var nu = window.scrollY > 40;
+		if ( navhouder && nu !== gescrold ) {
+			gescrold = nu;
+			navhouder.classList.toggle( 'is-gescrold', nu );
 		}
 	}
 	window.addEventListener( 'scroll', bijScroll, { passive: true } );
@@ -221,12 +225,12 @@
 
 	/* ------------------------------------------------------------ Offerte */
 
+	/* Het formulier zelf is niet aria-hidden: met Tab erin springen opent het (focusin), en schermlezers lezen het direct. */
 	function openOfferte( vak ) {
 		if ( ! vak || vak.classList.contains( 'is-open' ) ) {
 			return;
 		}
 		vak.classList.add( 'is-open' );
-		vak.querySelector( 'form' ).setAttribute( 'aria-hidden', 'false' );
 		vak.querySelector( '[data-offerte-laag]' ).setAttribute( 'aria-hidden', 'true' );
 		setTimeout( function () {
 			var veld = vak.querySelector( 'input,select' );
@@ -240,7 +244,6 @@
 	}
 	function sluitOfferte( vak ) {
 		vak.classList.remove( 'is-open' );
-		vak.querySelector( 'form' ).setAttribute( 'aria-hidden', 'true' );
 		vak.querySelector( '[data-offerte-laag]' ).setAttribute( 'aria-hidden', 'false' );
 		var knop = vak.querySelector( '[data-offerte-open]' );
 		if ( knop ) {
@@ -489,6 +492,63 @@
 			vlak.classList.add( 'is-spelend' );
 		} );
 	} );
+
+	/* ------------------------------------------------------------ Video: automatisch afspelen pas in beeld */
+
+	( function () {
+		var autos = alle( '[data-video-auto]' );
+		if ( ! autos.length ) {
+			return;
+		}
+		function plaatsEmbed( tpl ) {
+			var houder = document.createElement( 'div' );
+			houder.innerHTML = tpl.innerHTML;
+			var iframe = houder.querySelector( 'iframe' );
+			if ( iframe ) {
+				tpl.parentNode.insertBefore( iframe, tpl );
+			}
+			tpl.remove();
+		}
+		if ( ! ( 'IntersectionObserver' in window ) ) {
+			autos.forEach( function ( el ) {
+				if ( 'TEMPLATE' === el.tagName ) {
+					plaatsEmbed( el );
+				} else if ( ! rustig ) {
+					el.play();
+				}
+			} );
+			return;
+		}
+		var io = new IntersectionObserver( function ( items ) {
+			items.forEach( function ( item ) {
+				var el = item.target;
+				/* Eigen mp4: afspelen in beeld, pauzeren erbuiten. Bij minder beweging blijft de poster staan. */
+				if ( item.isIntersecting && ! rustig ) {
+					var spelen = el.play();
+					if ( spelen && spelen.catch ) {
+						spelen.catch( function () {} );
+					}
+				} else if ( ! el.paused ) {
+					el.pause();
+				}
+			} );
+		}, { rootMargin: '400px 0px' } );
+		/* Een template heeft geen eigen afmetingen: observeer het videovlak eromheen. */
+		autos.forEach( function ( el ) {
+			if ( 'TEMPLATE' === el.tagName ) {
+				var vlak = el.closest( '.video-vlak' ) || el.parentNode;
+				var waker = new IntersectionObserver( function ( items ) {
+					if ( items[ 0 ].isIntersecting ) {
+						waker.disconnect();
+						plaatsEmbed( el );
+					}
+				}, { rootMargin: '400px 0px' } );
+				waker.observe( vlak );
+			} else {
+				io.observe( el );
+			}
+		} );
+	}() );
 
 	/* ------------------------------------------------------------ Trustindex pas laden als hij bijna in beeld is */
 
@@ -826,12 +886,31 @@
 				} );
 				return;
 			}
-			if ( terug ) {
-				gsap.fromTo( el, { xPercent: -50 }, { xPercent: 0, repeat: -1, ease: 'none', duration: duur } );
-			} else {
-				gsap.to( el, { xPercent: -50, repeat: -1, ease: 'none', duration: duur } );
-			}
+			var band = terug
+				? gsap.fromTo( el, { xPercent: -50 }, { xPercent: 0, repeat: -1, ease: 'none', duration: duur } )
+				: gsap.to( el, { xPercent: -50, repeat: -1, ease: 'none', duration: duur } );
+			alleenInBeeld( el.closest( 'section' ) || el, band );
 		}() );
+	}
+
+	/**
+	 * Een doorlopende animatie alleen laten lopen als hij (bijna) in beeld is.
+	 * Anders blijft de GSAP-ticker de hele tijd 60 keer per seconde werken, ook als niemand de band ziet.
+	 */
+	function alleenInBeeld( vak, tween ) {
+		if ( ! ( 'IntersectionObserver' in window ) ) {
+			return;
+		}
+		tween.pause();
+		new IntersectionObserver( function ( items ) {
+			items.forEach( function ( item ) {
+				if ( item.isIntersecting ) {
+					tween.resume();
+				} else {
+					tween.pause();
+				}
+			} );
+		}, { rootMargin: '200px 0px' } ).observe( vak );
 	}
 
 	function beweeg() {
@@ -859,7 +938,7 @@
 		} );
 		alle( '[data-float]' ).forEach( function ( el, i ) {
 			gsap.from( el, { y: 120, opacity: 0, duration: 1.2, ease: 'back.out(1.4)', delay: .3 + i * .12 } );
-			gsap.to( el, { y: i % 2 ? 14 : -14, duration: 2.6 + i * .35, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.5 } );
+			alleenInBeeld( el, gsap.to( el, { y: i % 2 ? 14 : -14, duration: 2.6 + i * .35, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.5 } ) );
 		} );
 
 		/* Klassieke hero: de fotokaarten komen vanuit het midden binnen en waaieren bij het scrollen iets verder uit. */
@@ -1082,6 +1161,13 @@
 				sterLabel.style.transform = tekst ? 'scale(1)' : 'scale(.5)';
 			}
 		}
+		var loopt = false;
+		function wek() {
+			if ( ! loopt ) {
+				loopt = true;
+				requestAnimationFrame( loop );
+			}
+		}
 		document.addEventListener( 'mousemove', function ( e ) {
 			x = e.clientX;
 			y = e.clientY;
@@ -1091,6 +1177,7 @@
 				ry = y;
 			}
 			toon();
+			wek();
 		}, { passive: true } );
 		document.addEventListener( 'mouseover', function ( e ) {
 			var el = e.target.closest ? e.target.closest( 'input,select,textarea,[data-cursor],a,button' ) : null;
@@ -1130,6 +1217,7 @@
 			} else {
 				klikDoel = .7;
 			}
+			wek();
 		} );
 		document.addEventListener( 'mouseup', function () {
 			if ( isSter ) {
@@ -1137,13 +1225,16 @@
 			} else {
 				klikDoel = 1;
 			}
+			wek();
 		} );
 		if ( isSter ) {
 			sterStand( 1, .6, '' );
 		} else {
 			ringMaat( 32, 'transparent', 'rgba(56,6,94,.45)', '' );
 		}
-		( function loop() {
+		/* De loop stopt zodra de cursor stilstaat en is uitgelopen, en start weer bij de volgende muisbeweging.
+		   De ster draait door zolang hij zichtbaar is, want die draait ook in rust. */
+		function loop() {
 			if ( isSter ) {
 				rx += ( x - rx ) * .32;
 				ry += ( y - ry ) * .32;
@@ -1157,8 +1248,13 @@
 				klik += ( klikDoel - klik ) * .3;
 				ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px) scale(' + klik.toFixed( 3 ) + ')';
 			}
-			requestAnimationFrame( loop );
-		}() );
+			var rust = Math.abs( x - rx ) < .1 && Math.abs( y - ry ) < .1 && Math.abs( klikDoel - klik ) < .001;
+			if ( ( isSter && zichtbaar && ! verborgen && ! document.hidden ) || ! rust ) {
+				requestAnimationFrame( loop );
+			} else {
+				loopt = false;
+			}
+		}
 	}() );
 	/* ------------------------------------------------------------ Klassieke hero: foto's vloeien in elkaar over */
 

@@ -20,7 +20,7 @@ echo thema_sectie_open( $b, 'offerte', '', '' );
 			<?php echo thema_kop( $b['kop'] ?? '', 'h2', 'offerte-titel' ); ?>
 		</div>
 		<div class="offertevak<?php echo $open ? ' is-open' : ''; ?>" data-offerte data-animeer>
-			<form class="offertezin" id="<?php echo esc_attr( $uid ); ?>" action="<?php echo esc_url( $actie ); ?>" method="get" aria-hidden="<?php echo $open ? 'false' : 'true'; ?>">
+			<form class="offertezin" id="<?php echo esc_attr( $uid ); ?>" action="<?php echo esc_url( $actie ); ?>" method="get">
 				<?php if ( $feest ) : ?><input type="hidden" name="uitje" value="<?php echo esc_attr( ucfirst( str_replace( '-', ' ', $feest ) ) ); ?>"><?php endif; ?>
 				<p class="offertezin-tekst">
 					<?php echo esc_html( $b['zin_1'] ?? 'Op' ); ?>

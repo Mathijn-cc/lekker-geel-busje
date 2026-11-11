@@ -35,9 +35,14 @@ echo thema_sectie_open( $b, 'video', 'video-' . $breedte . ' video-hoogte-' . $h
 ?>
 	<div class="video-vlak<?php echo $autoplay ? ' is-spelend' : ''; ?>"<?php echo 'kader' === $breedte ? ' data-wide' : ''; ?><?php echo $maat; ?>>
 		<?php if ( $mp4 ) : ?>
-			<video class="video-bestand" src="<?php echo esc_url( $mp4 ); ?>"<?php echo $poster ? ' poster="' . esc_url( wp_get_attachment_image_url( $poster, 'breed' ) ) . '"' : ''; ?> playsinline<?php echo $autoplay ? ' autoplay muted loop preload="auto"' : ' preload="none"'; ?> data-video></video>
+			<?php /* Automatisch afspelen start pas als de video in beeld komt (thema.js), zodat het bestand niet bij elk bezoek meteen laadt. */ ?>
+			<video class="video-bestand" src="<?php echo esc_url( $mp4 ); ?>"<?php echo $poster ? ' poster="' . esc_url( wp_get_attachment_image_url( $poster, 'breed' ) ) . '"' : ''; ?> playsinline preload="none"<?php echo $autoplay ? ' muted loop data-video-auto' : ''; ?> data-video></video>
 		<?php elseif ( $embed && $autoplay ) : ?>
-			<?php echo $embed; // oEmbed-html van WordPress. ?>
+			<?php /* De embed (Vimeo of YouTube) pas invoegen als hij bijna in beeld is: de player en de stream laden anders bij elk bezoek. */ ?>
+			<?php if ( $poster ) : ?>
+				<?php echo thema_afbeelding( $poster, 'breed', 'video-poster' ); ?>
+			<?php endif; ?>
+			<template data-video-auto><?php echo $embed; // oEmbed-html van WordPress. ?></template>
 		<?php elseif ( $poster ) : ?>
 			<?php echo thema_afbeelding( $poster, 'breed', 'video-poster' ); ?>
 		<?php endif; ?>
