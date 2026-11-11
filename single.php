@@ -68,7 +68,7 @@ while ( have_posts() ) :
 							<a class="artikel-gelegenheid" href="<?php echo esc_url( get_permalink( $gel ) ); ?>">
 								<?php echo get_the_post_thumbnail( $gel, 'kaart-s', array( 'class' => 'artikel-gelegenheid-foto', 'loading' => 'lazy' ) ); ?>
 								<span class="artikel-gelegenheid-tekst">
-									<span class="artikel-gelegenheid-label">Vervoer geregeld?</span>
+									<span class="artikel-gelegenheid-label">Op zoek naar vervoer?</span>
 									<span class="artikel-gelegenheid-titel">Partybus voor je <?php echo esc_html( mb_strtolower( get_the_title( $gel ) ) ); ?></span>
 								</span>
 								<span class="artikel-gelegenheid-pijl" aria-hidden="true"><?php echo thema_icoon( 'pijl-op', 20, 2.4 ); ?></span>

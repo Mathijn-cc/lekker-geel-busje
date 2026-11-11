@@ -96,7 +96,7 @@ function thema_blog_artikel_plaatsen( $a, $categorie, $gelegenheid ) {
 	if ( function_exists( 'update_field' ) ) {
 		update_field( 'field_blog_in_het_kort', $a['kort'], $id );
 		update_field( 'field_blog_auteur', 'Team Lekker Geel Busje', $id );
-		update_field( 'field_blog_auteur_rol', 'De sfeerbus met chauffeur en gastvrouwke', $id );
+		update_field( 'field_blog_auteur_rol', 'Rijdt groepen door heel Nederland en daarbuiten', $id );
 		update_field( 'field_blog_gelegenheid', $gelegenheid, $id );
 		update_field( 'field_seo_seo_titel', $a['seo_titel'], $id );
 		update_field( 'field_seo_seo_omschrijving', $a['samenvatting'], $id );
@@ -322,6 +322,21 @@ function thema_blog_tips_en_tricks() {
 			}
 		}
 		clean_post_cache( $gel->ID );
+	}
+	return $uit;
+}
+
+/**
+ * Uitroltaak blog-auteur-rol-v1: nieuwe regel onder de auteur bij de eerste artikelen.
+ */
+function thema_blog_auteur_rol() {
+	$uit = array();
+	foreach ( array( 'vrijgezellenfeest-organiseren-tips', 'checklist-vrijgezellenfeest' ) as $slug ) {
+		$p = get_page_by_path( $slug, OBJECT, 'post' );
+		if ( $p && function_exists( 'update_field' ) ) {
+			update_field( 'field_blog_auteur_rol', 'Rijdt groepen door heel Nederland en daarbuiten', $p->ID );
+			$uit[] = $p->ID;
+		}
 	}
 	return $uit;
 }

@@ -27,7 +27,7 @@ add_action( 'acf/include_fields', function () {
 				'instructions' => 'Twee of drie korte punten, één per regel. Staat bovenaan het artikel; Google en AI-assistenten lezen dit als samenvatting.',
 			) ),
 			thema_veld( 'blog', 'auteur', 'Geschreven door', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'Team Lekker Geel Busje', 'instructions' => 'Leeg: Team Lekker Geel Busje.' ) ) ),
-			thema_veld( 'blog', 'auteur_rol', 'Rol of functie', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'Rijdt elk weekend feestjes door het land' ) ) ),
+			thema_veld( 'blog', 'auteur_rol', 'Rol of functie', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'Rijdt groepen door heel Nederland en daarbuiten' ) ) ),
 			thema_veld( 'blog', 'gelegenheid', 'Hoort bij gelegenheid', 'post_object', array(
 				'post_type'     => array( 'gelegenheid' ),
 				'return_format' => 'id',
