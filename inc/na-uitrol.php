@@ -19,6 +19,7 @@ function thema_uitroltaken() {
 		'faq-copy-v2'            => 'thema_faq_copy_zetten',
 		'vrijgezellenfeest-v1'    => 'thema_plaats_vrijgezellenfeest',
 		'fotos-inventaris-v1'     => 'thema_fotos_inventaris',
+		'fotoselectie-uploaden-v1' => 'thema_fotoselectie_uploaden',
 	);
 }
 
@@ -107,7 +108,7 @@ function thema_vloeiend_scrollen_uit() {
  * die later opnieuw gegenereerd zijn. Elke kopie wordt direct uit het origineel geschaald, niet uit de
  * verkleinde JPEG, zodat er maar een keer gecomprimeerd wordt en de foto scherp blijft.
  */
-function thema_webp_kopieen() {
+function thema_webp_kopieen( $alleen = array() ) {
 	if ( ! wp_image_editor_supports( array( 'mime_type' => 'image/webp' ) ) ) {
 		return 'geen webp-ondersteuning';
 	}
@@ -125,6 +126,7 @@ function thema_webp_kopieen() {
 		'post_status'    => 'inherit',
 		'posts_per_page' => -1,
 		'fields'         => 'ids',
+		'post__in'       => $alleen ? array_map( 'intval', (array) $alleen ) : array(),
 	) );
 	$gemaakt = 0;
 	$fouten  = 0;
