@@ -23,6 +23,9 @@
   --rand-smal:       clamp(12px, 2vw, 24px);
   --breedte:         1400px;
   --sectie-ruimte:   clamp(96px, 11vw, 160px);
+  --ruimte:         clamp(56px, 6vw, 96px);
+  --ruimte-kleur:   clamp(80px, 9vw, 136px);
+  --ruimte-intro:   clamp(32px, 4vw, 56px);
   --afronding-groot: 40px;
   --plak-afstand:    clamp(136px, 11vw, 168px);
   --veer:            cubic-bezier(.34, 1.5, .55, 1);
@@ -2211,7 +2214,9 @@ section.sectie-hero.hero-fotorol div.hero-waaier-score span.hero-badge-label {
 /**Blokken -- Offerte**/
 /*Offerte -- Gele sectie*/
 section.sectie-offerte {
-  padding:    clamp(40px, 5vw, 72px) var(--rand) clamp(64px, 7vw, 104px);
+  --boven:  var(--ruimte-kleur);
+  --onder:  var(--ruimte-kleur);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
   background: var(--kleur-geel);
 }
 section.sectie-offerte div.offerte-binnen {
@@ -2440,7 +2445,9 @@ section.sectie-lopende_band div.band span.band-item span.band-ster {
 /**Blokken -- Over ons**/
 /*Over ons -- Tekst*/
 section.sectie-over_ons {
-  padding: var(--sectie-ruimte) var(--rand);
+  --boven:  var(--ruimte);
+  --onder:  var(--ruimte);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
 }
 section.sectie-over_ons div.rij div.kolom.over-tekst {
   display:        flex;
@@ -2526,15 +2533,9 @@ section.sectie-brede_foto div.brede-foto-vlak div.brede-foto-zoom img {
 /**Blokken -- Aan boord**/
 /*Aan boord -- Intro*/
 section.sectie-aan_boord {
-  padding: calc(var(--sectie-ruimte) * .35) var(--rand) 0;
-}
-/*Aan boord -- Volle ruimte na een gekleurd blok*/
-:where(section.sectie.achtergrond-geel, section.sectie.achtergrond-paars, section.sectie-video, section.sectie-reviews, section.sectie-gelegenheden, section.sectie-slot_cta, section.sectie-lopende_band.band-paars) + section.sectie-aan_boord {
-  padding-top: var(--sectie-ruimte);
-}
-/*Aan boord -- Ruimte boven klein blijft kleiner dan standaard*/
-section.sectie.sectie-aan_boord.ruimte-boven-klein {
-  padding-top: calc(var(--sectie-ruimte) * .15);
+  --boven:  var(--ruimte);
+  --onder:  0px;
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
 }
 section.sectie-aan_boord div.aan-boord-raster {
   max-width:             var(--breedte);
@@ -2573,7 +2574,9 @@ section.sectie-aan_boord div.aan-boord-raster.tekst-eronder p.tekst-groot {
 /**Blokken -- Voordelen**/
 /*Voordelen -- Podium*/
 section.sectie-voordelen {
-  padding: clamp(48px, 6vw, 72px) var(--rand) var(--sectie-ruimte);
+  --boven:  var(--ruimte);
+  --onder:  var(--ruimte);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
 }
 section.sectie-voordelen div.voordelen-binnen {
   max-width:      var(--breedte);
@@ -3089,7 +3092,9 @@ a.gelegenheid.gelegenheid-klein span.gelegenheid-tekst span.gelegenheid-naam {
 /**Blokken -- Werkgebied**/
 /*Werkgebied -- Raster*/
 section.sectie-werkgebied {
-  padding:  var(--sectie-ruimte) var(--rand);
+  --boven:  var(--ruimte);
+  --onder:  var(--ruimte);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
   overflow: hidden;
 }
 section.sectie-werkgebied div.werkgebied-raster {
@@ -3236,7 +3241,9 @@ svg.nlkaart.actief g.kaart-bus {
 /**Blokken -- Prijs**/
 /*Prijs -- Raster*/
 section.sectie-prijs {
-  padding: var(--sectie-ruimte) var(--rand);
+  --boven:  var(--ruimte);
+  --onder:  var(--ruimte);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
 }
 section.sectie-prijs div.prijs-raster {
   max-width:             var(--breedte);
@@ -3491,7 +3498,9 @@ section.sectie-prijs div.prijstegels div.prijstegels-uitkomst {
 /**Blokken -- Reviews**/
 /*Reviews -- Gele sectie*/
 section.sectie-reviews {
-  padding:    clamp(88px, 10vw, 140px) 0 clamp(110px, 12vw, 170px);
+  --boven:  var(--ruimte-kleur);
+  --onder:  var(--ruimte-kleur);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) 0 calc(var(--onder) * var(--schaal-onder, 1));
   background: var(--kleur-geel);
   overflow:   hidden;
 }
@@ -3581,7 +3590,9 @@ section.sectie-reviews div.reviews-band figure.review figcaption.review-naam {
 /**Blokken -- Video**/
 /*Video -- Breed vlak op paars*/
 section.sectie-video {
-  padding:    clamp(80px, 9vw, 130px) var(--rand-smal);
+  --boven:  var(--ruimte-kleur);
+  --onder:  var(--ruimte-kleur);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand-smal) calc(var(--onder) * var(--schaal-onder, 1));
   background: var(--kleur-paars);
 }
 section.sectie-video div.video-vlak {
@@ -3635,7 +3646,9 @@ section.sectie-video div.video-vlak.is-spelend button.video-speel {
 /**Blokken -- Veelgestelde vragen**/
 /*Vragen -- Kolommen*/
 section.sectie-faq {
-  padding: clamp(96px, 11vw, 150px) var(--rand);
+  --boven:  var(--ruimte);
+  --onder:  var(--ruimte);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
 }
 section.sectie-faq div.rij div.kolom.faq-tekst {
   display:        flex;
@@ -3747,7 +3760,9 @@ body.accordeon-veer section.sectie-faq div.faq-lijst div.faq-item button.faq-vra
 /**Blokken -- Agenda**/
 /*Agenda -- Kolommen*/
 section.sectie-agenda {
-  padding: clamp(96px, 11vw, 150px) var(--rand);
+  --boven:  var(--ruimte);
+  --onder:  var(--ruimte);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
 }
 section.sectie-agenda div.rij div.kolom.agenda-tekst {
   display:        flex;
@@ -3933,12 +3948,14 @@ section.sectie-slot_cta + * {
 /*Tekst -- Vrije tekst*/
 section.sectie-tekst,
 section.sectie-formulier {
-  padding: clamp(72px, 8vw, 120px) var(--rand);
+  --boven:  var(--ruimte);
+  --onder:  var(--ruimte);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
 }
 section.sectie-tekst.sectie-paginakop,
 section.sectie-formulier:first-child,
 section.sectie-tekst:first-child {
-  padding-top: clamp(150px, 14vw, 200px);
+  --boven: clamp(150px, 14vw, 200px);
 }
 section.sectie-tekst div.tekst-binnen,
 section.sectie-formulier div.formulier-binnen {
@@ -4166,7 +4183,9 @@ html.gel-vanaf-kaart section.sectie-andere div[data-gel-in] {
 }
 /*Gelegenheid -- Tekst en voordelen*/
 section.sectie-gel-inhoud {
-  padding: clamp(72px, 8vw, 120px) var(--rand);
+  --boven:  var(--ruimte);
+  --onder:  var(--ruimte);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
 }
 section.sectie-gel-inhoud div.gel-inhoud {
   max-width:             var(--breedte);
@@ -4231,7 +4250,9 @@ section.sectie-gel-inhoud div.gel-voordelen div.gel-voordeel span.gel-voordeel-t
 }
 /*Gelegenheid -- Andere feestjes*/
 section.sectie-andere {
-  padding: 0 var(--rand) clamp(80px, 9vw, 130px);
+  --boven:  0px;
+  --onder:  var(--ruimte-kleur);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
 }
 section.sectie-andere div.andere-binnen {
   max-width:      var(--breedte);
@@ -4578,7 +4599,9 @@ section.sectie-video div.video-vlak.is-spelend iframe {
 /**Blokken -- Citaat**/
 /*Citaat -- Raster*/
 section.sectie-citaat {
-  padding: var(--sectie-ruimte) var(--rand);
+  --boven:  var(--ruimte);
+  --onder:  var(--ruimte);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
 }
 section.sectie-citaat div.citaat-raster {
   max-width:             var(--breedte);
@@ -4825,19 +4848,40 @@ section.sectie-gelegenheden.achtergrond-geel div.gelegenheden-kop :is(h1, h2, h3
 }
 
 /**Blokken -- Ruimte per blok**/
-/*Ruimte -- Boven*/
+/*Ruimte -- Systeem: elk blok heeft ruimte boven (--boven) en onder (--onder), twee blokken samen geven de witruimte ertussen*/
+/*Ruimte -- Gekleurd blok: meer lucht binnen het vlak*/
+section.sectie.achtergrond-geel,
+section.sectie.achtergrond-paars {
+  --boven: var(--ruimte-kleur);
+  --onder: var(--ruimte-kleur);
+}
+/*Ruimte -- Onder de hero en de paginakop wat meer lucht*/
+:where(section.sectie-hero, section.sectie-gel-hero, div.pin-spacer:has(> section.sectie-hero)) + section.sectie:not(.achtergrond-geel, .achtergrond-paars) {
+  --boven: var(--ruimte-kleur);
+}
+/*Ruimte -- Een intro-blok staat dicht op het blok dat het inleidt*/
+:where(section.sectie-aan_boord) + section.sectie:not(.achtergrond-geel, .achtergrond-paars, .sectie-reviews, .sectie-video, .sectie-gelegenheden, .sectie-lopende_band, .sectie-offerte) {
+  --boven: var(--ruimte-intro);
+}
+/*Ruimte -- Boven, in te stellen per blok*/
+section.sectie.ruimte-boven-groot {
+  --schaal-boven: 1.6;
+}
 section.sectie.ruimte-boven-klein {
-  padding-top: calc(var(--sectie-ruimte) * .4);
+  --schaal-boven: .4;
 }
 section.sectie.ruimte-boven-geen {
-  padding-top: 0;
+  --schaal-boven: 0;
 }
-/*Ruimte -- Onder*/
+/*Ruimte -- Onder, in te stellen per blok*/
+section.sectie.ruimte-onder-groot {
+  --schaal-onder: 1.6;
+}
 section.sectie.ruimte-onder-klein {
-  padding-bottom: calc(var(--sectie-ruimte) * .4);
+  --schaal-onder: .4;
 }
 section.sectie.ruimte-onder-geen {
-  padding-bottom: 0;
+  --schaal-onder: 0;
 }
 /*Ruimte -- Gelegenheden is een kaart: de instelling bepaalt de ruimte rond de kaart, de binnenkant blijft gelijk*/
 section.sectie.sectie-gelegenheden.ruimte-boven-klein {
@@ -5644,10 +5688,12 @@ section.sectie-hero.hero-foto.hero-kaart.ruimte-onder-extra {
 /**Blokken -- Contact**/
 /*Contact -- Sectie*/
 section.sectie-contact {
-  padding: clamp(72px, 8vw, 120px) var(--rand);
+  --boven:  var(--ruimte);
+  --onder:  var(--ruimte);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
 }
 section.sectie-contact:first-child {
-  padding-top: clamp(150px, 14vw, 200px);
+  --boven: clamp(150px, 14vw, 200px);
 }
 section.sectie-contact div.contact-binnen {
   display:        flex;
@@ -5888,7 +5934,9 @@ section.sectie-contact div.contact-binnen div.contactraster div.contactgegevens 
 /**Reviews -- Compact**/
 /*Compact -- Kop links, lopende kaarten rechts tot de rand van het scherm*/
 section.sectie-reviews.reviews-compact {
-  padding: clamp(56px, 6vw, 88px) 0;
+  --boven:  var(--ruimte);
+  --onder:  var(--ruimte);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) 0 calc(var(--onder) * var(--schaal-onder, 1));
 }
 section.sectie-reviews.reviews-compact div.reviews-kop {
   margin-bottom: clamp(20px, 3vw, 32px);
@@ -6170,7 +6218,9 @@ figure.foto-credit span.foto-tijdelijk {
 /**Blokken -- Gebied**/
 /*Gebied -- Sectie*/
 section.sectie-gebied {
-  padding: clamp(72px, 8vw, 120px) var(--rand);
+  --boven:  var(--ruimte);
+  --onder:  var(--ruimte);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
 }
 section.sectie-gebied div.gebied-binnen {
   display:        flex;
@@ -6351,7 +6401,9 @@ section.sectie-tips div.tips-raster article.tip a.tip-link:hover {
 /**Blokken -- Tips**/
 /*Tips -- Sectie*/
 section.sectie-tips {
-  padding: clamp(72px, 8vw, 120px) var(--rand);
+  --boven:  var(--ruimte);
+  --onder:  var(--ruimte);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
 }
 section.sectie-tips div.tips-binnen {
   display:        flex;
@@ -6577,7 +6629,9 @@ footer.voet a.voetlink:hover {
 /**Blokken -- Route**/
 /*Route -- Sectie*/
 section.sectie-route {
-  padding: clamp(72px, 8vw, 120px) var(--rand);
+  --boven:  var(--ruimte);
+  --onder:  var(--ruimte);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
 }
 section.sectie-route div.route-binnen {
   display:        flex;
@@ -6979,7 +7033,9 @@ section.sectie-lopende_band.band-subtiel div.band span.band-item span.band-kop s
 /**Blokken -- Feiten**/
 /*Feiten -- Kop links (plakt mee), kaartjes rechts*/
 section.sectie-feiten {
-  padding: var(--sectie-ruimte) var(--rand);
+  --boven:  var(--ruimte);
+  --onder:  var(--ruimte);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
 }
 section.sectie-feiten div.feiten-raster {
   max-width:             var(--breedte);
@@ -7112,7 +7168,9 @@ section.sectie-feiten div.feiten-raster dl.feiten-lijst div.feit.feit-uitgelicht
 /**Blokken -- Opdrachten**/
 /*Opdrachten -- Sectie*/
 section.sectie-opdrachten {
-  padding: var(--sectie-ruimte) var(--rand);
+  --boven:  var(--ruimte);
+  --onder:  var(--ruimte);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
 }
 section.sectie-opdrachten div.opdrachten-binnen {
   display:        flex;
@@ -7230,7 +7288,9 @@ section.sectie-opdrachten.achtergrond-paars div.opdrachten-binnen p.opdrachten-n
 /**Blokken -- Checklist**/
 /*Checklist -- Kop links (plakt mee), punten rechts*/
 section.sectie-checklist {
-  padding: var(--sectie-ruimte) var(--rand);
+  --boven:  var(--ruimte);
+  --onder:  var(--ruimte);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
 }
 section.sectie-checklist div.checklist-raster {
   display:               grid;
@@ -7494,7 +7554,9 @@ section.sectie-blogkop div.blogkop-binnen nav.blogkop-onderwerpen a.onderwerp-pi
 }
 /*Overzicht -- Raster, de eerste kaart is uitgelicht over de volle breedte*/
 section.sectie-blogoverzicht {
-  padding: 0 var(--rand) var(--sectie-ruimte);
+  --boven:  0px;
+  --onder:  var(--ruimte);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
 }
 section.sectie-blogoverzicht div.blogoverzicht-binnen {
   display:        flex;
@@ -7865,7 +7927,9 @@ article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet a.artik
 /**Blokken -- Artikelen**/
 /*Artikelen -- Kop links, kaarten rechts op brede schermen*/
 section.sectie-artikelen {
-  padding: var(--sectie-ruimte) var(--rand);
+  --boven:  var(--ruimte);
+  --onder:  var(--ruimte);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
 }
 section.sectie-artikelen div.artikelen-binnen {
   display:        flex;

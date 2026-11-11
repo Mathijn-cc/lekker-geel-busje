@@ -113,9 +113,9 @@ function thema_extra_velden( $p, $standaard = '', $weergave = array() ) {
 		) );
 	}
 	if ( ! in_array( $p, array( 'hero', 'brede_foto' ), true ) ) {
-		$ruimte   = array( 'normaal' => 'Standaard', 'klein' => 'Klein', 'geen' => 'Geen' );
+		$ruimte   = array( 'groot' => 'Meer', 'normaal' => 'Standaard', 'klein' => 'Klein', 'geen' => 'Geen' );
 		$velden[] = thema_veld( $p, 'ruimte_boven', 'Ruimte boven', 'button_group', array_merge( thema_breed( 50 ), array( 'choices' => $ruimte, 'default_value' => 'normaal' ) ) );
-		$velden[] = thema_veld( $p, 'ruimte_onder', 'Ruimte onder', 'button_group', array_merge( thema_breed( 50 ), array( 'choices' => $ruimte, 'default_value' => 'normaal', 'instructions' => 'Zet blokken dichter op elkaar door hier en bij het volgende blok minder ruimte te kiezen.' ) ) );
+		$velden[] = thema_veld( $p, 'ruimte_onder', 'Ruimte onder', 'button_group', array_merge( thema_breed( 50 ), array( 'choices' => $ruimte, 'default_value' => 'normaal', 'instructions' => 'De witruimte tussen twee blokken is de ruimte onder het ene plus de ruimte boven het volgende. Kies bij beide Klein of Geen om ze dichter op elkaar te zetten.' ) ) );
 	}
 	$velden[] = thema_veld( $p, 'kopniveau', 'Kopniveau', 'button_group', array(
 		'choices'       => array( 'auto' => 'Automatisch', 'h1' => 'H1', 'h2' => 'H2', 'h3' => 'H3' ),
