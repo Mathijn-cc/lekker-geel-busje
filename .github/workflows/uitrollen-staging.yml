@@ -37,6 +37,11 @@ jobs:
           sed -i -E "s/define\( 'THEMA_VERSIE', '[^']+' \)/define( 'THEMA_VERSIE', '${BASIS}.${GITHUB_RUN_NUMBER}' )/" functions.php
           grep -m1 "THEMA_VERSIE" functions.php
 
+      - name: CSS en JS verkleinen (alleen in de uitrol, de repo blijft leesbaar)
+        run: |
+          npx --yes esbuild@0.25 assets/css/*.css --minify --outdir=assets/css --allow-overwrite --log-level=warning
+          npx --yes esbuild@0.25 assets/js/*.js --minify --outdir=assets/js --allow-overwrite --log-level=warning
+
       - name: Back-up van het huidige thema op de server
         run: |
           ssh -i ~/.ssh/sleutel -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
@@ -53,6 +58,11 @@ jobs:
         run: |
           ssh -i ~/.ssh/sleutel -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
             "cd $SITE && wp eval 'do_action( \"thema_na_uitrol\" );'"
+
+      - name: Staging uit de zoekmachines houden
+        run: |
+          ssh -i ~/.ssh/sleutel -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
+            "cd $SITE && wp option update blog_public 0"
 
       - name: Cache legen
         run: |
