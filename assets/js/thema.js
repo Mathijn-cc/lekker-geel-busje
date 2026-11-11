@@ -533,16 +533,22 @@
 			if ( ! sterk.length ) {
 				return false;
 			}
-			/* Trustindex zet score en aantal in losse <strong>'s, niet altijd allebei en niet altijd in dezelfde volgorde. */
+			/* Trustindex zet score en aantal in één <strong>, gescheiden door een lege span.ti-separator ("4.9" + "67 recensies"). */
 			var score = '';
 			var aantal = '';
 			Array.prototype.forEach.call( sterk, function ( el ) {
-				var t = el.textContent.trim();
-				if ( /^\d[.,]\d$/.test( t ) ) {
-					score = t.replace( '.', ',' );
-				} else if ( /\d/.test( t ) ) {
-					aantal = t;
-				}
+				var kopie = el.cloneNode( true );
+				Array.prototype.forEach.call( kopie.querySelectorAll( '.ti-separator' ), function ( sep ) {
+					sep.replaceWith( '|' );
+				} );
+				kopie.textContent.split( '|' ).forEach( function ( deel ) {
+					var t = deel.trim();
+					if ( /^\d[.,]\d$/.test( t ) ) {
+						score = t.replace( '.', ',' );
+					} else if ( /\d/.test( t ) ) {
+						aantal = t;
+					}
+				} );
 			} );
 			/* Alleen het cijfer vervangen, zodat cijfer en label apart opgemaakt kunnen worden. */
 			var getal = pil.querySelector( '[data-rating-getal]' );
