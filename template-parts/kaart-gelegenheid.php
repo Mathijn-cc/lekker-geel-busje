@@ -14,7 +14,7 @@ if ( 'schuiven' === $variant ) {
 ?>
 <a class="gelegenheid gelegenheid-<?php echo esc_attr( $variant ); ?>" href="<?php echo esc_url( get_permalink( $post ) ); ?>" data-cursor="Klikken!"<?php echo 'schuiven' === $variant ? ' data-inspring' : ''; ?><?php echo $stijl; ?>>
 	<span class="gelegenheid-kaart">
-		<?php echo get_the_post_thumbnail( $post, 'kaart', array( 'class' => 'gelegenheid-foto', 'loading' => 'schuiven' === $variant ? 'eager' : 'lazy', 'style' => 'view-transition-name:gel-' . (int) $post->ID ) ); ?>
+		<?php echo get_the_post_thumbnail( $post, 'kaart', array( 'class' => 'gelegenheid-foto', 'loading' => 'lazy', 'sizes' => thema_sizes( 'kaart' ), 'style' => 'view-transition-name:gel-' . (int) $post->ID ) ); ?>
 		<span class="gelegenheid-waas" aria-hidden="true"></span>
 		<?php if ( 'klein' !== $variant ) : ?>
 			<span class="gelegenheid-pijl" aria-hidden="true"><?php echo thema_icoon( 'pijl-op', 20, 2.4 ); ?></span>

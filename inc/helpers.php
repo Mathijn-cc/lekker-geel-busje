@@ -103,6 +103,25 @@ function thema_blok_knop( $link, $blok, $kleur = 'paars', $schuin = false ) {
 	return thema_knop_link( $link, $kleur, $schuin );
 }
 
+/**
+ * Waarde voor het sizes-attribuut per soort afbeelding, gemeten op de werkelijke weergavebreedte.
+ * Zonder sizes rekent WordPress met de volle schermbreedte en laadt de browser veel te grote formaten.
+ * Waar een foto met object-fit: cover hoger wordt getoond dan zijn verhouding, is de waarde ruimer.
+ */
+function thema_sizes( $soort ) {
+	$sizes = array(
+		'kaart'          => '(min-width: 1000px) 370px, (min-width: 700px) 300px, 86vw',
+		'kaart-klein'    => '(min-width: 1000px) 250px, 170px',
+		'waaier'         => '(min-width: 1000px) 240px, 170px',
+		'tip'            => '(min-width: 1000px) 470px, 92vw',
+		'tegel'          => '(min-width: 1000px) 460px, 90vw',
+		'helft'          => '(min-width: 1000px) 720px, (min-width: 700px) 500px, 100vw',
+		'helft-hoog'     => '(min-width: 1000px) 980px, (min-width: 700px) 700px, 100vw',
+		'hero-klassiek'  => '(min-width: 1000px) 760px, 100vw',
+	);
+	return $sizes[ $soort ] ?? '100vw';
+}
+
 function thema_afbeelding( $beeld, $maat = 'large', $class = '', $lazy = true, $attr = array() ) {
 	$id = is_array( $beeld ) ? ( $beeld['ID'] ?? 0 ) : (int) $beeld;
 	if ( ! $id ) {
@@ -372,13 +391,13 @@ function thema_start_donker() {
 /**
  * Foto met naamsvermelding uit het bijschrift en eventueel het label Tijdelijke foto.
  */
-function thema_foto_met_credit( $id, $maat = 'breed', $tijdelijk = false, $class = '' ) {
+function thema_foto_met_credit( $id, $maat = 'breed', $tijdelijk = false, $class = '', $attr = array() ) {
 	$id = (int) $id;
 	if ( ! $id ) {
 		return '';
 	}
 	$credit = wp_kses( (string) wp_get_attachment_caption( $id ), array( 'a' => array( 'href' => true, 'target' => true, 'rel' => true ) ) );
-	$html   = '<figure class="foto-credit ' . esc_attr( $class ) . '">' . thema_afbeelding( $id, $maat );
+	$html   = '<figure class="foto-credit ' . esc_attr( $class ) . '">' . thema_afbeelding( $id, $maat, '', true, $attr );
 	if ( $tijdelijk && current_user_can( 'edit_pages' ) ) {
 		$html .= '<span class="foto-tijdelijk">Tijdelijke foto</span>';
 	}

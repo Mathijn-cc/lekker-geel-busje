@@ -22,7 +22,7 @@ echo thema_sectie_open( $b, 'tips', 'tips-' . $kolommen );
 			<?php foreach ( $items as $i => $t ) : ?>
 				<article class="tip" data-animeer>
 					<?php if ( ! empty( $t['beeld'] ) ) : ?>
-						<div class="tip-beeld"><?php echo thema_foto_met_credit( $t['beeld'], 'kaart', ! empty( $t['tijdelijk'] ) ); ?></div>
+						<div class="tip-beeld"><?php echo thema_foto_met_credit( $t['beeld'], 'kaart', ! empty( $t['tijdelijk'] ), '', array( 'sizes' => thema_sizes( 'tip' ) ) ); ?></div>
 					<?php endif; ?>
 					<div class="tip-tekst">
 						<?php if ( ! empty( $t['soort'] ) ) : ?><span class="tip-soort"><?php echo esc_html( $t['soort'] ); ?></span><?php endif; ?>

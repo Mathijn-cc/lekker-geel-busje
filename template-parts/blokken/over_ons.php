@@ -17,16 +17,16 @@ echo thema_sectie_open( $b, 'over_ons' );
 		<?php if ( $beelden ) : ?>
 			<div class="kolom fotostapel">
 				<div data-parallax="-30">
-					<div class="fotostapel-groot" data-schuif="2"><?php echo thema_afbeelding( $beelden[0], 'breed' ); ?></div>
+					<div class="fotostapel-groot" data-schuif="2"><?php echo thema_afbeelding( $beelden[0], 'breed', '', true, array( 'sizes' => thema_sizes( 'helft' ) ) ); ?></div>
 				</div>
 				<?php if ( count( $beelden ) > 1 ) : ?>
 					<div class="fotostapel-rij">
 						<div data-parallax="40">
-							<div class="fotostapel-klein fotostapel-links" data-schuif="-5"><?php echo thema_afbeelding( $beelden[1], 'kaart' ); ?></div>
+							<div class="fotostapel-klein fotostapel-links" data-schuif="-5"><?php echo thema_afbeelding( $beelden[1], 'kaart', '', true, array( 'sizes' => thema_sizes( 'kaart-klein' ) ) ); ?></div>
 						</div>
 						<?php if ( ! empty( $beelden[2] ) ) : ?>
 							<div data-parallax="100" class="fotostapel-zakt">
-								<div class="fotostapel-klein fotostapel-rechts" data-schuif="6"><?php echo thema_afbeelding( $beelden[2], 'kaart' ); ?></div>
+								<div class="fotostapel-klein fotostapel-rechts" data-schuif="6"><?php echo thema_afbeelding( $beelden[2], 'kaart', '', true, array( 'sizes' => thema_sizes( 'kaart-klein' ) ) ); ?></div>
 							</div>
 						<?php endif; ?>
 					</div>

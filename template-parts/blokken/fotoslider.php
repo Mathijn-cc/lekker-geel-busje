@@ -23,7 +23,7 @@ echo thema_sectie_open( $b, 'fotoslider', 'fotoslider-' . $hoogte . ' fotoslider
 			<div class="fotoslider-spoor" aria-live="<?php echo $auto ? 'off' : 'polite'; ?>">
 				<?php foreach ( $fotos as $i => $id ) : ?>
 					<figure class="fotoslider-dia<?php echo 0 === $i ? ' is-actief' : ''; ?>" aria-roledescription="dia" aria-label="<?php echo esc_attr( ( $i + 1 ) . ' van ' . $aantal ); ?>"<?php echo $i ? ' aria-hidden="true"' : ''; ?>>
-						<?php echo thema_afbeelding( $id, 'breed', '', $i > 1 ); ?>
+						<?php echo thema_afbeelding( $id, 'breed', '', $i > 0 || 0 !== (int) ( $args['index'] ?? 1 ) ); ?>
 						<?php if ( $bijschrift && wp_get_attachment_caption( $id ) ) : ?>
 							<figcaption class="fotoslider-bijschrift"><?php echo esc_html( wp_get_attachment_caption( $id ) ); ?></figcaption>
 						<?php endif; ?>

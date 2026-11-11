@@ -11,6 +11,8 @@ function thema_uitroltaken() {
 	return array(
 		'over-ons-v1' => 'thema_plaats_overonspagina',
 		'stickers-naar-bento-v1' => 'thema_stickers_naar_bento',
+		'beelden-opnieuw-v1'     => 'thema_beelden_opnieuw',
+		'vloeiend-scrollen-uit-v1' => 'thema_vloeiend_scrollen_uit',
 	);
 }
 
@@ -42,4 +44,53 @@ function thema_stickers_naar_bento() {
 			'stickers'
 		)
 	);
+}
+
+/**
+ * Alle formaten van de afbeeldingen opnieuw maken: de nieuwe kaartformaten (kaart-s, kaart-m)
+ * en de lagere kwaliteit (82/78) gelden anders alleen voor nieuwe uploads.
+ */
+function thema_beelden_opnieuw() {
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+	if ( function_exists( 'set_time_limit' ) ) {
+		set_time_limit( 0 );
+	}
+	$ids    = get_posts( array(
+		'post_type'      => 'attachment',
+		'post_mime_type' => array( 'image/jpeg', 'image/png', 'image/webp' ),
+		'post_status'    => 'inherit',
+		'posts_per_page' => -1,
+		'fields'         => 'ids',
+	) );
+	$klaar  = 0;
+	$fouten = array();
+	foreach ( $ids as $id ) {
+		$bestand = wp_get_original_image_path( $id );
+		if ( ! $bestand || ! file_exists( $bestand ) ) {
+			$fouten[] = $id;
+			continue;
+		}
+		$meta = wp_generate_attachment_metadata( $id, $bestand );
+		if ( is_wp_error( $meta ) || empty( $meta ) ) {
+			$fouten[] = $id;
+			continue;
+		}
+		wp_update_attachment_metadata( $id, $meta );
+		$klaar++;
+	}
+	return array( 'opnieuw' => $klaar, 'fouten' => $fouten );
+}
+
+/**
+ * Vloeiend scrollen (Lenis) standaard uit: het kost scroll-responsiviteit en levert hier weinig op.
+ * Daarna is het per omgeving gewoon weer aan te zetten in de thema-instellingen.
+ */
+function thema_vloeiend_scrollen_uit() {
+	$s = get_option( THEMA_OPTIE, array() );
+	if ( ! is_array( $s ) ) {
+		return 'geen instellingen';
+	}
+	$s['vloeiend_scrollen'] = 0;
+	update_option( THEMA_OPTIE, $s );
+	return 'uit';
 }

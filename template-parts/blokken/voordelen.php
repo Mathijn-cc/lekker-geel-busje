@@ -27,7 +27,7 @@ if ( in_array( $b['weergave'] ?? 'tabs', array( 'bento', 'stickers' ), true ) ) 
 				?>
 				<article class="bentotegel bentotegel-<?php echo esc_attr( $kleur ); ?><?php echo 0 === $i ? ' bentotegel-groot' : ''; ?><?php echo $foto ? ' bentotegel-foto' : ''; ?><?php echo $donker ? ' bentotegel-donker' : ' bentotegel-licht'; ?>" data-animeer style="--i:<?php echo (int) $i; ?>">
 					<?php if ( $foto ) : ?>
-						<?php echo thema_afbeelding( $item['beeld'], 0 === $i ? 'breed' : 'kaart', 'bentotegel-beeld', true, array( 'alt' => $item['titel'] ) ); ?>
+						<?php echo thema_afbeelding( $item['beeld'], 0 === $i ? 'breed' : 'kaart', 'bentotegel-beeld', true, array( 'alt' => $item['titel'], 'sizes' => thema_sizes( 0 === $i ? 'helft-hoog' : 'kaart' ) ) ); ?>
 						<span class="bentotegel-waas" aria-hidden="true"></span>
 					<?php endif; ?>
 					<div class="bentotegel-inhoud">
@@ -57,7 +57,7 @@ if ( 'tegels' === ( $b['weergave'] ?? 'tabs' ) ) :
 				<article class="voordeeltegel" data-animeer style="--i:<?php echo (int) $i; ?>">
 					<div class="voordeeltegel-binnen">
 						<div class="voordeeltegel-beeld">
-							<?php echo thema_afbeelding( $item['beeld'] ?? 0, 'large', 'voordeeltegel-foto', true, array( 'alt' => $item['titel'] ) ); ?>
+							<?php echo thema_afbeelding( $item['beeld'] ?? 0, 'large', 'voordeeltegel-foto', true, array( 'alt' => $item['titel'], 'sizes' => thema_sizes( 'tegel' ) ) ); ?>
 							<span class="voordeeltegel-nummer"><?php echo esc_html( str_pad( $i + 1, 2, '0', STR_PAD_LEFT ) ); ?></span>
 						</div>
 						<div class="voordeeltegel-inhoud">
@@ -82,7 +82,7 @@ echo thema_sectie_open( $b, 'voordelen', 'rechts' === ( $b['foto_kant'] ?? 'link
 		<div class="voordeelpodium" data-voordelen>
 			<div class="voordeelbeeld" data-schuif>
 				<?php foreach ( $items as $i => $item ) : ?>
-					<?php echo thema_afbeelding( $item['beeld'] ?? 0, 'breed', 'voordeelfoto' . ( 0 === $i ? ' is-actief' : '' ), 0 !== $i, array( 'data-foto' => $i, 'alt' => $item['titel'] ) ); ?>
+					<?php echo thema_afbeelding( $item['beeld'] ?? 0, 'breed', 'voordeelfoto' . ( 0 === $i ? ' is-actief' : '' ), true, array( 'data-foto' => $i, 'alt' => $item['titel'], 'sizes' => thema_sizes( 'helft-hoog' ) ) ); ?>
 				<?php endforeach; ?>
 				<div class="voordeelbeeld-waas" aria-hidden="true"></div>
 				<span class="schuinlabel schuinlabel-paars voordeelbeeld-label" data-voordeel-label><?php echo esc_html( $items[0]['titel'] ); ?></span>

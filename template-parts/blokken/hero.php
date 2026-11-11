@@ -111,7 +111,7 @@ elseif ( 'collage' === $stijl ) :
 			?>
 			<div class="hero-collage-zwevend">
 				<?php foreach ( array_slice( $extra, 0, 4 ) as $i => $id ) : ?>
-					<div class="collagefoto collagefoto-<?php echo esc_attr( $posities[ $i ] ); ?>" data-float<?php echo 0 === $i ? ' data-cursor="Feest!"' : ''; ?>><?php echo thema_afbeelding( $id, 'kaart' ); ?></div>
+					<div class="collagefoto collagefoto-<?php echo esc_attr( $posities[ $i ] ); ?>" data-float<?php echo 0 === $i ? ' data-cursor="Feest!"' : ''; ?>><?php echo thema_afbeelding( $id, 'kaart', '', true, array( 'sizes' => thema_sizes( 'kaart-klein' ) ) ); ?></div>
 				<?php endforeach; ?>
 			</div>
 		<?php endif; ?>
@@ -125,7 +125,7 @@ elseif ( 'collage' === $stijl ) :
 		<?php if ( $extra ) : ?>
 			<div class="hero-collage-rij">
 				<?php foreach ( array_slice( $extra, 0, 3 ) as $id ) : ?>
-					<div class="collagerij-foto"><?php echo thema_afbeelding( $id, 'kaart' ); ?></div>
+					<div class="collagerij-foto"><?php echo thema_afbeelding( $id, 'kaart', '', true, array( 'sizes' => thema_sizes( 'kaart-klein' ) ) ); ?></div>
 				<?php endforeach; ?>
 			</div>
 		<?php endif; ?>
@@ -149,14 +149,14 @@ elseif ( 'bento' === $stijl ) :
 				</div>
 			</div>
 			<div class="bento-tegel bento-foto" data-hero-img data-cursor="Feest!">
-				<?php echo thema_afbeelding( $beeld ?: ( $fotos ? reset( $fotos ) : 0 ), 'breed', '', false ); ?>
+				<?php echo thema_afbeelding( $beeld ?: ( $fotos ? reset( $fotos ) : 0 ), 'breed', '', false, array( 'fetchpriority' => 'high', 'sizes' => thema_sizes( 'hero-klassiek' ) ) ); ?>
 				<?php if ( $sub ) : ?><span class="schuinlabel"><?php echo wp_strip_all_tags( $sub ); ?></span><?php endif; ?>
 			</div>
 			<div class="bento-tegel bento-score">
 				<span class="sterren">★★★★★</span>
 				<div><span class="bento-score-getal"><?php echo esc_html( $s['score'] ); ?></span><span class="bento-score-label"><?php echo esc_html( $s['score_label'] ); ?></span></div>
 			</div>
-			<div class="bento-tegel bento-klein"><?php echo thema_afbeelding( $extra[0] ?? 0, 'kaart' ); ?></div>
+			<div class="bento-tegel bento-klein"><?php echo thema_afbeelding( $extra[0] ?? 0, 'kaart', '', true, array( 'sizes' => thema_sizes( 'kaart-klein' ) ) ); ?></div>
 			<a class="bento-tegel bento-roze" href="<?php echo esc_url( $tegel_url ); ?>">
 				<span class="bento-roze-tekst"><span class="bento-roze-klein"><?php echo esc_html( $b['bento_klein'] ?? '' ); ?></span><span class="bento-roze-groot"><?php echo esc_html( $b['bento_groot'] ?? '' ); ?></span></span>
 				<span class="bento-roze-pijl"><?php echo thema_icoon( 'chevron' ); ?></span>
@@ -196,7 +196,7 @@ elseif ( 'fotorol' === $stijl ) :
 						<div class="hero-waaierkaart<?php echo abs( $afstand ) > 1 ? ' is-buiten' : ''; ?>" style="<?php echo $stijl; ?>">
 							<?php /* Drie lagen: plek (CSS), beweging (GSAP) en hover (CSS), zodat ze elkaar niet overschrijven. */ ?>
 							<div class="hero-waaierkaart-beweeg" data-waaierkaart data-plek="<?php echo esc_attr( $afstand ); ?>" data-cursor="Feest!">
-								<div class="hero-waaierkaart-binnen"><?php echo thema_afbeelding( $id, 'kaart', '', 0 === (int) round( abs( $afstand ) ), array( 'alt' => '' ) ); ?></div>
+								<div class="hero-waaierkaart-binnen"><?php echo thema_afbeelding( $id, 'kaart', '', abs( $afstand ) > 1, array( 'alt' => '', 'sizes' => thema_sizes( 'waaier' ) ) ); ?></div>
 							</div>
 						</div>
 					<?php endforeach; ?>
@@ -229,7 +229,7 @@ else :
 				<div class="hero-klassiek-media">
 					<div class="hero-klassiek-beeld" data-hero-img<?php echo count( $wissel ) > 1 ? ' data-wissel' : ''; ?> data-cursor="Feest!">
 						<?php foreach ( $wissel as $i => $id ) : ?>
-							<?php echo thema_afbeelding( $id, 'breed', 0 === $i ? 'is-actief' : '', 0 !== $i, 0 === $i ? array() : array( 'alt' => '' ) ); ?>
+							<?php echo thema_afbeelding( $id, 'breed', 0 === $i ? 'is-actief' : '', 0 !== $i, 0 === $i ? array( 'fetchpriority' => 'high', 'sizes' => thema_sizes( 'hero-klassiek' ) ) : array( 'alt' => '', 'sizes' => thema_sizes( 'hero-klassiek' ) ) ); ?>
 						<?php endforeach; ?>
 					</div>
 					<?php if ( $s['score'] && ! empty( $b['toon_score'] ) ) : ?>
