@@ -28,7 +28,7 @@ function thema_blok_info() {
 		'agenda'        => array( 'kalender', 'Korte agenda met evenementen, op datum, met een link naar de officiële site.' ),
 		'slot_cta'      => array( 'telefoon', 'Gele afsluiter met kop en knop, onderaan de pagina.' ),
 		'tekst'         => array( 'mail', 'Vrije tekst met opmaak, smal, breed of in twee kolommen.' ),
-		'gebied'        => array( 'route', 'Een gebied in de stad: foto, tekst en een lijst plekken met website.' ),
+		'gebied'        => array( 'route', 'Een gebied in de stad: kop, tekst en de plekken als genummerde haltes, elk met een link naar de website.' ),
 		'tips'          => array( 'vonk', 'Tips als kaarten met foto, tekst en een link naar de website.' ),
 		'route'         => array( 'route', 'De invulling van een dag als route met haltes, waar de bus over meerijdt.' ),
 		'opdrachten'    => array( 'feest', 'Genummerde kaarten met opdrachten of spelletjes, bijvoorbeeld voor in de bus.' ),

@@ -539,17 +539,16 @@ function thema_layouts() {
 
 	// Gebied.
 	$p   = 'gebied';
-	$l[] = thema_layout( $p, 'Gebied: foto + adressen', array_merge( array(
+	$l[] = thema_layout( $p, 'Gebied: plekken op een route', array_merge( array(
 		thema_tab( $p, 'Inhoud' ),
 		thema_veld( $p, 'eyebrow', 'Label', 'text', array_merge( thema_breed( 35 ), array( 'instructions' => 'Bijvoorbeeld Stappen of Eten en borrelen.' ) ) ),
 		thema_veld( $p, 'kop', 'Kop', 'text', array_merge( thema_breed( 65 ), array( 'instructions' => THEMA_ACCENT_UITLEG ) ) ),
 		thema_veld( $p, 'tekst', 'Tekst', 'textarea', array( 'rows' => 4, 'new_lines' => '', 'instructions' => 'Lege regel = nieuwe alinea.' ) ),
-		thema_veld( $p, 'beeld', 'Foto van het gebied', 'image', array_merge( thema_breed( 50 ), array( 'return_format' => 'id', 'preview_size' => 'medium', 'instructions' => 'Het bijschrift uit de mediabibliotheek komt als naamsvermelding onder de foto.' ) ) ),
-		thema_veld( $p, 'tijdelijk', 'Tijdelijke foto', 'true_false', array_merge( thema_breed( 50 ), array( 'ui' => 1, 'instructions' => 'Toont een label Tijdelijke foto, alleen zichtbaar als je bent ingelogd.' ) ) ),
 		thema_veld( $p, 'plekken', 'Plekken', 'repeater', array(
 			'layout'       => 'block',
 			'collapsed'    => 'field_gebied_plek_naam',
 			'button_label' => 'Plek toevoegen',
+			'instructions' => 'De plekken krijgen een nummer als haltes op een route. Twee tot vier per gebied staat het mooist.',
 			'sub_fields'   => array(
 				thema_veld( 'gebied_plek', 'naam', 'Naam', 'text', thema_breed( 50 ) ),
 				thema_veld( 'gebied_plek', 'soort', 'Soort', 'text', array_merge( thema_breed( 50 ), array( 'instructions' => 'Bijvoorbeeld Bruin café of Borrelbar.' ) ) ),
@@ -558,9 +557,7 @@ function thema_layouts() {
 				thema_veld( 'gebied_plek', 'link', 'Website', 'url', thema_breed( 50 ) ),
 			),
 		) ),
-	), thema_extra_velden( $p, '', array(
-		thema_veld( $p, 'spiegel', 'Foto rechts', 'true_false', array( 'ui' => 1, 'instructions' => 'Wissel om en om voor een speelse pagina.' ) ),
-	) ) ) );
+	), thema_extra_velden( $p, '' ) ) );
 
 	// Tips.
 	$p   = 'tips';
