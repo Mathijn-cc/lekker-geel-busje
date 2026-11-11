@@ -4903,16 +4903,17 @@ section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustinde
   grid-template-columns: auto auto auto;
   grid-template-areas:   "getal sterren aantal" "getal label aantal";
   align-items:           center;
-  column-gap:            14px;
-  row-gap:               2px;
-  padding:               14px 30px;
-  border-radius:         18px;
+  column-gap:            8px;
+  row-gap:               1px;
+  padding:               7px 16px;
+  border-radius:         10px;
   background:            var(--kleur-creme);
   color:                 var(--kleur-paars);
-  font-size:             15px;
-  -webkit-mask:          radial-gradient(circle 11px at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 11px at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
-  mask:                  radial-gradient(circle 11px at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 11px at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
-  filter:                drop-shadow(0 14px 18px rgba(56, 6, 94, .18));
+  font-size:             12px;
+  white-space:           nowrap;
+  -webkit-mask:          radial-gradient(circle 6px at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 6px at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
+  mask:                  radial-gradient(circle 6px at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 6px at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
+  filter:                drop-shadow(0 6px 10px rgba(56, 6, 94, .16));
 }
 section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil span.score-tekst {
   display: contents;
@@ -4921,7 +4922,7 @@ section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustinde
   grid-area:      getal;
   font-family:    var(--kop-letter);
   font-weight:    var(--kop-gewicht);
-  font-size:      44px;
+  font-size:      22px;
   line-height:    1;
   letter-spacing: -.01em;
   color:          var(--kleur-paars);
@@ -4929,15 +4930,15 @@ section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustinde
 section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil span.sterren {
   grid-area:      sterren;
   color:          var(--kleur-roze);
-  font-size:      15px;
-  letter-spacing: .12em;
+  font-size:      10px;
+  letter-spacing: .1em;
 }
 section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil span.score-label {
   grid-area:   label;
   font-family: var(--accent-letter);
   font-style:  var(--accent-stijl);
   font-weight: 400;
-  font-size:   20px;
+  font-size:   12px;
   line-height: 1;
 }
 /*Reviews -- Geperforeerde scheidslijn naar het aantal recensies*/
@@ -4946,10 +4947,10 @@ section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustinde
   align-self:     stretch;
   display:        flex;
   align-items:    center;
-  margin-left:    4px;
-  padding-left:   18px;
-  border-left:    2px dashed rgba(56, 6, 94, .3);
-  font-size:      13px;
+  margin-left:    2px;
+  padding-left:   10px;
+  border-left:    1px dashed rgba(56, 6, 94, .3);
+  font-size:      10px;
   font-weight:    600;
   letter-spacing: .06em;
   text-transform: uppercase;
@@ -5731,25 +5732,6 @@ section.sectie-reviews.reviews-compact div.reviews-band figure.review blockquote
 }
 section.sectie-reviews.reviews-compact div.reviews-trustindex:not(.is-omgezet) {
   min-height: 200px;
-}
-/*Reviews -- Scorepil op smalle schermen op één regel*/
-@media (max-width: 480px) {
-  section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil {
-    column-gap:  10px;
-    padding:     12px 24px;
-    font-size:   13px;
-    white-space: nowrap;
-  }
-  section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil span.score-getal {
-    font-size: 34px;
-  }
-  section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil span.score-label {
-    font-size: 17px;
-  }
-  section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil span.score-aantal {
-    padding-left: 12px;
-    font-size:    11px;
-  }
 }
 
 /**Blokken -- Fotoslider**/
