@@ -6342,6 +6342,7 @@ section.sectie-gebied div.gebied-binnen ol.gebied-plekken::before {
   top:        22px;
   left:       0;
   right:      0;
+  display:    none;
   border-top: var(--lijn-dik) dashed currentColor;
   opacity:    .22;
 }
@@ -6442,6 +6443,7 @@ section.sectie-gebied.achtergrond-paars div.gebied-binnen ol.gebied-plekken li.g
     padding:      0 0 0 30px;
   }
   section.sectie-gebied div.gebied-binnen ol.gebied-plekken::before {
+    display:     block;
     top:         0;
     bottom:      0;
     left:        0;

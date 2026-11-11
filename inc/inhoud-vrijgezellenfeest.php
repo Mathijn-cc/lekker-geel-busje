@@ -67,7 +67,7 @@ function thema_plaats_vrijgezellenfeest() {
 
 	/* Echte reviews; die over een vrijgezellenfeest staat vooraan. */
 	$reviews        = thema_blok_reviews();
-	$reviews['kop'] = 'Groepen die je *voorgingen*';
+	$reviews['kop'] = 'Zij stapten al in, *dit vonden ze ervan*';
 	usort( $reviews['reviews'], fn( $x, $y ) => (int) ( false !== stripos( $y['tekst'], 'vrijgezel' ) ) - (int) ( false !== stripos( $x['tekst'], 'vrijgezel' ) ) );
 	$reviews['weergave'] = 'compact';
 
@@ -191,4 +191,25 @@ function thema_vrijgezellenfeest_fotos_terug() {
 	}
 	clean_post_cache( $post->ID );
 	return $gezet;
+}
+
+/**
+ * Uitroltaak reviews-kop-v1: de kop "Groepen gingen je voor" (en varianten) wordt overal een leukere kop.
+ */
+function thema_reviews_kop_vervangen() {
+	global $wpdb;
+	$nieuw = 'Zij stapten al in, *dit vonden ze ervan*';
+	$rijen = $wpdb->get_results( $wpdb->prepare(
+		"SELECT post_id, meta_key, meta_value FROM {$wpdb->postmeta} WHERE meta_key LIKE %s AND ( meta_value LIKE %s OR meta_value LIKE %s )",
+		'blokken\\_%\\_kop',
+		'%Groepen gingen%',
+		'%Groepen die je%'
+	) );
+	$uit = array();
+	foreach ( $rijen as $r ) {
+		update_post_meta( (int) $r->post_id, $r->meta_key, $nieuw );
+		clean_post_cache( (int) $r->post_id );
+		$uit[] = $r->post_id . ':' . $r->meta_key;
+	}
+	return $uit;
 }

@@ -36,6 +36,7 @@ function thema_uitroltaken() {
 		'blog-ideeen-v1'          => 'thema_blog_ideeen_plaatsen',
 		'blog-opdrachten-v1'      => 'thema_blog_opdrachten_plaatsen',
 		'blog-onderwerp-adres-v1' => 'thema_blog_onderwerp_adres',
+		'reviews-kop-v1'          => 'thema_reviews_kop_vervangen',
 	);
 }
 
