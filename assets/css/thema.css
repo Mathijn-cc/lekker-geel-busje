@@ -4567,6 +4567,135 @@ section.sectie-video div.video-vlak.is-spelend iframe {
   pointer-events: none;
 }
 
+/**Blokken -- Citaat**/
+/*Citaat -- Raster*/
+section.sectie-citaat {
+  padding: var(--sectie-ruimte) var(--rand);
+}
+section.sectie-citaat div.citaat-raster {
+  max-width:             var(--breedte);
+  margin:                0 auto;
+  display:               grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+  gap:                   clamp(48px, 7vw, 120px);
+  align-items:           center;
+}
+section.sectie-citaat div.citaat-raster.foto-rechts div.citaat-foto-houder {
+  order: 2;
+}
+/*Citaat -- Foto*/
+section.sectie-citaat div.citaat-raster div.citaat-foto-houder {
+  position: relative;
+}
+section.sectie-citaat div.citaat-raster div.citaat-foto-houder div.citaat-foto {
+  position:      relative;
+  aspect-ratio:  5 / 4;
+  border-radius: var(--afronding-groot);
+  overflow:      hidden;
+}
+section.sectie-citaat div.citaat-raster div.citaat-foto-houder div.citaat-foto img {
+  position:        absolute;
+  inset:           0;
+  width:           100%;
+  height:          100%;
+  object-fit:      cover;
+  object-position: 40% center;
+  display:         block;
+}
+/*Citaat -- Naamkaartje op de foto*/
+section.sectie-citaat div.citaat-raster div.citaat-foto-houder span.citaat-kaartje {
+  position:       absolute;
+  right:          clamp(-12px, -1vw, 0px);
+  bottom:         clamp(-28px, -2vw, -16px);
+  display:        flex;
+  flex-direction: column;
+  gap:            2px;
+  padding:        14px 22px 13px;
+  border-radius:  16px;
+  background:     var(--kleur-geel);
+  color:          var(--kleur-paars);
+  transform:      rotate(-3deg);
+  box-shadow:     0 14px 30px rgba(38, 4, 63, .18);
+}
+section.sectie-citaat div.citaat-raster div.citaat-foto-houder span.citaat-kaartje strong {
+  font-family: var(--kop-letter);
+  font-size:   19px;
+  font-weight: var(--kop-gewicht);
+  line-height: 1.1;
+}
+section.sectie-citaat div.citaat-raster div.citaat-foto-houder span.citaat-kaartje span {
+  font-size:   14px;
+  line-height: 1.3;
+}
+/*Citaat -- Quote*/
+section.sectie-citaat div.citaat-raster div.citaat-tekst {
+  display:        flex;
+  flex-direction: column;
+  align-items:    flex-start;
+}
+section.sectie-citaat div.citaat-raster div.citaat-tekst span.eyebrow {
+  margin-bottom: 28px;
+}
+section.sectie-citaat div.citaat-raster div.citaat-tekst span.citaat-teken {
+  height:      .5em;
+  margin-left: -.04em;
+  color:       var(--kleur-roze);
+  font-family: var(--accent-letter);
+  font-size:   clamp(120px, 12vw, 180px);
+  line-height: .9;
+}
+section.sectie-citaat div.citaat-raster div.citaat-tekst figure.citaat-figuur {
+  margin: 0;
+}
+section.sectie-citaat div.citaat-raster div.citaat-tekst figure.citaat-figuur blockquote.citaat-quote {
+  margin: 0;
+}
+section.sectie-citaat div.citaat-raster div.citaat-tekst figure.citaat-figuur blockquote.citaat-quote p {
+  margin:      0;
+  color:       var(--kleur-paars);
+  font-family: var(--accent-letter);
+  font-style:  var(--accent-stijl);
+  font-size:   clamp(30px, 3.3vw, 50px);
+  line-height: 1.1;
+}
+section.sectie-citaat div.citaat-raster div.citaat-tekst figure.citaat-figuur blockquote.citaat-quote p span.accent {
+  color: var(--kleur-roze);
+}
+section.sectie-citaat div.citaat-raster div.citaat-tekst figure.citaat-figuur figcaption.citaat-naam {
+  margin-top:  28px;
+  font-size:   16px;
+  font-weight: 700;
+}
+section.sectie-citaat div.citaat-raster div.citaat-tekst figure.citaat-figuur figcaption.citaat-naam span {
+  font-weight: 400;
+  opacity:     .75;
+}
+/*Citaat -- Op gele en paarse achtergrond*/
+section.sectie-citaat.achtergrond-geel div.citaat-raster div.citaat-foto-houder span.citaat-kaartje {
+  background: var(--kleur-paars);
+  color:      var(--kleur-creme);
+}
+section.sectie-citaat.achtergrond-geel div.citaat-raster div.citaat-tekst span.citaat-teken,
+section.sectie-citaat.achtergrond-geel div.citaat-raster div.citaat-tekst figure.citaat-figuur blockquote.citaat-quote p span.accent {
+  color: var(--kleur-paars);
+}
+section.sectie-citaat.achtergrond-paars div.citaat-raster div.citaat-tekst figure.citaat-figuur blockquote.citaat-quote p {
+  color: var(--kleur-creme);
+}
+section.sectie-citaat.achtergrond-paars div.citaat-raster div.citaat-tekst span.citaat-teken,
+section.sectie-citaat.achtergrond-paars div.citaat-raster div.citaat-tekst figure.citaat-figuur blockquote.citaat-quote p span.accent {
+  color: var(--kleur-geel);
+}
+/*Citaat -- Mobiel*/
+@media (max-width: 699px) {
+  section.sectie-citaat div.citaat-raster.foto-rechts div.citaat-foto-houder {
+    order: 0;
+  }
+  section.sectie-citaat div.citaat-raster div.citaat-foto-houder span.citaat-kaartje {
+    right: 12px;
+  }
+}
+
 /**Blokken -- Achtergrond per blok**/
 /*Achtergrond -- Standaard uit de instellingen*/
 section.sectie.achtergrond-standaard {

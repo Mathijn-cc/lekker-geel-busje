@@ -744,6 +744,17 @@ function thema_plaats_overonspagina() {
 			'anker'         => '',
 		),
 		array(
+			'acf_fc_layout' => 'citaat',
+			'foto'          => 0,
+			'citaat'        => 'Elke rit kijk ik nog even achterom. Zie ik de hele bus meezingen, dan weet ik het weer: *dit is het mooiste werk dat er is.*',
+			'naam'          => 'Robbie van den Biggelaar',
+			'rol'           => 'Eigenaar Lekker Geel Busje',
+			'eyebrow'       => '',
+			'foto_kant'     => 'links',
+			'achtergrond'   => 'standaard',
+			'anker'         => 'robbie',
+		),
+		array(
 			'acf_fc_layout' => 'route',
 			'eyebrow'       => 'Zo gaat een rit bij ons',
 			'kop'           => 'Van offerte tot *veilig thuis*',

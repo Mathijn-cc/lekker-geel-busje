@@ -65,6 +65,7 @@ function thema_blok_achtergronden() {
 		'feiten'       => 'standaard',
 		'opdrachten'   => 'paars',
 		'checklist'    => 'standaard',
+		'citaat'       => 'standaard',
 	);
 }
 
@@ -652,6 +653,22 @@ function thema_layouts() {
 		) ),
 		thema_veld( $p, 'knop', 'Knop', 'link' ),
 	), thema_extra_velden( $p, 'checklist' ) ) );
+
+	// Citaat.
+	$p   = 'citaat';
+	$l[] = thema_layout( $p, 'Foto + quote', array_merge( array(
+		thema_tab( $p, 'Inhoud' ),
+		thema_veld( $p, 'foto', 'Foto', 'image', array_merge( thema_breed( 35 ), array( 'return_format' => 'id', 'preview_size' => 'medium' ) ) ),
+		thema_veld( $p, 'citaat', 'Quote', 'textarea', array_merge( thema_breed( 65 ), array( 'rows' => 4, 'instructions' => 'Zonder aanhalingstekens, die zet het thema er zelf bij. ' . THEMA_ACCENT_UITLEG ) ) ),
+		thema_veld( $p, 'naam', 'Naam', 'text', thema_breed( 35 ) ),
+		thema_veld( $p, 'rol', 'Functie of rol', 'text', array_merge( thema_breed( 35 ), array( 'instructions' => 'Bijv. Eigenaar Lekker Geel Busje.' ) ) ),
+		thema_veld( $p, 'eyebrow', 'Label', 'text', array_merge( thema_breed( 30 ), array( 'instructions' => 'Mag leeg blijven.' ) ) ),
+	), thema_extra_velden( $p, 'citaat', array(
+		thema_veld( $p, 'foto_kant', 'Foto staat', 'button_group', array(
+			'choices'       => array( 'links' => 'Links', 'rechts' => 'Rechts' ),
+			'default_value' => 'links',
+		) ),
+	) ) ) );
 
 	return $l;
 }
