@@ -62,23 +62,6 @@ while ( have_posts() ) :
 	<?php thema_blokken(); ?>
 
 	<?php
-	$andere = thema_gelegenheden( array(), $id );
-	if ( $andere ) :
-		?>
-		<section class="sectie sectie-andere">
-			<div class="andere-binnen" data-gel-in>
-				<h2 class="andere-kop">Andere <span class="accent">feestjes</span></h2>
-				<div class="andere-raster">
-					<?php
-					foreach ( $andere as $i => $ander ) {
-						get_template_part( 'template-parts/kaart-gelegenheid', null, array( 'post' => $ander, 'index' => $i, 'variant' => 'klein' ) );
-					}
-					?>
-				</div>
-			</div>
-		</section>
-		<?php
-	endif;
 endwhile;
 
 get_footer();
