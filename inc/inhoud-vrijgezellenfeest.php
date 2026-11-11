@@ -65,10 +65,9 @@ function thema_plaats_vrijgezellenfeest() {
 	update_field( 'field_seo_seo_titel', 'Partybus voor je vrijgezellenfeest | Lekker Geel Busje', $id );
 	update_field( 'field_seo_seo_omschrijving', 'Partybus voor je vrijgezellenfeest, met chauffeur, gastvrouwke, licht en geluid. Met tips, een voorbeelddag en opdrachten voor in de bus.', $id );
 
-	/* Echte reviews; die over een vrijgezellenfeest staat vooraan. */
+	/* Reviews uit Trustindex. */
 	$reviews        = thema_blok_reviews();
 	$reviews['kop'] = 'Zij stapten al in, *dit vonden ze ervan*';
-	usort( $reviews['reviews'], fn( $x, $y ) => (int) ( false !== stripos( $y['tekst'], 'vrijgezel' ) ) - (int) ( false !== stripos( $x['tekst'], 'vrijgezel' ) ) );
 	$reviews['weergave'] = 'compact';
 
 	/* De vragen uit inc/faq-copy.php (merkfundament), aangevuld met wat de organisator nog meer zoekt. */
@@ -212,4 +211,32 @@ function thema_reviews_kop_vervangen() {
 		$uit[] = $r->post_id . ':' . $r->meta_key;
 	}
 	return $uit;
+}
+
+/**
+ * Uitroltaak reviews-trustindex-v1: alle reviewblokken lezen Trustindex; de oude eigen reviews, score
+ * en de bronkeuze worden opgeruimd.
+ */
+function thema_reviews_naar_trustindex() {
+	global $wpdb;
+	/* Alleen de velden van het reviewblok zelf: toon_score van een hero blijft staan. */
+	$weg  = 0;
+	$ids  = array();
+	foreach ( (array) $wpdb->get_results( "SELECT post_id, meta_key FROM {$wpdb->postmeta} WHERE meta_key = 'blokken'", ARRAY_A ) as $r ) {
+		$ids[] = (int) $r['post_id'];
+	}
+	foreach ( array_unique( $ids ) as $post_id ) {
+		foreach ( (array) get_post_meta( $post_id, 'blokken', true ) as $i => $layout ) {
+			if ( 'reviews' !== $layout ) {
+				continue;
+			}
+			foreach ( array( 'bron', 'score', 'score_label' ) as $veld ) {
+				$weg += (int) delete_post_meta( $post_id, "blokken_{$i}_{$veld}" );
+				delete_post_meta( $post_id, "_blokken_{$i}_{$veld}" );
+			}
+		}
+	}
+	$weg += (int) $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->postmeta} WHERE meta_key REGEXP %s", '^_?blokken_[0-9]+_reviews(_[0-9]+_(naam|tekst))?$' ) );
+	wp_cache_flush();
+	return $weg;
 }

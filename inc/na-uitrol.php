@@ -38,6 +38,7 @@ function thema_uitroltaken() {
 		'blog-onderwerp-adres-v1' => 'thema_blog_onderwerp_adres',
 		'reviews-kop-v1'          => 'thema_reviews_kop_vervangen',
 		'blog-in-footer-v1'       => 'thema_blog_in_footer',
+		'reviews-trustindex-v1'   => 'thema_reviews_naar_trustindex',
 	);
 }
 

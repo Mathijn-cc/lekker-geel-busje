@@ -365,26 +365,12 @@ function thema_layouts() {
 	$l[] = thema_layout( $p, 'Reviews', array_merge( array(
 		thema_tab( $p, 'Inhoud' ),
 		thema_veld( $p, 'kop', 'Kop', 'text', array_merge( thema_breed( 50 ), array( 'instructions' => THEMA_ACCENT_UITLEG, 'default_value' => 'Deze *sfeergangers* gingen je voor' ) ) ),
-		thema_veld( $p, 'score', 'Score', 'text', array_merge( thema_breed( 20 ), array( 'default_value' => '5.0' ) ) ),
-		thema_veld( $p, 'score_label', 'Score label', 'text', array_merge( thema_breed( 30 ), array( 'default_value' => 'Google reviews' ) ) ),
-		thema_veld( $p, 'reviews', 'Reviews', 'repeater', array(
-			'layout'       => 'table',
-			'button_label' => 'Review toevoegen',
-			'sub_fields'   => array(
-				thema_veld( 'reviews_item', 'naam', 'Naam', 'text', thema_breed( 25 ) ),
-				thema_veld( 'reviews_item', 'tekst', 'Tekst', 'textarea', array_merge( thema_breed( 75 ), array( 'rows' => 2 ) ) ),
-			),
-		) ),
+		thema_veld( $p, 'bron_uitleg', 'Waar komen de reviews vandaan?', 'message', array( 'message' => 'De reviews en de score komen altijd uit Trustindex: de carrousel en de rating-knop staan in Thema > Reviews. Hier kies je alleen de kop en de weergave.' ) ),
 	), thema_extra_velden( $p, 'reviews', array(
 		thema_veld( $p, 'weergave', 'Weergave', 'button_group', array(
-			'choices'       => array( 'groot' => 'Groot, schuine kaarten', 'compact' => 'Compact, twee kolommen' ),
+			'choices'       => array( 'groot' => 'Groot', 'compact' => 'Compact, twee kolommen' ),
 			'default_value' => 'groot',
-			'instructions'  => 'Compact: kop en score links, de reviews lopen rechts in een lagere band. Neemt ongeveer de helft minder hoogte in.',
-		) ),
-		thema_veld( $p, 'bron', 'Bron van de reviews', 'button_group', array(
-			'choices'       => array( 'eigen' => 'Eigen reviews', 'trustindex' => 'Trustindex' ),
-			'default_value' => 'eigen',
-			'instructions'  => 'Trustindex: de carrousel en de rating-knop uit Thema > Reviews. De kop van dit blok blijft staan.',
+			'instructions'  => 'Compact: kop en score links, de Trustindex-carrousel rechts. Neemt ongeveer de helft minder hoogte in.',
 		) ),
 	) ) ) );
 

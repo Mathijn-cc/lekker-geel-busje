@@ -162,13 +162,9 @@ function thema_blok_gelegenheden( $weergave = 'schuiven' ) {
 }
 
 function thema_blok_reviews() {
-	$t = thema_ontwerp_teksten();
 	return array(
 		'acf_fc_layout' => 'reviews',
 		'kop'           => 'Deze *sfeergangers* gingen je voor',
-		'score'         => '5.0',
-		'score_label'   => 'Google reviews',
-		'reviews'       => array_map( fn( $r ) => array( 'naam' => $r[0], 'tekst' => $r[1] ), $t['reviews'] ),
 		'anker'         => 'reviews',
 	);
 }
