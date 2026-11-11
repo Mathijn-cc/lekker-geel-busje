@@ -34,6 +34,7 @@ function thema_uitroltaken() {
 		'blog-auteur-rol-v1'      => 'thema_blog_auteur_rol',
 		'blog-ideeen-v1'          => 'thema_blog_ideeen_plaatsen',
 		'blog-opdrachten-v1'      => 'thema_blog_opdrachten_plaatsen',
+		'blog-onderwerp-adres-v1' => 'thema_blog_onderwerp_adres',
 	);
 }
 

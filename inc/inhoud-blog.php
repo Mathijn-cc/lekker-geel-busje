@@ -12,8 +12,8 @@ function thema_blog_opzetten() {
 
 	/* Artikelen onder /blog/, onderwerpen onder /blog/onderwerp/. Pagina's en gelegenheden houden hun adres. */
 	$wp_rewrite->set_permalink_structure( '/blog/%postname%/' );
-	$wp_rewrite->set_category_base( 'onderwerp' );
-	update_option( 'tag_base', 'tag' );
+	$wp_rewrite->set_category_base( 'blog/onderwerp' );
+	update_option( 'tag_base', 'blog/tag' );
 
 	/* Berichtenpagina. */
 	$blog_id = thema_voorbeeld_post( 'page', 'blog', 'Blog', array(
@@ -67,7 +67,8 @@ function thema_blog_opzetten() {
 		$uit[ $artikel['slug'] ] = thema_blog_artikel_plaatsen( $artikel, $vrij, $gel );
 	}
 
-	flush_rewrite_rules( false );
+	/* Regels weggooien: WordPress bouwt ze bij het volgende bezoek opnieuw op, met de nieuwe adressen. */
+	delete_option( 'rewrite_rules' );
 	return $uit;
 }
 
@@ -582,4 +583,15 @@ function thema_blog_opdrachten_plaatsen() {
 		clean_post_cache( $gel->ID );
 	}
 	return $uit;
+}
+
+/**
+ * Uitroltaak blog-onderwerp-adres-v1: onderwerpen op /blog/onderwerp/{slug}/. De regels worden weggegooid,
+ * zodat WordPress ze bij het volgende bezoek opnieuw opbouwt (in wp eval staan de oude taxonomieregels al vast).
+ */
+function thema_blog_onderwerp_adres() {
+	update_option( 'category_base', 'blog/onderwerp' );
+	update_option( 'tag_base', 'blog/tag' );
+	delete_option( 'rewrite_rules' );
+	return 'blog/onderwerp';
 }

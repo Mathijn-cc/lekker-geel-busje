@@ -26,14 +26,14 @@ echo thema_sectie_open( $b, 'offerte', '', '' );
 			<form class="offertezin" id="<?php echo esc_attr( $uid ); ?>" action="<?php echo esc_url( $actie ); ?>" method="get">
 				<?php if ( $feest ) : ?><input type="hidden" name="uitje" value="<?php echo esc_attr( ucfirst( str_replace( '-', ' ', $feest ) ) ); ?>"><?php endif; ?>
 				<p class="offertezin-tekst">
-					<?php echo esc_html( $b['zin_1'] ?? 'Op' ); ?>
+					<span class="offertezin-woord"><?php echo esc_html( $b['zin_1'] ?? 'Op' ); ?></span>
 					<label><span class="sr-tekst">Datum</span><input type="date" name="datum" class="zinveld zinveld-datum" min="<?php echo esc_attr( wp_date( 'Y-m-d' ) ); ?>"></label>
-					<?php echo esc_html( $b['zin_2'] ?? 'gaan we met' ); ?>
+					<span class="offertezin-woord"><?php echo esc_html( $b['zin_2'] ?? 'gaan we met' ); ?></span>
 					<label><span class="sr-tekst">Aantal personen</span><input type="number" name="personen" class="zinveld zinveld-personen" min="1" max="9999" step="1" inputmode="numeric" placeholder="<?php echo esc_attr( ( $b['ph_personen'] ?? '' ) ?: 'aantal' ); ?>"></label>
-					<?php echo esc_html( $b['zin_3'] ?? 'personen van' ); ?>
+					<span class="offertezin-woord"><?php echo esc_html( $b['zin_3'] ?? 'personen van' ); ?></span>
 					<label><span class="sr-tekst">Ophalen in</span><input type="text" name="van" class="zinveld zinveld-van" placeholder="<?php echo esc_attr( $b['ph_van'] ?? 'jullie plaats' ); ?>"></label>
-					<?php echo esc_html( $b['zin_4'] ?? 'naar' ); ?>
-					<label><span class="sr-tekst">Bestemming</span><input type="text" name="naar" value="<?php echo esc_attr( $b['naar_waarde'] ?? '' ); ?>" class="zinveld zinveld-naar" placeholder="<?php echo esc_attr( $b['ph_naar'] ?? 'de bestemming' ); ?>"></label>.
+					<span class="offertezin-woord"><?php echo esc_html( $b['zin_4'] ?? 'naar' ); ?></span>
+					<label><span class="sr-tekst">Bestemming</span><input type="text" name="naar" value="<?php echo esc_attr( $b['naar_waarde'] ?? '' ); ?>" class="zinveld zinveld-naar" placeholder="<?php echo esc_attr( $b['ph_naar'] ?? 'de bestemming' ); ?>"></label><span class="offertezin-punt">.</span>
 				</p>
 				<div class="offertezin-voet">
 					<?php if ( $zeker ) : ?>
