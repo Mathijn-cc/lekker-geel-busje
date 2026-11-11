@@ -248,6 +248,12 @@ span.eyebrow::after {
   border-right:  3px solid var(--eyebrow-hoek);
   border-bottom: 3px solid var(--eyebrow-hoek);
 }
+/*Eyebrow -- Op mobiel staat het hoekje links gelijk met de koptekst*/
+@media (max-width: 699px) {
+  span.eyebrow {
+    margin-left: 0;
+  }
+}
 /*Labels -- Pil met icoon*/
 span.label-pil {
   display:       inline-flex;
@@ -3284,9 +3290,10 @@ section.sectie-prijs div.prijskaart {
 section.sectie-prijs div.prijskaart div.prijskaart-kop {
   padding:         clamp(22px, 2.6vw, 36px) clamp(22px, 2.6vw, 36px) 0;
   display:         flex;
+  flex-wrap:       wrap;
   align-items:     baseline;
-  justify-content: space-between;
-  gap:             16px;
+  justify-content: flex-start;
+  gap:             4px 10px;
 }
 section.sectie-prijs div.prijskaart div.prijskaart-kop span.prijskaart-aantal {
   font-family: var(--accent-letter);
@@ -4276,7 +4283,7 @@ body.admin-bar div.menulaag div.menulaag-scroll {
   /*Overlay -- Menulinks met meer lucht*/
   div.menulaag div.menulaag-scroll div.menulaag-raster nav.menulaag-links {
     flex:    none;
-    padding: clamp(4px, 1.5vh, 16px) 0 clamp(16px, 3vh, 28px);
+    padding: clamp(20px, 4vh, 40px) 0 clamp(16px, 3vh, 28px);
   }
   div.menulaag nav.menulaag-links a.overlaylink {
     padding:   clamp(7px, 1.4vh, 13px) 15px clamp(7px, 1.4vh, 13px) 18px;
