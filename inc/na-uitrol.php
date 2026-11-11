@@ -25,6 +25,7 @@ function thema_uitroltaken() {
 		'fotoselectie-toewijzen-v1' => 'thema_fotoselectie_toewijzen',
 		'citaat-over-ons-v1'      => 'thema_citaat_over_ons',
 		'ruimte-standaard-v1'     => 'thema_ruimte_standaard',
+		'ruimte-offerte-intro-v1' => 'thema_ruimte_offerte_intro',
 		'vrijgezellenfeest-fotos-v1' => 'thema_vrijgezellenfeest_fotos_terug',
 		'blog-fotos-v1'           => 'thema_blog_fotos',
 		'fotoselectie-opruimen-v1' => 'thema_fotoselectie_opruimen',
@@ -297,4 +298,24 @@ function thema_ruimte_standaard() {
 		clean_post_cache( $id );
 	}
 	return $veranderd;
+}
+
+/**
+ * Op de offertepagina leidt het tekstblok Zo werkt het de stappen in: die twee horen dicht op elkaar.
+ */
+function thema_ruimte_offerte_intro() {
+	$pagina = get_page_by_path( 'offerte-aanvragen', OBJECT, 'page' );
+	if ( ! $pagina ) {
+		return 'geen pagina';
+	}
+	$layouts = (array) get_post_meta( $pagina->ID, 'blokken', true );
+	foreach ( $layouts as $i => $layout ) {
+		if ( 'tekst' === $layout && 'voordelen' === ( $layouts[ $i + 1 ] ?? '' ) ) {
+			update_post_meta( $pagina->ID, "blokken_{$i}_ruimte_onder", 'klein' );
+			update_post_meta( $pagina->ID, 'blokken_' . ( $i + 1 ) . '_ruimte_boven', 'klein' );
+			clean_post_cache( $pagina->ID );
+			return array( 'tekst' => $i, 'voordelen' => $i + 1 );
+		}
+	}
+	return 'niet gevonden';
 }
