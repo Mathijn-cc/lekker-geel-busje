@@ -13,6 +13,7 @@ function thema_uitroltaken() {
 		'stickers-naar-bento-v1' => 'thema_stickers_naar_bento',
 		'beelden-opnieuw-v1'     => 'thema_beelden_opnieuw',
 		'vloeiend-scrollen-uit-v1' => 'thema_vloeiend_scrollen_uit',
+		'webp-kopieen-v1'        => 'thema_webp_kopieen',
 	);
 }
 
@@ -93,4 +94,64 @@ function thema_vloeiend_scrollen_uit() {
 	$s['vloeiend_scrollen'] = 0;
 	update_option( THEMA_OPTIE, $s );
 	return 'uit';
+}
+
+/**
+ * WebP-kopieen naast elk formaat zetten (bestand.jpg.webp), in de naamgeving van SiteGround Speed Optimizer.
+ * SiteGround levert die kopie automatisch uit aan browsers met WebP-ondersteuning, maar maakt hem niet aan
+ * voor formaten die later opnieuw gegenereerd zijn. Bestaande kopieen worden overschreven, zodat ook die
+ * van de lichtere bronbestanden komen.
+ */
+function thema_webp_kopieen() {
+	if ( ! wp_image_editor_supports( array( 'mime_type' => 'image/webp' ) ) ) {
+		return 'geen webp-ondersteuning';
+	}
+	if ( function_exists( 'set_time_limit' ) ) {
+		set_time_limit( 0 );
+	}
+	$ids      = get_posts( array(
+		'post_type'      => 'attachment',
+		'post_mime_type' => array( 'image/jpeg', 'image/png' ),
+		'post_status'    => 'inherit',
+		'posts_per_page' => -1,
+		'fields'         => 'ids',
+	) );
+	$gemaakt  = 0;
+	$fouten   = 0;
+	foreach ( $ids as $id ) {
+		$hoofd = get_attached_file( $id );
+		$meta  = wp_get_attachment_metadata( $id );
+		if ( ! $hoofd || empty( $meta ) ) {
+			continue;
+		}
+		$map       = trailingslashit( dirname( $hoofd ) );
+		$bestanden = array( $hoofd );
+		foreach ( (array) ( $meta['sizes'] ?? array() ) as $maat ) {
+			if ( ! empty( $maat['file'] ) ) {
+				$bestanden[] = $map . $maat['file'];
+			}
+		}
+		foreach ( array_unique( $bestanden ) as $bestand ) {
+			if ( ! file_exists( $bestand ) ) {
+				continue;
+			}
+			$editor = wp_get_image_editor( $bestand );
+			if ( is_wp_error( $editor ) ) {
+				$fouten++;
+				continue;
+			}
+			$editor->set_quality( 78 );
+			$uit = $editor->save( $bestand . '.webp', 'image/webp' );
+			if ( is_wp_error( $uit ) ) {
+				$fouten++;
+				continue;
+			}
+			/* WordPress plakt zelf .webp achter de naam als die niet op .webp eindigt; zet hem terug op de SiteGround-naam. */
+			if ( ! empty( $uit['path'] ) && $uit['path'] !== $bestand . '.webp' && file_exists( $uit['path'] ) ) {
+				rename( $uit['path'], $bestand . '.webp' );
+			}
+			$gemaakt++;
+		}
+	}
+	return array( 'webp' => $gemaakt, 'fouten' => $fouten );
 }
