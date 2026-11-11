@@ -533,16 +533,26 @@
 			if ( ! sterk.length ) {
 				return false;
 			}
-			var score = sterk[0].textContent.trim().replace( '.', ',' );
-			var aantal = sterk[1] ? sterk[1].textContent.trim() : '';
+			/* Trustindex zet score en aantal in losse <strong>'s, niet altijd allebei en niet altijd in dezelfde volgorde. */
+			var score = '';
+			var aantal = '';
+			Array.prototype.forEach.call( sterk, function ( el ) {
+				var t = el.textContent.trim();
+				if ( /^\d[.,]\d$/.test( t ) ) {
+					score = t.replace( '.', ',' );
+				} else if ( /\d/.test( t ) ) {
+					aantal = t;
+				}
+			} );
 			/* Alleen het cijfer vervangen, zodat cijfer en label apart opgemaakt kunnen worden. */
 			var getal = pil.querySelector( '[data-rating-getal]' );
-			if ( getal ) {
+			if ( score && getal ) {
 				getal.textContent = score;
-			} else {
+			} else if ( score ) {
 				pil.querySelector( '[data-rating-tekst]' ).textContent = score + ' ' + ( pil.getAttribute( 'data-label' ) || '' );
 			}
-			if ( aantal ) {
+			/* Een vast aantal uit de thema-instellingen gaat voor op het aantal van Trustindex. */
+			if ( aantal && ! pil.hasAttribute( 'data-vast-aantal' ) ) {
 				pil.querySelector( '[data-rating-aantal]' ).textContent = aantal;
 			}
 			pil.classList.add( 'is-live' );

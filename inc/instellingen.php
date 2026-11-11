@@ -128,6 +128,7 @@ function thema_schema() {
 		'menu_kaart_tekst'    => array( 'text', 'Jouw feest begint in de bus!' ),
 		'score'               => array( 'text', '5,0' ),
 		'score_label'         => array( 'text', 'op Google' ),
+		'score_aantal'        => array( 'text', '66' ),
 		'score_bron'          => array( 'keuze', 'vast', array( 'vast', 'trustindex' ) ),
 		'ti_carrousel'        => array( 'widget', '' ),
 		'ti_rating'           => array( 'widget', '' ),
