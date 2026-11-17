@@ -122,6 +122,7 @@ function thema_schema() {
 		'kvk'                 => array( 'text', '' ),
 		'btw'                 => array( 'text', '' ),
 		'offerte_link'        => array( 'url', '' ),
+		'google_places_sleutel' => array( 'text', '' ),
 		'menu_knop'           => array( 'text', 'Offerte aanvragen' ),
 		'menu_knop_kort'      => array( 'text', 'Offerte' ),
 		'menu_knop_hover'     => array( 'text', 'Gratis en vrijblijvend' ),

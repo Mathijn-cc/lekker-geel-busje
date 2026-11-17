@@ -24,6 +24,19 @@ function thema_offerte_velden() {
 		'bestemming'  => 63, // Tekst: bestemming
 		'retourdatum' => 10, // Datum: retourdatum
 		'telefoon'    => 71, // Tekst of telefoon: telefoonnummer
+
+		// Velden met de adreszoeker (inc/adreszoeker.php), per veld-ID.
+		// soort: adres (straat + nr, ook bedrijven), woonadres (alleen adressen),
+		// plaats (dorp of stad) of volledig (alles op een regel, ook bedrijven).
+		// plaats: het veld dat bij het kiezen van een adres de plaatsnaam krijgt.
+		'adressen'    => array(
+			8  => array( 'soort' => 'adres', 'plaats' => 72 ), // Vertrekadres
+			72 => array( 'soort' => 'plaats' ),                 // Vertrekplaats
+			63 => array( 'soort' => 'volledig' ),               // Bestemming
+			12 => array( 'soort' => 'volledig' ),               // Vertrekplaats terug
+			69 => array( 'soort' => 'woonadres', 'plaats' => 70 ), // Jouw straat + huisnummer
+			70 => array( 'soort' => 'plaats' ),                 // Jouw woonplaats
+		),
 	) );
 }
 

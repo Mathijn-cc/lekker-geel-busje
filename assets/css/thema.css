@@ -8053,3 +8053,118 @@ section.sectie-artikelen div.artikelen-binnen div.artikelen-raster {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+
+/**Formulieren -- Adreszoeker**/
+
+/*Adreszoeker -- Vak rond het veld*/
+section.sectie div.formulier-vak div.gform_wrapper div.ginput_container.adreszoeker {
+  position: relative;
+}
+section.sectie div.formulier-vak div.gform_wrapper div.ginput_container.adreszoeker.is-open {
+  z-index: 20;
+}
+
+/*Adreszoeker -- Laden*/
+section.sectie div.formulier-vak div.gform_wrapper div.ginput_container.adreszoeker::after {
+  content:          '';
+  position:         absolute;
+  top:              27px;
+  right:            16px;
+  width:            16px;
+  height:           16px;
+  margin-top:       -8px;
+  border:           2px solid rgba(56, 6, 94, .18);
+  border-top-color: var(--kleur-paars);
+  border-radius:    50%;
+  opacity:          0;
+  transition:       opacity .2s ease;
+  pointer-events:   none;
+}
+section.sectie div.formulier-vak div.gform_wrapper div.ginput_container.adreszoeker.is-zoeken::after {
+  opacity:   1;
+  animation: adreszoekerdraai .7s linear infinite;
+}
+@keyframes adreszoekerdraai {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/*Adreszoeker -- Lijst*/
+section.sectie div.formulier-vak div.gform_wrapper div.ginput_container.adreszoeker ul.adreslijst {
+  position:      absolute;
+  top:           calc(100% + 6px);
+  left:          0;
+  right:         0;
+  max-height:    min(360px, 60vh);
+  margin:        0;
+  padding:       6px;
+  overflow-y:    auto;
+  list-style:    none;
+  background:    var(--kleur-wit);
+  border:        1.5px solid rgba(56, 6, 94, .18);
+  border-radius: 14px;
+  box-shadow:    0 18px 40px -12px rgba(38, 4, 63, .28);
+}
+section.sectie div.formulier-vak div.gform_wrapper div.ginput_container.adreszoeker ul.adreslijst[hidden] {
+  display: none;
+}
+
+/*Adreszoeker -- Optie*/
+section.sectie div.formulier-vak div.gform_wrapper div.ginput_container.adreszoeker ul.adreslijst li.adreslijst-optie {
+  display:       flex;
+  flex-wrap:     wrap;
+  align-items:   baseline;
+  column-gap:    6px;
+  row-gap:       2px;
+  margin:        0;
+  padding:       10px 12px;
+  border-radius: 10px;
+  font-family:   var(--tekst-letter);
+  font-size:     15px;
+  line-height:   1.35;
+  color:         var(--kleur-paars);
+  cursor:        pointer;
+}
+section.sectie div.formulier-vak div.gform_wrapper div.ginput_container.adreszoeker ul.adreslijst li.adreslijst-optie:hover,
+section.sectie div.formulier-vak div.gform_wrapper div.ginput_container.adreszoeker ul.adreslijst li.adreslijst-optie[aria-selected="true"] {
+  background: var(--kleur-zand);
+}
+section.sectie div.formulier-vak div.gform_wrapper div.ginput_container.adreszoeker ul.adreslijst li.adreslijst-optie span.adreslijst-titel {
+  font-weight: 700;
+}
+section.sectie div.formulier-vak div.gform_wrapper div.ginput_container.adreszoeker ul.adreslijst li.adreslijst-optie span.adreslijst-sub {
+  opacity: .75;
+}
+section.sectie div.formulier-vak div.gform_wrapper div.ginput_container.adreszoeker ul.adreslijst li.adreslijst-optie span.adreslijst-label {
+  flex-basis:     100%;
+  font-size:      11px;
+  font-weight:    700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color:          var(--kleur-hover);
+  opacity:        .6;
+}
+
+/*Adreszoeker -- Bronvermelding Google*/
+section.sectie div.formulier-vak div.gform_wrapper div.ginput_container.adreszoeker ul.adreslijst li.adreslijst-bron {
+  margin:      4px 0 0;
+  padding:     6px 12px 4px;
+  font-family: Roboto, Arial, sans-serif;
+  font-size:   11px;
+  text-align:  right;
+  color:       #5e5e5e;
+  border-top:  1px solid rgba(56, 6, 94, .08);
+}
+
+/*Adreszoeker -- Melding voor schermlezers*/
+section.sectie div.formulier-vak div.gform_wrapper div.ginput_container.adreszoeker span.adreszoeker-status {
+  position:    absolute;
+  width:       1px;
+  height:      1px;
+  overflow:    hidden;
+  clip:        rect(0 0 0 0);
+  clip-path:   inset(50%);
+  white-space: nowrap;
+}
