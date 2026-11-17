@@ -1434,6 +1434,33 @@
 				}
 			} );
 		} );
+
+		/* Bedankpagina: bij het laden twee keer confetti uit de waaier, links en rechts. */
+		if ( document.body.classList.contains( 'is-bedankt' ) ) {
+			var schiet = function ( deel ) {
+				var waaier = document.querySelector( '[data-waaier]' );
+				if ( ! waaier ) {
+					return;
+				}
+				var vak = waaier.getBoundingClientRect();
+				if ( vak.bottom < 0 || vak.top > window.innerHeight ) {
+					return;
+				}
+				if ( ! doek ) {
+					maakDoek();
+				}
+				strooi( vak.left + vak.width * deel, vak.top + vak.height * .45 );
+			};
+			var start = function () {
+				setTimeout( function () { schiet( .3 ); }, 500 );
+				setTimeout( function () { schiet( .7 ); }, 1300 );
+			};
+			if ( 'complete' === document.readyState ) {
+				start();
+			} else {
+				window.addEventListener( 'load', start, { once: true } );
+			}
+		}
 	}() );
 	/* ------------------------------------------------------------ Checklist: afvinken, bewaard op het eigen apparaat */
 

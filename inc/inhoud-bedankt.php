@@ -170,8 +170,8 @@ function thema_plaats_bedankt() {
 				'knop'          => '',
 				'knop_tonen'    => 0,
 				'toon_score'    => 1,
-				'stijl'         => 'foto',
-				'fotos'         => $fotos( array( 'gastvrouw-verwelkomt-gasten-bij-de-bus', 'meezingen-met-microfoon-in-sfeerbus', 'verlichte-sfeerbus-van-buiten' ) ),
+				'stijl'         => 'fotorol',
+				'fotos'         => $fotos( thema_bedankt_fotorol_namen( 'contact' ) ),
 				'vorm'          => 'auto',
 				'hoogte'        => 'compact',
 				'anker'         => 'top',
@@ -250,8 +250,8 @@ function thema_plaats_bedankt() {
 				'knop'          => '',
 				'knop_tonen'    => 0,
 				'toon_score'    => 1,
-				'stijl'         => 'foto',
-				'fotos'         => $fotos( array( 'proosten-in-het-gangpad-van-de-bus', 'feest-met-armen-omhoog-in-de-bus', 'high-five-bij-het-instappen' ) ),
+				'stijl'         => 'fotorol',
+				'fotos'         => $fotos( thema_bedankt_fotorol_namen( 'offerte' ) ),
 				'vorm'          => 'auto',
 				'hoogte'        => 'compact',
 				'anker'         => 'top',
@@ -383,3 +383,63 @@ function thema_bedankt_playlist_link() {
 	}
 	return $uit;
 }
+
+/**
+ * Vijf foto's voor de waaier van fotokaarten (hero Fotorol), per bedankpagina in een andere volgorde.
+ */
+function thema_bedankt_fotorol_namen( $soort ) {
+	$contact = array(
+		'meezingen-met-microfoon-in-sfeerbus',
+		'gastvrouw-verwelkomt-gasten-bij-de-bus',
+		'feest-met-armen-omhoog-in-de-bus',
+		'proosten-in-het-gangpad-van-de-bus',
+		'verlichte-sfeerbus-van-buiten',
+	);
+	$offerte = array(
+		'high-five-bij-het-instappen',
+		'proosten-in-het-gangpad-van-de-bus',
+		'feest-met-armen-omhoog-in-de-bus',
+		'meezingen-met-microfoon-in-sfeerbus',
+		'gastvrouw-verwelkomt-gasten-bij-de-bus',
+	);
+	return 'offerte' === $soort ? $offerte : $contact;
+}
+
+/**
+ * Uitroltaak bedankt-fotorol-v1: de hero van beide bedankpagina's wordt de gecentreerde
+ * hero met de waaier van vijf fotokaarten (Fotorol), met de score eronder.
+ */
+function thema_bedankt_fotorol() {
+	if ( ! function_exists( 'update_sub_field' ) || ! function_exists( 'thema_beeld_op_naam' ) ) {
+		return 0;
+	}
+	$uit = array();
+	foreach ( thema_bedankt_slugs() as $soort => $slug ) {
+		$pagina = get_page_by_path( $slug );
+		if ( ! $pagina ) {
+			continue;
+		}
+		foreach ( (array) get_field( 'blokken', $pagina->ID ) as $i => $blok ) {
+			if ( 'hero' !== ( $blok['acf_fc_layout'] ?? '' ) ) {
+				continue;
+			}
+			$fotos = array_values( array_filter( array_map( 'thema_beeld_op_naam', thema_bedankt_fotorol_namen( $soort ) ) ) );
+			update_sub_field( array( 'blokken', $i + 1, 'stijl' ), 'fotorol', $pagina->ID );
+			if ( $fotos ) {
+				update_sub_field( array( 'blokken', $i + 1, 'fotos' ), $fotos, $pagina->ID );
+			}
+			$uit[ $slug ] = count( $fotos );
+			break;
+		}
+		clean_post_cache( $pagina->ID );
+	}
+	return $uit;
+}
+
+/* Bedankpagina's herkenbaar voor het script (confetti bij het laden). */
+add_filter( 'body_class', function ( $klassen ) {
+	if ( is_page() && thema_is_bedankt() ) {
+		$klassen[] = 'is-bedankt';
+	}
+	return $klassen;
+} );

@@ -79,6 +79,7 @@ function thema_uitroltaken() {
 		'bedankt-v1'              => 'thema_plaats_bedankt',
 		'bedankt-bevestiging-v1'  => 'thema_bedankt_bevestigingen',
 		'bedankt-playlist-v1'     => 'thema_bedankt_playlist_link',
+		'bedankt-fotorol-v1'      => 'thema_bedankt_fotorol',
 	);
 }
 

@@ -6920,6 +6920,25 @@ section.sectie-reviews.reviews-compact div.reviews-kop :is(h1, h2, h3).kop-midde
   }
 }
 /*Compact -- Rechte, lagere kaarten*/
+/*Reviews -- Buskaartje groter naast de kop in de compacte weergave*/
+section.sectie-reviews.reviews-compact div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil {
+  column-gap: 10px;
+  padding:    10px 22px;
+  font-size:  15px;
+}
+section.sectie-reviews.reviews-compact div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil span.score-getal {
+  font-size: 30px;
+}
+section.sectie-reviews.reviews-compact div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil span.sterren {
+  font-size: 13px;
+}
+section.sectie-reviews.reviews-compact div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil span.score-label {
+  font-size: 15px;
+}
+section.sectie-reviews.reviews-compact div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil span.score-aantal {
+  padding-left: 14px;
+  font-size:    12px;
+}
 section.sectie-reviews.reviews-compact div.reviews-band-houder {
   padding: 24px 0 32px;
 }
