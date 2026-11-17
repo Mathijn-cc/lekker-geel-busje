@@ -451,8 +451,6 @@ function thema_bedankt_opschonen() {
 			$layout = $blok['acf_fc_layout'] ?? '';
 			if ( in_array( $layout, array( 'gelegenheden', 'offerte', 'slot_cta' ), true ) ) {
 				$weg[] = $i + 1;
-			} elseif ( 'route' === $layout ) {
-				update_sub_field( array( 'blokken', $i + 1, 'kop_uitlijning' ), 'midden', $pagina->ID );
 			}
 		}
 		/* Van achter naar voren, anders schuiven de nummers op. */
@@ -522,6 +520,37 @@ function thema_bedankt_volgorde() {
 			clean_post_cache( $pagina->ID );
 		}
 		$uit[ $slug ] = $veranderd ? implode( ',', array_map( fn( $b ) => $b['acf_fc_layout'] ?? '', $blokken ) ) : 'ongewijzigd';
+	}
+	return $uit;
+}
+
+/**
+ * Uitroltaak bedankt-route-midden-v1: kop van "Zo gaat het verder" in het midden. Via het hele
+ * blokkenveld, want een nieuw subveld in een bestaande rij slaat update_sub_field niet altijd op.
+ */
+function thema_bedankt_route_midden() {
+	if ( ! function_exists( 'update_field' ) ) {
+		return 0;
+	}
+	$uit = array();
+	foreach ( thema_bedankt_slugs() as $slug ) {
+		$pagina = get_page_by_path( $slug );
+		if ( ! $pagina ) {
+			continue;
+		}
+		$blokken = array_values( (array) get_field( 'blokken', $pagina->ID ) );
+		$aantal  = 0;
+		foreach ( $blokken as $i => $blok ) {
+			if ( 'route' === ( $blok['acf_fc_layout'] ?? '' ) ) {
+				$blokken[ $i ]['kop_uitlijning'] = 'midden';
+				$aantal++;
+			}
+		}
+		if ( $aantal ) {
+			update_field( 'field_blokken', $blokken, $pagina->ID );
+			clean_post_cache( $pagina->ID );
+		}
+		$uit[ $slug ] = $aantal;
 	}
 	return $uit;
 }
