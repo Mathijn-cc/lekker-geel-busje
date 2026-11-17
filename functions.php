@@ -23,6 +23,7 @@ require THEMA_PAD . '/inc/voorbeeldinhoud.php';
 require THEMA_PAD . '/inc/inhoud-vrijgezellenfeest.php';
 require THEMA_PAD . '/inc/inhoud-blog.php';
 require THEMA_PAD . '/inc/inhoud-bedrijfsuitje.php';
+require THEMA_PAD . '/inc/inhoud-bruiloft.php';
 require THEMA_PAD . '/inc/na-uitrol.php';
 require THEMA_PAD . '/inc/offerteformulier.php';
 require THEMA_PAD . '/inc/adreszoeker.php';

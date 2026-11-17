@@ -52,6 +52,9 @@ function thema_uitroltaken() {
 		'bedrijfsuitje-v3'        => 'thema_plaats_bedrijfsuitje',
 		'bedrijfsuitje-volgorde-v1' => 'thema_bedrijfsuitje_volgorde',
 		'drinken-in-de-bus-v1'    => 'thema_drinken_in_de_bus',
+		'bruiloft-blog-v1'        => 'thema_bruiloft_blog',
+		'bruiloft-volgorde-v1'    => 'thema_bruiloft_volgorde',
+		'bruiloft-v1'             => 'thema_plaats_bruiloft',
 	);
 }
 

@@ -115,7 +115,7 @@ function thema_faq_per_pagina() {
 
 		'gelegenheid/bruiloft'          => array(
 			array( 'Kunnen jullie onze gasten van de ceremonie naar het feest rijden?', 'Zeker. Geef de route en de tijden door, dan rijden we jullie gasten van de ene plek naar de andere, met meerdere stops als dat nodig is. Zo begint het feest al onderweg.' ),
-			array( 'Hoeveel gasten passen er in een bus?', 'Elke bus heeft minstens 39 zitplaatsen. In onze verlengde bus gaan tot 88 personen mee. Vertel met hoeveel jullie zijn, dan kiezen wij de bus die past.' ),
+			array( 'Hoeveel gasten passen er in een bus?', 'Elke bus heeft minstens 39 zitplaatsen en in onze verlengde bus gaan tot 88 personen mee. Komen er meer gasten, dan rijden er meerdere bussen. Reserveer dan wel op tijd, want trouwdata zitten vroeg vol.' ),
 			'wachten',
 			'later',
 			'drinken',
