@@ -193,6 +193,7 @@ function thema_plaats_bedankt() {
 				'anker'         => 'verder',
 			),
 			thema_bedankt_playlist(),
+			thema_bedankt_reviews(),
 			$artikelen,
 		), $id );
 		clean_post_cache( $id );
@@ -259,6 +260,7 @@ function thema_plaats_bedankt() {
 				'achtergrond'   => 'standaard',
 				'anker'         => 'verder',
 			),
+			thema_bedankt_playlist(),
 			array(
 				'acf_fc_layout' => 'checklist',
 				'eyebrow'       => 'Voor de regelaar',
@@ -277,7 +279,6 @@ function thema_plaats_bedankt() {
 				'achtergrond'   => 'standaard',
 				'anker'         => 'checklist',
 			),
-			thema_bedankt_playlist(),
 			$faq,
 			$reviews,
 		), $id );
@@ -469,4 +470,58 @@ function thema_bedankt_opschonen() {
  */
 function thema_is_bedankt_nu() {
 	return is_page() && thema_is_bedankt();
+}
+
+/**
+ * Recensies op de bedankpagina's: compact, met de score als buskaartje.
+ */
+function thema_bedankt_reviews() {
+	$reviews             = thema_blok_reviews();
+	$reviews['kop']      = 'Zij gingen *je voor*';
+	$reviews['weergave'] = 'compact';
+	return $reviews;
+}
+
+/**
+ * Uitroltaak bedankt-volgorde-v1: na een aanvraag staat de checklist onder de playlist,
+ * na een vraag komen er recensies bij (na de playlist).
+ */
+function thema_bedankt_volgorde() {
+	if ( ! function_exists( 'update_field' ) ) {
+		return 0;
+	}
+	$uit   = array();
+	$slugs = thema_bedankt_slugs();
+	foreach ( $slugs as $soort => $slug ) {
+		$pagina = get_page_by_path( $slug );
+		if ( ! $pagina ) {
+			continue;
+		}
+		$blokken = array_values( (array) get_field( 'blokken', $pagina->ID ) );
+		$layouts = array_map( fn( $b ) => $b['acf_fc_layout'] ?? '', $blokken );
+		$playlist = array_search( 'playlist', $layouts, true );
+		if ( false === $playlist ) {
+			continue;
+		}
+		$veranderd = false;
+		if ( 'offerte' === $soort ) {
+			$checklist = array_search( 'checklist', $layouts, true );
+			if ( false !== $checklist && $checklist < $playlist ) {
+				$blok = $blokken[ $checklist ];
+				array_splice( $blokken, $checklist, 1 );
+				$playlist = array_search( 'playlist', array_map( fn( $b ) => $b['acf_fc_layout'] ?? '', $blokken ), true );
+				array_splice( $blokken, $playlist + 1, 0, array( $blok ) );
+				$veranderd = true;
+			}
+		} elseif ( ! in_array( 'reviews', $layouts, true ) ) {
+			array_splice( $blokken, $playlist + 1, 0, array( thema_bedankt_reviews() ) );
+			$veranderd = true;
+		}
+		if ( $veranderd ) {
+			update_field( 'field_blokken', $blokken, $pagina->ID );
+			clean_post_cache( $pagina->ID );
+		}
+		$uit[ $slug ] = $veranderd ? implode( ',', array_map( fn( $b ) => $b['acf_fc_layout'] ?? '', $blokken ) ) : 'ongewijzigd';
+	}
+	return $uit;
 }

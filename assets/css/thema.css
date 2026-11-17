@@ -752,6 +752,10 @@ div.navhouder nav.nav.nav-zwevend {
 body.single-gelegenheid div.navhouder nav.nav.nav-zwevend {
   top: calc(var(--rand-smal) + 16px);
 }
+/*Navigatie -- Binnen de gele kaart van de hero Fotorol, net als bij een gelegenheid*/
+body:has(section.sectie-hero.hero-fotorol) div.navhouder:not(.is-gescrold) nav.nav.nav-zwevend {
+  top: calc(var(--rand-smal) + 16px);
+}
 div.navhouder.is-gescrold nav.nav.nav-zwevend {
   top: 10px;
 }
