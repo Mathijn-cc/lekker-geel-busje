@@ -10,8 +10,8 @@
  * - Eerst de keuze: een prijs (naar het offerteformulier), een vraag, of liever bellen of appen.
  * - Tijdens het typen van de vraag staat het antwoord eronder als het een veelgestelde vraag is
  *   (data-antwoorden), of een verwijzing naar de offerte als het op een aanvraag lijkt.
- * - Daarna: hoe wil je antwoord (mail, bellen, appen)? Alleen de gegevens die daarvoor nodig zijn.
- *   Een e-mailadres of telefoonnummer uit de vraag staat al ingevuld.
+ * - Daarna naam, e-mailadres en telefoonnummer. Een e-mailadres of telefoonnummer uit de vraag
+ *   staat al ingevuld.
  * - Terug en Opnieuw beginnen kan altijd.
  *
  * Zonder JavaScript, of bij een veldtype dat dit script niet kent, blijft het gewone formulier staan.
@@ -154,7 +154,7 @@
 	};
 
 	Stappen.prototype.leeg = function () {
-		this.a = { vraag: '', voornaam: '', achternaam: '', vroegAchternaam: false, voorkeur: '', email: '', telefoon: '', uitVraag: {}, extra: [] };
+		this.a = { vraag: '', voornaam: '', achternaam: '', vroegAchternaam: false, email: '', telefoon: '', uitVraag: {}, extra: [] };
 		this.geschiedenis = [];
 		this.huidig = null;
 		this.ok = null;
@@ -177,20 +177,8 @@
 			r.push('naam');
 			if (v.naam.achter && v.naam.verplicht && (this.a.vroegAchternaam || (this.a.voornaam && !this.a.achternaam))) { r.push('achternaam'); }
 		}
-		if (v.email && v.telefoon) {
-			r.push('voorkeur');
-			if (this.a.voorkeur === 'bel' || this.a.voorkeur === 'app') {
-				r.push('telefoon');
-				if (v.email.verplicht) { r.push('email'); }
-			} else {
-				r.push('email');
-				if (v.telefoon.verplicht) { r.push('telefoon'); }
-			}
-		} else if (v.email) {
-			r.push('email');
-		} else if (v.telefoon) {
-			r.push('telefoon');
-		}
+		if (v.email) { r.push('email'); }
+		if (v.telefoon) { r.push('telefoon'); }
 		v.extra.forEach(function (x, i) { r.push('extra-' + i); });
 		return r;
 	};
@@ -202,7 +190,7 @@
 			/* Hoort niet bij de route: ga naar de eerste vraag die nog leeg is, anders versturen. */
 			var a = this.a;
 			var leeg = r.filter(function (s) {
-				return (s === 'email' && !a.email) || (s === 'telefoon' && !a.telefoon) || (s === 'voorkeur' && !a.voorkeur) || (s === 'naam' && !a.voornaam);
+				return (s === 'email' && !a.email) || (s === 'telefoon' && !a.telefoon) || (s === 'naam' && !a.voornaam);
 			});
 			return leeg.length ? leeg[0] : 'versturen';
 		}
@@ -214,7 +202,7 @@
 		if (id === 'keuze' || id === 'prijs' || id === 'direct') { return 'onderwerp'; }
 		if (id === 'vraag' || id === 'faq-bedankt') { return 'vraag'; }
 		if (id === 'naam' || id === 'achternaam') { return 'jij'; }
-		if (id === 'voorkeur' || id === 'email' || id === 'telefoon') { return 'contact'; }
+		if (id === 'email' || id === 'telefoon') { return 'contact'; }
 		if (/^extra-/.test(id)) { return 'extra'; }
 		return 'klaar';
 	};
@@ -510,23 +498,8 @@
 				zelf.a.achternaam = waarde;
 				return '';
 			});
-		} else if (id === 'voorkeur') {
-			zet(this.met(t.voorkeur), '');
-			var kies = function (waarde) {
-				return function () {
-					zelf.a.voorkeur = waarde;
-					zelf.ga(zelf.volgende('voorkeur'));
-				};
-			};
-			opties([
-				{ tekst: t.voorkeur_mail, kies: kies('mail'), gekozen: this.a.voorkeur === 'mail' },
-				{ tekst: t.voorkeur_bel, kies: kies('bel'), gekozen: this.a.voorkeur === 'bel' },
-				{ tekst: t.voorkeur_app, kies: kies('app'), gekozen: this.a.voorkeur === 'app' }
-			]);
-			if (this.a.voorkeur) { this.ok = kies(this.a.voorkeur); }
 		} else if (id === 'email') {
-			var ook = this.a.voorkeur === 'bel' || this.a.voorkeur === 'app';
-			zet(ook ? t.email_ook : t.email, this.a.uitVraag.email ? t.overgenomen : (ook ? t.email_ook_uitleg : ''));
+			zet(this.met(t.email), this.a.uitVraag.email ? t.overgenomen : '');
 			var mailVeld = veld({ type: 'email', inputmode: 'email', autocomplete: 'email', plaatshouder: t.email_veld, waarde: this.a.email });
 			/* Direct controleren: na een korte typpauze en bij het verlaten van het veld.
 			   Een bekende tikfout in het domein (gmial.com) krijgt een voorstel met één klik. */
@@ -575,7 +548,7 @@
 				return '';
 			});
 		} else if (id === 'telefoon') {
-			zet(t.telefoon, this.a.uitVraag.telefoon ? t.overgenomen : '');
+			zet(t.telefoon, this.a.uitVraag.telefoon ? t.overgenomen : t.telefoon_uitleg);
 			var telVeld = veld({ type: 'tel', inputmode: 'tel', autocomplete: 'tel', plaatshouder: t.telefoon_veld, waarde: this.a.telefoon });
 			acties(function () {
 				var waarde = telVeld.value.trim();
@@ -628,8 +601,7 @@
 		var v = this.v;
 		var a = this.a;
 		var t = this.t;
-		var notitie = a.voorkeur === 'bel' ? t.notitie_bel : (a.voorkeur === 'app' ? t.notitie_app : '');
-		v.vraag.invoer.forEach(function (i) { zetWaarde(i, a.vraag && notitie ? a.vraag + '\n\n(' + notitie + ')' : a.vraag); });
+		v.vraag.invoer.forEach(function (i) { zetWaarde(i, a.vraag); });
 		if (v.naam) {
 			if (v.naam.voor) {
 				zetWaarde(v.naam.voor, a.voornaam);
