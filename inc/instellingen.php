@@ -155,6 +155,7 @@ function thema_schema() {
 		'chat_v_ritdatum'     => array( 'text', 'Op welke datum is je rit?' ),
 		'chat_v_ritvraag'     => array( 'text', 'En wat is je vraag?' ),
 		'chat_v_vraag'        => array( 'text', 'Vertel, waar kunnen we je mee helpen?' ),
+		'chat_v_naam'         => array( 'text', 'Top! En hoe mag ik je noemen?' ),
 		'chat_klaar'          => array( 'text', 'Top, je bericht staat klaar! Eén tik en je stuurt het via WhatsApp.' ),
 		'chat_pagina'         => array( 'bool', 1 ),
 		'chat_verbergen'      => array( 'textarea', '' ),

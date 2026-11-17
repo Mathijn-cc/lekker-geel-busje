@@ -163,10 +163,11 @@ function thema_chat_gesprek() {
 			array(
 				'id'      => 'rit',
 				'label'   => $s['chat_keuze_rit'],
-				'intro'   => 'Hoi! Ik heb een vraag over mijn rit.',
+				'intro'   => 'ik heb een vraag over mijn rit.',
 				'stappen' => array(
 					array( 'naam' => 'Datum rit', 'vraag' => $s['chat_v_ritdatum'], 'soort' => 'datum' ),
 					array( 'naam' => 'Vraag', 'vraag' => $s['chat_v_ritvraag'], 'veld' => 'Typ je vraag...' ),
+					array( 'naam' => 'Naam', 'vraag' => $s['chat_v_naam'], 'veld' => 'Je naam...', 'soort' => 'naam' ),
 				),
 			),
 			array(
@@ -175,6 +176,7 @@ function thema_chat_gesprek() {
 				'intro'   => '',
 				'stappen' => array(
 					array( 'naam' => '', 'vraag' => $s['chat_v_vraag'], 'veld' => 'Typ je vraag...' ),
+					array( 'naam' => 'Naam', 'vraag' => $s['chat_v_naam'], 'veld' => 'Je naam...', 'soort' => 'naam' ),
 				),
 			),
 		),

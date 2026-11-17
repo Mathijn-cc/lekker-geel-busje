@@ -381,11 +381,12 @@ function thema_dashboard_pagina() {
 								thema_veld_rij( 'Welkom', 'Elke regel wordt een eigen tekstwolkje.', thema_tekstveld( 'chat_welkom', 'textarea' ) );
 								thema_veld_rij( 'Tekst in het veld', 'Bij de start. Wie meteen een vraag typt, slaat de keuze over.', thema_tekstveld( 'chat_veld' ) );
 								thema_veld_rij( 'Keuze 1: prijs', 'Gaat direct naar de offertelink bij Algemeen. Prijsaanvragen lopen niet via WhatsApp.', thema_tekstveld( 'chat_keuze_prijs' ) );
-								thema_veld_rij( 'Keuze 2: rit', 'Daarna: datum van de rit en de vraag.', thema_tekstveld( 'chat_keuze_rit' ) );
+								thema_veld_rij( 'Keuze 2: rit', 'Daarna: datum van de rit, de vraag en de naam.', thema_tekstveld( 'chat_keuze_rit' ) );
 								thema_veld_rij( 'Vraag datum rit', '', thema_tekstveld( 'chat_v_ritdatum' ) );
 								thema_veld_rij( 'Vraag over de rit', '', thema_tekstveld( 'chat_v_ritvraag' ) );
-								thema_veld_rij( 'Keuze 3: andere vraag', 'Daarna: de vraag zelf.', thema_tekstveld( 'chat_keuze_anders' ) );
+								thema_veld_rij( 'Keuze 3: andere vraag', 'Daarna: de vraag zelf en de naam.', thema_tekstveld( 'chat_keuze_anders' ) );
 								thema_veld_rij( 'Vraag', '', thema_tekstveld( 'chat_v_vraag' ) );
+								thema_veld_rij( 'Naam', 'Laatste vraag van elk gesprek. De naam gaat mee in het WhatsApp-bericht.', thema_tekstveld( 'chat_v_naam' ) );
 								thema_veld_rij( 'Afsluiter', 'Laatste berichtje, boven de groene knop Verstuur via WhatsApp.', thema_tekstveld( 'chat_klaar' ) );
 								?>
 							</div>

@@ -214,7 +214,7 @@
 
 	function beantwoord(waarde) {
 		weg('.whatsapp-keuzes');
-		antwoorden.push({ naam: pad.stappen[stap].naam, waarde: waarde });
+		antwoorden.push({ naam: pad.stappen[stap].naam, waarde: waarde, soort: pad.stappen[stap].soort || '' });
 		stap++;
 		if (stap < pad.stappen.length) {
 			vraag();
@@ -223,13 +223,21 @@
 		}
 	}
 
+	/* Bericht voor WhatsApp: begroeting met de naam, daarna de antwoorden. */
 	function bericht() {
+		var naam = '';
+		var rest = antwoorden.filter(function (a) {
+			if (a.soort === 'naam') { naam = a.waarde; return false; }
+			return true;
+		});
+		var groet = naam ? 'Hoi! Ik ben ' + naam : 'Hoi!';
 		var regels = [];
 		if (pad.intro) {
-			regels.push(pad.intro, '');
-			antwoorden.forEach(function (a) { regels.push(a.naam ? a.naam + ': ' + a.waarde : a.waarde); });
+			regels.push(naam ? groet + ', ' + pad.intro : groet + ' ' + pad.intro.charAt(0).toUpperCase() + pad.intro.slice(1), '');
+			rest.forEach(function (a) { regels.push(a.naam ? a.naam + ': ' + a.waarde : a.waarde); });
 		} else {
-			regels.push(antwoorden.map(function (a) { return a.waarde; }).join('\n'));
+			regels.push(naam ? groet + '.' : groet, '');
+			regels.push(rest.map(function (a) { return a.waarde; }).join('\n'));
 		}
 		return regels.join('\n');
 	}
@@ -265,9 +273,9 @@
 			pad = g.paden.filter(function (p) { return p.id === 'anders'; })[0];
 			opnieuw.hidden = false;
 			meet('whatsapp_keuze', { whatsapp_keuze: 'direct' });
-			antwoorden = [{ naam: '', waarde: waarde }];
-			stap = pad.stappen.length;
-			klaar();
+			antwoorden = [{ naam: '', waarde: waarde, soort: '' }];
+			stap = pad.stappen.length - 1;
+			vraag();
 			return;
 		}
 		beantwoord(waarde);
