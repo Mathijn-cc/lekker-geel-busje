@@ -5280,6 +5280,24 @@ section.sectie div.formulier-vak div.gform_wrapper div.gform_fields {
   column-gap: 16px;
 }
 
+/*Basis -- Scheiding tussen vertrek, bestemming en terugreis*/
+section.sectie div.formulier-vak div.gform_wrapper div.gform_fields div.gfield.veld-scheiding {
+  position:    relative;
+  margin-top:  4px;
+  padding-top: 28px;
+}
+section.sectie div.formulier-vak div.gform_wrapper div.gform_fields div.gfield.veld-scheiding::before {
+  content:    '';
+  position:   absolute;
+  top:        0;
+  left:       0;
+  right:      0;
+  border-top: 1px solid rgba(56, 6, 94, .12);
+}
+section.sectie div.formulier-vak div.gform_wrapper div.gform_fields div.gfield.veld-scheiding + div.gfield.veld-scheiding::before {
+  left: -16px;
+}
+
 /*Basis -- Labels*/
 section.sectie div.formulier-vak div.gform_wrapper .gfield_label,
 section.sectie div.formulier-vak div.gform_wrapper legend.gfield_label {

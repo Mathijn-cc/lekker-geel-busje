@@ -41,6 +41,7 @@ function thema_uitroltaken() {
 		'reviews-trustindex-v1'   => 'thema_reviews_naar_trustindex',
 		'een-werkdag-v1'          => 'thema_een_werkdag',
 		'adresvelden-v1'          => 'thema_adres_velden_toevoegen',
+		'adresvelden-v2'          => 'thema_offerte_indeling',
 	);
 }
 

@@ -27,6 +27,17 @@ function thema_offerte_velden() {
 
 		'vertrekadres' => 8, // Tekst: vertrekadres (volledige regel)
 
+		// Indeling van stap 2 (uitroltaak adresvelden-v2). Velden in een rij staan naast
+		// elkaar, de rest krijgt de volle breedte. scheiding: lijntje boven dat veld.
+		'indeling'    => array(
+			'rijen'     => array(
+				array( 6, 67 ),  // Vertrekdatum, vertrektijd
+				array( 10, 68 ), // Retourdatum, retourtijd
+			),
+			'vol'       => array( 8, 'vertrek_naam', 63, 'bestemming_naam' ),
+			'scheiding' => array( 63, 10, 68 ), // Begin bestemming, begin terugreis (hele rij)
+		),
+
 		// Velden met de adreszoeker (inc/adreszoeker.php), per veld-ID.
 		// soort: adres (adressen en bedrijven), woonadres (alleen adressen),
 		// plaats (dorp of stad) of volledig (adressen en bedrijven).

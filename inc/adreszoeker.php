@@ -570,3 +570,52 @@ function thema_adres_pdok_zoek( $q, $soort ) {
 	}
 	return $resultaten;
 }
+
+/* --------------------------------------------------------------------------
+ * Uitroltaak adresvelden-v2: indeling van stap 2. Datum en tijd naast elkaar,
+ * adres- en naamvelden over de volle breedte, een lijntje tussen vertrek,
+ * bestemming en terugreis (klasse veld-scheiding, zie thema.css).
+ * ----------------------------------------------------------------------- */
+
+function thema_offerte_indeling() {
+	if ( ! class_exists( 'GFAPI' ) ) {
+		return 'Gravity Forms niet actief';
+	}
+	$v    = thema_offerte_velden();
+	$form = GFAPI::get_form( $v['formulier'] );
+	if ( ! $form || empty( $v['indeling'] ) ) {
+		return 'formulier of indeling niet gevonden';
+	}
+	$in     = $v['indeling'];
+	$gedaan = array();
+
+	foreach ( $in['rijen'] as $rij ) {
+		$groep = substr( md5( 'rij-' . implode( '-', $rij ) ), 0, 8 );
+		$span  = (int) floor( 12 / count( $rij ) );
+		foreach ( $rij as $verwijzing ) {
+			$veld = thema_offerte_veld( $form, thema_adres_veld_id( $form, $verwijzing ) );
+			if ( $veld ) {
+				$veld->layoutGroupId        = $groep;
+				$veld->layoutGridColumnSpan = $span;
+				$gedaan[]                   = $veld->id . ':' . $span;
+			}
+		}
+	}
+	foreach ( $in['vol'] as $verwijzing ) {
+		$veld = thema_offerte_veld( $form, thema_adres_veld_id( $form, $verwijzing ) );
+		if ( $veld ) {
+			$veld->layoutGroupId        = substr( md5( 'vol-' . $veld->id ), 0, 8 );
+			$veld->layoutGridColumnSpan = 12;
+			$gedaan[]                   = $veld->id . ':12';
+		}
+	}
+	foreach ( $in['scheiding'] as $verwijzing ) {
+		$veld = thema_offerte_veld( $form, thema_adres_veld_id( $form, $verwijzing ) );
+		if ( $veld && false === strpos( (string) $veld->cssClass, 'veld-scheiding' ) ) {
+			$veld->cssClass = trim( $veld->cssClass . ' veld-scheiding' );
+			$gedaan[]       = $veld->id . ':scheiding';
+		}
+	}
+	$uitkomst = GFAPI::update_form( $form );
+	return is_wp_error( $uitkomst ) ? $uitkomst->get_error_message() : $gedaan;
+}
