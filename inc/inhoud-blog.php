@@ -110,7 +110,7 @@ function thema_blog_artikel_plaatsen( $a, $categorie, $gelegenheid ) {
 
 		$offerte          = thema_blok_offerte();
 		$offerte['label'] = 'Binnen 1 werkdag je prijs';
-		$offerte['kop']   = 'Vervoer voor het vrijgezellenfeest *geregeld?*';
+		$offerte['kop']   = $a['offerte_kop'] ?? 'Vervoer voor het vrijgezellenfeest *geregeld?*';
 
 		update_field( 'field_blokken', array_merge( $a['blokken'], array( $faq, $offerte ) ), $id );
 	}
