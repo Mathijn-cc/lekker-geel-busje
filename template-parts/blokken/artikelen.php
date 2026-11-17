@@ -17,7 +17,6 @@ echo thema_sectie_open( $b, 'artikelen' );
 			<?php echo thema_eyebrow( $b['eyebrow'] ?? '' ); ?>
 			<?php echo thema_kop( $b['kop'] ?? '', 'h2', 'kop-middel' ); ?>
 			<?php if ( ! empty( $b['intro'] ) ) : ?><p class="tekst-groot" data-animeer><?php echo esc_html( $b['intro'] ); ?></p><?php endif; ?>
-			<?php if ( ! empty( $knop['url'] ) ) : ?><div class="knop-houder" data-animeer><?php echo thema_blok_knop( $knop, $b, 'paars' ); ?></div><?php endif; ?>
 		</div>
 		<div class="artikelen-raster artikelen-<?php echo (int) min( 3, count( $posts ) ); ?>">
 			<?php
@@ -26,5 +25,6 @@ echo thema_sectie_open( $b, 'artikelen' );
 			}
 			?>
 		</div>
+		<?php if ( ! empty( $knop['url'] ) ) : ?><div class="knop-houder artikelen-knop" data-animeer><?php echo thema_blok_knop( $knop, $b, 'paars' ); ?></div><?php endif; ?>
 	</div>
 </section>

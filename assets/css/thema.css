@@ -8347,6 +8347,28 @@ section.sectie-artikelen div.artikelen-binnen div.artikelen-raster {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+/*Artikelen -- Knop naar alle artikelen: op mobiel onder de kaarten, op desktop rechts naast de kop*/
+section.sectie-artikelen div.artikelen-binnen div.knop-houder.artikelen-knop {
+  display: flex;
+}
+@media (min-width: 1000px) {
+  section.sectie-artikelen div.artikelen-binnen:has(> div.artikelen-knop) {
+    display:               grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:   "kop knop" "raster raster";
+    align-items:           end;
+    column-gap:            40px;
+  }
+  section.sectie-artikelen div.artikelen-binnen div.artikelen-kop {
+    grid-area: kop;
+  }
+  section.sectie-artikelen div.artikelen-binnen div.artikelen-raster {
+    grid-area: raster;
+  }
+  section.sectie-artikelen div.artikelen-binnen div.knop-houder.artikelen-knop {
+    grid-area: knop;
+  }
+}
 
 /**Artikel -- Lees ook**/
 /*Lees ook -- Sectie op zandkleur, zodat hij loskomt van de blokken erboven*/
