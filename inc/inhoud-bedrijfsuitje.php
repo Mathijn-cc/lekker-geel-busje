@@ -198,8 +198,8 @@ function thema_plaats_bedrijfsuitje() {
 			'eyebrow'       => 'Voor de organisator',
 			'kop'           => 'Organiseer jij het *bedrijfsuitje?*',
 			'intro'         => 'Ideeën voor een origineel uitje, een stappenplan met checklist en spellen voor onderweg. Zo weet je zeker dat het uitje staat.',
-			'keuze'         => $artikelen,
-			'onderwerp'     => $artikelen ? 0 : ( $teamuitjes ? (int) $teamuitjes->term_id : 0 ),
+			'keuze'         => array(),
+			'onderwerp'     => $teamuitjes ? (int) $teamuitjes->term_id : 0,
 			'aantal'        => 3,
 			'knop'          => $teamuitjes ? thema_link( 'Alle artikelen over teamuitjes', get_category_link( $teamuitjes ) ) : '',
 			'achtergrond'   => 'standaard',
@@ -713,4 +713,50 @@ function thema_blog_in_hoofdmenu() {
 		'menu-item-status'    => 'publish',
 	) );
 	return is_wp_error( $id ) ? $id->get_error_message() : array( 'item' => $id, 'positie' => $positie );
+}
+
+/**
+ * Uitroltaak bedrijfsuitje-volgorde-v1: de landingspagina toont de drie nieuwste artikelen uit Teamuitjes.
+ * De publicatiedatums bepalen de volgorde: de WKR eerst, de ideeën als laatste (en dus niet op de landingspagina).
+ */
+function thema_bedrijfsuitje_volgorde() {
+	$uit       = array();
+	$volgorde  = array(
+		'bedrijfsuitje-werkkostenregeling',
+		'bedrijfsuitje-organiseren',
+		'teambuilding-spellen-collegas-bus',
+		'kerstborrel-kerstuitje-organiseren',
+		'bedrijfsuitje-winter-ideeen',
+		'bedrijfsuitje-ideeen',
+	);
+	$basis = strtotime( '2026-11-17 12:00:00' );
+	foreach ( $volgorde as $i => $slug ) {
+		$p = get_page_by_path( $slug, OBJECT, 'post' );
+		if ( ! $p ) {
+			continue;
+		}
+		$lokaal = gmdate( 'Y-m-d H:i:s', $basis - $i * 10 * MINUTE_IN_SECONDS );
+		wp_update_post( array(
+			'ID'            => $p->ID,
+			'post_date'     => $lokaal,
+			'post_date_gmt' => get_gmt_from_date( $lokaal ),
+			'edit_date'     => true,
+		) );
+		$uit[ $slug ] = $lokaal;
+	}
+
+	$gel  = get_page_by_path( 'bedrijfsuitje', OBJECT, 'gelegenheid' );
+	$term = get_category_by_slug( 'teamuitjes' );
+	if ( $gel && $term ) {
+		foreach ( (array) get_post_meta( $gel->ID, 'blokken', true ) as $i => $layout ) {
+			if ( 'artikelen' === $layout ) {
+				update_post_meta( $gel->ID, "blokken_{$i}_keuze", '' );
+				update_post_meta( $gel->ID, "blokken_{$i}_onderwerp", (string) $term->term_id );
+				update_post_meta( $gel->ID, "blokken_{$i}_aantal", 3 );
+				$uit['blok'] = $i;
+			}
+		}
+		clean_post_cache( $gel->ID );
+	}
+	return $uit;
 }

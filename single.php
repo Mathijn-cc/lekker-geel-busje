@@ -99,7 +99,7 @@ while ( have_posts() ) :
 				<div class="artikelen-kop">
 					<?php echo thema_kop( 'Lees *ook*', 'h2', 'kop-middel' ); ?>
 				</div>
-				<div class="artikelen-raster">
+				<div class="artikelen-raster artikelen-<?php echo (int) min( 3, count( $verder ) ); ?>">
 					<?php
 					foreach ( array_slice( $verder, 0, 3 ) as $ander ) {
 						get_template_part( 'template-parts/kaart-blog', null, array( 'post' => $ander ) );

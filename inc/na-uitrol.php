@@ -50,6 +50,7 @@ function thema_uitroltaken() {
 		'blog-in-hoofdmenu-v1'    => 'thema_blog_in_hoofdmenu',
 		'bedrijfsuitje-blog-v3'   => 'thema_bedrijfsuitje_blog',
 		'bedrijfsuitje-v3'        => 'thema_plaats_bedrijfsuitje',
+		'bedrijfsuitje-volgorde-v1' => 'thema_bedrijfsuitje_volgorde',
 	);
 }
 
