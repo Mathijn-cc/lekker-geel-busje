@@ -26,6 +26,7 @@ function thema_offerte_velden() {
 		'telefoon'    => 71, // Tekst of telefoon: telefoonnummer
 
 		'vertrekadres' => 8, // Tekst: vertrekadres (volledige regel)
+		'tijden'       => array( 67, 68 ), // Tekst: vertrektijd en retourtijd, masker uu:mm
 
 		// Indeling van stap 2 (uitroltaak adresvelden-v2). Velden in een rij staan naast
 		// elkaar, de rest krijgt de volle breedte. scheiding: lijntje boven dat veld.
@@ -35,7 +36,7 @@ function thema_offerte_velden() {
 				array( 10, 68 ), // Retourdatum, retourtijd
 			),
 			'vol'       => array( 8, 'vertrek_naam', 63, 'bestemming_naam' ),
-			'scheiding' => array( 63, 10, 68 ), // Begin bestemming, begin terugreis (hele rij)
+			'scheiding' => array( 63, 10, 68, 13 ), // Begin bestemming, begin terugreis (hele rij), bijzonderheden
 			// Uitleg boven het invulveld, net als bij de andere velden (gelijke hoogte in een rij).
 			'uitleg_boven' => array( 67, 68, 'vertrek_naam', 'bestemming_naam' ),
 		),
@@ -369,4 +370,91 @@ add_action( 'gform_register_init_scripts', function ( $form ) {
 		. 'neem();'
 		. '})(jQuery);';
 	GFFormDisplay::add_init_script( $form['id'], 'thema_offerte_datums', GFFormDisplay::ON_PAGE_RENDER, $script );
+} );
+
+/* --------------------------------------------------------------------------
+ * K6: tijdvelden met masker uu:mm (bijv. 12:00).
+ * Het Gravity Forms masker laadt in deze versie niet, daarom een eigen versie:
+ * alleen cijfers, de dubbele punt komt vanzelf, "9" wordt "09" en bij het
+ * verlaten van het veld wordt het aangevuld ("12" wordt "12:00").
+ * De server zet varianten als 1200 of 12.00 om en weigert onmogelijke tijden.
+ * ----------------------------------------------------------------------- */
+
+/**
+ * Een getypte tijd als uu:mm, of null als het geen geldige tijd is.
+ */
+function thema_offerte_tijd( $waarde ) {
+	$cijfers = preg_replace( '/\D/', '', (string) $waarde );
+	if ( '' === $cijfers || strlen( $cijfers ) > 4 ) {
+		return null;
+	}
+	if ( preg_match( '/^(\d{1,2})\D+(\d{1,2})$/', trim( (string) $waarde ), $m ) ) {
+		$uur = (int) $m[1];
+		$min = (int) str_pad( $m[2], 2, '0' );
+	} elseif ( strlen( $cijfers ) <= 2 ) {
+		$uur = (int) $cijfers;
+		$min = 0;
+	} else {
+		$cijfers = str_pad( $cijfers, 4, '0', STR_PAD_LEFT );
+		$uur     = (int) substr( $cijfers, 0, 2 );
+		$min     = (int) substr( $cijfers, 2, 2 );
+	}
+	if ( $uur > 23 || $min > 59 ) {
+		return null;
+	}
+	return sprintf( '%02d:%02d', $uur, $min );
+}
+
+add_action( 'gform_pre_validation', function ( $form ) {
+	$v = thema_offerte_velden();
+	if ( (int) $form['id'] !== (int) $v['formulier'] ) {
+		return $form;
+	}
+	foreach ( (array) ( $v['tijden'] ?? array() ) as $id ) {
+		$tijd = thema_offerte_tijd( rgpost( 'input_' . (int) $id ) );
+		if ( $tijd ) {
+			$_POST[ 'input_' . (int) $id ] = $tijd;
+		}
+	}
+	return $form;
+} );
+
+add_filter( 'gform_field_validation', function ( $resultaat, $waarde, $form, $veld ) {
+	$v = thema_offerte_velden();
+	if ( (int) $form['id'] !== (int) $v['formulier'] || ! in_array( (int) $veld->id, array_map( 'intval', (array) ( $v['tijden'] ?? array() ) ), true ) ) {
+		return $resultaat;
+	}
+	if ( '' !== trim( (string) $waarde ) && ! thema_offerte_tijd( $waarde ) ) {
+		$resultaat['is_valid'] = false;
+		$resultaat['message']  = 'Vul een tijd in als 12:00.';
+	}
+	return $resultaat;
+}, 10, 4 );
+
+add_action( 'gform_register_init_scripts', function ( $form ) {
+	$v = thema_offerte_velden();
+	if ( (int) $form['id'] !== (int) $v['formulier'] || empty( $v['tijden'] ) || ! class_exists( 'GFFormDisplay' ) ) {
+		return;
+	}
+	$ids = array();
+	foreach ( $v['tijden'] as $id ) {
+		$ids[] = 'input_' . (int) $form['id'] . '_' . (int) $id;
+	}
+	$script = '(function(){'
+		. 'var ids=' . wp_json_encode( $ids ) . ';'
+		. 'ids.forEach(function(id){var el=document.getElementById(id);if(!el){return;}'
+		. 'el.removeAttribute("data-mask");el.setAttribute("inputmode","numeric");el.setAttribute("maxlength","5");el.setAttribute("autocomplete","off");'
+		. 'if(window.jQuery&&jQuery.fn.unmask){jQuery(el).unmask();}});'
+		. 'if(window.themaTijdMasker){return;}window.themaTijdMasker=1;'
+		. 'function cijfers(w){var c=w.replace(/\D/g,"").slice(0,4);if(c.length&&c[0]>"2"){c=("0"+c).slice(0,4);}return c;}'
+		. 'document.addEventListener("input",function(e){var el=e.target;if(ids.indexOf(el.id)<0){return;}'
+		. 'var c=cijfers(el.value),wissen=e.inputType&&e.inputType.indexOf("delete")===0;'
+		. 'var n=c.length>2?c.slice(0,2)+":"+c.slice(2):(c.length===2&&!wissen?c+":":c);'
+		. 'if(n!==el.value){el.value=n;}});'
+		. 'document.addEventListener("focusout",function(e){var el=e.target;if(ids.indexOf(el.id)<0||!el.value){return;}'
+		. 'var c=cijfers(el.value);if(!c){el.value="";return;}'
+		. 'if(c.length<=2){c=("0"+c).slice(-2)+"00";}else if(c.length===3){c=c+"0";}'
+		. 'el.value=c.slice(0,2)+":"+c.slice(2);el.dispatchEvent(new Event("change",{bubbles:true}));});'
+		. '})();';
+	GFFormDisplay::add_init_script( $form['id'], 'thema_offerte_tijden', GFFormDisplay::ON_PAGE_RENDER, $script );
 } );
