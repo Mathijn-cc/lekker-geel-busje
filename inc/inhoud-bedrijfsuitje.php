@@ -760,3 +760,44 @@ function thema_bedrijfsuitje_volgorde() {
 	}
 	return $uit;
 }
+
+/**
+ * Uitroltaak drinken-in-de-bus-v1: elke vraag over drinken in de bus krijgt hetzelfde duidelijke antwoord.
+ * Drinken mag, eigen drank niet, drankjes bestel je bij het gastvrouwke. Werkt op alle opgeslagen FAQ-blokken.
+ */
+function thema_drinken_in_de_bus() {
+	global $wpdb;
+	$mag   = 'Ja, drinken in de bus mag. Je bestelt je drankjes bij ons gastvrouwke, uit een koeling vol koude drank. Eigen drank meenemen is niet toegestaan.';
+	$eigen = 'Nee, eigen drank is niet toegestaan. Drinken in de bus mag wel: je bestelt je drankjes bij ons gastvrouwke, uit een koeling vol koude drank.';
+	$uit   = array();
+	$rijen = $wpdb->get_results( "SELECT post_id, meta_key, meta_value FROM {$wpdb->postmeta} WHERE meta_key REGEXP '^blokken_[0-9]+_vragen_[0-9]+_vraag$'" );
+	foreach ( $rijen as $r ) {
+		$v = mb_strtolower( wp_strip_all_tags( (string) $r->meta_value ) );
+		$antwoord = '';
+		if ( false !== strpos( $v, 'eigen drank' ) || ( false !== strpos( $v, 'meenemen' ) && ( false !== strpos( $v, 'drank' ) || false !== strpos( $v, 'drinken' ) ) ) ) {
+			$antwoord = $eigen;
+		} elseif ( preg_match( '/drink|drank|alcohol/u', $v ) && preg_match( '/\b(mag|mogen|kan|kunnen)\b/u', $v ) ) {
+			$antwoord = $mag;
+		}
+		if ( ! $antwoord ) {
+			continue;
+		}
+		$sleutel = substr( $r->meta_key, 0, -strlen( '_vraag' ) ) . '_antwoord';
+		$oud     = (string) get_post_meta( (int) $r->post_id, $sleutel, true );
+		if ( $oud !== $antwoord ) {
+			$extra = false !== strpos( $oud, 'Huisregels' ) ? ' De andere spelregels lees je op de pagina Huisregels.' : '';
+			update_post_meta( (int) $r->post_id, $sleutel, $antwoord . $extra );
+			clean_post_cache( (int) $r->post_id );
+		}
+		$uit[] = get_post_field( 'post_name', (int) $r->post_id ) . ': ' . $r->meta_value;
+	}
+	/* Vrijgezellenchecklist: antwoord over wat je meeneemt. */
+	$wpdb->query( $wpdb->prepare(
+		"UPDATE {$wpdb->postmeta} SET meta_value = REPLACE( meta_value, %s, %s ) WHERE meta_value LIKE %s",
+		'Eigen drank laat je thuis als je met ons meerijdt: aan boord staat een koeling vol koude drank.',
+		'Eigen drank laat je thuis, want dat is niet toegestaan in de bus. Drinken mag wel: je bestelt je drankjes bij ons gastvrouwke.',
+		'%Eigen drank laat je thuis als je%'
+	) );
+	wp_cache_flush();
+	return $uit;
+}

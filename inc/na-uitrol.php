@@ -51,6 +51,7 @@ function thema_uitroltaken() {
 		'bedrijfsuitje-blog-v3'   => 'thema_bedrijfsuitje_blog',
 		'bedrijfsuitje-v3'        => 'thema_plaats_bedrijfsuitje',
 		'bedrijfsuitje-volgorde-v1' => 'thema_bedrijfsuitje_volgorde',
+		'drinken-in-de-bus-v1'    => 'thema_drinken_in_de_bus',
 	);
 }
 

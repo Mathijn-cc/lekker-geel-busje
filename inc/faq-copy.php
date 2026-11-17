@@ -13,8 +13,8 @@ defined( 'ABSPATH' ) || exit;
 function thema_faq_vragen() {
 	return array(
 		'boeken'      => array( 'Hoe ver van tevoren moet ik boeken?', 'Hoe eerder, hoe beter. Vrijdagen, zaterdagen en het festivalseizoen zitten snel vol. Staat de datum vast? Vraag dan meteen je offerte aan, dan ben je er op tijd bij.' ),
-		'drinken'     => array( 'Mag je drinken in de bus?', 'Zeker. Aan boord staat een koeling vol koude drankjes en het gastvrouwke schenkt in. Proosten kan dus al voordat je er bent.' ),
-		'eigen-drank' => array( 'Mogen we eigen drank meenemen?', 'Nee, en dat hoeft ook niet. De koeling aan boord ligt vol koude drank en het gastvrouwke zorgt dat niemand droog staat.' ),
+		'drinken'     => array( 'Mag je drinken in de bus?', 'Ja, drinken in de bus mag. Je bestelt je drankjes bij ons gastvrouwke, uit een koeling vol koude drank. Eigen drank meenemen is niet toegestaan.' ),
+		'eigen-drank' => array( 'Mogen we eigen drank meenemen?', 'Nee, eigen drank is niet toegestaan. Drinken in de bus mag wel: je bestelt je drankjes bij ons gastvrouwke, uit een koeling vol koude drank.' ),
 		'buiten'      => array( 'Rijden jullie ook buiten Brabant?', 'Zeker. Vanuit Oisterwijk rijden we door heel Brabant en ver daarbuiten. Zelfs een voetbalwedstrijd in Oostenrijk was geen brug te ver.' ),
 		'later'       => array( 'Wat als we later terug willen?', 'We spreken vooraf een tijd af voor de terugrit. Is het feest dan nog lang niet klaar? Overleg het met de chauffeur, dan kijken we samen wat kan.' ),
 		'muziek'      => array( 'Kunnen we onze eigen muziek draaien?', 'Natuurlijk. Sluit je eigen playlist aan op het geluidssysteem en de bus is jullie dansvloer. Liever een DJ Booth? Regelen we.' ),
@@ -54,7 +54,7 @@ function thema_faq_per_pagina() {
 			array( 'Wat doet het gastvrouwke?', 'Het gastvrouwke rijdt bij elke rit mee. Ze schenkt de drankjes uit de koeling, let op de veiligheid en heeft op elke vraag een antwoord. Zo kan de chauffeur zich op de weg richten en jij op het feest.' ),
 			array( 'Wat bedoelen jullie met een sfeerbus?', 'Een partybus waarin de sfeer voorop staat. Licht, geluid en drankjes zijn er volop, maar het verschil maken de mensen: een chauffeur die zich vooraf voorstelt, een gastvrouwke aan boord en een groep met iets te vieren. Busje in, sfeertje aan.' ),
 			array( 'Rijden jullie ook naar het buitenland?', 'Ja. Vanuit Brabant rijden we door heel Nederland en over de grens. Vertel waar jullie heen willen, dan krijg je een vaste prijs.' ),
-			array( 'Mogen we eigen drank meenemen?', 'Nee. Aan boord staat een koeling vol koude drank en het gastvrouwke schenkt in. De andere spelregels lees je op de pagina Huisregels.' ),
+			array( 'Mogen we eigen drank meenemen?', 'Nee, eigen drank is niet toegestaan. Drinken in de bus mag wel: je bestelt je drankjes bij ons gastvrouwke, uit een koeling vol koude drank. De andere spelregels lees je op de pagina Huisregels.' ),
 		),
 
 		'offerte-aanvragen'  => array(

@@ -201,7 +201,7 @@ HTML,
 			'vragen'       => array(
 				array( 'Wat moet je allemaal regelen voor een vrijgezellenfeest?', 'De datum, de gastenlijst, het budget, een activiteit, eten, vervoer en een draaiboek voor de dag. Met een dresscode, een playlist en een paar opdrachten maak je het af.' ),
 				array( 'Hoeveel mensen nodig je uit voor een vrijgezellenfeest?', 'Dat bepaal je samen met de partner. Een kleine groep beste vrienden kan, maar ook een grote groep met familie en collega\'s. In onze bussen gaan groepen tot 88 personen mee.' ),
-				array( 'Wat neem je mee naar een vrijgezellenfeest?', 'Iets voor de dresscode, comfortabele schoenen, een opgeladen telefoon en eventueel spullen voor de opdrachten. Eigen drank laat je thuis als je met ons meerijdt: aan boord staat een koeling vol koude drank.' ),
+				array( 'Wat neem je mee naar een vrijgezellenfeest?', 'Iets voor de dresscode, comfortabele schoenen, een opgeladen telefoon en eventueel spullen voor de opdrachten. Eigen drank laat je thuis, want dat is niet toegestaan in de bus. Drinken mag wel: je bestelt je drankjes bij ons gastvrouwke.' ),
 			),
 			'blokken'      => array(
 				array(
