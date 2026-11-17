@@ -137,6 +137,21 @@ function thema_schema() {
 		'tiktok'              => array( 'url', '' ),
 		'youtube'             => array( 'url', '' ),
 
+		// WhatsApp-chat.
+		'chat_aan'            => array( 'bool', 1 ),
+		'chat_naam'           => array( 'text', 'Lekker Geel Busje' ),
+		'chat_status'         => array( 'text', 'Stel je vraag via WhatsApp' ),
+		'chat_foto'           => array( 'id', 0 ),
+		'chat_welkom'         => array( 'textarea', "Hoi! Waar kunnen we je mee helpen?\nTyp je vraag hieronder, dan zet je hem met één tik in WhatsApp." ),
+		'chat_suggesties'     => array( 'textarea', "Ik heb een vraag over mijn rit\nMag je drinken in de bus?\nHoeveel mensen kunnen er mee?" ),
+		'chat_veld'           => array( 'text', 'Typ je vraag...' ),
+		'chat_knop'           => array( 'text', 'Verder in WhatsApp' ),
+		'chat_ballon'         => array( 'text', 'Vraagje? App ons gerust!' ),
+		'chat_ballon_na'      => array( 'int', 8, 0, 60 ),
+		'chat_offerte'        => array( 'bool', 1 ),
+		'chat_pagina'         => array( 'bool', 1 ),
+		'chat_verbergen'      => array( 'textarea', '' ),
+
 		// Footer.
 		'footer_cta_kop'      => array( 'text', 'Klaar om *in te stappen?*' ),
 		'footer_cta_tekst'    => array( 'textarea', 'Vertel ons wanneer, waarheen en met hoeveel je bent. Binnen 1 werkdag heb je een vaste all-in prijs.' ),

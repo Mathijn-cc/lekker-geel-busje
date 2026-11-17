@@ -89,6 +89,8 @@ if ( ! $juridisch && get_privacy_policy_url() ) {
 
 <?php echo thema_onderbalk(); // phpcs:ignore -- opgebouwd met esc-functies. ?>
 
+<?php echo thema_whatsapp_chat(); // phpcs:ignore -- opgebouwd met esc-functies. ?>
+
 <?php if ( in_array( 'met-cursor', thema_body_classes(), true ) ) : ?>
 	<div class="cursor-ring" data-cursor-ring aria-hidden="true"><span data-cursor-label></span></div>
 	<div class="cursor-stip" data-cursor-stip aria-hidden="true"></div>

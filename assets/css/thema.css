@@ -35,6 +35,7 @@
   --lijn-dun:        2px;
   --lijn-dik:        3px;
   --halte:           72px;
+  --chat-afstand:    clamp(16px, 2.4vw, 28px);
 }
 
 /**Basis -- Document**/
@@ -9559,5 +9560,445 @@ section.sectie-stoelen.achtergrond-paars div.stoelen-ticket {
   }
   section.sectie-stoelen div.stoelen-ticket div.stoelen-ticket-onder div.stoelen-ticket-totaal strong {
     font-size: 38px;
+  }
+}
+
+/**Algemeen -- WhatsApp-chat**/
+/*WhatsApp-chat -- Houder rechtsonder*/
+div.whatsapp-chat {
+  position:       fixed;
+  right:          calc(var(--chat-afstand) + env(safe-area-inset-right, 0px));
+  bottom:         calc(var(--chat-afstand) + env(safe-area-inset-bottom, 0px));
+  z-index:        80;
+  display:        flex;
+  flex-direction: column;
+  align-items:    flex-end;
+  gap:            14px;
+  pointer-events: none;
+}
+div.whatsapp-chat > * {
+  pointer-events: auto;
+}
+@media (max-width: 899px) {
+  div.whatsapp-chat.met-onderbalk {
+    bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/*WhatsApp-chat -- Knop*/
+div.whatsapp-chat a.whatsapp-chat-knop {
+  position:        relative;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           62px;
+  height:          62px;
+  border-radius:   50%;
+  background:      var(--kleur-paars);
+  color:           var(--kleur-geel);
+  box-shadow:      0 14px 30px -12px rgba(38, 4, 63, .55);
+  transition:      background .3s var(--zacht), transform .4s var(--veer);
+}
+div.whatsapp-chat a.whatsapp-chat-knop:hover {
+  background: var(--kleur-hover);
+  color:      var(--kleur-geel);
+  transform:  scale(1.06) rotate(-4deg);
+}
+div.whatsapp-chat a.whatsapp-chat-knop:focus-visible {
+  outline:        var(--lijn-dik) solid var(--kleur-geel);
+  outline-offset: 3px;
+}
+div.whatsapp-chat a.whatsapp-chat-knop::before {
+  content:       "";
+  position:      absolute;
+  inset:         0;
+  border-radius: 50%;
+  border:        var(--lijn-dun) solid var(--kleur-paars);
+  opacity:       0;
+  animation:     whatsapp-chat-puls 3.2s 2s infinite var(--zacht);
+}
+div.whatsapp-chat.is-open a.whatsapp-chat-knop::before {
+  animation: none;
+}
+@keyframes whatsapp-chat-puls {
+  0% {
+    opacity:   .5;
+    transform: scale(1);
+  }
+  60%,
+  100% {
+    opacity:   0;
+    transform: scale(1.45);
+  }
+}
+/*WhatsApp-chat -- Wissel tussen app-icoon en kruisje*/
+div.whatsapp-chat a.whatsapp-chat-knop span.whatsapp-chat-knop-icoon {
+  position:   absolute;
+  display:    flex;
+  transition: opacity .25s var(--zacht), transform .4s var(--veer);
+}
+div.whatsapp-chat a.whatsapp-chat-knop span.whatsapp-chat-knop-dicht {
+  opacity:   0;
+  transform: rotate(-90deg) scale(.6);
+}
+div.whatsapp-chat.is-open a.whatsapp-chat-knop span.whatsapp-chat-knop-app {
+  opacity:   0;
+  transform: rotate(90deg) scale(.6);
+}
+div.whatsapp-chat.is-open a.whatsapp-chat-knop span.whatsapp-chat-knop-dicht {
+  opacity:   1;
+  transform: none;
+}
+
+/*WhatsApp-chat -- Ballon*/
+div.whatsapp-chat div.whatsapp-chat-ballon {
+  position:         relative;
+  display:          flex;
+  align-items:      center;
+  margin-right:     6px;
+  opacity:          0;
+  transform:        translateY(10px) scale(.9);
+  transform-origin: 100% 100%;
+  transition:       opacity .3s var(--zacht), transform .45s var(--veer);
+}
+div.whatsapp-chat div.whatsapp-chat-ballon.is-zichtbaar {
+  opacity:   1;
+  transform: none;
+}
+div.whatsapp-chat div.whatsapp-chat-ballon[hidden] {
+  display: none;
+}
+div.whatsapp-chat div.whatsapp-chat-ballon::after {
+  content:       "";
+  position:      absolute;
+  right:         22px;
+  bottom:        -7px;
+  width:         16px;
+  height:        16px;
+  border-radius: 0 0 4px 0;
+  background:    var(--kleur-geel);
+  transform:     rotate(45deg);
+}
+div.whatsapp-chat div.whatsapp-chat-ballon button.whatsapp-chat-ballon-tekst {
+  position:      relative;
+  z-index:       1;
+  max-width:     min(260px, calc(100vw - 80px));
+  margin:        0;
+  padding:       13px 40px 13px 18px;
+  border:        0;
+  border-radius: 20px;
+  background:    var(--kleur-geel);
+  color:         var(--kleur-paars);
+  box-shadow:    0 14px 30px -14px rgba(38, 4, 63, .45);
+  font-family:   var(--tekst-letter);
+  font-size:     15px;
+  font-weight:   700;
+  line-height:   1.35;
+  text-align:    left;
+  cursor:        pointer;
+}
+div.whatsapp-chat div.whatsapp-chat-ballon button.whatsapp-chat-ballon-weg {
+  position:        absolute;
+  top:             50%;
+  right:           8px;
+  z-index:         2;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           26px;
+  height:          26px;
+  margin:          -13px 0 0;
+  padding:         0;
+  border:          0;
+  border-radius:   50%;
+  background:      rgba(56, 6, 94, .1);
+  color:           var(--kleur-paars);
+  cursor:          pointer;
+  transition:      background .2s var(--zacht);
+}
+div.whatsapp-chat div.whatsapp-chat-ballon button.whatsapp-chat-ballon-weg:hover {
+  background: rgba(56, 6, 94, .2);
+}
+
+/*WhatsApp-chat -- Venster*/
+div.whatsapp-chat div.whatsapp-chat-venster {
+  display:          flex;
+  flex-direction:   column;
+  width:            min(380px, calc(100vw - 2 * var(--chat-afstand)));
+  max-height:       min(600px, calc(100dvh - 120px));
+  border-radius:    28px;
+  background:       var(--kleur-wit);
+  box-shadow:       0 30px 60px -24px rgba(38, 4, 63, .5);
+  overflow:         hidden;
+  opacity:          0;
+  transform:        translateY(16px) scale(.96);
+  transform-origin: 100% 100%;
+  transition:       opacity .25s var(--zacht), transform .45s var(--veer);
+}
+div.whatsapp-chat div.whatsapp-chat-venster.is-zichtbaar {
+  opacity:   1;
+  transform: none;
+}
+div.whatsapp-chat div.whatsapp-chat-venster[hidden] {
+  display: none;
+}
+/*WhatsApp-chat -- Kop met afzender*/
+div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-kop {
+  display:     flex;
+  align-items: center;
+  gap:         12px;
+  padding:     16px 16px 16px 18px;
+  background:  var(--kleur-paars);
+  color:       var(--kleur-wit);
+}
+div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-kop span.whatsapp-chat-avatar {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  flex:            0 0 46px;
+  width:           46px;
+  height:          46px;
+  border-radius:   50%;
+  background:      var(--kleur-geel);
+  color:           var(--kleur-paars);
+  overflow:        hidden;
+}
+div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-kop span.whatsapp-chat-avatar img.whatsapp-chat-foto {
+  width:      100%;
+  height:     100%;
+  object-fit: cover;
+}
+div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-kop span.whatsapp-chat-afzender {
+  display:        flex;
+  flex:           1 1 auto;
+  flex-direction: column;
+  min-width:      0;
+  line-height:    1.25;
+}
+div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-kop span.whatsapp-chat-afzender span.whatsapp-chat-naam {
+  font-family: var(--kop-letter);
+  font-size:   18px;
+  font-weight: var(--kop-gewicht);
+}
+div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-kop span.whatsapp-chat-afzender span.whatsapp-chat-status {
+  display:     inline-flex;
+  align-items: center;
+  gap:         6px;
+  font-size:   14px;
+  opacity:     .8;
+}
+div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-kop span.whatsapp-chat-afzender span.whatsapp-chat-status::before {
+  content:       "";
+  flex:          0 0 8px;
+  width:         8px;
+  height:        8px;
+  border-radius: 50%;
+  background:    #2fbf71;
+}
+div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-kop button.whatsapp-chat-sluiten {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  flex:            0 0 38px;
+  width:           38px;
+  height:          38px;
+  padding:         0;
+  border:          0;
+  border-radius:   50%;
+  background:      rgba(255, 255, 255, .12);
+  color:           var(--kleur-wit);
+  cursor:          pointer;
+  transition:      background .2s var(--zacht);
+}
+div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-kop button.whatsapp-chat-sluiten:hover {
+  background: rgba(255, 255, 255, .24);
+}
+/*WhatsApp-chat -- Berichten*/
+div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-log {
+  display:             flex;
+  flex:                1 1 auto;
+  flex-direction:      column;
+  align-items:         flex-start;
+  gap:                 8px;
+  min-height:          120px;
+  padding:             18px 16px 10px;
+  background:          var(--kleur-creme);
+  overflow-y:          auto;
+  overscroll-behavior: contain;
+  scroll-behavior:     smooth;
+}
+div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-log p.whatsapp-chat-bericht {
+  max-width:     88%;
+  margin:        0;
+  padding:       10px 14px;
+  border-radius: 18px;
+  font-size:     15px;
+  line-height:   1.45;
+  white-space:   pre-wrap;
+  overflow-wrap: anywhere;
+}
+div.whatsapp-chat div.whatsapp-chat-venster.is-zichtbaar div.whatsapp-chat-log p.whatsapp-chat-bericht {
+  animation: whatsapp-chat-in .4s var(--veer) both;
+}
+div.whatsapp-chat div.whatsapp-chat-venster.is-zichtbaar div.whatsapp-chat-log p.whatsapp-chat-bericht:nth-child(2) {
+  animation-delay: .12s;
+}
+div.whatsapp-chat div.whatsapp-chat-venster.is-zichtbaar div.whatsapp-chat-log p.whatsapp-chat-bericht:nth-child(3) {
+  animation-delay: .24s;
+}
+div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-log p.whatsapp-chat-bericht.whatsapp-chat-bericht-bus {
+  border-bottom-left-radius: 6px;
+  background:                var(--kleur-wit);
+  color:                     var(--kleur-paars);
+}
+div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-log p.whatsapp-chat-bericht.whatsapp-chat-bericht-bus a {
+  font-weight:           700;
+  text-decoration:       underline;
+  text-underline-offset: 3px;
+}
+div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-log p.whatsapp-chat-bericht.whatsapp-chat-bericht-gast {
+  align-self:                 flex-end;
+  border-bottom-right-radius: 6px;
+  background:                 var(--kleur-paars);
+  color:                      var(--kleur-wit);
+}
+@keyframes whatsapp-chat-in {
+  from {
+    opacity:   0;
+    transform: translateY(8px) scale(.97);
+  }
+}
+/*WhatsApp-chat -- Snelle vragen*/
+div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-keuzes {
+  display:         flex;
+  flex-wrap:       wrap;
+  justify-content: flex-end;
+  gap:             6px;
+  padding:         4px 16px 12px;
+  background:      var(--kleur-creme);
+}
+div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-keuzes[hidden] {
+  display: none;
+}
+div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-keuzes button.whatsapp-chat-keuze {
+  margin:        0;
+  padding:       8px 13px;
+  border:        var(--lijn-dun) solid var(--kleur-paars);
+  border-radius: 999px;
+  background:    transparent;
+  color:         var(--kleur-paars);
+  font-family:   var(--tekst-letter);
+  font-size:     14px;
+  font-weight:   600;
+  line-height:   1.2;
+  cursor:        pointer;
+  transition:    background .2s var(--zacht), color .2s var(--zacht);
+}
+div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-keuzes button.whatsapp-chat-keuze:hover {
+  background: var(--kleur-paars);
+  color:      var(--kleur-wit);
+}
+/*WhatsApp-chat -- Invoer*/
+div.whatsapp-chat div.whatsapp-chat-venster form.whatsapp-chat-formulier {
+  display:     flex;
+  align-items: flex-end;
+  gap:         8px;
+  margin:      0;
+  padding:     12px 12px 8px 16px;
+  border-top:  1px solid var(--kleur-zand);
+}
+div.whatsapp-chat div.whatsapp-chat-venster form.whatsapp-chat-formulier textarea.whatsapp-chat-vraag {
+  flex:        1 1 auto;
+  min-height:  44px;
+  max-height:  140px;
+  margin:      0;
+  padding:     11px 0;
+  border:      0;
+  background:  transparent;
+  color:       var(--kleur-paars);
+  font-family: var(--tekst-letter);
+  font-size:   16px;
+  line-height: 1.4;
+  resize:      none;
+  outline:     none;
+  box-shadow:  none;
+}
+div.whatsapp-chat div.whatsapp-chat-venster form.whatsapp-chat-formulier textarea.whatsapp-chat-vraag::placeholder {
+  color:   var(--kleur-paars);
+  opacity: .45;
+}
+div.whatsapp-chat div.whatsapp-chat-venster form.whatsapp-chat-formulier button.whatsapp-chat-verstuur {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  flex:            0 0 44px;
+  width:           44px;
+  height:          44px;
+  padding:         0 2px 0 0;
+  border:          0;
+  border-radius:   50%;
+  background:      var(--kleur-geel);
+  color:           var(--kleur-paars);
+  cursor:          pointer;
+  transition:      opacity .2s var(--zacht), transform .3s var(--veer);
+}
+div.whatsapp-chat div.whatsapp-chat-venster form.whatsapp-chat-formulier button.whatsapp-chat-verstuur:hover:not(:disabled) {
+  transform: scale(1.08) rotate(-6deg);
+}
+div.whatsapp-chat div.whatsapp-chat-venster form.whatsapp-chat-formulier button.whatsapp-chat-verstuur:disabled {
+  opacity: .4;
+  cursor:  default;
+}
+/*WhatsApp-chat -- Voet*/
+div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-voet {
+  display:         flex;
+  flex-wrap:       wrap;
+  align-items:     center;
+  justify-content: space-between;
+  gap:             4px 12px;
+  padding:         0 16px 14px;
+  font-size:       13px;
+}
+div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-voet span.whatsapp-chat-uitleg {
+  display:     inline-flex;
+  align-items: center;
+  gap:         6px;
+  color:       var(--kleur-paars);
+  opacity:     .6;
+}
+div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-voet a.whatsapp-chat-offerte {
+  color:                 var(--kleur-paars);
+  font-weight:           700;
+  text-decoration:       underline;
+  text-underline-offset: 3px;
+}
+div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-voet a.whatsapp-chat-offerte:hover {
+  color: var(--kleur-hover);
+}
+
+/*WhatsApp-chat -- Mobiel*/
+@media (max-width: 560px) {
+  div.whatsapp-chat a.whatsapp-chat-knop {
+    width:  56px;
+    height: 56px;
+  }
+  div.whatsapp-chat div.whatsapp-chat-venster {
+    max-height:    calc(100dvh - 110px);
+    border-radius: 24px;
+  }
+}
+
+/*WhatsApp-chat -- Minder beweging*/
+@media (prefers-reduced-motion: reduce) {
+  div.whatsapp-chat a.whatsapp-chat-knop::before {
+    animation: none;
+  }
+  div.whatsapp-chat div.whatsapp-chat-ballon,
+  div.whatsapp-chat div.whatsapp-chat-venster,
+  div.whatsapp-chat a.whatsapp-chat-knop span.whatsapp-chat-knop-icoon {
+    transition: opacity .2s linear;
+  }
+  div.whatsapp-chat div.whatsapp-chat-venster.is-zichtbaar div.whatsapp-chat-log p.whatsapp-chat-bericht {
+    animation: none;
   }
 }
