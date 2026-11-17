@@ -71,6 +71,35 @@ add_action( 'gform_enqueue_scripts', function ( $form ) {
 } );
 
 /* --------------------------------------------------------------------------
+ * Uitleg en voorbeeld bij de velden: laat zien dat alleen het eerste veld
+ * getypt hoeft te worden. Ook bij validatie, zodat de tekst na een fout blijft.
+ * ----------------------------------------------------------------------- */
+
+foreach ( array( 'gform_pre_render', 'gform_pre_validation' ) as $haak ) {
+	add_filter( $haak, 'thema_adres_uitleg' );
+}
+
+function thema_adres_uitleg( $form ) {
+	$v = thema_offerte_velden();
+	if ( (int) $form['id'] !== (int) $v['formulier'] || empty( $v['adressen'] ) ) {
+		return $form;
+	}
+	foreach ( $v['adressen'] as $id => $instelling ) {
+		$veld = thema_offerte_veld( $form, $id );
+		if ( ! $veld ) {
+			continue;
+		}
+		if ( ! empty( $instelling['uitleg'] ) ) {
+			$veld->description = $instelling['uitleg'];
+		}
+		if ( ! empty( $instelling['voorbeeld'] ) ) {
+			$veld->placeholder = $instelling['voorbeeld'];
+		}
+	}
+	return $form;
+}
+
+/* --------------------------------------------------------------------------
  * REST: zoeken en details.
  * ----------------------------------------------------------------------- */
 

@@ -8091,6 +8091,15 @@ section.sectie div.formulier-vak div.gform_wrapper div.ginput_container.adreszoe
   }
 }
 
+/*Adreszoeker -- Plaatsveld dat zich vanzelf invult*/
+section.sectie div.formulier-vak div.gform_wrapper div.ginput_container input[type="text"] {
+  transition: background-color .4s ease, border-color .2s ease, box-shadow .2s ease;
+}
+section.sectie div.formulier-vak div.gform_wrapper div.ginput_container.is-vanzelf input[type="text"] {
+  background:   rgba(255, 175, 0, .22);
+  border-color: var(--kleur-geel);
+}
+
 /*Adreszoeker -- Lijst*/
 section.sectie div.formulier-vak div.gform_wrapper div.ginput_container.adreszoeker ul.adreslijst {
   position:      absolute;

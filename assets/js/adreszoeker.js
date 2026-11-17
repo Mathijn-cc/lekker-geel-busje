@@ -303,7 +303,11 @@
 				waarde = [ r.titel, r.sub ].filter( Boolean ).join( ', ' );
 			}
 		} else {
-			waarde = [ naam, straat ].filter( Boolean ).join( ', ' ) || r.titel;
+			/* Adresveld: straat, nummer en postcode. De plaats gaat naar het plaatsveld. */
+			waarde = [ naam, straat, d.postcode ].filter( Boolean ).join( ', ' ) || r.titel;
+			if ( ! this.plaatsVeld && d.plaats ) {
+				waarde = [ naam, straat, plaats, d.land ].filter( Boolean ).join( ', ' );
+			}
 		}
 
 		if ( mistNummer ) {
@@ -315,6 +319,10 @@
 			var doel = document.getElementById( 'input_' + this.plaatsVeld );
 			if ( doel ) {
 				var z = doel._adreszoeker;
+				doel.parentNode.classList.add( 'is-vanzelf' );
+				setTimeout( function () {
+					doel.parentNode.classList.remove( 'is-vanzelf' );
+				}, 1600 );
 				if ( z ) {
 					z.zet( [ d.plaats, d.land ].filter( Boolean ).join( ', ' ) );
 				} else {

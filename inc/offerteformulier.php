@@ -26,16 +26,40 @@ function thema_offerte_velden() {
 		'telefoon'    => 71, // Tekst of telefoon: telefoonnummer
 
 		// Velden met de adreszoeker (inc/adreszoeker.php), per veld-ID.
-		// soort: adres (straat + nr, ook bedrijven), woonadres (alleen adressen),
+		// soort: adres (straat + nr + postcode, ook bedrijven), woonadres (alleen adressen),
 		// plaats (dorp of stad) of volledig (alles op een regel, ook bedrijven).
 		// plaats: het veld dat bij het kiezen van een adres de plaatsnaam krijgt.
+		// uitleg en voorbeeld vervangen de beschrijving en placeholder uit Gravity Forms.
 		'adressen'    => array(
-			8  => array( 'soort' => 'adres', 'plaats' => 72 ), // Vertrekadres
-			72 => array( 'soort' => 'plaats' ),                 // Vertrekplaats
-			63 => array( 'soort' => 'volledig' ),               // Bestemming
-			12 => array( 'soort' => 'volledig' ),               // Vertrekplaats terug
-			69 => array( 'soort' => 'woonadres', 'plaats' => 70 ), // Jouw straat + huisnummer
-			70 => array( 'soort' => 'plaats' ),                 // Jouw woonplaats
+			8  => array( // Vertrekadres
+				'soort'     => 'adres',
+				'plaats'    => 72,
+				'uitleg'    => 'Typ een adres, postcode of locatie en kies uit de lijst. De vertrekplaats vullen we dan voor je in.',
+				'voorbeeld' => 'bijv. Kerkstraat 31 of 5061 EG',
+			),
+			72 => array( // Vertrekplaats
+				'soort'  => 'plaats',
+				'uitleg' => 'Vult zich vanzelf in zodra je een vertrekadres kiest.',
+			),
+			63 => array( // Bestemming
+				'soort'     => 'volledig',
+				'uitleg'    => 'Typ een adres of de naam van de locatie en kies uit de lijst.',
+				'voorbeeld' => 'bijv. Efteling of Stationsstraat 1, Breda',
+			),
+			12 => array( // Vertrekplaats terug
+				'soort'  => 'volledig',
+				'uitleg' => 'Typ een adres of de naam van de locatie en kies uit de lijst.',
+			),
+			69 => array( // Jouw straat + huisnummer
+				'soort'     => 'woonadres',
+				'plaats'    => 70,
+				'uitleg'    => 'Typ je adres of postcode en kies uit de lijst. Je woonplaats vullen we dan voor je in.',
+				'voorbeeld' => 'bijv. Kerkstraat 31 of 5061 EG',
+			),
+			70 => array( // Jouw woonplaats
+				'soort'  => 'plaats',
+				'uitleg' => 'Vult zich vanzelf in zodra je je adres kiest.',
+			),
 		),
 	) );
 }
