@@ -63,6 +63,9 @@ function thema_uitroltaken() {
 		'bruiloft-v4'             => 'thema_plaats_bruiloft',
 		'bruiloft-offertekop-v1'  => 'thema_bruiloft_offertekop',
 		'bruiloft-achtergrond-v1' => 'thema_bruiloft_achtergrond',
+		'trip-blog-v1'            => 'thema_trip_blog',
+		'trip-volgorde-v1'        => 'thema_trip_volgorde',
+		'trip-v1'                 => 'thema_plaats_trip',
 	);
 }
 
