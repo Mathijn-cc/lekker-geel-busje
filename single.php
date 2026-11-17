@@ -20,17 +20,17 @@ while ( have_posts() ) :
 		<header class="sectie sectie-artikelkop">
 			<div class="artikelkop-binnen">
 				<a class="terugpil" href="<?php echo esc_url( $blog ? get_permalink( $blog ) : home_url( '/' ) ); ?>"><span aria-hidden="true">←</span> <?php echo esc_html( $blog ? get_the_title( $blog ) : 'Blog' ); ?></a>
-				<?php if ( $cat && 'algemeen' !== $cat->slug ) : ?>
-					<a class="blogkaart-onderwerp" href="<?php echo esc_url( get_category_link( $cat ) ); ?>"><?php echo esc_html( $cat->name ); ?></a>
-				<?php endif; ?>
-				<?php echo thema_kop( get_the_title(), 'h1', 'kop-middel artikel-titel' ); ?>
-				<p class="artikel-meta">
-					<span class="artikel-auteur">Door <?php echo esc_html( $auteur['naam'] ); ?></span>
-					<span aria-hidden="true">·</span>
-					<span class="artikel-datum"><?php echo thema_blog_datums( $id ); ?></span>
-					<span aria-hidden="true">·</span>
-					<span class="artikel-leestijd"><?php echo thema_icoon( 'klok', 16 ); ?> <?php echo (int) thema_leestijd( $id ); ?> min lezen</span>
-				</p>
+				<div class="artikel-titelregel">
+					<?php echo thema_kop( get_the_title(), 'h1', 'kop-middel artikel-titel' ); ?>
+					<?php if ( $cat && 'algemeen' !== $cat->slug ) : ?>
+						<a class="blogkaart-onderwerp" href="<?php echo esc_url( get_category_link( $cat ) ); ?>"><?php echo esc_html( $cat->name ); ?></a>
+					<?php endif; ?>
+				</div>
+				<ul class="artikel-meta" aria-label="Over dit artikel">
+					<li class="metapil metapil-auteur"><?php echo thema_icoon( 'bus', 16 ); ?><span>Door <?php echo esc_html( $auteur['naam'] ); ?></span></li>
+					<li class="metapil"><?php echo thema_icoon( 'kalender', 16 ); ?><span><?php echo thema_blog_datums( $id ); ?></span></li>
+					<li class="metapil"><?php echo thema_icoon( 'klok', 16 ); ?><span><?php echo (int) thema_leestijd( $id ); ?> min lezen</span></li>
+				</ul>
 			</div>
 		</header>
 
@@ -93,11 +93,29 @@ while ( have_posts() ) :
 		}
 	}
 	if ( $verder ) :
+		$onderwerp = ( $cat && 'algemeen' !== $cat->slug ) ? $cat : null;
+		$intro     = $onderwerp ? wp_strip_all_tags( (string) $onderwerp->description ) : '';
+		if ( '' === $intro ) {
+			$intro = 'Meer tips, ideeën en checklists voor jullie feestje met de groep. Zo regel je het zonder gedoe, en begint het feest al in de bus.';
+		}
+		$naar  = $onderwerp ? get_category_link( $onderwerp ) : ( $blog ? get_permalink( $blog ) : home_url( '/' ) );
+		$label = $onderwerp ? 'Alle artikelen over ' . mb_strtolower( $onderwerp->name ) : 'Alle artikelen';
+		$kop   = $onderwerp ? 'Meer over *' . mb_strtolower( $onderwerp->name ) . '*' : 'Lees *ook*';
 		?>
-		<section class="sectie sectie-artikelen">
+		<section class="sectie sectie-artikelen sectie-leesook" aria-labelledby="leesook-kop">
 			<div class="artikelen-binnen">
-				<div class="artikelen-kop">
-					<?php echo thema_kop( 'Lees *ook*', 'h2', 'kop-middel' ); ?>
+				<div class="leesook-kop">
+					<div class="leesook-tekst">
+						<?php echo thema_eyebrow( 'Lees ook' ); ?>
+						<?php echo thema_kop( $kop, 'h2', 'kop-middel', ' id="leesook-kop"' ); ?>
+						<p class="tekst-groot"><?php echo esc_html( $intro ); ?></p>
+					</div>
+					<div class="leesook-knoppen">
+						<?php echo thema_knop( $label, $naar, 'paars' ); ?>
+						<?php if ( $onderwerp && $blog ) : ?>
+							<a class="leesook-blog" href="<?php echo esc_url( get_permalink( $blog ) ); ?>">Of bekijk alle onderwerpen <span aria-hidden="true">→</span></a>
+						<?php endif; ?>
+					</div>
 				</div>
 				<div class="artikelen-raster artikelen-<?php echo (int) min( 3, count( $verder ) ); ?>">
 					<?php

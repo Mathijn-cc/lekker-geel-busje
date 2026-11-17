@@ -8063,6 +8063,58 @@ article.artikel header.sectie-artikelkop div.artikelkop-binnen {
   max-width:      900px;
   margin:         0 auto;
 }
+/*Artikelkop -- Titel met het onderwerp als label direct na het laatste woord*/
+article.artikel header.sectie-artikelkop div.artikelkop-binnen div.artikel-titelregel {
+  line-height: 1;
+}
+article.artikel header.sectie-artikelkop div.artikelkop-binnen div.artikel-titelregel h1.artikel-titel {
+  display: inline;
+  margin:  0 14px 0 0;
+}
+article.artikel header.sectie-artikelkop div.artikelkop-binnen div.artikel-titelregel a.blogkaart-onderwerp {
+  display:        inline-block;
+  position:       relative;
+  top:            -.35em;
+  vertical-align: middle;
+  white-space:    nowrap;
+}
+/*Artikelkop -- Meta als losse pillen*/
+article.artikel header.sectie-artikelkop div.artikelkop-binnen ul.artikel-meta {
+  display:     flex;
+  flex-wrap:   wrap;
+  align-items: center;
+  gap:         10px;
+  margin:      0;
+  padding:     0;
+  list-style:  none;
+}
+article.artikel header.sectie-artikelkop div.artikelkop-binnen ul.artikel-meta li.metapil {
+  display:       inline-flex;
+  align-items:   center;
+  gap:           8px;
+  padding:       9px 16px;
+  border-radius: 999px;
+  background:    var(--kleur-wit);
+  color:         var(--kleur-paars);
+  font-size:     14px;
+  font-weight:   700;
+  box-shadow:    0 14px 30px -24px rgba(56, 6, 94, .55);
+}
+article.artikel header.sectie-artikelkop div.artikelkop-binnen ul.artikel-meta li.metapil svg {
+  flex-shrink: 0;
+  color:       var(--kleur-roze);
+}
+article.artikel header.sectie-artikelkop div.artikelkop-binnen ul.artikel-meta li.metapil.metapil-auteur {
+  background: var(--kleur-paars);
+  color:      var(--kleur-wit);
+}
+article.artikel header.sectie-artikelkop div.artikelkop-binnen ul.artikel-meta li.metapil.metapil-auteur svg {
+  color: var(--kleur-geel);
+}
+article.artikel header.sectie-artikelkop div.artikelkop-binnen ul.artikel-meta li.metapil span.blog-bijgewerkt {
+  font-weight: 600;
+  opacity:     .75;
+}
 article.artikel header.sectie-artikelkop div.artikelkop-binnen a.terugpil {
   display:         inline-flex;
   align-items:     center;
@@ -8074,23 +8126,6 @@ article.artikel header.sectie-artikelkop div.artikelkop-binnen a.terugpil {
   font-size:       14px;
   font-weight:     600;
   text-decoration: none;
-}
-article.artikel header.sectie-artikelkop div.artikelkop-binnen p.artikel-meta {
-  display:     flex;
-  flex-wrap:   wrap;
-  align-items: center;
-  gap:         6px 10px;
-  margin:      0;
-  font-size:   15px;
-  font-weight: 600;
-}
-article.artikel header.sectie-artikelkop div.artikelkop-binnen p.artikel-meta span.artikel-leestijd {
-  display:     inline-flex;
-  align-items: center;
-  gap:         6px;
-}
-article.artikel header.sectie-artikelkop div.artikelkop-binnen p.artikel-meta span.blog-bijgewerkt {
-  opacity: .75;
 }
 /*Artikel -- Foto*/
 article.artikel div.artikel-foto {
@@ -8280,6 +8315,55 @@ section.sectie-artikelen div.artikelen-binnen div.artikelen-raster {
 @media (min-width: 1100px) {
   section.sectie-artikelen div.artikelen-binnen div.artikelen-raster.artikelen-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/**Artikel -- Lees ook**/
+/*Lees ook -- Sectie op zandkleur, zodat hij loskomt van de blokken erboven*/
+section.sectie-artikelen.sectie-leesook {
+  background: var(--kleur-zand);
+  color:      var(--kleur-paars);
+}
+/*Lees ook -- Kop met intro links, knoppen rechts op brede schermen*/
+section.sectie-artikelen.sectie-leesook div.artikelen-binnen div.leesook-kop {
+  display:        flex;
+  flex-direction: column;
+  gap:            24px;
+}
+section.sectie-artikelen.sectie-leesook div.artikelen-binnen div.leesook-kop div.leesook-tekst {
+  display:        flex;
+  flex-direction: column;
+  align-items:    flex-start;
+  gap:            18px;
+  max-width:      720px;
+}
+section.sectie-artikelen.sectie-leesook div.artikelen-binnen div.leesook-kop div.leesook-tekst p.tekst-groot {
+  margin: 0;
+}
+section.sectie-artikelen.sectie-leesook div.artikelen-binnen div.leesook-kop div.leesook-knoppen {
+  display:        flex;
+  flex-direction: column;
+  align-items:    flex-start;
+  gap:            14px;
+}
+section.sectie-artikelen.sectie-leesook div.artikelen-binnen div.leesook-kop div.leesook-knoppen a.leesook-blog {
+  color:           var(--kleur-paars);
+  font-weight:     700;
+  text-decoration: none;
+}
+section.sectie-artikelen.sectie-leesook div.artikelen-binnen div.leesook-kop div.leesook-knoppen a.leesook-blog:hover {
+  text-decoration: underline;
+}
+@media (min-width: 1000px) {
+  section.sectie-artikelen.sectie-leesook div.artikelen-binnen div.leesook-kop {
+    flex-direction:  row;
+    align-items:     flex-end;
+    justify-content: space-between;
+    gap:             48px;
+  }
+  section.sectie-artikelen.sectie-leesook div.artikelen-binnen div.leesook-kop div.leesook-knoppen {
+    flex-shrink: 0;
+    align-items: flex-end;
   }
 }
 
