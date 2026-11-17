@@ -67,12 +67,24 @@ if ( $met_gesprek ) {
 	wp_enqueue_script( 'thema-gesprek' );
 }
 
-/* Bel- en mailkaarten: met formulier in de zijbalk naast het formulier, zonder formulier bovenaan. */
+/* Direct contact, rustig in de zijbalk en als keuze in het gesprek. */
+$direct = array();
+if ( $s['telefoon'] ) {
+	$direct[] = array( 'soort' => 'bellen', 'icoon' => 'telefoon', 'label' => $waarde( 'bellen_label', 'Bel ons' ), 'tekst' => $s['telefoon'], 'href' => thema_telefoon_link(), 'nieuw' => false );
+}
+if ( $whatsapp_link ) {
+	$direct[] = array( 'soort' => 'whatsapp', 'icoon' => 'whatsapp', 'label' => $waarde( 'whatsapp_label', 'App ons' ), 'tekst' => 'WhatsApp', 'href' => $whatsapp_link, 'nieuw' => true );
+}
+if ( $s['email'] ) {
+	$direct[] = array( 'soort' => 'mailen', 'icoon' => 'mail', 'label' => $waarde( 'mailen_label', 'Mail ons' ), 'tekst' => $s['email'], 'href' => 'mailto:' . $s['email'], 'nieuw' => false );
+}
+
+/* Bel- en mailkaarten: alleen bovenaan als er geen formulier is. Met formulier staat direct contact rustig in de zijbalk. */
 $kaarten_html = '';
 if ( $kaarten ) {
 	ob_start();
 	?>
-			<div class="contactkaarten contactkaarten-<?php echo count( $kaarten ); ?><?php echo $met_formulier ? ' contactkaarten-zijbalk' : ''; ?>" data-animeer>
+			<div class="contactkaarten contactkaarten-<?php echo count( $kaarten ); ?>" data-animeer>
 				<?php foreach ( $kaarten as $k ) : ?>
 					<?php if ( 'bellen' === $k[0] && $whatsapp_link ) : ?>
 						<div class="contactkaart contactkaart-bellen contactkaart-met-whatsapp">
@@ -113,10 +125,6 @@ echo thema_sectie_open( $b, 'contact' );
 		<?php if ( $met_formulier || $blokken ) : ?>
 			<div class="contactraster<?php echo $met_formulier ? '' : ' contactraster-zonder-formulier'; ?>">
 				<?php if ( $met_formulier ) : ?>
-					<div class="contactformulier-kop">
-						<?php echo thema_kop( $waarde( 'formulier_kop' ), 'h2', 'kop-middel' ); ?>
-						<?php if ( $waarde( 'formulier_intro' ) ) : ?><p class="tekst-groot" data-animeer><?php echo esc_html( $waarde( 'formulier_intro' ) ); ?></p><?php endif; ?>
-					</div>
 					<div class="formulier-vak" data-animeer>
 						<?php if ( $aan( 'toon_wissel' ) ) : ?>
 							<div class="formulier-wissel">
@@ -125,7 +133,7 @@ echo thema_sectie_open( $b, 'contact' );
 							</div>
 						<?php endif; ?>
 						<?php if ( $met_gesprek ) : ?>
-							<div class="gesprek" data-gesprek data-offerte-link="<?php echo esc_url( thema_offerte_url() ); ?>" data-teksten="<?php echo esc_attr( wp_json_encode( thema_gesprek_teksten() ) ); ?>" hidden>
+							<div class="gesprek" data-gesprek data-offerte-link="<?php echo esc_url( thema_offerte_url() ); ?>" data-teksten="<?php echo esc_attr( wp_json_encode( thema_gesprek_teksten() ) ); ?>" data-direct="<?php echo esc_attr( wp_json_encode( array_map( fn( $d ) => array( 'soort' => $d['soort'], 'tekst' => $d['label'] . ( 'whatsapp' === $d['soort'] ? '' : ': ' . $d['tekst'] ), 'href' => $d['href'], 'nieuw' => $d['nieuw'] ), $direct ) ) ); ?>" hidden>
 								<div class="gesprek-kop">
 									<span class="gesprek-avatar" aria-hidden="true"><?php echo thema_icoon( 'bus', 22 ); ?></span>
 									<span class="gesprek-afzender">
@@ -148,9 +156,26 @@ echo thema_sectie_open( $b, 'contact' );
 				<?php elseif ( $id && current_user_can( 'edit_pages' ) ) : ?>
 					<p class="melding">Gravity Forms is niet actief.</p>
 				<?php endif; ?>
-				<?php if ( $blokken || ( $met_formulier && $kaarten_html ) ) : ?>
+				<?php if ( $blokken || ( $met_formulier && $direct ) ) : ?>
 					<div class="contactgegevens" data-animeer>
-						<?php if ( $met_formulier ) { echo $kaarten_html; } // phpcs:ignore ?>
+						<?php if ( $met_formulier && $direct ) : ?>
+							<div class="contactblok contactblok-direct">
+								<p class="contactblok-titel"><?php echo esc_html( $waarde( 'direct_titel', 'Liever direct contact?' ) ); ?></p>
+								<ul class="direct-lijst">
+									<?php foreach ( $direct as $d ) : ?>
+										<li>
+											<a class="direct-link direct-link-<?php echo esc_attr( $d['soort'] ); ?>" href="<?php echo esc_attr( $d['href'] ); ?>"<?php echo $d['nieuw'] ? ' target="_blank" rel="noopener"' : ''; ?><?php echo 'whatsapp' === $d['soort'] ? ' data-whatsapp-open' : ''; ?>>
+												<span class="direct-icoon" aria-hidden="true"><?php echo thema_icoon( $d['icoon'], 18 ); ?></span>
+												<span class="direct-tekst">
+													<span class="direct-label"><?php echo esc_html( $d['label'] ); ?></span>
+													<span class="direct-waarde"><?php echo esc_html( $d['tekst'] ); ?></span>
+												</span>
+											</a>
+										</li>
+									<?php endforeach; ?>
+								</ul>
+							</div>
+						<?php endif; ?>
 						<?php foreach ( $blokken as $blok ) : ?>
 							<div class="contactblok">
 								<p class="contactblok-titel"><?php echo esc_html( $blok[0] ); ?></p>

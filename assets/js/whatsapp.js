@@ -128,6 +128,16 @@
 		if (open) { sluitVenster(false); } else { openVenster(); }
 	});
 
+	/* Elke link met data-whatsapp-open (bijv. op de contactpagina) opent dit venster in plaats van wa.me.
+	   In de capture-fase, zodat de klik-buiten-het-venster hieronder het niet meteen weer sluit. */
+	document.addEventListener('click', function (e) {
+		var opener = e.target.closest('[data-whatsapp-open]');
+		if (!opener) { return; }
+		e.preventDefault();
+		e.stopPropagation();
+		openVenster();
+	}, true);
+
 	chat.querySelector('[data-whatsapp-sluiten]').addEventListener('click', function () { sluitVenster(true); });
 
 	document.addEventListener('keydown', function (e) {

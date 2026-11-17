@@ -266,6 +266,8 @@ function thema_gesprek_teksten() {
 		'keuzevraag'     => 'Waar kunnen we je mee helpen?',
 		'keuze_prijs'    => 'Ik wil een prijs voor een rit',
 		'keuze_vraag'    => 'Ik heb een snelle vraag',
+		'keuze_direct'   => 'Ik bel, app of mail liever',
+		'direct_uitleg'  => 'Prima! Kies maar hoe je ons het liefst spreekt. Bellen of appen gaat het snelst.',
 		'prijs_uitleg'   => 'Daar hebben we een apart formulier voor. Je vult in wanneer, waarheen en met hoeveel jullie zijn, en binnen 1 werkdag heb je een vaste prijs.',
 		'prijs_knop'     => 'Naar offerte aanvragen',
 		'toch_vraag'     => 'Ik heb toch een snelle vraag',

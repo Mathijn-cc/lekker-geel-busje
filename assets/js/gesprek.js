@@ -5,7 +5,8 @@
  * een als vraag en vult en verstuurt daarna het echte formulier. Meldingen, inzendingen
  * en de bevestiging blijven dus van Gravity Forms.
  *
- * Eerst de keuze: een prijs voor een rit (door naar het offerteformulier) of een snelle vraag.
+ * Eerst de keuze: een prijs voor een rit (door naar het offerteformulier), een snelle vraag,
+ * of liever bellen, appen of mailen (links uit data-direct).
  * Lijkt de vraag toch op een aanvraag (prijs, datum, aantal personen), dan wijst het gesprek
  * nog een keer naar het offerteformulier.
  *
@@ -109,6 +110,8 @@
 		try { this.t = JSON.parse(this.gesprek.getAttribute('data-teksten') || '{}'); } catch (e) {}
 		this.velden = this.formulier ? leesVelden(this.formulier) : null;
 		this.voornaam = '';
+		this.direct = [];
+		try { this.direct = JSON.parse(this.gesprek.getAttribute('data-direct') || '[]'); } catch (e) {}
 	}
 
 	Gesprek.prototype.kan = function () {
@@ -185,8 +188,14 @@
 			opties.forEach(function (o) {
 				var knop;
 				if (o.href) {
-					knop = maak('a', 'gesprek-keuze gesprek-keuze-hoofd', o.tekst);
+					knop = maak('a', 'gesprek-keuze' + (o.hoofd ? ' gesprek-keuze-hoofd' : ''), o.tekst);
 					knop.href = o.href;
+					if (o.nieuw) {
+						knop.target = '_blank';
+						knop.rel = 'noopener';
+					}
+					/* WhatsApp opent het chatvenster rechtsonder (assets/js/whatsapp.js), als dat er is. */
+					if (o.soort === 'whatsapp') { knop.setAttribute('data-whatsapp-open', ''); }
 				} else {
 					knop = maak('button', 'gesprek-keuze' + (o.hoofd ? ' gesprek-keuze-hoofd' : ''), o.tekst);
 					knop.type = 'button';
@@ -269,14 +278,24 @@
 		var t = this.t;
 		await this.zeg(t.begroeting);
 		await this.zeg(t.keuzevraag);
-		var keuze = await this.kies([
+		var keuzes = [
 			{ waarde: 'prijs', tekst: t.keuze_prijs },
 			{ waarde: 'vraag', tekst: t.keuze_vraag }
-		]);
+		];
+		if (this.direct.length && t.keuze_direct) {
+			keuzes.push({ waarde: 'direct', tekst: t.keuze_direct });
+		}
+		var keuze = await this.kies(keuzes);
+		if (keuze === 'direct') {
+			await this.zeg(t.direct_uitleg);
+			await this.kies(this.direct.map(function (d) {
+				return { href: d.href, tekst: d.tekst, nieuw: d.nieuw, soort: d.soort };
+			}).concat([{ waarde: 'vraag', tekst: t.toch_vraag }]));
+		}
 		if (keuze === 'prijs') {
 			await this.zeg(t.prijs_uitleg);
 			await this.kies([
-				{ href: this.offerte, tekst: t.prijs_knop },
+				{ href: this.offerte, tekst: t.prijs_knop, hoofd: true },
 				{ waarde: 'vraag', tekst: t.toch_vraag }
 			]);
 		}
@@ -294,7 +313,7 @@
 				if (aanvraagPatroon.test(v.waarde)) {
 					await this.zeg(t.aanvraag_check);
 					await this.kies([
-						{ href: this.offerte, tekst: t.prijs_knop },
+						{ href: this.offerte, tekst: t.prijs_knop, hoofd: true },
 						{ waarde: 'door', tekst: t.toch_versturen }
 					]);
 				}
