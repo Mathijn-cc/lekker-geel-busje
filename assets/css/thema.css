@@ -10504,7 +10504,8 @@ div.zweefknoppen div.whatsapp-venster div.whatsapp-venster-log div.whatsapp-keuz
   justify-content: flex-end;
   gap:             6px;
   width:           100%;
-  margin-top:      16px;
+  margin-top:      auto;
+  padding-top:     16px;
 }
 div.zweefknoppen div.whatsapp-venster div.whatsapp-venster-log div.whatsapp-keuzes button.whatsapp-keuze {
   margin:        0;

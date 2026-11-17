@@ -83,6 +83,7 @@ function thema_uitroltaken() {
 		'bedankt-opschonen-v1'    => 'thema_bedankt_opschonen',
 		'bedankt-volgorde-v1'     => 'thema_bedankt_volgorde',
 		'bedankt-route-midden-v1' => 'thema_bedankt_route_midden',
+		'bedankt-playlist-v2'     => 'thema_bedankt_playlist_nieuw',
 	);
 }
 

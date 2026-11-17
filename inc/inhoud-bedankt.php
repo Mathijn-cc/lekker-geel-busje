@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /** Spotify-playlist Lekker Geel Busje: feest op wielen (moet in Spotify op openbaar staan). */
-const THEMA_BEDANKT_PLAYLIST = 'https://open.spotify.com/playlist/5QXsFM5TNPaD9T4q3z8RKW';
+const THEMA_BEDANKT_PLAYLIST = 'https://open.spotify.com/playlist/4MKyWxnfSsedHO8QQt2IwW';
 
 /**
  * Slug per formulier.
@@ -76,19 +76,28 @@ function thema_bedankt_playlist( $anker = 'playlist' ) {
 		'spotify'       => THEMA_BEDANKT_PLAYLIST,
 		'titel'         => 'Lekker Geel Busje: feest op wielen',
 		'knop'          => 'Open in Spotify',
-		'nummers'       => implode( "\n", array(
-			'Vengaboys | We like to Party! (The Vengabus)',
-			'The Who | Magic Bus',
-			'The Beatles | Yellow Submarine',
-			'Snollebollekes | Links rechts',
-			'Billy Ocean | Get Outta My Dreams, Get into My Car',
-			'2 Unlimited | No Limit',
-			'Fisher | Losing It',
-			'Da Tweekaz | Jägermeister',
-		) ),
+		'nummers'       => thema_bedankt_nummers(),
 		'achtergrond'   => 'paars',
 		'anker'         => $anker,
 	);
+}
+
+/**
+ * Uitgelichte nummers, alleen zichtbaar als de Spotify-speler er niet is.
+ */
+function thema_bedankt_nummers() {
+	return implode( "\n", array(
+		'Vengaboys | We\'re Going To Ibiza!',
+		'Venjent | Wheels on the Bus',
+		'The Who | Magic Bus',
+		'Billy Ocean | Get Outta My Dreams, Get Into My Car',
+		'Black Box | Ride on Time',
+		'Darude | Sandstorm',
+		'Ran-D, Bassjackers | Zombie (Bassjackers Remix)',
+		'Showtek | Booyah',
+		'Brennan Heart | Imaginary',
+		'Da Tweekaz | Jägermeister',
+	) );
 }
 
 /**
@@ -543,6 +552,38 @@ function thema_bedankt_route_midden() {
 		foreach ( $blokken as $i => $blok ) {
 			if ( 'route' === ( $blok['acf_fc_layout'] ?? '' ) ) {
 				$blokken[ $i ]['kop_uitlijning'] = 'midden';
+				$aantal++;
+			}
+		}
+		if ( $aantal ) {
+			update_field( 'field_blokken', $blokken, $pagina->ID );
+			clean_post_cache( $pagina->ID );
+		}
+		$uit[ $slug ] = $aantal;
+	}
+	return $uit;
+}
+
+/**
+ * Uitroltaak bedankt-playlist-v2: de nieuwe playlist (met house en hardstyle) in het playlistblok
+ * van beide bedankpagina's zetten. Werkt via het hele veld, update_sub_field is hier niet betrouwbaar.
+ */
+function thema_bedankt_playlist_nieuw() {
+	if ( ! function_exists( 'update_field' ) ) {
+		return 0;
+	}
+	$uit = array();
+	foreach ( thema_bedankt_slugs() as $slug ) {
+		$pagina = get_page_by_path( $slug );
+		if ( ! $pagina ) {
+			continue;
+		}
+		$blokken = array_values( (array) get_field( 'blokken', $pagina->ID ) );
+		$aantal  = 0;
+		foreach ( $blokken as $i => $blok ) {
+			if ( 'playlist' === ( $blok['acf_fc_layout'] ?? '' ) ) {
+				$blokken[ $i ]['spotify'] = THEMA_BEDANKT_PLAYLIST;
+				$blokken[ $i ]['nummers'] = thema_bedankt_nummers();
 				$aantal++;
 			}
 		}
