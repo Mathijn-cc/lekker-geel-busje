@@ -116,6 +116,7 @@ function thema_plaats_bruiloft() {
 	$reviews             = thema_blok_reviews();
 	$reviews['kop']      = 'Zij stapten al in, *dit vonden ze ervan*';
 	$reviews['weergave'] = 'compact';
+	$reviews['achtergrond'] = 'geel';
 
 	$lijst = function_exists( 'thema_faq_per_pagina' ) ? ( thema_faq_per_pagina()['gelegenheid/bruiloft'] ?? array() ) : array();
 	$eigen = array(
@@ -132,6 +133,7 @@ function thema_plaats_bruiloft() {
 
 	$offerte          = thema_blok_offerte();
 	$offerte['label'] = 'Binnen 1 werkdag je prijs';
+	$offerte['achtergrond'] = 'geel';
 	$offerte['kop']   = 'Zeggen jullie ja? *Rijden wij de gasten.*';
 
 	$trouwen      = get_category_by_slug( 'trouwen' );
@@ -646,5 +648,27 @@ function thema_bruiloft_offertekop() {
 	}
 	clean_post_cache( $post->ID );
 	wp_cache_flush();
+	return $uit;
+}
+
+/**
+ * Uitroltaak bruiloft-achtergrond-v1: reviews en offerte op de bruiloftpagina weer geel, en laten zien wat er stond.
+ */
+function thema_bruiloft_achtergrond() {
+	$post = get_page_by_path( 'bruiloft', OBJECT, 'gelegenheid' );
+	if ( ! $post ) {
+		return 'geen pagina';
+	}
+	$uit = array(
+		'gewijzigd'  => $post->post_modified,
+		'laatst_door' => (int) get_post_meta( $post->ID, '_edit_last', true ),
+	);
+	foreach ( (array) get_post_meta( $post->ID, 'blokken', true ) as $i => $layout ) {
+		$uit[ $i ] = $layout . ':' . get_post_meta( $post->ID, "blokken_{$i}_achtergrond", true );
+		if ( in_array( $layout, array( 'reviews', 'offerte' ), true ) ) {
+			update_post_meta( $post->ID, "blokken_{$i}_achtergrond", 'geel' );
+		}
+	}
+	clean_post_cache( $post->ID );
 	return $uit;
 }
