@@ -133,13 +133,14 @@ echo thema_sectie_open( $b, 'contact' );
 							</div>
 						<?php endif; ?>
 						<?php if ( $met_gesprek ) : ?>
-							<div class="gesprek" data-gesprek data-offerte-link="<?php echo esc_url( thema_offerte_url() ); ?>" data-teksten="<?php echo esc_attr( wp_json_encode( thema_gesprek_teksten() ) ); ?>" data-direct="<?php echo esc_attr( wp_json_encode( array_map( fn( $d ) => array( 'soort' => $d['soort'], 'tekst' => $d['label'] . ( 'whatsapp' === $d['soort'] ? '' : ': ' . $d['tekst'] ), 'href' => $d['href'], 'nieuw' => $d['nieuw'] ), $direct ) ) ); ?>" hidden>
+							<div class="gesprek" data-gesprek data-offerte-link="<?php echo esc_url( thema_offerte_url() ); ?>" data-teksten="<?php echo esc_attr( wp_json_encode( thema_gesprek_teksten() ) ); ?>" data-antwoorden="<?php echo esc_attr( wp_json_encode( thema_gesprek_antwoorden() ) ); ?>" data-direct="<?php echo esc_attr( wp_json_encode( array_map( fn( $d ) => array( 'soort' => $d['soort'], 'tekst' => $d['label'] . ( 'whatsapp' === $d['soort'] ? '' : ': ' . $d['tekst'] ), 'href' => $d['href'], 'nieuw' => $d['nieuw'] ), $direct ) ) ); ?>" hidden>
 								<div class="gesprek-kop">
 									<span class="gesprek-avatar" aria-hidden="true"><?php echo thema_icoon( 'bus', 22 ); ?></span>
 									<span class="gesprek-afzender">
 										<span class="gesprek-naam"><?php echo esc_html( get_bloginfo( 'name' ) ); ?></span>
 										<span class="gesprek-status"><?php echo esc_html( $waarde( 'gesprek_status', 'Antwoord binnen 1 werkdag' ) ); ?></span>
 									</span>
+									<button type="button" class="gesprek-opnieuw" data-gesprek-opnieuw hidden><?php echo thema_icoon( 'opnieuw', 15, 2.4 ); ?><span><?php echo esc_html( thema_gesprek_teksten()['opnieuw'] ); ?></span></button>
 								</div>
 								<div class="gesprek-log" role="log" aria-live="polite" aria-label="Gesprek" data-gesprek-log></div>
 								<form class="gesprek-invoer" data-gesprek-invoer hidden>

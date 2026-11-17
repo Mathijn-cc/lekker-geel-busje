@@ -287,6 +287,106 @@ function thema_gesprek_teksten() {
 		'gelukt'         => 'Verstuurd! We reageren binnen 1 werkdag, meestal sneller.',
 		'fout'           => 'Dat ging niet helemaal goed. Hieronder staat het formulier met je antwoorden, kijk even wat er nog mist.',
 		'plaatshouder'   => 'Typ je antwoord',
+		'antwoord_klaar' => 'Top, dat was mijn vraag',
+		'antwoord_door'  => 'Ik wil het toch even vragen',
+		'afscheid'       => 'Fijn dat we je konden helpen! Tot in de bus.',
+		'nog_een'        => 'Ik heb nog een vraag',
+		'voorkeur'       => 'Hoe wil je het liefst antwoord, {naam}?',
+		'voorkeur_mail'  => 'Per mail',
+		'voorkeur_bel'   => 'Bel me',
+		'voorkeur_app'   => 'App me',
+		'telefoon_nodig' => 'Op welk nummer kunnen we je bereiken?',
+		'telefoon_fout'  => 'Hmm, dat nummer lijkt niet compleet. Probeer je het nog een keer?',
+		'email_ook'      => 'En je e-mailadres? Voor als we je niet meteen te pakken krijgen.',
+		'gevonden'       => 'Ik zie je {soort} al in je bericht staan, die nemen we mee.',
+		'notitie_bel'    => 'Graag terugbellen',
+		'notitie_app'    => 'Graag antwoord via WhatsApp',
+		'opnieuw'        => 'Opnieuw',
+	) );
+}
+
+/**
+ * Snelle antwoorden in het contactgesprek. Lijkt de vraag op een van deze onderwerpen, dan geeft het
+ * gesprek eerst meteen antwoord. De bezoeker kan daarna stoppen of de vraag toch versturen.
+ * De antwoorden komen uit de veelgestelde vragen (inc/faq-copy.php), zodat ze overal hetzelfde zijn.
+ * Patronen zijn JavaScript-regex zonder slashes, hoofdletters maken niet uit. Eerste treffer wint.
+ */
+function thema_gesprek_antwoorden() {
+	$faq        = function_exists( 'thema_faq_vragen' ) ? thema_faq_vragen() : array();
+	$huisregels = home_url( '/huisregels/' );
+	$antwoord   = function ( $sleutel, $reserve ) use ( $faq ) {
+		return isset( $faq[ $sleutel ][1] ) ? $faq[ $sleutel ][1] : $reserve;
+	};
+
+	return apply_filters( 'thema_gesprek_antwoorden', array(
+		array(
+			'patroon'  => 'eigen\\s+(drank|drinken|bier|wijn|alcohol|flessen)|(drank|bier|drinken)\\s+(zelf\\s+)?mee(nemen)?',
+			'antwoord' => $antwoord( 'eigen-drank', 'Nee, eigen drank is niet toegestaan. Drinken in de bus mag wel: je bestelt je drankjes bij ons gastvrouwke.' ),
+		),
+		array(
+			'patroon'  => 'drink|drank|alcohol|\\bbier|\\bwijn|koeling',
+			'antwoord' => $antwoord( 'drinken', 'Ja, drinken in de bus mag. Je bestelt je drankjes bij ons gastvrouwke. Eigen drank meenemen is niet toegestaan.' ),
+		),
+		array(
+			'patroon'  => '\\broken\\b|sigaret|\\bvape|vapen|\\bblowen',
+			'antwoord' => $antwoord( 'roken', 'Nee, in de bus mag je niet roken.' ),
+		),
+		array(
+			'patroon'  => 'van tevoren|hoe vroeg|hoe lang (van )?te voren|op tijd (boeken|reserveren)',
+			'antwoord' => $antwoord( 'boeken', 'Hoe eerder, hoe beter. Staat de datum vast? Vraag dan meteen je offerte aan.' ),
+		),
+		array(
+			'patroon'  => 'hoeveel (personen|mensen|man|gasten)|zitplaats|staanplaats|hoe groot|hoeveel passen|passen er|maximaal|minimaal|minimum|kleine groep',
+			'antwoord' => $antwoord( 'personen', 'Elke bus heeft minstens 39 zitplaatsen. In onze verlengde bus gaan tot 88 personen mee.' ),
+		),
+		array(
+			'patroon'  => 'buitenland|buiten brabant|duitsland|belgi|oostenrijk|frankrijk|hoe ver (rijden|gaan)|ver weg|afstand',
+			'antwoord' => $antwoord( 'buiten', 'Zeker. We rijden door heel Brabant en ver daarbuiten.' ),
+		),
+		array(
+			'patroon'  => 'later terug|langer blijven|uitlopen|verlengen|later naar huis',
+			'antwoord' => $antwoord( 'later', 'We spreken vooraf een tijd af voor de terugrit. Overleg het met de chauffeur, dan kijken we samen wat kan.' ),
+		),
+		array(
+			'patroon'  => 'muziek|playlist|spotify|\\bdj\\b|aux|bluetooth|eigen nummers',
+			'antwoord' => $antwoord( 'muziek', 'Natuurlijk. Sluit je eigen playlist aan op het geluidssysteem.' ),
+		),
+		array(
+			'patroon'  => 'licht|laser|rookmachine|verlichting|geluidsinstallatie|inbegrepen|extra kosten',
+			'antwoord' => 'Professionele verlichting, lasers, rookmachine en een stevige geluidsinstallatie zitten altijd in de prijs. Sfeer kost bij ons niets extra.',
+		),
+		array(
+			'patroon'  => 'tussenstop|meerdere stops|stops? (maken|onderweg)|meerdere (plekken|adressen|locaties)',
+			'antwoord' => $antwoord( 'stops', 'Zeker. Zet de stops in je aanvraag, dan nemen we ze mee in de route en de offerte.' ),
+		),
+		array(
+			'patroon'  => 'wacht(en)? de bus|bus (op ons )?wachten|blijft de bus|wachttijd',
+			'antwoord' => $antwoord( 'wachten', 'Dat kan. De bus wacht tijdens jullie activiteit of komt op een afgesproken tijd terug.' ),
+		),
+		array(
+			'patroon'  => 'ophalen|opstappen|opstapplek|halen jullie|waar stappen',
+			'antwoord' => $antwoord( 'ophalen', 'Waar je maar wilt: thuis, bij het werk of op een centraal punt.' ),
+		),
+		array(
+			'patroon'  => 'factu|bedrijfsnaam|op naam van (de|het|ons) bedrijf|zakelijk',
+			'antwoord' => 'Ja, we kunnen factureren op bedrijfsnaam. Zet de bedrijfsgegevens erbij als je een offerte aanvraagt.',
+		),
+		array(
+			'patroon'  => 'veilig',
+			'antwoord' => 'Ja. Onze bussen krijgen het onderhoud dat nodig is voor alle veiligheidseisen en er zijn voldoende zitplaatsen. De chauffeur houdt zijn ogen op de weg, het gastvrouwke op de groep.',
+		),
+		array(
+			'patroon'   => 'schade|kapot|stuk gemaakt|overgeven|kotsen',
+			'antwoord'  => $antwoord( 'schade', 'Gaat er toch iets mis, dan lees je in de huisregels en de algemene voorwaarden hoe we dat samen oplossen.' ),
+			'link'      => $huisregels,
+			'linktekst' => 'Naar de huisregels',
+		),
+		array(
+			'patroon'   => 'huisregel|regels|toegestaan',
+			'antwoord'  => $antwoord( 'huisregels', 'Een paar, en ze zijn simpel: niet roken, geen eigen drank en respect voor de bus en de crew.' ),
+			'link'      => $huisregels,
+			'linktekst' => 'Naar de huisregels',
+		),
 	) );
 }
 

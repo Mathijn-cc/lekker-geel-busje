@@ -6199,6 +6199,7 @@ section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak di
   display:        flex;
   flex-direction: column;
   gap:            16px;
+  height:         clamp(440px, calc(100dvh - 260px - var(--wp-admin--admin-bar--height, 0px)), 640px);
 }
 section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek[hidden] {
   display: none;
@@ -6246,17 +6247,47 @@ section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak di
   background:    #2fbf71;
 }
 
+/*Gesprek -- Opnieuw beginnen*/
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-kop button.gesprek-opnieuw {
+  display:       inline-flex;
+  align-items:   center;
+  gap:           6px;
+  margin-left:   auto;
+  padding:       8px 14px;
+  border:        var(--lijn-dun) solid var(--kleur-zand);
+  border-radius: 999px;
+  background:    transparent;
+  color:         var(--kleur-paars);
+  font:          inherit;
+  font-size:     14px;
+  font-weight:   600;
+  cursor:        pointer;
+  transition:    background .2s var(--zacht), border-color .2s var(--zacht);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-kop button.gesprek-opnieuw:hover {
+  border-color: var(--kleur-paars);
+  background:   var(--kleur-zand);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-kop button.gesprek-opnieuw[hidden] {
+  display: none;
+}
+
 /*Gesprek -- Berichten*/
 section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log {
-  display:         flex;
-  flex-direction:  column;
-  align-items:     flex-start;
-  gap:             10px;
-  min-height:      220px;
-  max-height:      min(520px, 62vh);
-  padding:         4px 4px 10px;
-  overflow-y:      auto;
-  scroll-behavior: smooth;
+  display:             flex;
+  flex:                1 1 auto;
+  flex-direction:      column;
+  align-items:         flex-start;
+  gap:                 10px;
+  min-height:          0;
+  padding:             4px 4px 10px;
+  overflow-y:          auto;
+  overscroll-behavior: contain;
+  scroll-behavior:     smooth;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-kop,
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek form.gesprek-invoer {
+  flex: 0 0 auto;
 }
 section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-bericht {
   max-width:     min(88%, 520px);
@@ -6359,7 +6390,6 @@ section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak di
 section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-keuzes .gesprek-keuze:hover {
   background: var(--kleur-paars);
   color:      var(--kleur-wit);
-  transform:  translateY(-2px);
 }
 section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-keuzes .gesprek-keuze.gesprek-keuze-hoofd {
   border-color: var(--kleur-geel);
@@ -9988,9 +10018,6 @@ div.zweefknoppen div.whatsapp-melding button.whatsapp-melding-open {
   cursor:        pointer;
   transition:    transform .4s var(--veer);
 }
-div.zweefknoppen div.whatsapp-melding button.whatsapp-melding-open:hover {
-  transform: translateY(-2px);
-}
 div.zweefknoppen div.whatsapp-melding span.whatsapp-melding-inhoud {
   display:        flex;
   flex-direction: column;
@@ -10348,7 +10375,6 @@ div.zweefknoppen div.whatsapp-venster form.whatsapp-venster-formulier a.whatsapp
 }
 div.zweefknoppen div.whatsapp-venster form.whatsapp-venster-formulier a.whatsapp-naar-app:hover {
   background: var(--kleur-whatsapp-donker);
-  transform:  translateY(-2px);
 }
 
 div.zweefknoppen div.whatsapp-venster form.whatsapp-venster-formulier div.whatsapp-venster-invoer[hidden],

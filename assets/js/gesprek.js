@@ -7,8 +7,12 @@
  *
  * Eerst de keuze: een prijs voor een rit (door naar het offerteformulier), een snelle vraag,
  * of liever bellen, appen of mailen (links uit data-direct).
- * Lijkt de vraag toch op een aanvraag (prijs, datum, aantal personen), dan wijst het gesprek
- * nog een keer naar het offerteformulier.
+ * Lijkt de vraag op een veelgestelde vraag (drinken, roken, aantal personen, enz.), dan geeft het
+ * gesprek meteen antwoord (data-antwoorden). Lijkt de vraag op een aanvraag (prijs, datum, aantal
+ * personen), dan wijst het gesprek nog een keer naar het offerteformulier.
+ * Daarna vraagt het hoe de bezoeker antwoord wil (mail, bellen, appen) en alleen de gegevens die
+ * daarvoor nodig zijn. Een e-mailadres of telefoonnummer in de vraag zelf wordt overgenomen.
+ * Met Opnieuw in de kop begint het gesprek (en het formulier) van voren af aan.
  *
  * Zonder JavaScript, of bij een veldtype dat het gesprek niet kent (bijv. captcha of een
  * keuzelijst), blijft het gewone formulier staan. Bij een fout of via Iets aanpassen komt het
@@ -23,6 +27,14 @@
 	var rustig = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 	var aanvraagPatroon = /(prijs|prijzen|kost|kosten|offerte|tarief|tarieven|wat betaal|beschikba|nog vrij|reserveer|reserveren|boeken|boeking|\d+\s*(personen|pers\b|man\b|mensen|gasten)|\b\d{1,2}\s*(jan|feb|maart|mrt|apr|mei|jun|jul|aug|sep|okt|nov|dec)|\b\d{1,2}[-\/.]\d{1,2}\b)/i;
 	var emailPatroon = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+	var emailInTekst = /[^\s@<>()]+@[^\s@<>()]+\.[a-z]{2,}/i;
+	var telefoonInTekst = /(?:\+31|0031|0)[\s-]?(?:\d[\s-]?){9}/;
+	var STOP = { gestopt: true };
+
+	function telefoonGoed(waarde) {
+		var cijfers = waarde.replace(/\D+/g, '');
+		return cijfers.length >= 10 && cijfers.length <= 13;
+	}
 
 	function wacht(ms) {
 		return new Promise(function (klaar) { setTimeout(klaar, rustig ? 0 : ms); });
@@ -112,6 +124,15 @@
 		this.voornaam = '';
 		this.direct = [];
 		try { this.direct = JSON.parse(this.gesprek.getAttribute('data-direct') || '[]'); } catch (e) {}
+		this.antwoorden = [];
+		try {
+			this.antwoorden = JSON.parse(this.gesprek.getAttribute('data-antwoorden') || '[]').map(function (a) {
+				a.regex = new RegExp(a.patroon, 'i');
+				return a;
+			});
+		} catch (e) {}
+		this.opnieuwKnop = this.gesprek.querySelector('[data-gesprek-opnieuw]');
+		this.beurt = 0;
 	}
 
 	Gesprek.prototype.kan = function () {
@@ -137,19 +158,51 @@
 			e.preventDefault();
 			if (zelf.wachtOpInvoer) { zelf.wachtOpInvoer(zelf.veld.value); }
 		});
+		if (this.opnieuwKnop) {
+			this.opnieuwKnop.addEventListener('click', function () { zelf.opnieuw(); });
+		}
 
 		/* Pas beginnen als het gesprek in beeld komt, anders mist de bezoeker de eerste berichten. */
 		if ('IntersectionObserver' in window) {
 			var kijker = new IntersectionObserver(function (items) {
 				if (items.some(function (i) { return i.isIntersecting; })) {
 					kijker.disconnect();
-					zelf.begin();
+					zelf.start();
 				}
 			}, { threshold: 0.25 });
 			kijker.observe(this.gesprek);
 		} else {
-			this.begin();
+			this.start();
 		}
+	};
+
+	/* Begin, en vang het stoppen bij Opnieuw netjes af. */
+	Gesprek.prototype.start = function () {
+		this.begin().catch(function (e) {
+			if (e !== STOP) { throw e; }
+		});
+	};
+
+	/* Alles terug naar het begin: gesprek leeg, formulier leeg, opnieuw beginnen. */
+	Gesprek.prototype.opnieuw = function () {
+		this.beurt++;
+		this.wachtOpInvoer = null;
+		this.invoerVak.hidden = true;
+		this.log.innerHTML = '';
+		this.voornaam = '';
+		this.contactGedaan = false;
+		this.notitie = '';
+		this.gevonden = null;
+		this.velden.forEach(function (v) { v.waarde = ''; v.voornaam = ''; v.achternaam = ''; });
+		this.vul();
+		if (!this.vak.classList.contains('gesprek-aan')) {
+			this.vak.classList.add('gesprek-aan');
+			this.gesprek.hidden = false;
+			this.formulierVak.setAttribute('inert', '');
+			this.formulierVak.setAttribute('aria-hidden', 'true');
+		}
+		if (this.opnieuwKnop) { this.opnieuwKnop.hidden = true; }
+		this.start();
 	};
 
 	Gesprek.prototype.groei = function () {
@@ -162,6 +215,8 @@
 	};
 
 	Gesprek.prototype.bericht = function (tekst, van) {
+		/* Zodra de bezoeker iets heeft gezegd, kan hij opnieuw beginnen. */
+		if (van === 'gast' && this.opnieuwKnop) { this.opnieuwKnop.hidden = false; }
 		var b = maak('div', 'gesprek-bericht gesprek-bericht-' + (van || 'bus'), tekst);
 		this.log.appendChild(b);
 		this.naarOnder();
@@ -170,6 +225,7 @@
 
 	/* Bus zegt iets, met even "typen" ervoor. */
 	Gesprek.prototype.zeg = async function (tekst) {
+		var beurt = this.beurt;
 		var typen = maak('div', 'gesprek-bericht gesprek-bericht-bus gesprek-typen');
 		typen.setAttribute('aria-hidden', 'true');
 		typen.innerHTML = '<span></span><span></span><span></span>';
@@ -177,6 +233,7 @@
 		this.naarOnder();
 		await wacht(Math.min(1100, 350 + tekst.length * 9));
 		typen.remove();
+		if (beurt !== this.beurt) { throw STOP; }
 		return this.bericht(tekst, 'bus');
 	};
 
@@ -302,6 +359,14 @@
 		await this.vragen();
 	};
 
+	/* Eerste snelle antwoord dat bij de vraag past, of null. */
+	Gesprek.prototype.zoekAntwoord = function (tekst) {
+		for (var i = 0; i < this.antwoorden.length; i++) {
+			if (this.antwoorden[i].regex.test(tekst)) { return this.antwoorden[i]; }
+		}
+		return null;
+	};
+
 	Gesprek.prototype.vragen = async function () {
 		var t = this.t;
 		for (var i = 0; i < this.velden.length; i++) {
@@ -310,7 +375,27 @@
 			if (v.soort === 'vraag') {
 				await this.zeg(t.vraag);
 				v.waarde = await this.vraag({ verplicht: v.verplicht, meerregelig: true });
-				if (aanvraagPatroon.test(v.waarde)) {
+
+				/* Gegevens die al in de vraag staan, hoeven we niet nog eens te vragen. */
+				var mail = v.waarde.match(emailInTekst);
+				var tel = v.waarde.match(telefoonInTekst);
+				this.gevonden = { email: mail ? mail[0] : '', telefoon: tel && telefoonGoed(tel[0]) ? tel[0].trim() : '' };
+
+				var snel = this.zoekAntwoord(v.waarde);
+				if (snel) {
+					await this.zeg(snel.antwoord);
+					var opties = [
+						{ waarde: 'klaar', tekst: t.antwoord_klaar, hoofd: true },
+						{ waarde: 'door', tekst: t.antwoord_door }
+					];
+					if (snel.link) { opties.push({ href: snel.link, tekst: snel.linktekst || snel.link }); }
+					if ((await this.kies(opties)) === 'klaar') {
+						await this.zeg(t.afscheid);
+						await this.kies([{ waarde: 'opnieuw', tekst: t.nog_een }]);
+						this.opnieuw();
+						throw STOP;
+					}
+				} else if (aanvraagPatroon.test(v.waarde)) {
 					await this.zeg(t.aanvraag_check);
 					await this.kies([
 						{ href: this.offerte, tekst: t.prijs_knop, hoofd: true },
@@ -328,18 +413,12 @@
 					v.achternaam = await this.vraag({ verplicht: true, autocomplete: 'family-name' });
 				}
 				v.waarde = (v.voornaam + ' ' + v.achternaam).trim();
-			} else if (v.soort === 'email') {
-				await this.zeg(this.voornaam ? t.email.replace('{naam}', this.voornaam) : t.email.replace(/^[^!]*!\s*/, ''));
-				v.waarde = await this.vraag({
-					verplicht: v.verplicht,
-					overslaan: v.verplicht ? '' : t.overslaan,
-					inputmode: 'email',
-					autocomplete: 'email',
-					controle: function (w) { return emailPatroon.test(w) ? '' : t.email_fout; }
-				});
-			} else if (v.soort === 'telefoon') {
-				await this.zeg(t.telefoon);
-				v.waarde = await this.vraag({ verplicht: v.verplicht, overslaan: v.verplicht ? '' : t.overslaan, inputmode: 'tel', autocomplete: 'tel' });
+			} else if (v.soort === 'email' || v.soort === 'telefoon') {
+				/* Mail en telefoon in één keer: eerst vragen hoe de bezoeker antwoord wil. */
+				if (!this.contactGedaan) {
+					this.contactGedaan = true;
+					await this.contact();
+				}
 			} else {
 				await this.zeg(v.label + (v.uitleg ? ' ' + v.uitleg : ''));
 				v.waarde = await this.vraag({ verplicht: v.verplicht, overslaan: v.verplicht ? '' : t.overslaan });
@@ -348,8 +427,72 @@
 		await this.afronden();
 	};
 
+	/* Hoe wil de bezoeker antwoord? Daarna alleen de gegevens die daarvoor nodig zijn. */
+	Gesprek.prototype.contact = async function () {
+		var t = this.t;
+		var zelf = this;
+		var mailVeld = this.velden.filter(function (v) { return v.soort === 'email'; })[0];
+		var telVeld = this.velden.filter(function (v) { return v.soort === 'telefoon'; })[0];
+		var gevonden = this.gevonden || { email: '', telefoon: '' };
+
+		var voorkeur = 'mail';
+		if (telVeld && mailVeld) {
+			await this.zeg(this.voornaam ? t.voorkeur.replace('{naam}', this.voornaam) : t.voorkeur.replace(/,\s*\{naam\}/, ''));
+			voorkeur = await this.kies([
+				{ waarde: 'mail', tekst: t.voorkeur_mail },
+				{ waarde: 'bel', tekst: t.voorkeur_bel },
+				{ waarde: 'app', tekst: t.voorkeur_app }
+			]);
+		} else if (telVeld) {
+			voorkeur = 'bel';
+		}
+		this.notitie = voorkeur === 'bel' ? t.notitie_bel : (voorkeur === 'app' ? t.notitie_app : '');
+
+		var vraagMail = async function (tekst) {
+			if (gevonden.email) {
+				mailVeld.waarde = gevonden.email;
+				await zelf.zeg(t.gevonden.replace('{soort}', 'e-mailadres'));
+				return;
+			}
+			await zelf.zeg(tekst);
+			mailVeld.waarde = await zelf.vraag({
+				verplicht: true,
+				inputmode: 'email',
+				autocomplete: 'email',
+				controle: function (w) { return emailPatroon.test(w) ? '' : t.email_fout; }
+			});
+		};
+		var vraagTel = async function (tekst) {
+			if (gevonden.telefoon) {
+				telVeld.waarde = gevonden.telefoon;
+				await zelf.zeg(t.gevonden.replace('{soort}', 'telefoonnummer'));
+				return;
+			}
+			await zelf.zeg(tekst);
+			telVeld.waarde = await zelf.vraag({
+				verplicht: true,
+				inputmode: 'tel',
+				autocomplete: 'tel',
+				controle: function (w) { return telefoonGoed(w) ? '' : t.telefoon_fout; }
+			});
+		};
+
+		if (voorkeur === 'mail') {
+			await vraagMail(this.voornaam ? t.email.replace('{naam}', this.voornaam) : t.email.replace(/^[^!]*!\s*/, ''));
+			if (telVeld && telVeld.verplicht) { await vraagTel(t.telefoon_nodig); }
+		} else {
+			await vraagTel(t.telefoon_nodig);
+			if (mailVeld && mailVeld.verplicht) { await vraagMail(t.email_ook); }
+		}
+	};
+
 	Gesprek.prototype.vul = function () {
+		var notitie = this.notitie;
 		this.velden.forEach(function (v) {
+			if (v.soort === 'vraag' && notitie && v.waarde) {
+				v.invoer.forEach(function (invoer) { zetWaarde(invoer, v.waarde + '\n\n(' + notitie + ')'); });
+				return;
+			}
 			if (v.soort === 'naam') {
 				if (v.voor) {
 					zetWaarde(v.voor, v.voornaam || '');
@@ -406,6 +549,7 @@
 			clearTimeout(vangnet);
 			typen.remove();
 			if (gelukt) {
+				if (zelf.opnieuwKnop) { zelf.opnieuwKnop.remove(); zelf.opnieuwKnop = null; }
 				zelf.bericht(tekst || zelf.t.gelukt, 'bus');
 			} else {
 				zelf.bericht(zelf.t.fout, 'bus');
