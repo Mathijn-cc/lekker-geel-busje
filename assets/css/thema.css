@@ -6041,7 +6041,9 @@ section.sectie-contact div.contact-binnen div.contactraster div.contactgegevens 
 }
 section.sectie-contact div.contact-binnen div.contactraster div.contactgegevens div.contactkaarten.contactkaarten-zijbalk a.contactkaart span.contactkaart-waarde,
 section.sectie-contact div.contact-binnen div.contactraster div.contactgegevens div.contactkaarten.contactkaarten-zijbalk div.contactkaart a.contactkaart-waarde {
-  font-size: clamp(22px, 1.9vw, 30px);
+  font-size:     clamp(18px, 1.75vw, 28px);
+  overflow-wrap: normal;
+  white-space:   nowrap;
 }
 
 /*Contact -- Gegevensblokken*/
