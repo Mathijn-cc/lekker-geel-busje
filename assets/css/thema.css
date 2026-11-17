@@ -9813,9 +9813,9 @@ section.sectie-stoelen.achtergrond-paars div.stoelen-ticket {
   }
 }
 
-/**Algemeen -- WhatsApp-chat**/
-/*WhatsApp-chat -- Houder rechtsonder*/
-div.whatsapp-chat {
+/**Algemeen -- Zweefknoppen**/
+/*Zweefknoppen -- Houder rechtsonder*/
+div.zweefknoppen {
   position:       fixed;
   right:          calc(var(--chat-afstand) + env(safe-area-inset-right, 0px));
   bottom:         calc(var(--chat-afstand) + env(safe-area-inset-bottom, 0px));
@@ -9826,263 +9826,321 @@ div.whatsapp-chat {
   gap:            14px;
   pointer-events: none;
 }
-div.whatsapp-chat > * {
+div.zweefknoppen div.zweefknoppen-rij,
+div.zweefknoppen div.whatsapp-chat > * {
   pointer-events: auto;
 }
+div.zweefknoppen div.zweefknoppen-rij {
+  display:     flex;
+  align-items: center;
+}
 @media (max-width: 899px) {
-  div.whatsapp-chat.met-onderbalk {
+  div.zweefknoppen.met-onderbalk {
     bottom: calc(76px + env(safe-area-inset-bottom, 0px));
   }
 }
 
-/*WhatsApp-chat -- Knop*/
-div.whatsapp-chat a.whatsapp-chat-knop {
+/*Zweefknoppen -- Naar boven, schuift uit zodra je gescrold hebt*/
+div.zweefknoppen div.zweefknoppen-rij a.naar-boven {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  flex:            0 0 auto;
+  width:           0;
+  height:          62px;
+  margin-right:    0;
+  border-radius:   50%;
+  background:      var(--kleur-paars);
+  color:           var(--kleur-creme);
+  box-shadow:      0 0 0 2px rgba(250, 245, 238, .18), 0 14px 30px -12px rgba(38, 4, 63, .55);
+  opacity:         0;
+  overflow:        hidden;
+  pointer-events:  none;
+  transform:       scale(.4);
+  transition:      width .5s var(--duw), margin .5s var(--duw), opacity .3s var(--zacht), transform .5s var(--veer), background .25s var(--zacht), color .25s var(--zacht);
+}
+div.zweefknoppen div.zweefknoppen-rij a.naar-boven.is-zichtbaar {
+  width:          62px;
+  margin-right:   10px;
+  opacity:        1;
+  pointer-events: auto;
+  transform:      none;
+}
+div.zweefknoppen div.zweefknoppen-rij a.naar-boven:hover {
+  background: var(--kleur-geel);
+  color:      var(--kleur-paars);
+}
+div.zweefknoppen div.zweefknoppen-rij a.naar-boven svg.icoon {
+  flex:       0 0 auto;
+  transition: transform .4s var(--veer);
+}
+div.zweefknoppen div.zweefknoppen-rij a.naar-boven:hover svg.icoon {
+  transform: translateY(-3px);
+}
+div.zweefknoppen div.zweefknoppen-rij a.naar-boven:focus-visible,
+div.zweefknoppen div.zweefknoppen-rij a.whatsapp-knop:focus-visible {
+  outline:        var(--lijn-dik) solid var(--kleur-geel);
+  outline-offset: 3px;
+}
+
+/*Zweefknoppen -- WhatsApp-knop, zelfde vorm als de menuknop*/
+div.zweefknoppen div.zweefknoppen-rij a.whatsapp-knop {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             14px;
+  min-height:      62px;
+  padding:         9px 9px 9px 24px;
+  border-radius:   999px;
+  background:      var(--kleur-paars);
+  color:           var(--kleur-creme);
+  box-shadow:      0 0 0 2px rgba(250, 245, 238, .18), 0 14px 30px -12px rgba(38, 4, 63, .55);
+  font-size:       16px;
+  font-weight:     700;
+  white-space:     nowrap;
+  text-decoration: none;
+}
+div.zweefknoppen div.zweefknoppen-rij a.whatsapp-knop span.whatsapp-knop-tekst {
+  display:     inline-block;
+  height:      1.25em;
+  line-height: 1.25em;
+  overflow:    hidden;
+}
+div.zweefknoppen div.zweefknoppen-rij a.whatsapp-knop span.whatsapp-knop-tekst span.whatsapp-knop-rol {
+  display:        flex;
+  flex-direction: column;
+  transition:     transform .55s var(--duw);
+}
+div.zweefknoppen div.zweefknoppen-rij a.whatsapp-knop[aria-expanded="false"]:hover span.whatsapp-knop-tekst span.whatsapp-knop-rol {
+  transform: translateY(-33.3333%);
+}
+div.zweefknoppen div.zweefknoppen-rij a.whatsapp-knop[aria-expanded="true"] span.whatsapp-knop-tekst span.whatsapp-knop-rol {
+  transform: translateY(-66.6667%);
+}
+div.zweefknoppen div.zweefknoppen-rij a.whatsapp-knop span.whatsapp-knop-cirkel {
   position:        relative;
   display:         flex;
   align-items:     center;
   justify-content: center;
-  width:           62px;
-  height:          62px;
+  flex:            0 0 44px;
+  width:           44px;
+  height:          44px;
   border-radius:   50%;
   background:      var(--kleur-whatsapp);
   color:           var(--kleur-wit);
-  box-shadow:      0 14px 30px -12px rgba(18, 110, 52, .6);
-  transition:      background .3s var(--zacht), transform .4s var(--veer);
+  transition:      background .3s var(--zacht), transform .5s var(--veer);
 }
-div.whatsapp-chat a.whatsapp-chat-knop:hover {
-  background: var(--kleur-whatsapp-donker);
-  color:      var(--kleur-wit);
-  transform:  scale(1.06) rotate(-4deg);
+div.zweefknoppen div.zweefknoppen-rij a.whatsapp-knop:hover span.whatsapp-knop-cirkel {
+  transform: rotate(-10deg) scale(1.06);
 }
-div.whatsapp-chat a.whatsapp-chat-knop:focus-visible {
-  outline:        var(--lijn-dik) solid var(--kleur-geel);
-  outline-offset: 3px;
+div.zweefknoppen div.zweefknoppen-rij a.whatsapp-knop[aria-expanded="true"] span.whatsapp-knop-cirkel {
+  background: var(--kleur-geel);
+  color:      var(--kleur-paars);
+  transform:  none;
 }
-div.whatsapp-chat a.whatsapp-chat-knop::before {
-  content:       "";
-  position:      absolute;
-  inset:         0;
-  border-radius: 50%;
-  border:        var(--lijn-dun) solid var(--kleur-whatsapp);
-  opacity:       0;
-  animation:     whatsapp-chat-puls 3.2s 2s infinite var(--zacht);
-}
-div.whatsapp-chat.is-open a.whatsapp-chat-knop::before {
-  animation: none;
-}
-@keyframes whatsapp-chat-puls {
-  0% {
-    opacity:   .5;
-    transform: scale(1);
-  }
-  60%,
-  100% {
-    opacity:   0;
-    transform: scale(1.45);
-  }
-}
-/*WhatsApp-chat -- Wissel tussen app-icoon en kruisje*/
-div.whatsapp-chat a.whatsapp-chat-knop span.whatsapp-chat-knop-icoon {
+/*Zweefknoppen -- Wissel tussen logo en kruisje*/
+div.zweefknoppen div.zweefknoppen-rij a.whatsapp-knop span.whatsapp-knop-icoon {
   position:   absolute;
   display:    flex;
-  transition: opacity .25s var(--zacht), transform .4s var(--veer);
+  transition: opacity .25s var(--zacht), transform .45s var(--veer);
 }
-div.whatsapp-chat a.whatsapp-chat-knop span.whatsapp-chat-knop-dicht {
+div.zweefknoppen div.zweefknoppen-rij a.whatsapp-knop span.whatsapp-knop-kruis {
   opacity:   0;
-  transform: rotate(-90deg) scale(.6);
+  transform: rotate(-90deg) scale(.5);
 }
-div.whatsapp-chat.is-open a.whatsapp-chat-knop {
-  background: var(--kleur-paars);
-  color:      var(--kleur-geel);
-}
-div.whatsapp-chat.is-open a.whatsapp-chat-knop span.whatsapp-chat-knop-app {
+div.zweefknoppen div.zweefknoppen-rij a.whatsapp-knop[aria-expanded="true"] span.whatsapp-knop-logo {
   opacity:   0;
-  transform: rotate(90deg) scale(.6);
+  transform: rotate(90deg) scale(.5);
 }
-div.whatsapp-chat.is-open a.whatsapp-chat-knop span.whatsapp-chat-knop-dicht {
+div.zweefknoppen div.zweefknoppen-rij a.whatsapp-knop[aria-expanded="true"] span.whatsapp-knop-kruis {
   opacity:   1;
   transform: none;
 }
 
-/*WhatsApp-chat -- Ballon*/
-div.whatsapp-chat div.whatsapp-chat-ballon {
-  position:         relative;
-  display:          flex;
-  align-items:      center;
-  margin-right:     6px;
-  opacity:          0;
-  transform:        translateY(10px) scale(.9);
-  transform-origin: 100% 100%;
-  transition:       opacity .3s var(--zacht), transform .45s var(--veer);
-}
-div.whatsapp-chat div.whatsapp-chat-ballon.is-zichtbaar {
-  opacity:   1;
-  transform: none;
-}
-div.whatsapp-chat div.whatsapp-chat-ballon[hidden] {
-  display: none;
-}
-div.whatsapp-chat div.whatsapp-chat-ballon::after {
-  content:       "";
-  position:      absolute;
-  right:         22px;
-  bottom:        -7px;
-  width:         16px;
-  height:        16px;
-  border-radius: 0 0 4px 0;
-  background:    var(--kleur-geel);
-  transform:     rotate(45deg);
-}
-div.whatsapp-chat div.whatsapp-chat-ballon button.whatsapp-chat-ballon-tekst {
-  position:      relative;
-  z-index:       1;
-  max-width:     min(260px, calc(100vw - 80px));
-  margin:        0;
-  padding:       13px 40px 13px 18px;
-  border:        0;
-  border-radius: 20px;
-  background:    var(--kleur-geel);
-  color:         var(--kleur-paars);
-  box-shadow:    0 14px 30px -14px rgba(38, 4, 63, .45);
-  font-family:   var(--tekst-letter);
-  font-size:     15px;
-  font-weight:   700;
-  line-height:   1.35;
-  text-align:    left;
-  cursor:        pointer;
-}
-div.whatsapp-chat div.whatsapp-chat-ballon button.whatsapp-chat-ballon-weg {
-  position:        absolute;
-  top:             50%;
-  right:           8px;
-  z-index:         2;
+/*Zweefknoppen -- Avatar in berichtje en venster*/
+div.zweefknoppen div.whatsapp-chat span.whatsapp-avatar {
   display:         flex;
   align-items:     center;
   justify-content: center;
-  width:           26px;
-  height:          26px;
-  margin:          -13px 0 0;
-  padding:         0;
-  border:          0;
-  border-radius:   50%;
-  background:      rgba(56, 6, 94, .1);
-  color:           var(--kleur-paars);
-  cursor:          pointer;
-  transition:      background .2s var(--zacht);
-}
-div.whatsapp-chat div.whatsapp-chat-ballon button.whatsapp-chat-ballon-weg:hover {
-  background: rgba(56, 6, 94, .2);
-}
-
-/*WhatsApp-chat -- Venster*/
-div.whatsapp-chat div.whatsapp-chat-venster {
-  display:          flex;
-  flex-direction:   column;
-  width:            min(380px, calc(100vw - 2 * var(--chat-afstand)));
-  max-height:       min(600px, calc(100dvh - 120px));
-  border-radius:    28px;
-  background:       var(--kleur-wit);
-  box-shadow:       0 30px 60px -24px rgba(38, 4, 63, .5);
-  overflow:         hidden;
-  opacity:          0;
-  transform:        translateY(16px) scale(.96);
-  transform-origin: 100% 100%;
-  transition:       opacity .25s var(--zacht), transform .45s var(--veer);
-}
-div.whatsapp-chat div.whatsapp-chat-venster.is-zichtbaar {
-  opacity:   1;
-  transform: none;
-}
-div.whatsapp-chat div.whatsapp-chat-venster[hidden] {
-  display: none;
-}
-/*WhatsApp-chat -- Kop met afzender*/
-div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-kop {
-  display:     flex;
-  align-items: center;
-  gap:         12px;
-  padding:     16px 16px 16px 18px;
-  background:  var(--kleur-paars);
-  color:       var(--kleur-wit);
-}
-div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-kop span.whatsapp-chat-avatar {
-  display:         flex;
-  align-items:     center;
-  justify-content: center;
-  flex:            0 0 46px;
-  width:           46px;
-  height:          46px;
+  flex:            0 0 42px;
+  width:           42px;
+  height:          42px;
   border-radius:   50%;
   background:      var(--kleur-geel);
   color:           var(--kleur-paars);
   overflow:        hidden;
 }
-div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-kop span.whatsapp-chat-avatar img.whatsapp-chat-foto {
+div.zweefknoppen div.whatsapp-chat span.whatsapp-avatar img {
   width:      100%;
   height:     100%;
   object-fit: cover;
 }
-div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-kop span.whatsapp-chat-afzender {
+
+/*Zweefknoppen -- Berichtje als WhatsApp-melding*/
+div.zweefknoppen div.whatsapp-chat {
+  display:        flex;
+  flex-direction: column;
+  align-items:    flex-end;
+}
+div.zweefknoppen div.whatsapp-chat div.whatsapp-melding {
+  position:   relative;
+  width:      min(300px, calc(100vw - 2 * var(--chat-afstand)));
+  opacity:    0;
+  transform:  translateY(14px);
+  transition: opacity .3s var(--zacht), transform .5s var(--veer);
+}
+div.zweefknoppen div.whatsapp-chat div.whatsapp-melding.is-zichtbaar {
+  opacity:   1;
+  transform: none;
+}
+div.zweefknoppen div.whatsapp-chat div.whatsapp-melding[hidden] {
+  display: none;
+}
+div.zweefknoppen div.whatsapp-chat div.whatsapp-melding button.whatsapp-melding-open {
+  display:       flex;
+  align-items:   center;
+  gap:           12px;
+  width:         100%;
+  margin:        0;
+  padding:       12px 16px 12px 12px;
+  border:        0;
+  border-radius: 22px 22px 6px 22px;
+  background:    var(--kleur-wit);
+  color:         var(--kleur-paars);
+  box-shadow:    0 18px 40px -18px rgba(38, 4, 63, .5);
+  font-family:   var(--tekst-letter);
+  text-align:    left;
+  cursor:        pointer;
+  transition:    transform .4s var(--veer);
+}
+div.zweefknoppen div.whatsapp-chat div.whatsapp-melding button.whatsapp-melding-open:hover {
+  transform: translateY(-2px);
+}
+div.zweefknoppen div.whatsapp-chat div.whatsapp-melding span.whatsapp-melding-inhoud {
+  display:        flex;
+  flex-direction: column;
+  gap:            2px;
+  min-width:      0;
+}
+div.zweefknoppen div.whatsapp-chat div.whatsapp-melding span.whatsapp-melding-naam {
+  font-size:   13px;
+  font-weight: 700;
+  opacity:     .6;
+}
+div.zweefknoppen div.whatsapp-chat div.whatsapp-melding span.whatsapp-melding-tekst {
+  font-size:   15px;
+  line-height: 1.35;
+}
+div.zweefknoppen div.whatsapp-chat div.whatsapp-melding button.whatsapp-melding-weg {
+  position:        absolute;
+  top:             -8px;
+  left:            -8px;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           26px;
+  height:          26px;
+  padding:         0;
+  border:          0;
+  border-radius:   50%;
+  background:      var(--kleur-paars);
+  color:           var(--kleur-creme);
+  box-shadow:      0 0 0 2px var(--kleur-wit);
+  cursor:          pointer;
+}
+
+/*Zweefknoppen -- Venster*/
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster {
+  display:          flex;
+  flex-direction:   column;
+  width:            min(380px, calc(100vw - 2 * var(--chat-afstand)));
+  max-height:       min(620px, calc(100dvh - 120px));
+  border-radius:    28px;
+  background:       var(--kleur-wit);
+  box-shadow:       0 30px 70px -24px rgba(38, 4, 63, .55);
+  overflow:         hidden;
+  opacity:          0;
+  transform:        translateY(16px) scale(.97);
+  transform-origin: 100% 100%;
+  transition:       opacity .25s var(--zacht), transform .5s var(--veer);
+}
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster.is-zichtbaar {
+  opacity:   1;
+  transform: none;
+}
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster[hidden] {
+  display: none;
+}
+/*Zweefknoppen -- Kop van het venster*/
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster div.whatsapp-venster-kop {
+  display:     flex;
+  align-items: center;
+  gap:         12px;
+  padding:     14px 14px 14px 16px;
+  background:  var(--kleur-paars);
+  color:       var(--kleur-creme);
+}
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster div.whatsapp-venster-kop span.whatsapp-venster-afzender {
   display:        flex;
   flex:           1 1 auto;
   flex-direction: column;
+  gap:            2px;
   min-width:      0;
-  line-height:    1.25;
+  line-height:    1.2;
 }
-div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-kop span.whatsapp-chat-afzender span.whatsapp-chat-naam {
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster div.whatsapp-venster-kop span.whatsapp-venster-naam {
   font-family: var(--kop-letter);
   font-size:   18px;
   font-weight: var(--kop-gewicht);
 }
-div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-kop span.whatsapp-chat-afzender span.whatsapp-chat-status {
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster div.whatsapp-venster-kop span.whatsapp-venster-status {
   display:     inline-flex;
   align-items: center;
   gap:         6px;
-  font-size:   14px;
-  opacity:     .8;
+  font-size:   13px;
+  opacity:     .75;
 }
-div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-kop span.whatsapp-chat-afzender span.whatsapp-chat-status::before {
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster div.whatsapp-venster-kop span.whatsapp-venster-status::before {
   content:       "";
   flex:          0 0 8px;
   width:         8px;
   height:        8px;
   border-radius: 50%;
-  background:    #2fbf71;
+  background:    var(--kleur-whatsapp);
 }
-div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-kop button.whatsapp-chat-sluiten {
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster div.whatsapp-venster-kop button.whatsapp-venster-sluiten {
   display:         flex;
   align-items:     center;
   justify-content: center;
-  flex:            0 0 38px;
-  width:           38px;
-  height:          38px;
+  flex:            0 0 36px;
+  width:           36px;
+  height:          36px;
   padding:         0;
   border:          0;
   border-radius:   50%;
-  background:      rgba(255, 255, 255, .12);
-  color:           var(--kleur-wit);
+  background:      rgba(250, 245, 238, .12);
+  color:           var(--kleur-creme);
   cursor:          pointer;
   transition:      background .2s var(--zacht);
 }
-div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-kop button.whatsapp-chat-sluiten:hover {
-  background: rgba(255, 255, 255, .24);
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster div.whatsapp-venster-kop button.whatsapp-venster-sluiten:hover {
+  background: rgba(250, 245, 238, .25);
 }
-/*WhatsApp-chat -- Berichten*/
-div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-log {
+/*Zweefknoppen -- Berichten*/
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster div.whatsapp-venster-log {
   display:             flex;
   flex:                1 1 auto;
   flex-direction:      column;
   align-items:         flex-start;
-  gap:                 8px;
-  min-height:          120px;
-  padding:             18px 16px 10px;
+  gap:                 6px;
+  min-height:          140px;
+  padding:             18px 16px 16px;
   background:          var(--kleur-creme);
   overflow-y:          auto;
   overscroll-behavior: contain;
   scroll-behavior:     smooth;
 }
-div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-log p.whatsapp-chat-bericht {
-  max-width:     88%;
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster div.whatsapp-venster-log p.whatsapp-bericht {
+  max-width:     86%;
   margin:        0;
   padding:       10px 14px;
   border-radius: 18px;
@@ -10091,238 +10149,209 @@ div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-log p.whatsapp-cha
   white-space:   pre-wrap;
   overflow-wrap: anywhere;
 }
-div.whatsapp-chat div.whatsapp-chat-venster.is-zichtbaar div.whatsapp-chat-log p.whatsapp-chat-bericht {
-  animation: whatsapp-chat-in .4s var(--veer) both;
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster div.whatsapp-venster-log p.whatsapp-bericht.whatsapp-bericht-bus {
+  background: var(--kleur-wit);
+  color:      var(--kleur-paars);
 }
-div.whatsapp-chat div.whatsapp-chat-venster.is-zichtbaar div.whatsapp-chat-log p.whatsapp-chat-bericht:nth-child(2) {
-  animation-delay: .12s;
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster div.whatsapp-venster-log p.whatsapp-bericht.whatsapp-bericht-bus:first-child {
+  border-top-left-radius: 6px;
 }
-div.whatsapp-chat div.whatsapp-chat-venster.is-zichtbaar div.whatsapp-chat-log p.whatsapp-chat-bericht:nth-child(3) {
-  animation-delay: .24s;
-}
-div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-log p.whatsapp-chat-bericht.whatsapp-chat-bericht-bus {
-  border-bottom-left-radius: 6px;
-  background:                var(--kleur-wit);
-  color:                     var(--kleur-paars);
-}
-div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-log p.whatsapp-chat-bericht.whatsapp-chat-bericht-bus a {
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster div.whatsapp-venster-log p.whatsapp-bericht.whatsapp-bericht-bus a {
   font-weight:           700;
   text-decoration:       underline;
   text-underline-offset: 3px;
 }
-div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-log p.whatsapp-chat-bericht.whatsapp-chat-bericht-gast {
-  align-self:                 flex-end;
-  border-bottom-right-radius: 6px;
-  background:                 var(--kleur-paars);
-  color:                      var(--kleur-wit);
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster div.whatsapp-venster-log p.whatsapp-bericht.whatsapp-bericht-gast {
+  align-self:              flex-end;
+  margin-top:              8px;
+  border-top-right-radius: 6px;
+  background:              var(--kleur-paars);
+  color:                   var(--kleur-creme);
 }
-@keyframes whatsapp-chat-in {
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster.is-zichtbaar div.whatsapp-venster-log > * {
+  animation: zweefknoppen-in .45s var(--veer) both;
+}
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster.is-zichtbaar div.whatsapp-venster-log > *:nth-child(2) {
+  animation-delay: .1s;
+}
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster.is-zichtbaar div.whatsapp-venster-log > *:nth-child(3) {
+  animation-delay: .2s;
+}
+@keyframes zweefknoppen-in {
   from {
     opacity:   0;
-    transform: translateY(8px) scale(.97);
+    transform: translateY(8px);
   }
 }
-/*WhatsApp-chat -- Snelle vragen*/
-div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-keuzes {
+/*Zweefknoppen -- Snelle vragen en offerteknopje*/
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster div.whatsapp-venster-log div.whatsapp-keuzes {
   display:         flex;
   flex-wrap:       wrap;
   justify-content: flex-end;
   gap:             6px;
-  padding:         4px 16px 12px;
-  background:      var(--kleur-creme);
+  width:           100%;
+  margin-top:      10px;
 }
-div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-keuzes[hidden] {
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster div.whatsapp-venster-log div.whatsapp-keuzes[hidden] {
   display: none;
 }
-div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-keuzes button.whatsapp-chat-keuze {
-  margin:        0;
-  padding:       8px 13px;
-  border:        var(--lijn-dun) solid var(--kleur-paars);
-  border-radius: 999px;
-  background:    transparent;
-  color:         var(--kleur-paars);
-  font-family:   var(--tekst-letter);
-  font-size:     14px;
-  font-weight:   600;
-  line-height:   1.2;
-  cursor:        pointer;
-  transition:    background .2s var(--zacht), color .2s var(--zacht);
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster div.whatsapp-venster-log div.whatsapp-keuzes .whatsapp-keuze {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             6px;
+  margin:          0;
+  padding:         9px 14px;
+  border:          0;
+  border-radius:   999px;
+  background:      var(--kleur-wit);
+  color:           var(--kleur-paars);
+  box-shadow:      inset 0 0 0 1.5px rgba(56, 6, 94, .16);
+  font-family:     var(--tekst-letter);
+  font-size:       14px;
+  font-weight:     600;
+  line-height:     1.2;
+  text-decoration: none;
+  cursor:          pointer;
+  transition:      background .2s var(--zacht), box-shadow .2s var(--zacht);
 }
-div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-keuzes button.whatsapp-chat-keuze:hover {
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster div.whatsapp-venster-log div.whatsapp-keuzes .whatsapp-keuze:hover {
   background: var(--kleur-paars);
-  color:      var(--kleur-wit);
+  color:      var(--kleur-creme);
+  box-shadow: none;
 }
-/*WhatsApp-chat -- Invoer*/
-div.whatsapp-chat div.whatsapp-chat-venster form.whatsapp-chat-formulier {
-  display:     flex;
-  align-items: flex-end;
-  gap:         8px;
-  margin:      0;
-  padding:     12px 12px 8px 16px;
-  border-top:  1px solid var(--kleur-zand);
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster div.whatsapp-venster-log div.whatsapp-keuzes a.whatsapp-keuze.whatsapp-keuze-offerte {
+  background: var(--kleur-geel);
+  box-shadow: none;
 }
-div.whatsapp-chat div.whatsapp-chat-venster form.whatsapp-chat-formulier textarea.whatsapp-chat-vraag {
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster div.whatsapp-venster-log div.whatsapp-keuzes a.whatsapp-keuze.whatsapp-keuze-offerte:hover {
+  background: var(--kleur-paars);
+  color:      var(--kleur-geel);
+}
+/*Zweefknoppen -- Invoer*/
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster form.whatsapp-venster-formulier {
+  margin:     0;
+  padding:    12px 12px 10px;
+  background: var(--kleur-wit);
+}
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster form.whatsapp-venster-formulier div.whatsapp-venster-invoer {
+  display:       flex;
+  align-items:   flex-end;
+  gap:           8px;
+  padding:       5px 5px 5px 16px;
+  border-radius: 24px;
+  background:    var(--kleur-creme);
+  box-shadow:    inset 0 0 0 1.5px transparent;
+  transition:    box-shadow .2s var(--zacht);
+}
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster form.whatsapp-venster-formulier div.whatsapp-venster-invoer:focus-within {
+  box-shadow: inset 0 0 0 1.5px var(--kleur-paars);
+}
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster form.whatsapp-venster-formulier textarea.whatsapp-vraag {
   flex:        1 1 auto;
-  min-height:  44px;
-  max-height:  140px;
+  min-height:  38px;
+  max-height:  132px;
   margin:      0;
-  padding:     11px 0;
+  padding:     9px 0;
   border:      0;
   background:  transparent;
   color:       var(--kleur-paars);
   font-family: var(--tekst-letter);
   font-size:   16px;
-  line-height: 1.4;
+  line-height: 1.3;
   resize:      none;
   outline:     none;
   box-shadow:  none;
 }
-div.whatsapp-chat div.whatsapp-chat-venster form.whatsapp-chat-formulier textarea.whatsapp-chat-vraag::placeholder {
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster form.whatsapp-venster-formulier textarea.whatsapp-vraag::placeholder {
   color:   var(--kleur-paars);
   opacity: .45;
 }
-div.whatsapp-chat div.whatsapp-chat-venster form.whatsapp-chat-formulier button.whatsapp-chat-verstuur {
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster form.whatsapp-venster-formulier button.whatsapp-verstuur {
   display:         flex;
   align-items:     center;
   justify-content: center;
-  flex:            0 0 44px;
-  width:           44px;
-  height:          44px;
+  flex:            0 0 38px;
+  width:           38px;
+  height:          38px;
   padding:         0 2px 0 0;
   border:          0;
   border-radius:   50%;
-  background:      var(--kleur-geel);
-  color:           var(--kleur-paars);
+  background:      var(--kleur-whatsapp);
+  color:           var(--kleur-wit);
   cursor:          pointer;
-  transition:      opacity .2s var(--zacht), transform .3s var(--veer);
+  transition:      background .2s var(--zacht), color .2s var(--zacht), transform .4s var(--veer);
 }
-div.whatsapp-chat div.whatsapp-chat-venster form.whatsapp-chat-formulier button.whatsapp-chat-verstuur:hover:not(:disabled) {
-  transform: scale(1.08) rotate(-6deg);
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster form.whatsapp-venster-formulier button.whatsapp-verstuur:hover:not(:disabled) {
+  background: var(--kleur-whatsapp-donker);
+  transform:  rotate(-8deg) scale(1.06);
 }
-div.whatsapp-chat div.whatsapp-chat-venster form.whatsapp-chat-formulier button.whatsapp-chat-verstuur:disabled {
-  opacity: .4;
-  cursor:  default;
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster form.whatsapp-venster-formulier button.whatsapp-verstuur:disabled {
+  background: var(--kleur-zand);
+  color:      var(--kleur-paars);
+  cursor:     default;
+  opacity:    .55;
 }
-/*WhatsApp-chat -- Voet*/
-div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-voet {
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster form.whatsapp-venster-formulier p.whatsapp-venster-uitleg {
   display:         flex;
-  flex-wrap:       wrap;
   align-items:     center;
-  justify-content: space-between;
-  gap:             4px 12px;
-  padding:         0 16px 14px;
-  font-size:       13px;
+  justify-content: center;
+  gap:             6px;
+  margin:          8px 0 0;
+  color:           var(--kleur-paars);
+  font-size:       12px;
+  opacity:         .6;
 }
-div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-voet span.whatsapp-chat-uitleg {
-  display:     inline-flex;
-  align-items: center;
-  gap:         6px;
-  color:       var(--kleur-paars);
-  opacity:     .6;
-}
-div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-voet a.whatsapp-chat-offerte {
-  color:                 var(--kleur-paars);
-  font-weight:           700;
-  text-decoration:       underline;
-  text-underline-offset: 3px;
-}
-div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-voet a.whatsapp-chat-offerte:hover {
-  color: var(--kleur-hover);
+div.zweefknoppen div.whatsapp-chat div.whatsapp-venster form.whatsapp-venster-formulier p.whatsapp-venster-uitleg svg {
+  color: var(--kleur-whatsapp-donker);
 }
 
-/*WhatsApp-chat -- Mobiel*/
+/*Zweefknoppen -- Mobiel: alleen de ronde knoppen, zonder tekst*/
 @media (max-width: 560px) {
-  div.whatsapp-chat a.whatsapp-chat-knop {
-    width:  56px;
-    height: 56px;
+  div.zweefknoppen {
+    gap: 12px;
   }
-  div.whatsapp-chat div.whatsapp-chat-venster {
+  div.zweefknoppen div.zweefknoppen-rij a.naar-boven {
+    height: 48px;
+  }
+  div.zweefknoppen div.zweefknoppen-rij a.naar-boven.is-zichtbaar {
+    width:        48px;
+    margin-right: 10px;
+  }
+  div.zweefknoppen div.zweefknoppen-rij a.whatsapp-knop {
+    gap:        0;
+    min-height: 0;
+    padding:    0;
+    background: transparent;
+    box-shadow: none;
+  }
+  div.zweefknoppen div.zweefknoppen-rij a.whatsapp-knop span.whatsapp-knop-tekst {
+    display: none;
+  }
+  div.zweefknoppen div.zweefknoppen-rij a.whatsapp-knop span.whatsapp-knop-cirkel {
+    flex-basis: 58px;
+    width:      58px;
+    height:     58px;
+    box-shadow: 0 0 0 2px rgba(250, 245, 238, .6), 0 14px 30px -12px rgba(18, 110, 52, .65);
+  }
+  div.zweefknoppen div.zweefknoppen-rij a.whatsapp-knop[aria-expanded="true"] span.whatsapp-knop-cirkel {
+    background: var(--kleur-paars);
+    color:      var(--kleur-geel);
+  }
+  div.zweefknoppen div.whatsapp-chat div.whatsapp-venster {
     max-height:    calc(100dvh - 110px);
     border-radius: 24px;
   }
 }
 
-/*WhatsApp-chat -- Minder beweging*/
+/*Zweefknoppen -- Minder beweging*/
 @media (prefers-reduced-motion: reduce) {
-  div.whatsapp-chat a.whatsapp-chat-knop::before {
-    animation: none;
-  }
-  div.whatsapp-chat div.whatsapp-chat-ballon,
-  div.whatsapp-chat div.whatsapp-chat-venster,
-  div.whatsapp-chat a.whatsapp-chat-knop span.whatsapp-chat-knop-icoon {
+  div.zweefknoppen div.zweefknoppen-rij a.naar-boven,
+  div.zweefknoppen div.whatsapp-chat div.whatsapp-melding,
+  div.zweefknoppen div.whatsapp-chat div.whatsapp-venster {
+    transform:  none;
     transition: opacity .2s linear;
   }
-  div.whatsapp-chat div.whatsapp-chat-venster.is-zichtbaar div.whatsapp-chat-log p.whatsapp-chat-bericht {
+  div.zweefknoppen div.whatsapp-chat div.whatsapp-venster.is-zichtbaar div.whatsapp-venster-log > * {
     animation: none;
-  }
-}
-
-/**Algemeen -- Naar boven**/
-/*Naar boven -- Knop rechtsonder, naast de WhatsApp-knop als die er is*/
-a.naar-boven {
-  position:        fixed;
-  right:           calc(var(--chat-afstand) + env(safe-area-inset-right, 0px));
-  bottom:          calc(var(--chat-afstand) + 7px + env(safe-area-inset-bottom, 0px));
-  z-index:         79;
-  display:         flex;
-  align-items:     center;
-  justify-content: center;
-  width:           48px;
-  height:          48px;
-  border:          var(--lijn-dun) solid var(--kleur-paars);
-  border-radius:   50%;
-  background:      var(--kleur-wit);
-  color:           var(--kleur-paars);
-  box-shadow:      0 12px 26px -14px rgba(38, 4, 63, .45);
-  opacity:         0;
-  visibility:      hidden;
-  transform:       translateY(16px) scale(.8);
-  transition:      opacity .3s var(--zacht), transform .45s var(--veer), visibility 0s .45s, background .25s var(--zacht), color .25s var(--zacht);
-}
-a.naar-boven.is-zichtbaar {
-  opacity:    1;
-  visibility: visible;
-  transform:  none;
-  transition: opacity .3s var(--zacht), transform .45s var(--veer), visibility 0s, background .25s var(--zacht), color .25s var(--zacht);
-}
-a.naar-boven:hover {
-  background: var(--kleur-paars);
-  color:      var(--kleur-geel);
-}
-a.naar-boven:hover svg.icoon {
-  transform: translateY(-2px);
-}
-a.naar-boven svg.icoon {
-  transition: transform .3s var(--veer);
-}
-a.naar-boven:focus-visible {
-  outline:        var(--lijn-dik) solid var(--kleur-geel);
-  outline-offset: 3px;
-}
-a.naar-boven.naast-chat {
-  right: calc(var(--chat-afstand) + 62px + 12px + env(safe-area-inset-right, 0px));
-}
-@media (max-width: 899px) {
-  a.naar-boven.met-onderbalk {
-    bottom: calc(83px + env(safe-area-inset-bottom, 0px));
-  }
-}
-@media (max-width: 560px) {
-  a.naar-boven {
-    width:  44px;
-    height: 44px;
-    bottom: calc(var(--chat-afstand) + 6px + env(safe-area-inset-bottom, 0px));
-  }
-  a.naar-boven.naast-chat {
-    right: calc(var(--chat-afstand) + 56px + 10px + env(safe-area-inset-right, 0px));
-  }
-  a.naar-boven.met-onderbalk {
-    bottom: calc(82px + env(safe-area-inset-bottom, 0px));
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  a.naar-boven,
-  a.naar-boven.is-zichtbaar {
-    transform: none;
   }
 }

@@ -236,7 +236,7 @@ function thema_dashboard_pagina() {
 
 	$tabs = array(
 		'algemeen'    => array( 'Algemeen', 'vonk', 'Logo, contact en knoppen' ),
-		'whatsapp'    => array( 'WhatsApp', 'whatsapp', 'Chatknop, ballon en venster' ),
+		'whatsapp'    => array( 'WhatsApp', 'whatsapp', 'Chatknop, berichtje en venster' ),
 		'stijl'       => array( 'Stijl', 'feest', 'Hero, menu, prijs en achtergrond' ),
 		'kleuren'     => array( 'Kleuren', 'hart', 'Het palet van de site' ),
 		'typografie'  => array( 'Typografie', 'mail', 'Kop, accent en tekst' ),
@@ -336,7 +336,7 @@ function thema_dashboard_pagina() {
 								thema_veld_rij( 'Offerteknop kort', 'Voor smalle schermen.', thema_tekstveld( 'menu_knop_kort' ) );
 								thema_veld_rij( 'Tekst bij hover', 'Rolt in beeld als je over de knop beweegt.', thema_tekstveld( 'menu_knop_hover' ) );
 								thema_veld_rij( 'Zin in het menu', 'Grote zin op de gele kaart in het open menu.', thema_tekstveld( 'menu_kaart_tekst' ) );
-								thema_veld_rij( 'Knop naar boven', 'Ronde knop rechtsonder die verschijnt als je een stuk naar beneden scrolt. Staat naast de WhatsApp-knop.', thema_schakelaar( 'naar_boven', 'Tonen' ) );
+								thema_veld_rij( 'Knop naar boven', 'Schuift links naast de WhatsApp-knop uit als je een stuk naar beneden scrolt.', thema_schakelaar( 'naar_boven', 'Tonen' ) );
 								thema_veld_rij( 'Google Places API-sleutel', 'Voor de adreszoeker in het offerteformulier, vindt ook bedrijfsnamen. Leeg = zoeken via PDOK (alleen Nederlandse adressen en plaatsen). Zet Places API (New) aan en beperk de sleutel tot die API.', thema_tekstveld( 'google_places_sleutel', 'password', 'AIza...' ) );
 								?>
 							</div>
@@ -352,12 +352,13 @@ function thema_dashboard_pagina() {
 						</div>
 
 						<div class="kaartje">
-							<h3 class="kaartje-titel">Knop en ballon</h3>
+							<h3 class="kaartje-titel">Knop en berichtje</h3>
 							<div class="veldenraster">
 								<?php
 								thema_veld_rij( 'Chatknop', 'Uit = nergens een zwevende knop. De WhatsApp-kaart in het contactblok blijft staan.', thema_schakelaar( 'chat_aan', 'Tonen op de website' ) );
-								thema_veld_rij( 'Ballon', 'Tekstwolkje naast de knop. Leeg = geen ballon. Wie hem wegklikt, ziet hem die sessie niet meer.', thema_tekstveld( 'chat_ballon' ) );
-								thema_veld_rij( 'Ballon verschijnt na', '0 = meteen.', thema_schuif( 'chat_ballon_na', ' sec' ) );
+								thema_veld_rij( 'Tekst op de knop', 'Op mobiel staat alleen het WhatsApp-logo.', thema_tekstveld( 'chat_knoptekst' ) );
+								thema_veld_rij( 'Berichtje', 'Verschijnt boven de knop als een WhatsApp-melding, met naam en foto uit Venster. Eén keer per bezoek, verdwijnt na 15 seconden vanzelf. Leeg = geen berichtje.', thema_tekstveld( 'chat_ballon' ) );
+								thema_veld_rij( 'Berichtje verschijnt na', 'Of eerder, zodra de bezoeker halverwege de pagina is.', thema_schuif( 'chat_ballon_na', ' sec' ) );
 								?>
 							</div>
 						</div>
@@ -372,8 +373,9 @@ function thema_dashboard_pagina() {
 								thema_veld_rij( 'Welkomstbericht', 'Elke regel wordt een eigen tekstwolkje.', thema_tekstveld( 'chat_welkom', 'textarea' ) );
 								thema_veld_rij( 'Snelle vragen', 'Een per regel, maximaal vijf. Een klik zet de vraag in het tekstveld, zodat de bezoeker hem nog kan aanvullen. Leeg = geen knopjes.', thema_tekstveld( 'chat_suggesties', 'textarea' ) );
 								thema_veld_rij( 'Tekst in het veld', 'Placeholder van het tekstveld.', thema_tekstveld( 'chat_veld' ) );
-								thema_veld_rij( 'Verstuurknop', 'Staat onder het veld en is het label van de verstuurknop.', thema_tekstveld( 'chat_knop' ) );
-								thema_veld_rij( 'Offertelink', 'Link "Liever meteen een prijs?" onderin het venster, naar de offertelink bij Algemeen.', thema_schakelaar( 'chat_offerte', 'Tonen' ) );
+								thema_veld_rij( 'Uitleg onder het veld', 'Zodat de bezoeker weet dat hij naar WhatsApp gaat.', thema_tekstveld( 'chat_knop' ) );
+								thema_veld_rij( 'Offerteknopje', 'Extra knopje tussen de snelle vragen, naar de offertelink bij Algemeen.', thema_schakelaar( 'chat_offerte', 'Tonen' ) );
+								thema_veld_rij( 'Tekst offerteknopje', '', thema_tekstveld( 'chat_offerte_tekst' ) );
 								thema_veld_rij( 'Pagina meesturen', 'Zet onder de vraag vanaf welke pagina hij komt, bijvoorbeeld "Pagina: Vrijgezellenfeest".', thema_schakelaar( 'chat_pagina', 'Meesturen' ) );
 								?>
 							</div>

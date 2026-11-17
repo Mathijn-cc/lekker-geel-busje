@@ -509,24 +509,3 @@ function thema_onderbalk() {
 		$bel
 	);
 }
-
-/**
- * Knop terug naar boven, rechtsonder. Staat naast de WhatsApp-knop als die er is.
- */
-function thema_naar_boven() {
-	if ( ! thema_instellingen( 'naar_boven' ) ) {
-		return '';
-	}
-	$class = array( 'naar-boven' );
-	if ( function_exists( 'thema_chat_tonen' ) && thema_chat_tonen() ) {
-		$class[] = 'naast-chat';
-	}
-	if ( '' !== thema_onderbalk() ) {
-		$class[] = 'met-onderbalk';
-	}
-	return sprintf(
-		'<a class="%s" href="#top" aria-label="Terug naar boven" data-naar-boven>%s</a>',
-		esc_attr( implode( ' ', $class ) ),
-		thema_icoon( 'omhoog', 22, 2.4 )
-	);
-}
