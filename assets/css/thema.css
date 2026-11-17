@@ -6338,6 +6338,7 @@ section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak di
   justify-content: flex-end;
   gap:             8px;
   align-self:      flex-end;
+  margin-top:      20px;
   animation:       gesprek-in .35s var(--veer) both;
 }
 section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-keuzes .gesprek-keuze {
@@ -10207,7 +10208,7 @@ div.zweefknoppen div.whatsapp-venster div.whatsapp-venster-log div.whatsapp-keuz
   justify-content: flex-end;
   gap:             6px;
   width:           100%;
-  margin-top:      8px;
+  margin-top:      16px;
 }
 div.zweefknoppen div.whatsapp-venster div.whatsapp-venster-log div.whatsapp-keuzes button.whatsapp-keuze {
   margin:        0;

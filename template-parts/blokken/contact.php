@@ -126,7 +126,7 @@ echo thema_sectie_open( $b, 'contact' );
 			<div class="contactraster<?php echo $met_formulier ? '' : ' contactraster-zonder-formulier'; ?>">
 				<?php if ( $met_formulier ) : ?>
 					<div class="formulier-vak" data-animeer>
-						<?php if ( $aan( 'toon_wissel' ) ) : ?>
+						<?php if ( $aan( 'toon_wissel' ) && ! $met_gesprek ) : /* Het gesprek wijst zelf al naar de offerte. */ ?>
 							<div class="formulier-wissel">
 								<p class="formulier-wissel-tekst"><strong><?php echo esc_html( $waarde( 'wissel_kop', 'Alleen voor snelle vragen.' ) ); ?></strong> <?php echo esc_html( $waarde( 'wissel_tekst', 'Wil je een prijs voor een rit? Daar is het offerteformulier voor.' ) ); ?></p>
 								<a class="formulier-wissel-knop" href="<?php echo esc_url( thema_offerte_url() ); ?>"><?php echo esc_html( $waarde( 'wissel_knop', 'Offerte aanvragen' ) ); ?><span aria-hidden="true"><?php echo thema_icoon( 'chevron', 14 ); ?></span></a>
