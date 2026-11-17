@@ -26,7 +26,10 @@ if ( ! $juridisch && get_privacy_policy_url() ) {
 					<?php if ( $s['footer_cta_tekst'] ) : ?>
 						<p class="voet-cta-intro"><?php echo esc_html( $s['footer_cta_tekst'] ); ?></p>
 					<?php endif; ?>
-					<?php echo thema_knop( $s['menu_knop'], thema_offerte_url(), 'geel' ); ?>
+					<?php /* Na een offerteaanvraag geen knop om nog een offerte aan te vragen. */ ?>
+					<?php if ( ! ( function_exists( 'thema_bedankt_slugs' ) && is_page( thema_bedankt_slugs()['offerte'] ) ) ) : ?>
+						<?php echo thema_knop( $s['menu_knop'], thema_offerte_url(), 'geel' ); ?>
+					<?php endif; ?>
 				</div>
 				<div class="contactlijst contactlijst-licht">
 					<?php if ( $s['telefoon'] ) : ?>
