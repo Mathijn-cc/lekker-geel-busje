@@ -16,6 +16,9 @@
  *
  * Welke velden een zoeklijst krijgen staat in thema_offerte_velden(), onder 'adressen'.
  * De velden blijven gewone tekstvelden: zelf typen zonder te kiezen kan altijd.
+ * Vertrekadres en bestemming tonen een volledige regel (straat 1, 1234 AB Plaats);
+ * daaronder worden straat + huisnummer, postcode en plaats los opgeslagen in
+ * verborgen velden, plus een optioneel naamveld (bijv. Ziggo Dome).
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -47,20 +50,73 @@ function thema_adres_google_fout( $antwoord ) {
 }
 
 /* --------------------------------------------------------------------------
+ * Velden opzoeken: op ID, of op parameternaam (inputName) voor de velden
+ * die de uitroltaak toevoegt.
+ * ----------------------------------------------------------------------- */
+
+function thema_adres_veld_id( $form, $verwijzing ) {
+	if ( is_int( $verwijzing ) || ctype_digit( (string) $verwijzing ) ) {
+		return thema_offerte_veld( $form, (int) $verwijzing ) ? (int) $verwijzing : 0;
+	}
+	foreach ( $form['fields'] as $veld ) {
+		if ( (string) $veld->inputName === (string) $verwijzing ) {
+			return (int) $veld->id;
+		}
+	}
+	return 0;
+}
+
+/**
+ * De adresinstellingen met echte veld-ID's in plaats van verwijzingen.
+ */
+function thema_adres_instellingen( $form ) {
+	$v   = thema_offerte_velden();
+	$uit = array();
+	foreach ( (array) ( $v['adressen'] ?? array() ) as $id => $instelling ) {
+		if ( ! thema_offerte_veld( $form, $id ) ) {
+			continue;
+		}
+		$delen = array();
+		foreach ( (array) ( $instelling['delen'] ?? array() ) as $deel => $verwijzing ) {
+			$delen[ $deel ] = thema_adres_veld_id( $form, $verwijzing );
+		}
+		$uit[ (int) $id ] = array(
+			'soort'     => $instelling['soort'],
+			'plaats'    => isset( $instelling['plaats'] ) ? thema_adres_veld_id( $form, $instelling['plaats'] ) : 0,
+			'delen'     => array_filter( $delen ) ? $delen : array(),
+			'naam'      => isset( $instelling['naam'] ) ? thema_adres_veld_id( $form, $instelling['naam'] ) : 0,
+			'verplicht' => $instelling['verplicht'] ?? '',
+			'uitleg'    => $instelling['uitleg'] ?? '',
+			'voorbeeld' => $instelling['voorbeeld'] ?? '',
+		);
+	}
+	return $uit;
+}
+
+/* --------------------------------------------------------------------------
  * Scripts: alleen laden waar het offerteformulier staat.
  * ----------------------------------------------------------------------- */
 
 add_action( 'gform_enqueue_scripts', function ( $form ) {
 	$v = thema_offerte_velden();
-	if ( (int) $form['id'] !== (int) $v['formulier'] || empty( $v['adressen'] ) ) {
+	if ( (int) $form['id'] !== (int) $v['formulier'] ) {
 		return;
 	}
+	$f      = (int) $form['id'];
+	$sleut  = function ( $id ) use ( $f ) {
+		return $id ? $f . '_' . (int) $id : '';
+	};
 	$velden = array();
-	foreach ( $v['adressen'] as $id => $instelling ) {
-		$velden[ (int) $form['id'] . '_' . (int) $id ] = array(
-			'soort'  => $instelling['soort'],
-			'plaats' => isset( $instelling['plaats'] ) ? (int) $form['id'] . '_' . (int) $instelling['plaats'] : '',
+	foreach ( thema_adres_instellingen( $form ) as $id => $a ) {
+		$velden[ $sleut( $id ) ] = array(
+			'soort'  => $a['soort'],
+			'plaats' => $sleut( $a['plaats'] ),
+			'delen'  => $a['delen'] ? array_map( $sleut, $a['delen'] ) : null,
+			'naam'   => $sleut( $a['naam'] ),
 		);
+	}
+	if ( ! $velden ) {
+		return;
 	}
 	wp_enqueue_script( 'thema-adreszoeker', THEMA_URL . '/assets/js/adreszoeker.js', array(), THEMA_VERSIE, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	wp_add_inline_script( 'thema-adreszoeker', 'window.themaAdressen = ' . wp_json_encode( array(
@@ -71,8 +127,7 @@ add_action( 'gform_enqueue_scripts', function ( $form ) {
 } );
 
 /* --------------------------------------------------------------------------
- * Uitleg en voorbeeld bij de velden: laat zien dat alleen het eerste veld
- * getypt hoeft te worden. Ook bij validatie, zodat de tekst na een fout blijft.
+ * Uitleg en voorbeeld bij de velden. Ook bij validatie, zodat de tekst na een fout blijft.
  * ----------------------------------------------------------------------- */
 
 foreach ( array( 'gform_pre_render', 'gform_pre_validation' ) as $haak ) {
@@ -81,22 +136,191 @@ foreach ( array( 'gform_pre_render', 'gform_pre_validation' ) as $haak ) {
 
 function thema_adres_uitleg( $form ) {
 	$v = thema_offerte_velden();
-	if ( (int) $form['id'] !== (int) $v['formulier'] || empty( $v['adressen'] ) ) {
+	if ( (int) $form['id'] !== (int) $v['formulier'] ) {
 		return $form;
 	}
-	foreach ( $v['adressen'] as $id => $instelling ) {
+	foreach ( thema_adres_instellingen( $form ) as $id => $a ) {
 		$veld = thema_offerte_veld( $form, $id );
-		if ( ! $veld ) {
-			continue;
+		if ( $a['uitleg'] ) {
+			$veld->description = $a['uitleg'];
 		}
-		if ( ! empty( $instelling['uitleg'] ) ) {
-			$veld->description = $instelling['uitleg'];
-		}
-		if ( ! empty( $instelling['voorbeeld'] ) ) {
-			$veld->placeholder = $instelling['voorbeeld'];
+		if ( $a['voorbeeld'] ) {
+			$veld->placeholder = $a['voorbeeld'];
 		}
 	}
 	return $form;
+}
+
+/* --------------------------------------------------------------------------
+ * Losse delen: altijd gevuld, ook als iemand niets uit de lijst kiest.
+ * Dan halen we straat, postcode en plaats zo goed mogelijk uit de regel.
+ * ----------------------------------------------------------------------- */
+
+/**
+ * "Kerkstraat 3, 5061 EG Oisterwijk" naar straat, postcode en plaats.
+ */
+function thema_adres_ontleed( $regel ) {
+	$regel    = trim( preg_replace( '/\s+/', ' ', (string) $regel ) );
+	$postcode = '';
+	if ( preg_match( '/\b(\d{4})\s?([A-Za-z]{2})\b/', $regel, $m ) ) {
+		$postcode = $m[1] . ' ' . strtoupper( $m[2] );
+		$regel    = str_replace( $m[0], ',', $regel );
+	}
+	$stukken = array_values( array_filter( array_map( 'trim', explode( ',', $regel ) ), function ( $stuk ) {
+		return '' !== $stuk && ! preg_match( '/^(nederland|netherlands|the netherlands|nl|belgi(e|ë)|belgium|duitsland|deutschland|germany|luxemburg|luxembourg|frankrijk|france)$/iu', $stuk );
+	} ) );
+	// Buitenlandse postcode voor de plaats, zoals 2000 Antwerpen of 47533 Kleve.
+	$laatste = count( $stukken ) - 1;
+	if ( $laatste >= 0 && preg_match( '/^(\d{4,5})\s+(\D.*)$/u', $stukken[ $laatste ], $m ) && ( $laatste > 0 || '' === $postcode ) ) {
+		$postcode            = $postcode ?: $m[1];
+		$stukken[ $laatste ] = $m[2];
+	}
+	$straat = '';
+	$plaats = '';
+	if ( count( $stukken ) > 1 ) {
+		$straat = preg_match( '/\d/', $stukken[0] ) ? $stukken[0] : '';
+		$plaats = end( $stukken );
+	} elseif ( 1 === count( $stukken ) ) {
+		if ( preg_match( '/\d/', $stukken[0] ) ) {
+			$straat = $stukken[0];
+		} else {
+			$plaats = $stukken[0];
+		}
+	}
+	return array( 'straat' => $straat, 'postcode' => $postcode, 'plaats' => $plaats );
+}
+
+add_filter( 'gform_field_validation', function ( $resultaat, $waarde, $form, $veld ) {
+	$v = thema_offerte_velden();
+	if ( (int) $form['id'] !== (int) $v['formulier'] || ! $resultaat['is_valid'] ) {
+		return $resultaat;
+	}
+	$a = thema_adres_instellingen( $form )[ (int) $veld->id ] ?? null;
+	if ( ! $a || 'plaats' !== $a['verplicht'] || '' === trim( (string) $waarde ) || empty( $a['delen']['plaats'] ) ) {
+		return $resultaat;
+	}
+	$plaats = trim( (string) rgpost( 'input_' . $a['delen']['plaats'] ) );
+	if ( '' === $plaats && '' === thema_adres_ontleed( $waarde )['plaats'] ) {
+		$resultaat['is_valid'] = false;
+		$resultaat['message']  = 'We missen nog de plaats. Kies het adres uit de lijst, of typ het zo: Kerkstraat 3, 5061 EG Oisterwijk.';
+	}
+	return $resultaat;
+}, 10, 4 );
+
+add_action( 'gform_pre_submission', function ( $form ) {
+	$v = thema_offerte_velden();
+	if ( (int) $form['id'] !== (int) $v['formulier'] ) {
+		return;
+	}
+	foreach ( thema_adres_instellingen( $form ) as $id => $a ) {
+		if ( ! $a['delen'] ) {
+			continue;
+		}
+		$regel = (string) rgpost( 'input_' . $id );
+		if ( '' === trim( $regel ) ) {
+			continue;
+		}
+		// De regel is leidend: wat eruit te halen valt, wint. Wat er niet in staat
+		// (bijv. de plaats bij alleen "Kerkstraat 3"), blijft zoals de adreszoeker het zette.
+		$ontleed = thema_adres_ontleed( $regel );
+		foreach ( $a['delen'] as $deel => $deel_id ) {
+			if ( $deel_id && '' !== $ontleed[ $deel ] ) {
+				$_POST[ 'input_' . $deel_id ] = $ontleed[ $deel ];
+			}
+		}
+	}
+} );
+
+/* --------------------------------------------------------------------------
+ * Uitroltaak adresvelden-v1: voegt de naamvelden en verborgen velden toe aan
+ * het offerteformulier. Vertrekplaats (72) wordt een verborgen veld; de
+ * waarde blijft dezelfde. Draait een keer per omgeving.
+ * ----------------------------------------------------------------------- */
+
+function thema_adres_velden_toevoegen() {
+	if ( ! class_exists( 'GFAPI' ) || ! class_exists( 'GF_Fields' ) ) {
+		return 'Gravity Forms niet actief';
+	}
+	$v    = thema_offerte_velden();
+	$form = GFAPI::get_form( $v['formulier'] );
+	if ( ! $form ) {
+		return 'formulier niet gevonden';
+	}
+	if ( thema_adres_veld_id( $form, 'vertrek_straat' ) ) {
+		return 'al gedaan';
+	}
+
+	$volgende = 1 + max( array_map( function ( $veld ) {
+		return (int) $veld->id;
+	}, $form['fields'] ) );
+	$maak = function ( $type, $label, $naam, $buur, $extra = array() ) use ( &$volgende, $form ) {
+		return GF_Fields::create( array_merge( array(
+			'id'                => $volgende++,
+			'formId'            => (int) $form['id'],
+			'type'              => $type,
+			'label'             => $label,
+			'inputName'         => $naam,
+			'allowsPrepopulate' => true,
+			'pageNumber'        => (int) $buur->pageNumber,
+		), $extra ) );
+	};
+	$tekst = function ( $label, $naam, $buur, $uitleg, $voorbeeld, $groep ) use ( $maak ) {
+		return $maak( 'text', $label, $naam, $buur, array(
+			'isRequired'           => false,
+			'description'          => $uitleg,
+			'placeholder'          => $voorbeeld,
+			'layoutGridColumnSpan' => 6,
+			'layoutGroupId'        => $groep,
+			'size'                 => 'large',
+		) );
+	};
+
+	$velden = array();
+	$gedaan = array();
+	foreach ( $form['fields'] as $veld ) {
+		$id = (int) $veld->id;
+
+		// Vertrekplaats wordt verborgen: de adreszoeker of de server vult hem.
+		if ( (int) $v['plaats'] === $id ) {
+			$velden[] = GF_Fields::create( array(
+				'id'                => $id,
+				'formId'            => (int) $form['id'],
+				'type'              => 'hidden',
+				'label'             => $veld->label,
+				'inputName'         => 'vertrek_plaats',
+				'allowsPrepopulate' => true,
+				'pageNumber'        => (int) $veld->pageNumber,
+			) );
+			$gedaan[] = 'vertrekplaats verborgen';
+			continue;
+		}
+
+		$velden[] = $veld;
+
+		if ( (int) $v['vertrekadres'] === $id ) {
+			$veld->layoutGridColumnSpan = 6;
+			$groep    = $veld->layoutGroupId ?: substr( md5( 'vertrek' ), 0, 8 );
+			$veld->layoutGroupId = $groep;
+			$velden[] = $tekst( 'Naam ophaallocatie', 'vertrek_naam', $veld, 'Optioneel, bijvoorbeeld een café, zaal of bedrijf.', 'bijv. Café De Lindeboom', $groep );
+			$velden[] = $maak( 'hidden', 'Vertrek straat + huisnummer', 'vertrek_straat', $veld );
+			$velden[] = $maak( 'hidden', 'Vertrek postcode', 'vertrek_postcode', $veld );
+			$gedaan[] = 'vertrekvelden';
+		}
+
+		if ( (int) $v['bestemming'] === $id ) {
+			$groep = substr( md5( 'bestemming' ), 0, 8 );
+			$veld->layoutGridColumnSpan = 6;
+			$veld->layoutGroupId        = $groep;
+			$velden[] = $tekst( 'Naam bestemming', 'bestemming_naam', $veld, 'Optioneel, bijvoorbeeld de zaal of het festival.', 'bijv. Ziggo Dome of Rebirth Festival', $groep );
+			$velden[] = $maak( 'hidden', 'Bestemming straat + huisnummer', 'bestemming_straat', $veld );
+			$velden[] = $maak( 'hidden', 'Bestemming postcode', 'bestemming_postcode', $veld );
+			$velden[] = $maak( 'hidden', 'Bestemming plaats', 'bestemming_plaats', $veld );
+			$gedaan[] = 'bestemmingvelden';
+		}
+	}
+	$form['fields'] = $velden;
+	$uitkomst       = GFAPI::update_form( $form );
+	return is_wp_error( $uitkomst ) ? $uitkomst->get_error_message() : $gedaan;
 }
 
 /* --------------------------------------------------------------------------

@@ -40,6 +40,7 @@ function thema_uitroltaken() {
 		'blog-in-footer-v1'       => 'thema_blog_in_footer',
 		'reviews-trustindex-v1'   => 'thema_reviews_naar_trustindex',
 		'een-werkdag-v1'          => 'thema_een_werkdag',
+		'adresvelden-v1'          => 'thema_adres_velden_toevoegen',
 	);
 }
 

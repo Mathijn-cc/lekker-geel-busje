@@ -56,6 +56,10 @@
 		this.invoer = invoer;
 		this.soort = instelling.soort;
 		this.plaatsVeld = instelling.plaats || '';
+		this.delen = instelling.delen || null;
+		this.naamVeld = instelling.naam || '';
+		this.wacht = null;
+		this.autoNaam = '';
 		this.resultaten = [];
 		this.actief = -1;
 		this.timer = null;
@@ -110,6 +114,15 @@
 		}
 		var q = this.invoer.value.trim();
 		clearTimeout( this.timer );
+		/* Zelf aanpassen: straat en postcode kloppen niet meer. De plaats blijft staan
+		   (bijv. uit de offertezin); de server leest bij versturen alles opnieuw uit de regel. */
+		this.zetDelen( null, true );
+		/* Straat gekozen zonder huisnummer: zoek verder binnen dezelfde plaats. */
+		if ( this.wacht && q.toLowerCase().indexOf( this.wacht.straat.toLowerCase() ) === 0 ) {
+			q = q + ' ' + this.wacht.plaats;
+		} else {
+			this.wacht = null;
+		}
 		if ( q.length < MIN ) {
 			this.resultaten = [];
 			this.sluit();
@@ -275,6 +288,51 @@
 			}.bind( this ) );
 	};
 
+	function veld( sleutel ) {
+		return sleutel ? document.getElementById( 'input_' + sleutel ) : null;
+	}
+
+	/**
+	 * Vul de verborgen velden met straat + huisnummer, postcode en plaats. Null maakt ze leeg.
+	 */
+	Zoeker.prototype.zetDelen = function ( d, plaatsLaten ) {
+		if ( ! this.delen ) {
+			return;
+		}
+		var waarden = d ? {
+			straat: [ d.straat, d.huisnummer ].filter( Boolean ).join( ' ' ),
+			postcode: d.postcode || '',
+			plaats: [ d.plaats, d.land ].filter( Boolean ).join( ', ' )
+		} : { straat: '', postcode: '', plaats: '' };
+		Object.keys( this.delen ).forEach( function ( deel ) {
+			var el = veld( this.delen[ deel ] );
+			if ( plaatsLaten && deel === 'plaats' ) {
+				return;
+			}
+			if ( el && el.value !== waarden[ deel ] ) {
+				zetWaarde( el, waarden[ deel ] );
+			}
+		}, this );
+	};
+
+	/**
+	 * Naam van een bedrijf of locatie in het naamveld, als daar nog niets eigens staat.
+	 */
+	Zoeker.prototype.zetNaam = function ( naam ) {
+		var el = veld( this.naamVeld );
+		if ( ! el || ( el.value && el.value !== this.autoNaam ) ) {
+			return;
+		}
+		zetWaarde( el, naam );
+		this.autoNaam = naam;
+		if ( naam ) {
+			el.parentNode.classList.add( 'is-vanzelf' );
+			setTimeout( function () {
+				el.parentNode.classList.remove( 'is-vanzelf' );
+			}, 1600 );
+		}
+	};
+
 	Zoeker.prototype.zet = function ( waarde ) {
 		this.stil = true;
 		zetWaarde( this.invoer, waarde );
@@ -288,6 +346,10 @@
 	 * Bedrijven en locaties houden hun naam, zodat de chauffeur weet waar hij moet zijn.
 	 */
 	Zoeker.prototype.vul = function ( r, d ) {
+		if ( this.delen ) {
+			this.vulRegel( r, d );
+			return;
+		}
 		var naam = d.bedrijf && this.soort !== 'woonadres' ? r.titel : '';
 		var straat = [ d.straat, d.huisnummer ].filter( Boolean ).join( ' ' );
 		var plaats = [ d.postcode, d.plaats ].filter( Boolean ).join( ' ' );
@@ -339,6 +401,37 @@
 		} else {
 			this.status.textContent = 'Gekozen: ' + waarde;
 		}
+	};
+
+	/**
+	 * Vertrekadres en bestemming: zichtbaar een volledige regel, eronder losse velden.
+	 * De naam van een bedrijf of locatie gaat naar het naamveld.
+	 */
+	Zoeker.prototype.vulRegel = function ( r, d ) {
+		var straat = [ d.straat, d.huisnummer ].filter( Boolean ).join( ' ' );
+		var plaats = [ d.postcode, d.plaats ].filter( Boolean ).join( ' ' );
+		var regel = [ straat, plaats, d.land ].filter( Boolean ).join( ', ' ) || [ r.titel, r.sub ].filter( Boolean ).join( ', ' );
+
+		if ( d.bedrijf ) {
+			this.zetNaam( r.titel );
+		}
+
+		/* Alleen een straat gekozen: huisnummer aanvullen, de zoeklijst blijft in dezelfde plaats. */
+		if ( d.straat && ! d.huisnummer && ! d.bedrijf ) {
+			this.zet( d.straat + ' ' );
+			this.zetDelen( { straat: '', postcode: '', plaats: d.plaats, land: d.land } );
+			this.wacht = { straat: d.straat, plaats: d.plaats || '' };
+			var positie = d.straat.length + 1;
+			this.invoer.focus();
+			this.invoer.setSelectionRange( positie, positie );
+			this.status.textContent = 'Vul nog het huisnummer aan.';
+			return;
+		}
+
+		this.wacht = null;
+		this.zet( regel );
+		this.zetDelen( d );
+		this.status.textContent = 'Gekozen: ' + regel;
 	};
 
 	/* ------------------------------------------------------------ Starten bij de eerste focus */

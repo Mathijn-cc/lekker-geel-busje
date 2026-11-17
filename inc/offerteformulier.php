@@ -25,26 +25,33 @@ function thema_offerte_velden() {
 		'retourdatum' => 10, // Datum: retourdatum
 		'telefoon'    => 71, // Tekst of telefoon: telefoonnummer
 
+		'vertrekadres' => 8, // Tekst: vertrekadres (volledige regel)
+
 		// Velden met de adreszoeker (inc/adreszoeker.php), per veld-ID.
-		// soort: adres (straat + nr + postcode, ook bedrijven), woonadres (alleen adressen),
-		// plaats (dorp of stad) of volledig (alles op een regel, ook bedrijven).
-		// plaats: het veld dat bij het kiezen van een adres de plaatsnaam krijgt.
+		// soort: adres (adressen en bedrijven), woonadres (alleen adressen),
+		// plaats (dorp of stad) of volledig (adressen en bedrijven).
+		// delen: verborgen velden die bij het kiezen los worden gevuld: straat + huisnummer,
+		//        postcode en plaats. Het zichtbare veld toont de volledige regel.
+		// naam:  optioneel tekstveld voor de naam van de locatie (bijv. Ziggo Dome).
+		// plaats: (zonder delen) het veld dat de plaatsnaam krijgt.
+		// Verwijzingen: een veld-ID, of de parameternaam (inputName) van een veld dat
+		// de uitroltaak adresvelden-v1 heeft toegevoegd. Zo kloppen ze ook op productie.
 		// uitleg en voorbeeld vervangen de beschrijving en placeholder uit Gravity Forms.
 		'adressen'    => array(
 			8  => array( // Vertrekadres
 				'soort'     => 'adres',
-				'plaats'    => 72,
-				'uitleg'    => 'Typ een adres, postcode of locatie en kies uit de lijst. De vertrekplaats vullen we dan voor je in.',
+				'delen'     => array( 'straat' => 'vertrek_straat', 'postcode' => 'vertrek_postcode', 'plaats' => 72 ),
+				'naam'      => 'vertrek_naam',
+				'verplicht' => 'plaats',
+				'uitleg'    => 'Typ het adres of de postcode en kies uit de lijst.',
 				'voorbeeld' => 'bijv. Kerkstraat 31 of 5061 EG',
-			),
-			72 => array( // Vertrekplaats
-				'soort'  => 'plaats',
-				'uitleg' => 'Vult zich vanzelf in zodra je een vertrekadres kiest.',
 			),
 			63 => array( // Bestemming
 				'soort'     => 'volledig',
-				'uitleg'    => 'Typ een adres of de naam van de locatie en kies uit de lijst.',
-				'voorbeeld' => 'bijv. Efteling of Stationsstraat 1, Breda',
+				'delen'     => array( 'straat' => 'bestemming_straat', 'postcode' => 'bestemming_postcode', 'plaats' => 'bestemming_plaats' ),
+				'naam'      => 'bestemming_naam',
+				'uitleg'    => 'Typ het adres, de postcode of de plaats en kies uit de lijst.',
+				'voorbeeld' => 'bijv. Stationsstraat 1, Breda',
 			),
 			12 => array( // Vertrekplaats terug
 				'soort'  => 'volledig',
@@ -180,12 +187,14 @@ function thema_offerte_vooraf_invullen( $form ) {
 		}
 	}
 
-	// Plaats en bestemming.
-	foreach ( array( 'van' => $v['plaats'], 'naar' => $v['bestemming'] ) as $parameter => $id ) {
-		$waarde = sanitize_text_field( wp_unslash( rgget( $parameter ) ) );
-		$veld   = thema_offerte_veld( $form, $id );
-		if ( '' !== $waarde && $veld ) {
-			$veld->defaultValue = mb_substr( $waarde, 0, 100 );
+	// Plaats en bestemming. De vertrekplaats komt ook in het zichtbare vertrekadres.
+	foreach ( array( 'van' => array( $v['plaats'], $v['vertrekadres'] ), 'naar' => array( $v['bestemming'] ) ) as $parameter => $ids ) {
+		foreach ( $ids as $id ) {
+			$waarde = sanitize_text_field( wp_unslash( rgget( $parameter ) ) );
+			$veld   = thema_offerte_veld( $form, $id );
+			if ( '' !== $waarde && $veld ) {
+				$veld->defaultValue = mb_substr( $waarde, 0, 100 );
+			}
 		}
 	}
 
