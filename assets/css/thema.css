@@ -8074,7 +8074,7 @@ article.artikel header.sectie-artikelkop div.artikelkop-binnen div.artikel-titel
 article.artikel header.sectie-artikelkop div.artikelkop-binnen div.artikel-titelregel a.blogkaart-onderwerp {
   display:        inline-block;
   position:       relative;
-  top:            -.35em;
+  top:            -.7em;
   vertical-align: middle;
   white-space:    nowrap;
 }
