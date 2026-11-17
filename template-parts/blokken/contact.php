@@ -104,7 +104,7 @@ echo thema_sectie_open( $b, 'contact' );
 							</div>
 						<?php endif; ?>
 						<?php if ( $met_gesprek ) : ?>
-							<div class="gesprek" data-gesprek data-offerte="<?php echo esc_url( thema_offerte_url() ); ?>" data-teksten="<?php echo esc_attr( wp_json_encode( thema_gesprek_teksten() ) ); ?>" hidden>
+							<div class="gesprek" data-gesprek data-offerte-link="<?php echo esc_url( thema_offerte_url() ); ?>" data-teksten="<?php echo esc_attr( wp_json_encode( thema_gesprek_teksten() ) ); ?>" hidden>
 								<div class="gesprek-kop">
 									<span class="gesprek-avatar" aria-hidden="true"><?php echo thema_icoon( 'bus', 22 ); ?></span>
 									<span class="gesprek-afzender">

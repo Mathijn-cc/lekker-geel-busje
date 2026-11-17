@@ -100,7 +100,7 @@
 		this.log = this.gesprek.querySelector('[data-gesprek-log]');
 		this.invoerVak = this.gesprek.querySelector('[data-gesprek-invoer]');
 		this.veld = this.gesprek.querySelector('[data-gesprek-veld]');
-		this.offerte = this.gesprek.getAttribute('data-offerte');
+		this.offerte = this.gesprek.getAttribute('data-offerte-link');
 		this.t = {};
 		try { this.t = JSON.parse(this.gesprek.getAttribute('data-teksten') || '{}'); } catch (e) {}
 		this.velden = this.formulier ? leesVelden(this.formulier) : null;
