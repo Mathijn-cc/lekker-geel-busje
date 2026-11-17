@@ -99,7 +99,7 @@ function thema_plaats_bedrijfsuitje() {
 		array( 'Kunnen we de bus ook boeken voor een personeelsfeest of kerstborrel?', 'Zeker. Een teamuitje, personeelsfeest, kerstborrel, jubileum of het afscheid van een collega: de bus rijdt voor elk moment waarop je met collega\'s op pad gaat. Vertel wat jullie plan is, dan denken we mee over de route.' ),
 		array( 'Waar rijden jullie naartoe?', 'Overal waar jullie uitje is. We rijden door heel Nederland en daarbuiten, dus kies gerust de activiteit, het restaurant of de stad die bij jullie team past.' ),
 		array( 'Kunnen we op factuur op bedrijfsnaam betalen?', 'Ja. Je krijgt de factuur op naam van het bedrijf, met de vaste all-in prijs uit de offerte. Zet de bedrijfsgegevens in je aanvraag, dan regelen we het meteen goed.' ),
-		array( 'Vanaf hoeveel personen is de bus geschikt?', 'De bus komt het best tot zijn recht vanaf zo\'n 35 personen. Elke bus heeft minstens 39 zitplaatsen en in onze verlengde bus gaan tot 88 personen mee. Met een kleinere groep? Vraag het gerust, dan denken we mee.' ),
+		array( 'Vanaf hoeveel personen is de bus geschikt?', 'De bus komt het best tot zijn recht vanaf zo\'n 35 personen. Elke bus heeft minstens 39 zitplaatsen, in onze verlengde bus gaan tot 88 personen mee en voor grotere groepen rijden er meerdere bussen. Met een kleinere groep? Vraag het gerust, dan denken we mee.' ),
 		array( 'Bepalen we zelf de sfeer in de bus?', 'Ja. Sluit jullie eigen playlist aan, zet het licht vol aan of houd het juist rustig op de heenweg. Het gastvrouwke en de chauffeur stemmen het met jullie af.' ),
 	);
 	$vragen        = function_exists( 'thema_faq_rijen' ) ? thema_faq_rijen( array_merge( $eigen, $lijst, $extra ) ) : array();
@@ -157,7 +157,7 @@ function thema_plaats_bedrijfsuitje() {
 			'intro'         => 'Neem je één afdeling mee of het hele bedrijf? Met de bus is iedereen er samen bij, van de eerste toost tot de laatste rit terug.',
 			'items'         => array(
 				array( 'soort' => 'Afdeling', 'titel' => 'Teamuitje', 'tekst' => 'Een middag eruit met je team. Samen naar de activiteit, samen terug, en onderweg alvast bijpraten zonder laptop.' ),
-				array( 'soort' => 'Hele bedrijf', 'titel' => 'Personeelsfeest', 'tekst' => 'Tot 88 personen in één bus. Niemand hoeft te regelen wie met wie meerijdt, en iedereen komt tegelijk binnen.' ),
+				array( 'soort' => 'Hele bedrijf', 'titel' => 'Personeelsfeest', 'tekst' => 'Met het hele bedrijf op pad? Dan rijden er meerdere bussen tegelijk. Reserveer op tijd, dan komt iedereen samen aan en samen thuis.' ),
 				array( 'soort' => 'December', 'titel' => 'Kerstborrel of kerstuitje', 'tekst' => 'Donker, koud en iedereen wil proosten op het jaar. Wij rijden, jullie hoeven nergens aan te denken.' ),
 				array( 'soort' => 'Feest', 'titel' => 'Jubileum', 'tekst' => 'Tien of vijfentwintig jaar? Een feestrit met licht en geluid maakt van het jubileum een avond om lang over na te praten.' ),
 				array( 'soort' => 'Collega', 'titel' => 'Afscheid of pensioen', 'tekst' => 'Zwaai een collega uit in stijl: de hele afdeling in de bus, met de vertrekkende collega op de beste plek.' ),
@@ -376,7 +376,7 @@ HTML,
 <p>Vraag bij elke locatie naar het maximum aantal personen, de mogelijkheden voor dieetwensen en een plan bij slecht weer. Plan het eten niet te laat: een groep die de hele middag actief is geweest, heeft om zes uur echt een bord nodig.</p>
 
 <h2>7. Regel het vervoer in één keer</h2>
-<p>Met veertig of tachtig collega's van kantoor naar de activiteit, het restaurant en de borrel is een puzzel. Wie rijdt, wie neemt de trein en wie raakt onderweg kwijt? Met een eigen bus blijft de groep bij elkaar, komt iedereen tegelijk aan en hoeft niemand de Bob te zijn.</p>
+<p>Met veertig of tachtig collega's van kantoor naar de activiteit, het restaurant en de borrel is een puzzel. Wie rijdt, wie neemt de trein en wie raakt onderweg kwijt? Met een eigen bus blijft de groep bij elkaar, komt iedereen tegelijk aan en hoeft niemand de Bob te zijn. Gaat het hele bedrijf mee, dan rijden er gewoon meerdere bussen. Reserveer dan wel op tijd.</p>
 <p>Met een <a href="{$landing}">partybus voor je bedrijfsuitje</a> halen we collega's op bij kantoor of op meerdere opstapplekken, en brengen we iedereen na afloop terug. Je krijgt binnen 1 werkdag een vaste all-in prijs, met chauffeur, gastvrouwke, licht en geluid erin. Dat zet je zo in de begroting.</p>
 
 <h2>8. Verstuur een duidelijke uitnodiging</h2>

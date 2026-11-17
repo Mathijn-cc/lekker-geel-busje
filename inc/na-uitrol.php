@@ -48,6 +48,8 @@ function thema_uitroltaken() {
 		'bedrijfsuitje-blog-v2'   => 'thema_bedrijfsuitje_blog',
 		'bedrijfsuitje-v2'        => 'thema_plaats_bedrijfsuitje',
 		'blog-in-hoofdmenu-v1'    => 'thema_blog_in_hoofdmenu',
+		'bedrijfsuitje-blog-v3'   => 'thema_bedrijfsuitje_blog',
+		'bedrijfsuitje-v3'        => 'thema_plaats_bedrijfsuitje',
 	);
 }
 

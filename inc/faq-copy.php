@@ -106,7 +106,7 @@ function thema_faq_per_pagina() {
 
 		'gelegenheid/bedrijfsuitje'     => array(
 			array( 'Kunnen collega\'s op verschillende plekken opstappen?', 'Ja. We halen op bij kantoor, op een centraal punt of op meerdere opstapplekken. Geef ze door in je aanvraag, dan zit iedereen op tijd in de bus.' ),
-			array( 'Passen we met de hele afdeling in één bus?', 'Tot 88 personen gaan mee in onze verlengde bus, en elke bus heeft minstens 39 zitplaatsen. Samen heen, samen terug en niemand hoeft te rijden.' ),
+			array( 'Hoeveel collega\'s kunnen er mee?', 'Elke bus heeft minstens 39 zitplaatsen en in onze verlengde bus gaan tot 88 personen mee. Gaat het hele bedrijf mee, dan rijden er meerdere bussen tegelijk. Reserveer dan wel op tijd, zeker rond de feestdagen.' ),
 			array( 'Krijgen we vooraf een vaste prijs?', 'Ja. Binnen 1 werkdag heb je een vaste all-in prijs, met chauffeur, gastvrouwke of gastheer, brandstof en btw. Handig voor de begroting, geen kosten achteraf.' ),
 			'wachten',
 			'drinken',
