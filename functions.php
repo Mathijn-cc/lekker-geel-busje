@@ -26,6 +26,8 @@ require THEMA_PAD . '/inc/inhoud-bedrijfsuitje.php';
 require THEMA_PAD . '/inc/inhoud-bruiloft.php';
 require THEMA_PAD . '/inc/inhoud-trip-met-vrienden.php';
 require THEMA_PAD . '/inc/inhoud-festival.php';
+require THEMA_PAD . '/inc/stoelverkoop.php';
+require THEMA_PAD . '/inc/inhoud-vrienden-van-amstel.php';
 require THEMA_PAD . '/inc/na-uitrol.php';
 require THEMA_PAD . '/inc/offerteformulier.php';
 require THEMA_PAD . '/inc/adreszoeker.php';

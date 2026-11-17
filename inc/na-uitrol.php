@@ -72,6 +72,8 @@ function thema_uitroltaken() {
 		'festival-v1'             => 'thema_plaats_festival',
 		'copy-17nov-v1'           => 'thema_copy_17nov',
 		'trip-blog-v2'            => 'thema_trip_blog',
+		'vval-stoelen-v1'         => 'thema_plaats_vval_stoelen',
+		'vval-agenda-link-v1'     => 'thema_vval_agenda_link',
 	);
 }
 

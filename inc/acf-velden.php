@@ -67,6 +67,7 @@ function thema_blok_achtergronden() {
 		'artikelen'    => 'standaard',
 		'checklist'    => 'standaard',
 		'citaat'       => 'standaard',
+		'stoelen'      => 'standaard',
 	);
 }
 
@@ -666,6 +667,55 @@ function thema_layouts() {
 			'default_value' => 'links',
 		) ),
 	) ) ) );
+
+	// Stoelen (losse stoelen in de bus, zie inc/stoelverkoop.php).
+	$p   = 'stoelen';
+	$l[] = thema_layout( $p, 'Stoelen verkopen (ticketformulier)', array_merge( array(
+		thema_tab( $p, 'Inhoud' ),
+		thema_veld( $p, 'eyebrow', 'Label', 'text', array_merge( thema_breed( 35 ), array( 'default_value' => 'Stoel reserveren' ) ) ),
+		thema_veld( $p, 'kop', 'Kop', 'text', array_merge( thema_breed( 65 ), array( 'instructions' => THEMA_ACCENT_UITLEG, 'default_value' => 'Pak je *stoel*' ) ) ),
+		thema_veld( $p, 'intro', 'Intro', 'textarea', array( 'rows' => 2 ) ),
+		thema_veld( $p, 'punten', 'Zekerheden', 'textarea', array( 'rows' => 3, 'instructions' => 'Eén per regel, met een vinkje onder de kop. Bijvoorbeeld: Heen en terug voor € 25.' ) ),
+		thema_tab( $p, 'Ritten' ),
+		thema_veld( $p, 'evenement', 'Evenement', 'text', array_merge( thema_breed( 50 ), array( 'instructions' => 'Staat op het ticket en in de mails.' ) ) ),
+		thema_veld( $p, 'bestemming', 'Bestemming', 'text', array_merge( thema_breed( 50 ), array( 'instructions' => 'Bijvoorbeeld: Rotterdam Ahoy.' ) ) ),
+		thema_veld( $p, 'prijs', 'Prijs per stoel (heen en terug)', 'number', array_merge( thema_breed( 25 ), array( 'default_value' => 25, 'min' => 0, 'step' => 0.5, 'prepend' => '€' ) ) ),
+		thema_veld( $p, 'max_per_boeking', 'Maximaal per aanmelding', 'number', array_merge( thema_breed( 25 ), array( 'default_value' => 10, 'min' => 1 ) ) ),
+		thema_veld( $p, 'krap_vanaf', 'Aantal vrij tonen vanaf', 'number', array_merge( thema_breed( 25 ), array( 'default_value' => 15, 'min' => 0, 'instructions' => 'Zijn er minder stoelen vrij, dan staat er "Nog 12 stoelen". Daarboven: "Stoelen vrij".' ) ) ),
+		thema_veld( $p, 'sluit_dagen', 'Aanmelden sluit', 'number', array_merge( thema_breed( 25 ), array( 'default_value' => 1, 'min' => 0, 'append' => 'dag(en) voor de rit', 'instructions' => '0 = tot en met de dag zelf.' ) ) ),
+		thema_veld( $p, 'ritten', 'Ritten', 'repeater', array(
+			'layout'       => 'table',
+			'collapsed'    => 'field_stoelen_rit_datum',
+			'button_label' => 'Rit toevoegen',
+			'instructions' => 'Eén rij per avond. Voorbije ritten verdwijnen vanzelf. Een rit is automatisch vol als alle stoelen bezet zijn; geannuleerde boekingen komen weer vrij.',
+			'sub_fields'   => array(
+				thema_veld( 'stoelen_rit', 'datum', 'Datum', 'date_picker', array_merge( thema_breed( 22 ), array( 'display_format' => 'j F Y', 'return_format' => 'Ymd', 'first_day' => 1 ) ) ),
+				thema_veld( 'stoelen_rit', 'label', 'Extra regel', 'text', array_merge( thema_breed( 26 ), array( 'instructions' => 'Mag leeg blijven.' ) ) ),
+				thema_veld( 'stoelen_rit', 'stoelen', 'Stoelen', 'number', array_merge( thema_breed( 14 ), array( 'default_value' => 50, 'min' => 0 ) ) ),
+				thema_veld( 'stoelen_rit', 'minimum', 'Rijdt vanaf', 'number', array_merge( thema_breed( 14 ), array( 'default_value' => 25, 'min' => 0, 'instructions' => 'Bij dit aantal staat er "Rijdt zeker".' ) ) ),
+				thema_veld( 'stoelen_rit', 'status', 'Status', 'select', array_merge( thema_breed( 24 ), array( 'choices' => array( 'open' => 'Open', 'vol' => 'Vol', 'gesloten' => 'Gesloten' ), 'default_value' => 'open' ) ) ),
+			),
+		) ),
+		thema_veld( $p, 'opstapplekken', 'Opstapplekken', 'repeater', array(
+			'layout'       => 'table',
+			'collapsed'    => 'field_stoelen_plek_plaats',
+			'button_label' => 'Opstapplek toevoegen',
+			'instructions' => 'In de volgorde van de route. Verander de plaatsnaam niet meer als er al boekingen zijn.',
+			'sub_fields'   => array(
+				thema_veld( 'stoelen_plek', 'plaats', 'Plaats', 'text', thema_breed( 20 ) ),
+				thema_veld( 'stoelen_plek', 'plek', 'Opstapplek', 'text', array_merge( thema_breed( 40 ), array( 'instructions' => 'Waar precies, bijvoorbeeld een parkeerplaats.' ) ) ),
+				thema_veld( 'stoelen_plek', 'heen', 'Vertrek', 'text', array_merge( thema_breed( 20 ), array( 'placeholder' => '17:15' ) ) ),
+				thema_veld( 'stoelen_plek', 'terug', 'Terug rond', 'text', array_merge( thema_breed( 20 ), array( 'placeholder' => '01:30' ) ) ),
+			),
+		) ),
+		thema_veld( $p, 'terugreis', 'Uitleg terugreis', 'text', array( 'instructions' => 'Onder de opstapplekken. Bijvoorbeeld hoe laat de bus terug vertrekt.' ) ),
+		thema_tab( $p, 'Aanmelden' ),
+		thema_veld( $p, 'akkoord', 'Tekst bij het vinkje', 'text', array( 'instructions' => 'Een link mag: &lt;a href="/huisregels/"&gt;huisregels&lt;/a&gt;.' ) ),
+		thema_veld( $p, 'betaalnoot', 'Noot onder de knop', 'text', array( 'default_value' => 'Nu nog niets betalen. Je krijgt binnen 1 werkdag een Tikkie, na betaling staat je stoel vast.' ) ),
+		thema_veld( $p, 'na_aanmelden', 'Zo gaat het verder', 'textarea', array( 'rows' => 4, 'instructions' => 'Eén stap per regel. Staat in de bevestiging op de site en in de mail.' ) ),
+		thema_veld( $p, 'ontvanger', 'Meldingen naar', 'email', array_merge( thema_breed( 50 ), array( 'instructions' => 'Leeg: het e-mailadres uit de thema-instellingen.' ) ) ),
+		thema_veld( $p, 'leeg', 'Tekst zonder open ritten', 'text', thema_breed( 50 ) ),
+	), thema_extra_velden( $p, 'stoelen' ) ) );
 
 	return $l;
 }
