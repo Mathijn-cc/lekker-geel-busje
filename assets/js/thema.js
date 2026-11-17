@@ -464,13 +464,28 @@
 			zet( 1 );
 			return;
 		}
+		/* De bus blijft even staan bij elk bolletje: per stuk weg staat hij aan
+		   beide kanten een deel van het scrollen stil, daartussen rijdt hij
+		   zacht op en af. Het scrollen van de pagina zelf blijft gewoon. */
+		var vast = 0.28;
+		var plak = function ( v ) {
+			if ( n < 2 ) {
+				return v;
+			}
+			var stukken = n - 1;
+			var x = v * stukken;
+			var i = Math.min( stukken - 1, Math.floor( x ) );
+			var t = Math.min( 1, Math.max( 0, ( x - i - vast ) / ( 1 - 2 * vast ) ) );
+			t = t * t * ( 3 - 2 * t );
+			return ( i + t ) / stukken;
+		};
 		var bezig = false;
 		var meet = function () {
 			bezig = false;
 			var r = weg.getBoundingClientRect();
 			var vh = window.innerHeight;
 			var v = ( vh * 0.62 - r.top ) / Math.max( r.height, 1 );
-			zet( Math.min( 1, Math.max( 0, v ) ) );
+			zet( plak( Math.min( 1, Math.max( 0, v ) ) ) );
 		};
 		var vraag = function () {
 			if ( ! bezig ) {
