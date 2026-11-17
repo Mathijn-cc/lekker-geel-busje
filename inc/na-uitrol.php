@@ -76,6 +76,8 @@ function thema_uitroltaken() {
 		'vval-agenda-link-v1'     => 'thema_vval_agenda_link',
 		'staan-mag-v1'            => 'thema_staan_mag',
 		'contact-snelle-vraag-v1' => 'thema_contact_snelle_vraag',
+		'bedankt-v1'              => 'thema_plaats_bedankt',
+		'bedankt-bevestiging-v1'  => 'thema_bedankt_bevestigingen',
 	);
 }
 

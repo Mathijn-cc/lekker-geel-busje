@@ -10,7 +10,11 @@
  * nog een keer naar het offerteformulier.
  *
  * Zonder JavaScript, of bij een veldtype dat het gesprek niet kent (bijv. captcha of een
- * keuzelijst), blijft het gewone formulier staan.
+ * keuzelijst), blijft het gewone formulier staan. Bij een fout of via Iets aanpassen komt het
+ * gewone formulier tevoorschijn, met de antwoorden al ingevuld.
+ *
+ * Staat de bevestiging in Gravity Forms op een pagina (bedankpagina), dan stuurt Gravity Forms
+ * de bezoeker daar na het versturen vanzelf heen.
  */
 (function () {
 	'use strict';
@@ -117,8 +121,6 @@
 		this.gesprek.hidden = false;
 		this.formulierVak.setAttribute('inert', '');
 		this.formulierVak.setAttribute('aria-hidden', 'true');
-
-		this.gesprek.querySelector('[data-gesprek-klassiek]').addEventListener('click', function () { zelf.klassiek(); });
 
 		this.veld.setAttribute('placeholder', this.t.plaatshouder || '');
 		this.veld.addEventListener('input', function () { zelf.groei(); });
@@ -386,7 +388,6 @@
 			typen.remove();
 			if (gelukt) {
 				zelf.bericht(tekst || zelf.t.gelukt, 'bus');
-				zelf.gesprek.querySelector('[data-gesprek-klassiek]').hidden = true;
 			} else {
 				zelf.bericht(zelf.t.fout, 'bus');
 				zelf.klassiek(true);
@@ -421,8 +422,6 @@
 		this.formulierVak.removeAttribute('aria-hidden');
 		if (!houdGesprek) {
 			this.gesprek.hidden = true;
-		} else {
-			this.gesprek.querySelector('[data-gesprek-klassiek]').hidden = true;
 		}
 		var eerste = this.formulierVak.querySelector('.gfield_error input, .gfield_error textarea, input:not([type="hidden"]), textarea');
 		if (eerste) { eerste.focus({ preventScroll: true }); }

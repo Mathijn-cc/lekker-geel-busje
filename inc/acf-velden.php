@@ -68,6 +68,7 @@ function thema_blok_achtergronden() {
 		'checklist'    => 'standaard',
 		'citaat'       => 'standaard',
 		'stoelen'      => 'standaard',
+		'playlist'     => 'paars',
 	);
 }
 
@@ -636,6 +637,19 @@ function thema_layouts() {
 		thema_veld( $p, 'aantal', 'Aantal', 'number', array_merge( thema_breed( 25 ), array( 'default_value' => 3, 'min' => 1, 'max' => 6 ) ) ),
 		thema_veld( $p, 'knop', 'Knop', 'link', array( 'instructions' => 'Leeg = Alle artikelen, naar de blog.' ) ),
 	), thema_extra_velden( $p, 'artikelen' ) ) );
+
+	// Playlist.
+	$p   = 'playlist';
+	$l[] = thema_layout( $p, 'Playlist (Spotify)', array_merge( array(
+		thema_tab( $p, 'Inhoud' ),
+		thema_veld( $p, 'eyebrow', 'Label', 'text', array_merge( thema_breed( 35 ), array( 'default_value' => 'Alvast in de stemming' ) ) ),
+		thema_veld( $p, 'kop', 'Kop', 'text', array_merge( thema_breed( 65 ), array( 'instructions' => THEMA_ACCENT_UITLEG, 'default_value' => 'Zet *het busgeluid* alvast aan' ) ) ),
+		thema_veld( $p, 'tekst', 'Tekst', 'textarea', array( 'rows' => 2 ) ),
+		thema_veld( $p, 'spotify', 'Spotify-link', 'url', array_merge( thema_breed( 50 ), array( 'instructions' => 'De deellink van de playlist, bijv. https://open.spotify.com/playlist/... Spotify laadt pas na een klik op play.' ) ) ),
+		thema_veld( $p, 'titel', 'Tekst op de speler', 'text', array_merge( thema_breed( 25 ), array( 'default_value' => 'Druk op play' ) ) ),
+		thema_veld( $p, 'knop', 'Linktekst', 'text', array_merge( thema_breed( 25 ), array( 'default_value' => 'Open in Spotify' ) ) ),
+		thema_veld( $p, 'nummers', 'Nummers in de kijker', 'textarea', array( 'rows' => 6, 'instructions' => 'Eén per regel: Artiest | Titel. Vijf tot acht werkt het best. Zonder Spotify-link staat alleen deze lijst er.' ) ),
+	), thema_extra_velden( $p, 'playlist' ) ) );
 
 	// Checklist.
 	$p   = 'checklist';

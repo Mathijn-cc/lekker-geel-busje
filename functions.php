@@ -26,6 +26,7 @@ require THEMA_PAD . '/inc/inhoud-bedrijfsuitje.php';
 require THEMA_PAD . '/inc/inhoud-bruiloft.php';
 require THEMA_PAD . '/inc/inhoud-trip-met-vrienden.php';
 require THEMA_PAD . '/inc/inhoud-festival.php';
+require THEMA_PAD . '/inc/inhoud-bedankt.php';
 require THEMA_PAD . '/inc/stoelverkoop.php';
 require THEMA_PAD . '/inc/inhoud-vrienden-van-amstel.php';
 require THEMA_PAD . '/inc/na-uitrol.php';
@@ -100,6 +101,7 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_script( 'thema', THEMA_URL . '/assets/js/thema.js', $afhankelijk, THEMA_VERSIE, $laden );
 	/* Contactformulier als gesprek: alleen geladen als het contactblok een formulier toont. */
 	wp_register_script( 'thema-gesprek', THEMA_URL . '/assets/js/gesprek.js', array(), THEMA_VERSIE, $laden );
+	wp_register_script( 'thema-playlist', THEMA_URL . '/assets/js/playlist.js', array(), THEMA_VERSIE, $laden );
 	wp_add_inline_script( 'thema', 'window.themaInstellingen = ' . wp_json_encode( array(
 		'animaties'      => (bool) $s['animaties'],
 		'scrollEffecten' => (bool) $s['scroll_effecten'],

@@ -118,7 +118,6 @@ echo thema_sectie_open( $b, 'contact' );
 									<textarea id="gesprek-antwoord-<?php echo (int) $id; ?>" rows="1" data-gesprek-veld></textarea>
 									<button class="gesprek-stuur" type="submit" aria-label="Stuur je antwoord"><?php echo thema_icoon( 'chevron', 18 ); ?></button>
 								</form>
-								<button class="gesprek-klassiek" type="button" data-gesprek-klassiek>Liever het gewone formulier</button>
 							</div>
 						<?php endif; ?>
 						<div class="gesprek-formulier" data-gesprek-formulier>

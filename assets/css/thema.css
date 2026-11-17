@@ -6336,31 +6336,210 @@ section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak di
   transform:  scale(1.06);
 }
 
-/*Gesprek -- Link naar het gewone formulier*/
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek button.gesprek-klassiek {
-  align-self:            center;
-  padding:               4px;
-  border:                0;
-  background:            none;
-  color:                 var(--kleur-paars);
-  font:                  inherit;
-  font-size:             14px;
-  text-decoration:       underline;
-  text-underline-offset: 4px;
-  opacity:               .7;
-  cursor:                pointer;
-}
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek button.gesprek-klassiek:hover {
-  opacity: 1;
-}
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek button.gesprek-klassiek[hidden] {
-  display: none;
-}
-
 /*Gesprek -- Minder beweging*/
 @media (prefers-reduced-motion: reduce) {
   section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-bericht,
   section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-keuzes {
+    animation: none;
+  }
+}
+
+/**Blokken -- Playlist**/
+/*Playlist -- Sectie*/
+section.sectie-playlist {
+  --boven:  var(--ruimte-kleur);
+  --onder:  var(--ruimte-kleur);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
+}
+section.sectie-playlist div.playlist-binnen {
+  display:               grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap:                   clamp(32px, 4vw, 56px);
+  max-width:             var(--breedte);
+  margin:                0 auto;
+}
+@media (min-width: 901px) {
+  section.sectie-playlist div.playlist-binnen {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    align-items:           center;
+  }
+}
+
+/*Playlist -- Kop*/
+section.sectie-playlist div.playlist-binnen div.playlist-kop {
+  display:        flex;
+  flex-direction: column;
+  align-items:    flex-start;
+  gap:            22px;
+}
+section.sectie-playlist div.playlist-binnen div.playlist-kop a.playlist-spotify {
+  display:               inline-flex;
+  align-items:           center;
+  gap:                   8px;
+  color:                 inherit;
+  font-weight:           700;
+  text-decoration:       underline;
+  text-decoration-color: var(--kleur-geel);
+  text-underline-offset: 5px;
+}
+
+/*Playlist -- Speler voor het laden*/
+section.sectie-playlist div.playlist-binnen div.playlist-vak {
+  display:        flex;
+  flex-direction: column;
+  gap:            16px;
+}
+section.sectie-playlist div.playlist-binnen div.playlist-vak div.playlist-speler button.playlist-start {
+  display:       flex;
+  align-items:   center;
+  gap:           clamp(16px, 2vw, 24px);
+  width:         100%;
+  padding:       clamp(16px, 2vw, 22px);
+  border:        0;
+  border-radius: 28px;
+  background:    var(--kleur-geel);
+  color:         var(--kleur-paars);
+  font:          inherit;
+  text-align:    left;
+  cursor:        pointer;
+  transition:    transform .4s var(--veer);
+}
+section.sectie-playlist div.playlist-binnen div.playlist-vak div.playlist-speler button.playlist-start:hover {
+  transform: translateY(-3px);
+}
+section.sectie-playlist div.playlist-binnen div.playlist-vak div.playlist-speler button.playlist-start span.playlist-plaat {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  flex:            0 0 auto;
+  width:           clamp(84px, 9vw, 112px);
+  aspect-ratio:    1;
+  border-radius:   50%;
+  background:      repeating-radial-gradient(circle, #1b1b1b 0 2px, #2a2a2a 2px 4px);
+  box-shadow:      0 12px 24px -12px rgba(0, 0, 0, .5);
+  animation:       playlist-draai 6s linear infinite paused;
+}
+section.sectie-playlist div.playlist-binnen div.playlist-vak div.playlist-speler button.playlist-start:hover span.playlist-plaat {
+  animation-play-state: running;
+}
+section.sectie-playlist div.playlist-binnen div.playlist-vak div.playlist-speler button.playlist-start span.playlist-plaat span.playlist-label {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           44%;
+  aspect-ratio:    1;
+  border-radius:   50%;
+  background:      var(--kleur-geel);
+  color:           var(--kleur-paars);
+}
+section.sectie-playlist div.playlist-binnen div.playlist-vak div.playlist-speler button.playlist-start span.playlist-start-tekst {
+  display:        flex;
+  flex:           1 1 auto;
+  flex-direction: column;
+  gap:            4px;
+}
+section.sectie-playlist div.playlist-binnen div.playlist-vak div.playlist-speler button.playlist-start span.playlist-start-tekst span.playlist-start-titel {
+  font-family: var(--kop-letter);
+  font-size:   clamp(20px, 2vw, 26px);
+  font-weight: var(--kop-gewicht);
+  line-height: 1.1;
+}
+section.sectie-playlist div.playlist-binnen div.playlist-vak div.playlist-speler button.playlist-start span.playlist-start-tekst span.playlist-start-uitleg {
+  font-size: 14px;
+  opacity:   .75;
+}
+section.sectie-playlist div.playlist-binnen div.playlist-vak div.playlist-speler button.playlist-start span.playlist-knop {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  flex:            0 0 56px;
+  width:           56px;
+  height:          56px;
+  border-radius:   50%;
+  background:      var(--kleur-paars);
+  color:           var(--kleur-geel);
+}
+@keyframes playlist-draai {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/*Playlist -- Speler na het laden*/
+section.sectie-playlist div.playlist-binnen div.playlist-vak div.playlist-speler iframe.playlist-frame {
+  display:       block;
+  width:         100%;
+  height:        452px;
+  border:        0;
+  border-radius: 20px;
+}
+
+/*Playlist -- Nummers*/
+section.sectie-playlist div.playlist-binnen div.playlist-vak div.playlist-nummers {
+  padding:       clamp(20px, 2.4vw, 28px);
+  border-radius: 28px;
+  background:    rgba(250, 245, 238, .08);
+  border:        var(--lijn-dun) solid rgba(250, 245, 238, .14);
+}
+section.sectie-playlist div.playlist-binnen div.playlist-vak div.playlist-nummers p.playlist-nummers-titel {
+  margin:         0 0 12px;
+  color:          var(--kleur-geel);
+  font-size:      14px;
+  font-weight:    800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+section.sectie-playlist div.playlist-binnen div.playlist-vak div.playlist-nummers ol {
+  display:       grid;
+  gap:           2px;
+  margin:        0;
+  padding:       0;
+  list-style:    none;
+  counter-reset: nummer;
+}
+section.sectie-playlist div.playlist-binnen div.playlist-vak div.playlist-nummers ol li {
+  display:               grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items:           baseline;
+  gap:                   12px;
+  padding:               9px 0;
+  border-bottom:         1px solid rgba(250, 245, 238, .12);
+  counter-increment:     nummer;
+}
+section.sectie-playlist div.playlist-binnen div.playlist-vak div.playlist-nummers ol li:last-child {
+  border-bottom: 0;
+}
+section.sectie-playlist div.playlist-binnen div.playlist-vak div.playlist-nummers ol li::before {
+  content:              counter(nummer, decimal-leading-zero);
+  font-size:            13px;
+  font-variant-numeric: tabular-nums;
+  opacity:              .55;
+}
+section.sectie-playlist div.playlist-binnen div.playlist-vak div.playlist-nummers ol li span.playlist-titel {
+  font-weight: 700;
+}
+section.sectie-playlist div.playlist-binnen div.playlist-vak div.playlist-nummers ol li span.playlist-artiest {
+  font-size:  14px;
+  text-align: right;
+  opacity:    .7;
+}
+
+/*Playlist -- Op een lichte achtergrond*/
+section.sectie-playlist:not(.achtergrond-paars) div.playlist-binnen div.playlist-vak div.playlist-nummers {
+  background:   var(--kleur-wit);
+  border-color: var(--kleur-zand);
+  color:        var(--kleur-paars);
+}
+section.sectie-playlist:not(.achtergrond-paars) div.playlist-binnen div.playlist-vak div.playlist-nummers p.playlist-nummers-titel {
+  color: var(--kleur-paars);
+}
+section.sectie-playlist:not(.achtergrond-paars) div.playlist-binnen div.playlist-vak div.playlist-nummers ol li {
+  border-color: var(--kleur-zand);
+}
+
+/*Playlist -- Minder beweging*/
+@media (prefers-reduced-motion: reduce) {
+  section.sectie-playlist div.playlist-binnen div.playlist-vak div.playlist-speler button.playlist-start span.playlist-plaat {
     animation: none;
   }
 }
