@@ -109,7 +109,7 @@ function thema_blog_artikel_plaatsen( $a, $categorie, $gelegenheid ) {
 		$faq['anker']  = 'vragen';
 
 		$offerte          = thema_blok_offerte();
-		$offerte['label'] = 'Binnen 2 werkdagen je prijs';
+		$offerte['label'] = 'Binnen 1 werkdag je prijs';
 		$offerte['kop']   = 'Vervoer voor het vrijgezellenfeest *geregeld?*';
 
 		update_field( 'field_blokken', array_merge( $a['blokken'], array( $faq, $offerte ) ), $id );
@@ -170,7 +170,7 @@ function thema_blog_eerste_artikelen() {
 
 <h2>6. Regel het vervoer in één keer</h2>
 <p>Met een groep van tien, twintig of veertig mensen van de ene naar de andere plek gaan is gedoe. Wie rijdt, wie neemt de trein, waar parkeer je en wie raakt onderweg kwijt? Met een eigen bus blijft de groep bij elkaar en hoeft niemand de Bob te zijn.</p>
-<p>Kies je voor een <a href="{$landing}">partybus voor je vrijgezellenfeest</a>, dan wordt de rit zelf onderdeel van het feest. In onze sfeerbus zitten professionele verlichting, lasers, rook en een goede geluidsinstallatie, en het gastvrouwke zorgt voor de drankjes. Je krijgt binnen 2 werkdagen een vaste all-in prijs, zodat je die meteen in het budget kunt zetten.</p>
+<p>Kies je voor een <a href="{$landing}">partybus voor je vrijgezellenfeest</a>, dan wordt de rit zelf onderdeel van het feest. In onze sfeerbus zitten professionele verlichting, lasers, rook en een goede geluidsinstallatie, en het gastvrouwke zorgt voor de drankjes. Je krijgt binnen 1 werkdag een vaste all-in prijs, zodat je die meteen in het budget kunt zetten.</p>
 
 <h2>7. Zorg voor sfeer: dresscode, playlist en opdrachten</h2>
 <p>Kleine dingen maken het verschil. Een dresscode of thema, zoals iedereen in dezelfde kleur of een sjerp voor de vrijgezel, ziet er op elke foto feestelijk uit. Een gezamenlijke playlist met de favorieten van de vrijgezel zet meteen de toon. En met een paar <a href="{$opdrachten}">opdrachten voor in de bus</a> vliegt de tijd tussen twee stops voorbij.</p>
@@ -237,7 +237,7 @@ HTML,
 <li><strong>Datum prikken</strong> met de partner en de getuigen. Vrijdagen en zaterdagen zitten snel vol, dus wacht niet te lang.</li>
 <li><strong>Gastenlijst maken</strong> en de uitnodiging versturen, met een duidelijke datum waarop iedereen ja of nee laat weten.</li>
 <li><strong>Budget afspreken:</strong> wat mag het per persoon kosten? Bespreek ook of de groep de vrijgezel trakteert.</li>
-<li><strong>Vervoer aanvragen.</strong> Met een vast aantal personen en een ophaalplek kun je meteen een prijs aanvragen. Bij ons krijg je die binnen 2 werkdagen, all-in.</li>
+<li><strong>Vervoer aanvragen.</strong> Met een vast aantal personen en een ophaalplek kun je meteen een prijs aanvragen. Bij ons krijg je die binnen 1 werkdag, all-in.</li>
 </ul>
 
 <h2>Twee maanden van tevoren</h2>

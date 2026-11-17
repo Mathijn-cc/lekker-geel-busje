@@ -25,7 +25,7 @@ function thema_faq_vragen() {
 		'stops'       => array( 'Kunnen we onderweg meerdere stops maken?', 'Zeker, daar is een busje voor. Zet de stops in je aanvraag, dan nemen we ze mee in de route en de offerte.' ),
 		'wachten'     => array( 'Wacht de bus op ons?', 'Dat kan. De bus wacht tijdens jullie activiteit of komt op een afgesproken tijd terug. Wachttijd staat gewoon in de offerte, dus je weet vooraf waar je aan toe bent.' ),
 		'ophalen'     => array( 'Waar halen jullie ons op?', 'Waar je maar wilt: thuis, bij het werk of op een centraal punt. Als het nodig is ook op meerdere opstapplekken.' ),
-		'prijs'       => array( 'Wat kost een rit?', 'Dat hangt af van de grootte van je groep, de afstand en rijtijd, de dag en het seizoen en eventuele wachttijd. Binnen 2 werkdagen heb je een vaste all-in prijs, met chauffeur, gastvrouwke of gastheer, brandstof en btw erbij.' ),
+		'prijs'       => array( 'Wat kost een rit?', 'Dat hangt af van de grootte van je groep, de afstand en rijtijd, de dag en het seizoen en eventuele wachttijd. Binnen 1 werkdag heb je een vaste all-in prijs, met chauffeur, gastvrouwke of gastheer, brandstof en btw erbij.' ),
 	);
 }
 
@@ -59,7 +59,7 @@ function thema_faq_per_pagina() {
 
 		'offerte-aanvragen'  => array(
 			array( 'Is een offerte aanvragen vrijblijvend?', 'Helemaal. Je zit nergens aan vast tot je de offerte zelf bevestigt.' ),
-			array( 'Hoe snel hoor ik iets?', 'Binnen 2 werkdagen heb je een vaste all-in prijs in je mail. Haast? Bel ons gerust, dan kijken we meteen met je mee.' ),
+			array( 'Hoe snel hoor ik iets?', 'Binnen 1 werkdag heb je een vaste all-in prijs in je mail. Haast? Bel ons gerust, dan kijken we meteen met je mee.' ),
 			array( 'Wat zit er in de prijs?', 'De chauffeur, een gastvrouwke of gastheer, brandstof en btw. Licht, geluid, lasers en rook gaan er standaard bij. Geen kosten achteraf.' ),
 			array( 'Waarom staan er geen prijzen op de site?', 'Omdat geen feestrit hetzelfde is. Groepsgrootte, afstand en rijtijd, dag en seizoen, wachttijd en extra wensen bepalen samen de prijs. Daarom rekenen we hem per rit voor je uit, zonder verrassingen achteraf.' ),
 			'boeken',
@@ -73,13 +73,13 @@ function thema_faq_per_pagina() {
 			array( 'Kunnen we in Tilburg meerdere stops maken?', 'Zeker, daar is een busje voor. Eerst proeven bij Schrobbelèr of La Trappe, dan eten aan de Piushaven en daarna door naar de Korte Heuvel? Zet de stops in je aanvraag, dan nemen we ze mee in de route en de offerte.' ),
 			'wachten',
 			array( 'Rijden jullie ook tijdens de Tilburgse Kermis en Roze Maandag?', 'Ja, maar dan wil half Brabant naar Tilburg. Het zijn de drukste dagen van het jaar, ook voor ons, dus vraag ruim op tijd een offerte aan. Door afsluitingen in het centrum stemmen we de afzetplek vooraf met je af.' ),
-			array( 'Wat kost een partybus naar Tilburg?', 'Dat hangt af van de grootte van je groep, de ophaalplek, de rijtijd, de dag en eventuele wachttijd. Binnen 2 werkdagen heb je een vaste all-in prijs, met chauffeur, gastvrouwke of gastheer, brandstof en btw erbij.' ),
+			array( 'Wat kost een partybus naar Tilburg?', 'Dat hangt af van de grootte van je groep, de ophaalplek, de rijtijd, de dag en eventuele wachttijd. Binnen 1 werkdag heb je een vaste all-in prijs, met chauffeur, gastvrouwke of gastheer, brandstof en btw erbij.' ),
 			'personen',
 		),
 
 		'contact'            => array(
-			array( 'Hoe snel reageren jullie?', 'Binnen 2 werkdagen, meestal sneller. Een vraag over een rit die al gepland staat? Bel ons, dan heb je meteen iemand aan de lijn.' ),
-			array( 'Hoe vraag ik een prijs aan?', 'Via het offerteformulier. Vertel wanneer, waarheen en met hoeveel jullie zijn, dan krijg je binnen 2 werkdagen een vaste all-in prijs.' ),
+			array( 'Hoe snel reageren jullie?', 'Binnen 1 werkdag, meestal sneller. Een vraag over een rit die al gepland staat? Bel ons, dan heb je meteen iemand aan de lijn.' ),
+			array( 'Hoe vraag ik een prijs aan?', 'Via het offerteformulier. Vertel wanneer, waarheen en met hoeveel jullie zijn, dan krijg je binnen 1 werkdag een vaste all-in prijs.' ),
 			'boeken',
 			'buiten',
 			'huisregels',
@@ -107,7 +107,7 @@ function thema_faq_per_pagina() {
 		'gelegenheid/bedrijfsuitje'     => array(
 			array( 'Kunnen collega\'s op verschillende plekken opstappen?', 'Ja. We halen op bij kantoor, op een centraal punt of op meerdere opstapplekken. Geef ze door in je aanvraag, dan zit iedereen op tijd in de bus.' ),
 			array( 'Passen we met de hele afdeling in één bus?', 'Tot 88 personen gaan mee in onze verlengde bus, en elke bus heeft minstens 39 zitplaatsen. Samen heen, samen terug en niemand hoeft te rijden.' ),
-			array( 'Krijgen we vooraf een vaste prijs?', 'Ja. Binnen 2 werkdagen heb je een vaste all-in prijs, met chauffeur, gastvrouwke of gastheer, brandstof en btw. Handig voor de begroting, geen kosten achteraf.' ),
+			array( 'Krijgen we vooraf een vaste prijs?', 'Ja. Binnen 1 werkdag heb je een vaste all-in prijs, met chauffeur, gastvrouwke of gastheer, brandstof en btw. Handig voor de begroting, geen kosten achteraf.' ),
 			'wachten',
 			'drinken',
 			'boeken',

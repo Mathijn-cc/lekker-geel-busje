@@ -481,7 +481,7 @@ function thema_dashboard_pagina() {
 										<span class="proefsite-kop">Partybus huren in <span class="proefsite-pil">Tilburg?</span></span>
 										<span class="proefsite-knop">Plan je feestje <span class="proefsite-knop-pijl"></span></span>
 									</div>
-									<div class="proefsite-band">Offerte in 2 werkdagen <em>Volle bak gezelligheid</em></div>
+									<div class="proefsite-band">Offerte binnen 1 werkdag <em>Volle bak gezelligheid</em></div>
 									<div class="proefsite-licht">
 										<span class="eyebrow-proef">Over ons</span>
 										<span class="proefsite-kop proefsite-kop-klein">Busje in, <em>sfeertje aan!</em></span>

@@ -192,7 +192,7 @@ function thema_layouts() {
 		thema_veld( $p, 'ph_van', 'Plaatshouder plaats', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'jullie plaats' ) ) ),
 		thema_veld( $p, 'ph_naar', 'Plaatshouder bestemming', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'de bestemming' ) ) ),
 		thema_veld( $p, 'ph_personen', 'Plaatshouder aantal personen', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'aantal' ) ) ),
-		thema_veld( $p, 'zekerheden', 'Zekerheden', 'textarea', array_merge( thema_breed( 50 ), array( 'rows' => 4, 'default_value' => "Vrijblijvend\nBinnen 2 werkdagen een prijs\nAll-in, geen verrassingen" ) ) ),
+		thema_veld( $p, 'zekerheden', 'Zekerheden', 'textarea', array_merge( thema_breed( 50 ), array( 'rows' => 4, 'default_value' => "Vrijblijvend\nBinnen 1 werkdag een prijs\nAll-in, geen verrassingen" ) ) ),
 		thema_veld( $p, 'knop_open', 'Knop op het compacte blok', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'Vraag direct je prijs aan' ) ) ),
 		thema_veld( $p, 'knop_verder', 'Knop in het formulier', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'Ga verder' ) ) ),
 		thema_veld( $p, 'naar_waarde', 'Bestemming alvast invullen', 'text', array_merge( thema_breed( 50 ), array( 'instructions' => 'Bijv. Tilburg op de pagina over Tilburg. Leeg: de bezoeker vult zelf in.' ) ) ),
@@ -203,7 +203,7 @@ function thema_layouts() {
 	$p   = 'lopende_band';
 	$l[] = thema_layout( $p, 'Lopende band', array_merge( array(
 		thema_tab( $p, 'Inhoud' ),
-		thema_veld( $p, 'items', 'Punten', 'textarea', array( 'rows' => 4, 'instructions' => 'Eén per regel. Om en om in kop- en accentletter. Met *sterretjes* kies je zelf welk deel in de accentletter staat.', 'default_value' => "Offerte in 2 werkdagen\nVolle bak gezelligheid\nAll-in, geen verrassingen\n5,0 op Google" ) ),
+		thema_veld( $p, 'items', 'Punten', 'textarea', array( 'rows' => 4, 'instructions' => 'Eén per regel. Om en om in kop- en accentletter. Met *sterretjes* kies je zelf welk deel in de accentletter staat.', 'default_value' => "Offerte binnen 1 werkdag\nVolle bak gezelligheid\nAll-in, geen verrassingen\n5,0 op Google" ) ),
 		thema_veld( $p, 'knop', 'Knop onder de band', 'link', array( 'instructions' => 'Bijvoorbeeld naar de huisregels. Leeg = geen knop.' ) ),
 	), thema_extra_velden( $p, '', array(
 		thema_veld( $p, 'variant', 'Variant', 'button_group', array(
@@ -356,7 +356,7 @@ function thema_layouts() {
 		thema_veld( $p, 'inbegrepen_label', 'Label inbegrepen', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'Inbegrepen' ) ) ),
 		thema_veld( $p, 'factoren', 'Prijsfactoren (max 4)', 'textarea', array_merge( thema_breed( 50 ), array( 'rows' => 4 ) ) ),
 		thema_veld( $p, 'inbegrepen', 'Altijd inbegrepen', 'textarea', array_merge( thema_breed( 50 ), array( 'rows' => 4 ) ) ),
-		thema_veld( $p, 'uitkomst', 'Uitkomst', 'text', array( 'default_value' => 'Eén vaste all-in prijs, binnen 2 werkdagen' ) ),
+		thema_veld( $p, 'uitkomst', 'Uitkomst', 'text', array( 'default_value' => 'Eén vaste all-in prijs, binnen 1 werkdag' ) ),
 		thema_veld( $p, 'stijl', 'Stijl', 'button_group', array( 'choices' => array( 'standaard' => 'Uit instellingen', 'kaartje' => 'Prijskaartje', 'lijst' => 'Lijst', 'tegels' => 'Tegels' ), 'default_value' => 'standaard' ) ),
 	), thema_extra_velden( $p, 'prijzen' ) ) );
 
@@ -498,7 +498,7 @@ function thema_layouts() {
 		thema_tab( $p, 'Inhoud' ),
 		thema_veld( $p, 'eyebrow', 'Label', 'text', array_merge( thema_breed( 35 ), array( 'default_value' => 'Contact' ) ) ),
 		thema_veld( $p, 'kop', 'Kop', 'text', array_merge( thema_breed( 65 ), array( 'default_value' => 'Neem *contact* met ons op', 'instructions' => THEMA_ACCENT_UITLEG ) ) ),
-		thema_veld( $p, 'intro', 'Intro', 'textarea', array( 'rows' => 2, 'default_value' => 'Een vraag over een rit, onze bussen of iets heel anders? Bel, mail of stuur een bericht. We reageren binnen 2 werkdagen, meestal sneller.' ) ),
+		thema_veld( $p, 'intro', 'Intro', 'textarea', array( 'rows' => 2, 'default_value' => 'Een vraag over een rit, onze bussen of iets heel anders? Bel, mail of stuur een bericht. We reageren binnen 1 werkdag, meestal sneller.' ) ),
 		thema_veld( $p, 'toon_offerte', 'Offerteregel tonen', 'true_false', array_merge( thema_breed( 20 ), array( 'ui' => 1, 'default_value' => 1 ) ) ),
 		thema_veld( $p, 'offerte_tekst', 'Offerteregel', 'text', array_merge( thema_breed( 40 ), array( 'default_value' => 'Liever meteen een prijs?' ) ) ),
 		thema_veld( $p, 'offerte_knop', 'Linktekst', 'text', array_merge( thema_breed( 40 ), array( 'default_value' => 'Vraag direct een offerte aan', 'instructions' => 'Gaat naar de offertelink uit de thema-instellingen.' ) ) ),
@@ -507,7 +507,7 @@ function thema_layouts() {
 		thema_veld( $p, 'bellen_label', 'Label bellen', 'text', array_merge( thema_breed( 35 ), array( 'default_value' => 'Bel ons' ) ) ),
 		thema_veld( $p, 'bellen_uitleg', 'Uitleg bellen', 'text', array_merge( thema_breed( 65 ), array( 'default_value' => 'Ook voor een snelle vraag over je rit' ) ) ),
 		thema_veld( $p, 'mailen_label', 'Label mailen', 'text', array_merge( thema_breed( 35 ), array( 'default_value' => 'Mail ons' ) ) ),
-		thema_veld( $p, 'mailen_uitleg', 'Uitleg mailen', 'text', array_merge( thema_breed( 65 ), array( 'default_value' => 'Antwoord binnen 2 werkdagen' ) ) ),
+		thema_veld( $p, 'mailen_uitleg', 'Uitleg mailen', 'text', array_merge( thema_breed( 65 ), array( 'default_value' => 'Antwoord binnen 1 werkdag' ) ) ),
 		thema_veld( $p, 'toon_whatsapp', 'WhatsApp-kaart tonen', 'true_false', array( 'ui' => 1, 'default_value' => 1, 'instructions' => 'Verschijnt alleen als er een WhatsApp-nummer in de thema-instellingen staat.' ) ),
 		thema_veld( $p, 'whatsapp_label', 'Label WhatsApp', 'text', array_merge( thema_breed( 35 ), array( 'default_value' => 'App ons' ) ) ),
 		thema_veld( $p, 'whatsapp_uitleg', 'Uitleg WhatsApp', 'text', array_merge( thema_breed( 65 ), array( 'default_value' => 'Snel even schakelen via WhatsApp' ) ) ),

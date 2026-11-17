@@ -139,7 +139,7 @@ function thema_schema() {
 
 		// Footer.
 		'footer_cta_kop'      => array( 'text', 'Klaar om *in te stappen?*' ),
-		'footer_cta_tekst'    => array( 'textarea', 'Vertel ons wanneer, waarheen en met hoeveel je bent. Binnen 2 werkdagen heb je een vaste all-in prijs.' ),
+		'footer_cta_tekst'    => array( 'textarea', 'Vertel ons wanneer, waarheen en met hoeveel je bent. Binnen 1 werkdag heb je een vaste all-in prijs.' ),
 		'footer_tekst'        => array( 'textarea', 'Bij Lekker Geel Busje begint je feestje zodra je instapt. Daar gaan we voor.' ),
 		'footer_copy'         => array( 'text', '© {jaar} Lekker Geel Busje' ),
 		'footer_maker'        => array( 'bool', 1 ),

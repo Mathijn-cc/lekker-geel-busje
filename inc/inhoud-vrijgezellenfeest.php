@@ -72,7 +72,7 @@ function thema_plaats_vrijgezellenfeest() {
 
 	/* De vragen uit inc/faq-copy.php (merkfundament), aangevuld met wat de organisator nog meer zoekt. */
 	$eigen  = array(
-		array( 'Wat kost een partybus voor een vrijgezellenfeest?', 'Dat hangt af van de grootte van de groep, de afstand en rijtijd, de dag en eventuele wachttijd. Binnen 2 werkdagen heb je een vaste all-in prijs, met chauffeur, gastvrouwke, licht en geluid, brandstof en btw erin. Deel je die door de groep, dan weet iedereen vooraf precies wat zijn deel is.' ),
+		array( 'Wat kost een partybus voor een vrijgezellenfeest?', 'Dat hangt af van de grootte van de groep, de afstand en rijtijd, de dag en eventuele wachttijd. Binnen 1 werkdag heb je een vaste all-in prijs, met chauffeur, gastvrouwke, licht en geluid, brandstof en btw erin. Deel je die door de groep, dan weet iedereen vooraf precies wat zijn deel is.' ),
 		'personen',
 		'ophalen',
 		array( 'Waar rijden jullie naartoe?', 'Overal waar jullie feest is. We rijden door heel Nederland en daarbuiten, dus kies gerust de stad, het festival of de activiteit die bij de vrijgezel past. Vertel waar jullie heen willen, dan krijg je een vaste prijs.' ),
@@ -85,7 +85,7 @@ function thema_plaats_vrijgezellenfeest() {
 	$faq['vragen'] = $vragen;
 
 	$offerte          = thema_blok_offerte();
-	$offerte['label'] = 'Binnen 2 werkdagen je prijs';
+	$offerte['label'] = 'Binnen 1 werkdag je prijs';
 	$offerte['kop']   = 'Klaar voor de *laatste rit als vrijgezel?*';
 
 	$naar_offerte = thema_link( 'Vraag je prijs aan', '#offerte' );

@@ -39,6 +39,7 @@ function thema_uitroltaken() {
 		'reviews-kop-v1'          => 'thema_reviews_kop_vervangen',
 		'blog-in-footer-v1'       => 'thema_blog_in_footer',
 		'reviews-trustindex-v1'   => 'thema_reviews_naar_trustindex',
+		'een-werkdag-v1'          => 'thema_een_werkdag',
 	);
 }
 
@@ -321,4 +322,71 @@ function thema_ruimte_offerte_intro() {
 		}
 	}
 	return 'niet gevonden';
+}
+
+/**
+ * De reactietijd is van 2 werkdagen naar 1 werkdag gegaan: opgeslagen teksten in blokken,
+ * berichten, thema-instellingen en de bevestiging van het offerteformulier meenemen.
+ */
+function thema_een_werkdag_tekst( $waarde ) {
+	if ( is_array( $waarde ) ) {
+		return array_map( 'thema_een_werkdag_tekst', $waarde );
+	}
+	if ( ! is_string( $waarde ) ) {
+		return $waarde;
+	}
+	return str_replace(
+		array( 'innen 2 werkdagen', ' in 2 werkdagen', '>in 2 werkdagen' ),
+		array( 'innen 1 werkdag', ' binnen 1 werkdag', '>binnen 1 werkdag' ),
+		$waarde
+	);
+}
+
+function thema_een_werkdag() {
+	global $wpdb;
+	$uitkomst = array( 'meta' => 0, 'berichten' => 0, 'opties' => 0, 'formulieren' => 0 );
+	$zoek     = '%' . $wpdb->esc_like( '2 werkdagen' ) . '%';
+
+	$rijen = $wpdb->get_results( $wpdb->prepare( "SELECT meta_id, post_id, meta_value FROM {$wpdb->postmeta} WHERE meta_value LIKE %s", $zoek ) );
+	foreach ( $rijen as $rij ) {
+		$oud   = maybe_unserialize( $rij->meta_value );
+		$nieuw = thema_een_werkdag_tekst( $oud );
+		if ( $nieuw !== $oud ) {
+			$wpdb->update( $wpdb->postmeta, array( 'meta_value' => maybe_serialize( $nieuw ) ), array( 'meta_id' => $rij->meta_id ) );
+			clean_post_cache( $rij->post_id );
+			$uitkomst['meta']++;
+		}
+	}
+
+	$rijen = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_content, post_excerpt FROM {$wpdb->posts} WHERE post_content LIKE %s OR post_excerpt LIKE %s", $zoek, $zoek ) );
+	foreach ( $rijen as $rij ) {
+		$wpdb->update(
+			$wpdb->posts,
+			array( 'post_content' => thema_een_werkdag_tekst( $rij->post_content ), 'post_excerpt' => thema_een_werkdag_tekst( $rij->post_excerpt ) ),
+			array( 'ID' => $rij->ID )
+		);
+		clean_post_cache( $rij->ID );
+		$uitkomst['berichten']++;
+	}
+
+	$namen = $wpdb->get_col( $wpdb->prepare( "SELECT option_name FROM {$wpdb->options} WHERE option_value LIKE %s", $zoek ) );
+	foreach ( $namen as $naam ) {
+		$oud   = get_option( $naam );
+		$nieuw = thema_een_werkdag_tekst( $oud );
+		if ( $nieuw !== $oud ) {
+			update_option( $naam, $nieuw );
+			$uitkomst['opties']++;
+		}
+	}
+
+	if ( class_exists( 'GFAPI' ) ) {
+		foreach ( GFAPI::get_forms() as $form ) {
+			$nieuw = thema_een_werkdag_tekst( $form );
+			if ( $nieuw !== $form ) {
+				GFAPI::update_form( $nieuw );
+				$uitkomst['formulieren']++;
+			}
+		}
+	}
+	return $uitkomst;
 }
