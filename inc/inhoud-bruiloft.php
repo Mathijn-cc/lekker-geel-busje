@@ -132,7 +132,7 @@ function thema_plaats_bruiloft() {
 
 	$offerte          = thema_blok_offerte();
 	$offerte['label'] = 'Binnen 1 werkdag je prijs';
-	$offerte['kop']   = 'Van jawoord tot *laatste dans*';
+	$offerte['kop']   = 'Zeggen jullie ja? *Rijden wij de gasten.*';
 
 	$trouwen      = get_category_by_slug( 'trouwen' );
 	$naar_offerte = thema_link( 'Vraag je prijs aan', '#offerte' );

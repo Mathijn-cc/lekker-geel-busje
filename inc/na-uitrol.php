@@ -60,6 +60,7 @@ function thema_uitroltaken() {
 		'bruiloft-v2'             => 'thema_plaats_bruiloft',
 		'bruiloft-blog-v2'        => 'thema_bruiloft_blog',
 		'bruiloft-v3'             => 'thema_plaats_bruiloft',
+		'bruiloft-v4'             => 'thema_plaats_bruiloft',
 	);
 }
 
