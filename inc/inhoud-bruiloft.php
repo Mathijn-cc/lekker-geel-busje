@@ -57,7 +57,8 @@ function thema_bruiloft_volgorde() {
 		'wat-kost-een-bruiloft',
 		'huwelijksjubileum-vieren',
 	);
-	$basis = strtotime( '2026-11-17 12:30:00' );
+	/* Ruim in het verleden, ook als de site op UTC staat: een datum in de toekomst wordt anders een ingepland bericht. */
+	$basis = strtotime( '2026-11-17 11:30:00' );
 	foreach ( $volgorde as $i => $slug ) {
 		$p = get_page_by_path( $slug, OBJECT, 'post' );
 		if ( ! $p ) {
@@ -68,6 +69,7 @@ function thema_bruiloft_volgorde() {
 			'ID'            => $p->ID,
 			'post_date'     => $lokaal,
 			'post_date_gmt' => get_gmt_from_date( $lokaal ),
+			'post_status'   => 'publish',
 			'edit_date'     => true,
 		) );
 		$uit[ $slug ] = $lokaal;
