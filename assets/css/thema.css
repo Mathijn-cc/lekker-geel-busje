@@ -6773,7 +6773,9 @@ section.sectie-route div.route-binnen div.route-kop {
 }
 /*Route -- Stappen*/
 section.sectie-route div.route-binnen div.route-weg {
-  position: relative;
+  position:  relative;
+  width:     100%;
+  max-width: 860px;
 }
 section.sectie-route div.route-binnen div.route-weg ol.route-stappen {
   display:               grid;
@@ -6893,28 +6895,57 @@ section.sectie-route div.route-binnen div.route-voet div.opmaak p {
   margin: 0;
 }
 
-/*Route -- Brede schermen: haltes naast elkaar langs een weg*/
-@media (min-width: 1000px) {
-  section.sectie-route div.route-binnen div.route-weg ol.route-stappen {
+/*Route -- Brede schermen: haltes naast elkaar langs een weg, pas als elke kaart breed genoeg is (circa 215px of meer). Daaronder blijft de verticale weg staan, maximaal 860px breed.*/
+/*Route -- Twee tot vier haltes: naast elkaar vanaf 1100px*/
+@media (min-width: 1100px) {
+  section.sectie-route.route-2 div.route-binnen div.route-weg,
+  section.sectie-route.route-3 div.route-binnen div.route-weg,
+  section.sectie-route.route-4 div.route-binnen div.route-weg {
+    max-width: none;
+  }
+  section.sectie-route.route-2 div.route-binnen div.route-weg ol.route-stappen li.route-stap div.route-kaart,
+  section.sectie-route.route-3 div.route-binnen div.route-weg ol.route-stappen li.route-stap div.route-kaart,
+  section.sectie-route.route-4 div.route-binnen div.route-weg ol.route-stappen li.route-stap div.route-kaart {
+    padding: clamp(18px, 1.5vw, 26px);
+  }
+  section.sectie-route.route-2 div.route-binnen div.route-weg ol.route-stappen li.route-stap div.route-kaart h3.route-titel,
+  section.sectie-route.route-3 div.route-binnen div.route-weg ol.route-stappen li.route-stap div.route-kaart h3.route-titel,
+  section.sectie-route.route-4 div.route-binnen div.route-weg ol.route-stappen li.route-stap div.route-kaart h3.route-titel {
+    font-size: calc(clamp(22px, 1.7vw, 28px) * var(--kop-schaal));
+  }
+
+  section.sectie-route.route-2 div.route-binnen div.route-weg ol.route-stappen,
+  section.sectie-route.route-3 div.route-binnen div.route-weg ol.route-stappen,
+  section.sectie-route.route-4 div.route-binnen div.route-weg ol.route-stappen {
     grid-template-columns: repeat(var(--aantal), minmax(0, 1fr));
   }
-  section.sectie-route div.route-binnen div.route-weg ol.route-stappen li.route-stap {
+  section.sectie-route.route-2 div.route-binnen div.route-weg ol.route-stappen li.route-stap,
+  section.sectie-route.route-3 div.route-binnen div.route-weg ol.route-stappen li.route-stap,
+  section.sectie-route.route-4 div.route-binnen div.route-weg ol.route-stappen li.route-stap {
     display:        flex;
     flex-direction: column;
     align-items:    center;
     gap:            22px;
   }
-  section.sectie-route div.route-binnen div.route-weg ol.route-stappen li.route-stap::before {
+  section.sectie-route.route-2 div.route-binnen div.route-weg ol.route-stappen li.route-stap::before,
+  section.sectie-route.route-3 div.route-binnen div.route-weg ol.route-stappen li.route-stap::before,
+  section.sectie-route.route-4 div.route-binnen div.route-weg ol.route-stappen li.route-stap::before {
     display: none;
   }
-  section.sectie-route div.route-binnen div.route-weg ol.route-stappen li.route-stap div.route-kaart {
+  section.sectie-route.route-2 div.route-binnen div.route-weg ol.route-stappen li.route-stap div.route-kaart,
+  section.sectie-route.route-3 div.route-binnen div.route-weg ol.route-stappen li.route-stap div.route-kaart,
+  section.sectie-route.route-4 div.route-binnen div.route-weg ol.route-stappen li.route-stap div.route-kaart {
     flex:       1;
     align-self: stretch;
   }
-  section.sectie-route div.route-binnen div.route-weg ol.route-stappen li.route-stap:nth-child(even) div.route-kaart {
+  section.sectie-route.route-2 div.route-binnen div.route-weg ol.route-stappen li.route-stap:nth-child(even) div.route-kaart,
+  section.sectie-route.route-3 div.route-binnen div.route-weg ol.route-stappen li.route-stap:nth-child(even) div.route-kaart,
+  section.sectie-route.route-4 div.route-binnen div.route-weg ol.route-stappen li.route-stap:nth-child(even) div.route-kaart {
     margin-top: 40px;
   }
-  section.sectie-route div.route-binnen div.route-weg div.route-baan {
+  section.sectie-route.route-2 div.route-binnen div.route-weg div.route-baan,
+  section.sectie-route.route-3 div.route-binnen div.route-weg div.route-baan,
+  section.sectie-route.route-4 div.route-binnen div.route-weg div.route-baan {
     position:      absolute;
     z-index:       1;
     top:           calc(var(--halte) / 2 - 7px);
@@ -6925,7 +6956,9 @@ section.sectie-route div.route-binnen div.route-voet div.opmaak p {
     border-radius: 999px;
     background:    var(--kleur-paars);
   }
-  section.sectie-route div.route-binnen div.route-weg div.route-baan::before {
+  section.sectie-route.route-2 div.route-binnen div.route-weg div.route-baan::before,
+  section.sectie-route.route-3 div.route-binnen div.route-weg div.route-baan::before,
+  section.sectie-route.route-4 div.route-binnen div.route-weg div.route-baan::before {
     content:    "";
     position:   absolute;
     top:        6px;
@@ -6934,7 +6967,9 @@ section.sectie-route div.route-binnen div.route-voet div.opmaak p {
     height:     2px;
     background: repeating-linear-gradient(90deg, rgba(250, 245, 238, .55) 0 14px, transparent 14px 28px);
   }
-  section.sectie-route div.route-binnen div.route-weg div.route-baan span.route-baan-gereden {
+  section.sectie-route.route-2 div.route-binnen div.route-weg div.route-baan span.route-baan-gereden,
+  section.sectie-route.route-3 div.route-binnen div.route-weg div.route-baan span.route-baan-gereden,
+  section.sectie-route.route-4 div.route-binnen div.route-weg div.route-baan span.route-baan-gereden {
     position:      absolute;
     top:           0;
     bottom:        0;
@@ -6943,7 +6978,163 @@ section.sectie-route div.route-binnen div.route-voet div.opmaak p {
     border-radius: 999px;
     background:    var(--kleur-geel);
   }
-  section.sectie-route div.route-binnen div.route-weg div.route-baan span.route-bus {
+  section.sectie-route.route-2 div.route-binnen div.route-weg div.route-baan span.route-bus,
+  section.sectie-route.route-3 div.route-binnen div.route-weg div.route-baan span.route-bus,
+  section.sectie-route.route-4 div.route-binnen div.route-weg div.route-baan span.route-bus {
+    position:        absolute;
+    top:             50%;
+    left:            calc(var(--voortgang, 0) * 100%);
+    z-index:         2;
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    width:           46px;
+    height:          46px;
+    border-radius:   50%;
+    background:      var(--kleur-roze);
+    color:           var(--kleur-wit);
+    box-shadow:      0 10px 24px -10px rgba(56, 6, 94, .6);
+    transform:       translate(-50%, -50%);
+  }
+}
+/*Route -- Vijf haltes: naast elkaar vanaf 1360px*/
+@media (min-width: 1360px) {
+  section.sectie-route.route-5 div.route-binnen div.route-weg {
+    max-width: none;
+  }
+  section.sectie-route.route-5 div.route-binnen div.route-weg ol.route-stappen li.route-stap div.route-kaart {
+    padding: clamp(18px, 1.5vw, 26px);
+  }
+  section.sectie-route.route-5 div.route-binnen div.route-weg ol.route-stappen li.route-stap div.route-kaart h3.route-titel {
+    font-size: calc(clamp(22px, 1.7vw, 28px) * var(--kop-schaal));
+  }
+
+  section.sectie-route.route-5 div.route-binnen div.route-weg ol.route-stappen {
+    grid-template-columns: repeat(var(--aantal), minmax(0, 1fr));
+  }
+  section.sectie-route.route-5 div.route-binnen div.route-weg ol.route-stappen li.route-stap {
+    display:        flex;
+    flex-direction: column;
+    align-items:    center;
+    gap:            22px;
+  }
+  section.sectie-route.route-5 div.route-binnen div.route-weg ol.route-stappen li.route-stap::before {
+    display: none;
+  }
+  section.sectie-route.route-5 div.route-binnen div.route-weg ol.route-stappen li.route-stap div.route-kaart {
+    flex:       1;
+    align-self: stretch;
+  }
+  section.sectie-route.route-5 div.route-binnen div.route-weg ol.route-stappen li.route-stap:nth-child(even) div.route-kaart {
+    margin-top: 40px;
+  }
+  section.sectie-route.route-5 div.route-binnen div.route-weg div.route-baan {
+    position:      absolute;
+    z-index:       1;
+    top:           calc(var(--halte) / 2 - 7px);
+    left:          calc((100% - (var(--aantal) - 1) * 20px) / var(--aantal) / 2);
+    right:         calc((100% - (var(--aantal) - 1) * 20px) / var(--aantal) / 2);
+    display:       block;
+    height:        14px;
+    border-radius: 999px;
+    background:    var(--kleur-paars);
+  }
+  section.sectie-route.route-5 div.route-binnen div.route-weg div.route-baan::before {
+    content:    "";
+    position:   absolute;
+    top:        6px;
+    left:       0;
+    right:      0;
+    height:     2px;
+    background: repeating-linear-gradient(90deg, rgba(250, 245, 238, .55) 0 14px, transparent 14px 28px);
+  }
+  section.sectie-route.route-5 div.route-binnen div.route-weg div.route-baan span.route-baan-gereden {
+    position:      absolute;
+    top:           0;
+    bottom:        0;
+    left:          0;
+    width:         calc(var(--voortgang, 0) * 100%);
+    border-radius: 999px;
+    background:    var(--kleur-geel);
+  }
+  section.sectie-route.route-5 div.route-binnen div.route-weg div.route-baan span.route-bus {
+    position:        absolute;
+    top:             50%;
+    left:            calc(var(--voortgang, 0) * 100%);
+    z-index:         2;
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    width:           46px;
+    height:          46px;
+    border-radius:   50%;
+    background:      var(--kleur-roze);
+    color:           var(--kleur-wit);
+    box-shadow:      0 10px 24px -10px rgba(56, 6, 94, .6);
+    transform:       translate(-50%, -50%);
+  }
+}
+/*Route -- Zes haltes: naast elkaar vanaf 1560px*/
+@media (min-width: 1560px) {
+  section.sectie-route.route-6 div.route-binnen div.route-weg {
+    max-width: none;
+  }
+  section.sectie-route.route-6 div.route-binnen div.route-weg ol.route-stappen li.route-stap div.route-kaart {
+    padding: clamp(18px, 1.5vw, 26px);
+  }
+  section.sectie-route.route-6 div.route-binnen div.route-weg ol.route-stappen li.route-stap div.route-kaart h3.route-titel {
+    font-size: calc(clamp(22px, 1.7vw, 28px) * var(--kop-schaal));
+  }
+
+  section.sectie-route.route-6 div.route-binnen div.route-weg ol.route-stappen {
+    grid-template-columns: repeat(var(--aantal), minmax(0, 1fr));
+  }
+  section.sectie-route.route-6 div.route-binnen div.route-weg ol.route-stappen li.route-stap {
+    display:        flex;
+    flex-direction: column;
+    align-items:    center;
+    gap:            22px;
+  }
+  section.sectie-route.route-6 div.route-binnen div.route-weg ol.route-stappen li.route-stap::before {
+    display: none;
+  }
+  section.sectie-route.route-6 div.route-binnen div.route-weg ol.route-stappen li.route-stap div.route-kaart {
+    flex:       1;
+    align-self: stretch;
+  }
+  section.sectie-route.route-6 div.route-binnen div.route-weg ol.route-stappen li.route-stap:nth-child(even) div.route-kaart {
+    margin-top: 40px;
+  }
+  section.sectie-route.route-6 div.route-binnen div.route-weg div.route-baan {
+    position:      absolute;
+    z-index:       1;
+    top:           calc(var(--halte) / 2 - 7px);
+    left:          calc((100% - (var(--aantal) - 1) * 20px) / var(--aantal) / 2);
+    right:         calc((100% - (var(--aantal) - 1) * 20px) / var(--aantal) / 2);
+    display:       block;
+    height:        14px;
+    border-radius: 999px;
+    background:    var(--kleur-paars);
+  }
+  section.sectie-route.route-6 div.route-binnen div.route-weg div.route-baan::before {
+    content:    "";
+    position:   absolute;
+    top:        6px;
+    left:       0;
+    right:      0;
+    height:     2px;
+    background: repeating-linear-gradient(90deg, rgba(250, 245, 238, .55) 0 14px, transparent 14px 28px);
+  }
+  section.sectie-route.route-6 div.route-binnen div.route-weg div.route-baan span.route-baan-gereden {
+    position:      absolute;
+    top:           0;
+    bottom:        0;
+    left:          0;
+    width:         calc(var(--voortgang, 0) * 100%);
+    border-radius: 999px;
+    background:    var(--kleur-geel);
+  }
+  section.sectie-route.route-6 div.route-binnen div.route-weg div.route-baan span.route-bus {
     position:        absolute;
     top:             50%;
     left:            calc(var(--voortgang, 0) * 100%);
