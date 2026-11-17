@@ -6048,6 +6048,322 @@ section.sectie-contact div.contact-binnen div.contactraster div.contactgegevens 
   }
 }
 
+/**Blokken -- Contact gesprek**/
+/*Gesprek -- Offertebalk bovenin het formulier*/
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.formulier-wissel {
+  display:         flex;
+  flex-wrap:       wrap;
+  align-items:     center;
+  justify-content: space-between;
+  gap:             12px 20px;
+  margin:          0 0 clamp(20px, 2.4vw, 28px);
+  padding:         16px 16px 16px 20px;
+  border-radius:   20px;
+  background:      var(--kleur-geel);
+  color:           var(--kleur-paars);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.formulier-wissel p.formulier-wissel-tekst {
+  flex:        1 1 260px;
+  margin:      0;
+  font-size:   16px;
+  line-height: 1.45;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.formulier-wissel p.formulier-wissel-tekst strong {
+  font-weight: 800;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.formulier-wissel a.formulier-wissel-knop {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             8px;
+  padding:         12px 18px;
+  border-radius:   999px;
+  background:      var(--kleur-paars);
+  color:           var(--kleur-wit);
+  font-size:       15px;
+  font-weight:     700;
+  text-decoration: none;
+  white-space:     nowrap;
+  transition:      background .3s var(--zacht), transform .3s var(--veer);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.formulier-wissel a.formulier-wissel-knop:hover {
+  background: var(--kleur-hover);
+  transform:  translateX(2px);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.formulier-wissel a.formulier-wissel-knop span {
+  display: inline-flex;
+}
+
+/*Gesprek -- Formulier op de achtergrond zolang het gesprek loopt*/
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak.gesprek-aan div.gesprek-formulier {
+  position:   absolute;
+  width:      1px;
+  height:     1px;
+  overflow:   hidden;
+  clip:       rect(0 0 0 0);
+  visibility: hidden;
+}
+
+/*Gesprek -- Kop met afzender*/
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek {
+  display:        flex;
+  flex-direction: column;
+  gap:            16px;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek[hidden] {
+  display: none;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-kop {
+  display:        flex;
+  align-items:    center;
+  gap:            12px;
+  padding-bottom: 16px;
+  border-bottom:  var(--lijn-dun) solid var(--kleur-zand);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-kop span.gesprek-avatar {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  flex:            0 0 44px;
+  width:           44px;
+  height:          44px;
+  border-radius:   50%;
+  background:      var(--kleur-geel);
+  color:           var(--kleur-paars);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-kop span.gesprek-afzender {
+  display:        flex;
+  flex-direction: column;
+  line-height:    1.25;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-kop span.gesprek-afzender span.gesprek-naam {
+  color:       var(--kleur-paars);
+  font-weight: 800;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-kop span.gesprek-afzender span.gesprek-status {
+  display:     inline-flex;
+  align-items: center;
+  gap:         6px;
+  color:       var(--kleur-paars);
+  font-size:   14px;
+  opacity:     .7;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-kop span.gesprek-afzender span.gesprek-status::before {
+  content:       "";
+  width:         8px;
+  height:        8px;
+  border-radius: 50%;
+  background:    #2fbf71;
+}
+
+/*Gesprek -- Berichten*/
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log {
+  display:         flex;
+  flex-direction:  column;
+  align-items:     flex-start;
+  gap:             10px;
+  min-height:      220px;
+  max-height:      min(520px, 62vh);
+  padding:         4px 4px 10px;
+  overflow-y:      auto;
+  scroll-behavior: smooth;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-bericht {
+  max-width:     min(88%, 520px);
+  padding:       12px 16px;
+  border-radius: 20px;
+  font-size:     16px;
+  line-height:   1.5;
+  white-space:   pre-wrap;
+  overflow-wrap: anywhere;
+  animation:     gesprek-in .35s var(--veer) both;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-bericht.gesprek-bericht-bus {
+  border-bottom-left-radius: 6px;
+  background:                var(--kleur-creme);
+  color:                     var(--kleur-paars);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-bericht.gesprek-bericht-gast {
+  align-self:                 flex-end;
+  border-bottom-right-radius: 6px;
+  background:                 var(--kleur-paars);
+  color:                      var(--kleur-wit);
+}
+@keyframes gesprek-in {
+  from {
+    opacity:   0;
+    transform: translateY(8px) scale(.97);
+  }
+}
+
+/*Gesprek -- Typen*/
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-bericht.gesprek-typen {
+  display: inline-flex;
+  gap:     5px;
+  padding: 16px 18px;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-bericht.gesprek-typen span {
+  width:         7px;
+  height:        7px;
+  border-radius: 50%;
+  background:    var(--kleur-paars);
+  opacity:       .35;
+  animation:     gesprek-typen 1s infinite ease-in-out;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-bericht.gesprek-typen span:nth-child(2) {
+  animation-delay: .15s;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-bericht.gesprek-typen span:nth-child(3) {
+  animation-delay: .3s;
+}
+@keyframes gesprek-typen {
+  50% {
+    opacity:   1;
+    transform: translateY(-3px);
+  }
+}
+
+/*Gesprek -- Overzicht voor het versturen*/
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-bericht.gesprek-bericht-overzicht {
+  white-space: normal;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log dl.gesprek-overzicht {
+  display:               grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap:                   6px 16px;
+  margin:                0;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log dl.gesprek-overzicht dt {
+  font-weight: 700;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log dl.gesprek-overzicht dd {
+  margin:      0;
+  white-space: pre-wrap;
+}
+
+/*Gesprek -- Keuzeknoppen*/
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-keuzes {
+  display:         flex;
+  flex-wrap:       wrap;
+  justify-content: flex-end;
+  gap:             8px;
+  align-self:      flex-end;
+  animation:       gesprek-in .35s var(--veer) both;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-keuzes .gesprek-keuze {
+  display:         inline-flex;
+  align-items:     center;
+  padding:         11px 18px;
+  border:          var(--lijn-dun) solid var(--kleur-paars);
+  border-radius:   999px;
+  background:      var(--kleur-wit);
+  color:           var(--kleur-paars);
+  font:            inherit;
+  font-size:       15px;
+  font-weight:     700;
+  text-decoration: none;
+  cursor:          pointer;
+  transition:      background .25s var(--zacht), color .25s var(--zacht), transform .3s var(--veer);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-keuzes .gesprek-keuze:hover {
+  background: var(--kleur-paars);
+  color:      var(--kleur-wit);
+  transform:  translateY(-2px);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-keuzes .gesprek-keuze.gesprek-keuze-hoofd {
+  border-color: var(--kleur-geel);
+  background:   var(--kleur-geel);
+  color:        var(--kleur-paars);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-keuzes a.gesprek-keuze.gesprek-keuze-hoofd::after {
+  content:     " \2192";
+  margin-left: 6px;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-keuzes .gesprek-keuze.gesprek-keuze-hoofd:hover {
+  border-color: var(--kleur-paars);
+  background:   var(--kleur-paars);
+  color:        var(--kleur-wit);
+}
+
+/*Gesprek -- Invoer*/
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek form.gesprek-invoer {
+  display:       flex;
+  align-items:   flex-end;
+  gap:           8px;
+  padding:       6px 6px 6px 18px;
+  border:        var(--lijn-dun) solid var(--kleur-zand);
+  border-radius: 28px;
+  background:    var(--kleur-veld);
+  transition:    border-color .25s var(--zacht);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek form.gesprek-invoer[hidden] {
+  display: none;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek form.gesprek-invoer:focus-within {
+  border-color: var(--kleur-paars);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek form.gesprek-invoer textarea {
+  flex:       1 1 auto;
+  min-height: 44px;
+  padding:    11px 0;
+  border:     0;
+  background: transparent;
+  color:      var(--kleur-paars);
+  font:       inherit;
+  font-size:  16px;
+  resize:     none;
+  outline:    none;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek form.gesprek-invoer.gesprek-invoer-groot textarea {
+  min-height: 72px;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek form.gesprek-invoer button.gesprek-stuur {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  flex:            0 0 44px;
+  width:           44px;
+  height:          44px;
+  border:          0;
+  border-radius:   50%;
+  background:      var(--kleur-paars);
+  color:           var(--kleur-wit);
+  cursor:          pointer;
+  transition:      background .25s var(--zacht), transform .3s var(--veer);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek form.gesprek-invoer button.gesprek-stuur:hover {
+  background: var(--kleur-hover);
+  transform:  scale(1.06);
+}
+
+/*Gesprek -- Link naar het gewone formulier*/
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek button.gesprek-klassiek {
+  align-self:            center;
+  padding:               4px;
+  border:                0;
+  background:            none;
+  color:                 var(--kleur-paars);
+  font:                  inherit;
+  font-size:             14px;
+  text-decoration:       underline;
+  text-underline-offset: 4px;
+  opacity:               .7;
+  cursor:                pointer;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek button.gesprek-klassiek:hover {
+  opacity: 1;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek button.gesprek-klassiek[hidden] {
+  display: none;
+}
+
+/*Gesprek -- Minder beweging*/
+@media (prefers-reduced-motion: reduce) {
+  section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-bericht,
+  section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-keuzes {
+    animation: none;
+  }
+}
+
 /**Reviews -- Compact**/
 /*Compact -- Kop links, lopende kaarten rechts tot de rand van het scherm*/
 section.sectie-reviews.reviews-compact {

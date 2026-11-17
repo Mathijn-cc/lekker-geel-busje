@@ -75,6 +75,7 @@ function thema_uitroltaken() {
 		'vval-stoelen-v1'         => 'thema_plaats_vval_stoelen',
 		'vval-agenda-link-v1'     => 'thema_vval_agenda_link',
 		'staan-mag-v1'            => 'thema_staan_mag',
+		'contact-snelle-vraag-v1' => 'thema_contact_snelle_vraag',
 	);
 }
 
@@ -590,6 +591,31 @@ function thema_staan_mag() {
 		$wpdb->update( $wpdb->posts, array( 'post_content' => str_replace( $zoek, $door, $rij->post_content ), 'post_excerpt' => str_replace( $zoek, $door, $rij->post_excerpt ) ), array( 'ID' => $rij->ID ) );
 		clean_post_cache( $rij->ID );
 		$uit['berichten']++;
+	}
+	wp_cache_flush();
+	return $uit;
+}
+
+/**
+ * Contactformulier is alleen voor snelle vragen: kop en intro boven het formulier op de bestaande contactblokken aanpassen.
+ * Alleen waar nog de oude standaardtekst staat, zelf aangepaste tekst blijft staan.
+ */
+function thema_contact_snelle_vraag() {
+	global $wpdb;
+	$vervang = array(
+		'formulier_kop'   => array( 'Stuur ons een *bericht*', 'Stel je *snelle vraag*' ),
+		'formulier_intro' => array( 'Vul je gegevens en je vraag in. We nemen zo snel mogelijk contact met je op.', 'Voor korte vragen over je rit, onze bussen of iets anders. We reageren binnen 1 werkdag.' ),
+	);
+	$uit = 0;
+	foreach ( $vervang as $veld => $teksten ) {
+		$uit += (int) $wpdb->query(
+			$wpdb->prepare(
+				"UPDATE {$wpdb->postmeta} SET meta_value = %s WHERE meta_key LIKE %s AND meta_value = %s",
+				$teksten[1],
+				$wpdb->esc_like( 'blokken_' ) . '%' . $wpdb->esc_like( '_' . $veld ),
+				$teksten[0]
+			)
+		);
 	}
 	wp_cache_flush();
 	return $uit;

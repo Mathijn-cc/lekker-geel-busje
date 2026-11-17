@@ -59,6 +59,10 @@ if ( $bedrijf && $aan( 'toon_bedrijf' ) ) {
 }
 
 $met_formulier = $id && function_exists( 'gravity_form' );
+$met_gesprek   = $met_formulier && $aan( 'gesprek' );
+if ( $met_gesprek ) {
+	wp_enqueue_script( 'thema-gesprek' );
+}
 
 echo thema_sectie_open( $b, 'contact' );
 ?>
@@ -93,7 +97,33 @@ echo thema_sectie_open( $b, 'contact' );
 						<?php if ( $waarde( 'formulier_intro' ) ) : ?><p class="tekst-groot" data-animeer><?php echo esc_html( $waarde( 'formulier_intro' ) ); ?></p><?php endif; ?>
 					</div>
 					<div class="formulier-vak" data-animeer>
-						<?php gravity_form( $id, false, false, false, null, true, 0, true ); ?>
+						<?php if ( $aan( 'toon_wissel' ) ) : ?>
+							<div class="formulier-wissel">
+								<p class="formulier-wissel-tekst"><strong><?php echo esc_html( $waarde( 'wissel_kop', 'Alleen voor snelle vragen.' ) ); ?></strong> <?php echo esc_html( $waarde( 'wissel_tekst', 'Wil je een prijs voor een rit? Daar is het offerteformulier voor.' ) ); ?></p>
+								<a class="formulier-wissel-knop" href="<?php echo esc_url( thema_offerte_url() ); ?>"><?php echo esc_html( $waarde( 'wissel_knop', 'Offerte aanvragen' ) ); ?><span aria-hidden="true"><?php echo thema_icoon( 'chevron', 14 ); ?></span></a>
+							</div>
+						<?php endif; ?>
+						<?php if ( $met_gesprek ) : ?>
+							<div class="gesprek" data-gesprek data-offerte="<?php echo esc_url( thema_offerte_url() ); ?>" data-teksten="<?php echo esc_attr( wp_json_encode( thema_gesprek_teksten() ) ); ?>" hidden>
+								<div class="gesprek-kop">
+									<span class="gesprek-avatar" aria-hidden="true"><?php echo thema_icoon( 'bus', 22 ); ?></span>
+									<span class="gesprek-afzender">
+										<span class="gesprek-naam"><?php echo esc_html( get_bloginfo( 'name' ) ); ?></span>
+										<span class="gesprek-status"><?php echo esc_html( $waarde( 'gesprek_status', 'Antwoord binnen 1 werkdag' ) ); ?></span>
+									</span>
+								</div>
+								<div class="gesprek-log" role="log" aria-live="polite" aria-label="Gesprek" data-gesprek-log></div>
+								<form class="gesprek-invoer" data-gesprek-invoer hidden>
+									<label class="sr-tekst" for="gesprek-antwoord-<?php echo (int) $id; ?>">Je antwoord</label>
+									<textarea id="gesprek-antwoord-<?php echo (int) $id; ?>" rows="1" data-gesprek-veld></textarea>
+									<button class="gesprek-stuur" type="submit" aria-label="Stuur je antwoord"><?php echo thema_icoon( 'chevron', 18 ); ?></button>
+								</form>
+								<button class="gesprek-klassiek" type="button" data-gesprek-klassiek>Liever het gewone formulier</button>
+							</div>
+						<?php endif; ?>
+						<div class="gesprek-formulier" data-gesprek-formulier>
+							<?php gravity_form( $id, false, false, false, null, true, 0, true ); ?>
+						</div>
 					</div>
 				<?php elseif ( $id && current_user_can( 'edit_pages' ) ) : ?>
 					<p class="melding">Gravity Forms is niet actief.</p>

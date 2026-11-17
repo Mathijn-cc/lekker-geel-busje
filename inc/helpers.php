@@ -256,6 +256,38 @@ function thema_offerte_url( $params = array() ) {
 	return $params ? add_query_arg( $params, $url ) : $url;
 }
 
+/**
+ * Teksten van het contactformulier als gesprek (assets/js/gesprek.js).
+ * {naam} wordt de voornaam van de bezoeker. Aanpassen kan ook met het filter 'thema_gesprek_teksten'.
+ */
+function thema_gesprek_teksten() {
+	return apply_filters( 'thema_gesprek_teksten', array(
+		'begroeting'     => 'Hoi! Leuk dat je even aanklopt.',
+		'keuzevraag'     => 'Waar kunnen we je mee helpen?',
+		'keuze_prijs'    => 'Ik wil een prijs voor een rit',
+		'keuze_vraag'    => 'Ik heb een snelle vraag',
+		'prijs_uitleg'   => 'Daar hebben we een apart formulier voor. Je vult in wanneer, waarheen en met hoeveel jullie zijn, en binnen 1 werkdag heb je een vaste prijs.',
+		'prijs_knop'     => 'Naar offerte aanvragen',
+		'toch_vraag'     => 'Ik heb toch een snelle vraag',
+		'vraag'          => 'Vertel, wat wil je weten?',
+		'aanvraag_check' => 'Dat klinkt als een aanvraag voor een rit. Via het offerteformulier heb je binnen 1 werkdag een prijs op maat, dat gaat het snelst.',
+		'toch_versturen' => 'Nee, het is echt een vraag',
+		'naam'           => 'Top. Hoe heet je?',
+		'achternaam'     => 'En je achternaam?',
+		'email'          => 'Leuk, {naam}! Op welk e-mailadres kunnen we je antwoorden?',
+		'email_fout'     => 'Hmm, dat lijkt geen e-mailadres. Probeer je het nog een keer?',
+		'telefoon'       => 'Wil je ook je telefoonnummer achterlaten? Handig als bellen sneller is.',
+		'overslaan'      => 'Liever niet',
+		'verplicht'      => 'Dit hebben we wel nodig om je te kunnen helpen.',
+		'klaar'          => 'Helemaal goed. Zal ik je vraag versturen?',
+		'versturen'      => 'Versturen',
+		'aanpassen'      => 'Iets aanpassen',
+		'gelukt'         => 'Verstuurd! We reageren binnen 1 werkdag, meestal sneller.',
+		'fout'           => 'Dat ging niet helemaal goed. Hieronder staat het formulier met je antwoorden, kijk even wat er nog mist.',
+		'plaatshouder'   => 'Typ je antwoord',
+	) );
+}
+
 function thema_telefoon_link( $nummer = null ) {
 	$nummer = $nummer ?? thema_instellingen( 'telefoon' );
 	return 'tel:' . preg_replace( '/[^0-9+]/', '', (string) $nummer );
