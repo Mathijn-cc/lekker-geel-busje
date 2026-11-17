@@ -61,6 +61,7 @@ function thema_uitroltaken() {
 		'bruiloft-blog-v2'        => 'thema_bruiloft_blog',
 		'bruiloft-v3'             => 'thema_plaats_bruiloft',
 		'bruiloft-v4'             => 'thema_plaats_bruiloft',
+		'bruiloft-offertekop-v1'  => 'thema_bruiloft_offertekop',
 	);
 }
 

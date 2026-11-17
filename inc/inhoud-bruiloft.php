@@ -627,3 +627,24 @@ HTML,
 		),
 	);
 }
+
+/**
+ * Uitroltaak bruiloft-offertekop-v1: de offertekop direct in de opgeslagen blokken zetten en teruglezen.
+ */
+function thema_bruiloft_offertekop() {
+	$post = get_page_by_path( 'bruiloft', OBJECT, 'gelegenheid' );
+	if ( ! $post ) {
+		return 'geen pagina';
+	}
+	$uit = array();
+	foreach ( (array) get_post_meta( $post->ID, 'blokken', true ) as $i => $layout ) {
+		if ( 'offerte' === $layout ) {
+			$oud = get_post_meta( $post->ID, "blokken_{$i}_kop", true );
+			update_post_meta( $post->ID, "blokken_{$i}_kop", 'Zeggen jullie ja? *Rijden wij de gasten.*' );
+			$uit[] = array( 'blok' => $i, 'oud' => $oud, 'nu' => get_post_meta( $post->ID, "blokken_{$i}_kop", true ) );
+		}
+	}
+	clean_post_cache( $post->ID );
+	wp_cache_flush();
+	return $uit;
+}
