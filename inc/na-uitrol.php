@@ -78,6 +78,7 @@ function thema_uitroltaken() {
 		'contact-snelle-vraag-v1' => 'thema_contact_snelle_vraag',
 		'bedankt-v1'              => 'thema_plaats_bedankt',
 		'bedankt-bevestiging-v1'  => 'thema_bedankt_bevestigingen',
+		'bedankt-playlist-v1'     => 'thema_bedankt_playlist_link',
 	);
 }
 

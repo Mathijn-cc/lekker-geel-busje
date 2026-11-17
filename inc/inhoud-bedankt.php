@@ -10,6 +10,9 @@
 
 defined( 'ABSPATH' ) || exit;
 
+/** Spotify-playlist Lekker Geel Busje: feest op wielen (moet in Spotify op openbaar staan). */
+const THEMA_BEDANKT_PLAYLIST = 'https://open.spotify.com/playlist/5QXsFM5TNPaD9T4q3z8RKW';
+
 /**
  * Slug per formulier.
  */
@@ -70,7 +73,7 @@ function thema_bedankt_playlist( $anker = 'playlist' ) {
 		'eyebrow'       => 'Alvast in de stemming',
 		'kop'           => 'Zet *het busgeluid* alvast aan',
 		'tekst'         => 'Een rit zonder muziek? Ondenkbaar. Daarom maakten we een playlist met een knipoog naar de bus: Hollandse meezingers, 80s en 90s classics, house en hardstyle. Zet hem aan in de groepsapp, in de auto of gewoon thuis.',
-		'spotify'       => '',
+		'spotify'       => THEMA_BEDANKT_PLAYLIST,
 		'titel'         => 'Lekker Geel Busje: feest op wielen',
 		'knop'          => 'Open in Spotify',
 		'nummers'       => implode( "\n", array(
@@ -354,5 +357,29 @@ function thema_bedankt_bevestigingen() {
 		$uit[ $form_id ] = (int) $pagina->ID;
 	}
 	update_option( 'thema_bedankt_oude_bevestigingen', $oud, false );
+	return $uit;
+}
+
+/**
+ * Uitroltaak bedankt-playlist-v1: de Spotify-link in het playlistblok van beide bedankpagina's zetten.
+ */
+function thema_bedankt_playlist_link() {
+	if ( ! function_exists( 'update_sub_field' ) ) {
+		return 0;
+	}
+	$uit = array();
+	foreach ( thema_bedankt_slugs() as $slug ) {
+		$pagina = get_page_by_path( $slug );
+		if ( ! $pagina ) {
+			continue;
+		}
+		foreach ( (array) get_field( 'blokken', $pagina->ID ) as $i => $blok ) {
+			if ( 'playlist' === ( $blok['acf_fc_layout'] ?? '' ) && empty( $blok['spotify'] ) ) {
+				update_sub_field( array( 'blokken', $i + 1, 'spotify' ), THEMA_BEDANKT_PLAYLIST, $pagina->ID );
+				$uit[ $slug ] = $i + 1;
+			}
+		}
+		clean_post_cache( $pagina->ID );
+	}
 	return $uit;
 }
