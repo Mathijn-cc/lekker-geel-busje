@@ -1,6 +1,6 @@
 <?php
 /**
- * Bedrijfsuitje (november 2026): de landingspagina /gelegenheden/bedrijfsuitje/ en vijf artikelen in het
+ * Bedrijfsuitje (november 2026): de landingspagina /gelegenheden/bedrijfsuitje/ en zes artikelen in het
  * onderwerp Teamuitjes (/blog/onderwerp/teamuitjes/). Geplaatst door de uitroltaken bedrijfsuitje-blog-v1
  * en bedrijfsuitje-v1. Wie de tekst later in WordPress aanpast, houdt die aanpassing.
  *
@@ -26,7 +26,7 @@ function thema_bedrijfsuitje_link( $slug ) {
 }
 
 /**
- * Uitroltaak bedrijfsuitje-blog-v1: onderwerp Teamuitjes en de vijf artikelen.
+ * Uitroltaak bedrijfsuitje-blog-v1: onderwerp Teamuitjes en de artikelen.
  */
 function thema_bedrijfsuitje_blog() {
 	$uit  = array();
@@ -98,6 +98,8 @@ function thema_plaats_bedrijfsuitje() {
 	$extra = array(
 		array( 'Kunnen we de bus ook boeken voor een personeelsfeest of kerstborrel?', 'Zeker. Een teamuitje, personeelsfeest, kerstborrel, jubileum of het afscheid van een collega: de bus rijdt voor elk moment waarop je met collega\'s op pad gaat. Vertel wat jullie plan is, dan denken we mee over de route.' ),
 		array( 'Waar rijden jullie naartoe?', 'Overal waar jullie uitje is. We rijden door heel Nederland en daarbuiten, dus kies gerust de activiteit, het restaurant of de stad die bij jullie team past.' ),
+		array( 'Kunnen we op factuur op bedrijfsnaam betalen?', 'Ja. Je krijgt de factuur op naam van het bedrijf, met de vaste all-in prijs uit de offerte. Zet de bedrijfsgegevens in je aanvraag, dan regelen we het meteen goed.' ),
+		array( 'Vanaf hoeveel personen is de bus geschikt?', 'De bus komt het best tot zijn recht vanaf zo\'n 35 personen. Elke bus heeft minstens 39 zitplaatsen en in onze verlengde bus gaan tot 88 personen mee. Met een kleinere groep? Vraag het gerust, dan denken we mee.' ),
 		array( 'Bepalen we zelf de sfeer in de bus?', 'Ja. Sluit jullie eigen playlist aan, zet het licht vol aan of houd het juist rustig op de heenweg. Het gastvrouwke en de chauffeur stemmen het met jullie af.' ),
 	);
 	$vragen        = function_exists( 'thema_faq_rijen' ) ? thema_faq_rijen( array_merge( $eigen, $lijst, $extra ) ) : array();
@@ -216,7 +218,7 @@ function thema_plaats_bedrijfsuitje() {
 }
 
 /**
- * De vijf artikelen. Algemeen gehouden: geen plaatsnamen of namen van zaken.
+ * De artikelen. Algemeen gehouden: geen plaatsnamen of namen van zaken.
  */
 function thema_bedrijfsuitje_artikelen() {
 	$landing     = home_url( '/gelegenheden/bedrijfsuitje/' );
@@ -225,6 +227,7 @@ function thema_bedrijfsuitje_artikelen() {
 	$spellen     = thema_bedrijfsuitje_link( 'teambuilding-spellen-collegas-bus' );
 	$kerst       = thema_bedrijfsuitje_link( 'kerstborrel-kerstuitje-organiseren' );
 	$winter      = thema_bedrijfsuitje_link( 'bedrijfsuitje-winter-ideeen' );
+	$wkr         = thema_bedrijfsuitje_link( 'bedrijfsuitje-werkkostenregeling' );
 
 	return array(
 
@@ -240,7 +243,7 @@ function thema_bedrijfsuitje_artikelen() {
 			'offerte_kop'  => 'Idee gekozen? *Wij rijden.*',
 			'vragen'       => array(
 				array( 'Wat is een leuk bedrijfsuitje?', 'Een uitje waar iedereen aan mee kan doen en dat past bij jullie team. Een activiteit in de middag, samen eten en een borrel of feest is een vorm die bijna altijd werkt. De activiteit zelf kies je op basis van de groep: actief, culinair, creatief of feestelijk.' ),
-				array( 'Wat is een origineel teamuitje?', 'Iets wat het team nog niet eerder deed en waar je samen om kunt lachen. Denk aan een mystery tour waarbij niemand weet waar de bus naartoe rijdt, een diner op drie plekken of een dag over de grens.' ),
+				array( 'Wat is een origineel teamuitje?', 'Iets wat het team nog niet eerder deed en waar je samen om kunt lachen. Denk aan een mystery tour waarbij niemand weet waar de bus naartoe rijdt, een dinnershow of een uitje met overnachting.' ),
 				array( 'Wat is het verschil tussen een bedrijfsuitje en een teamuitje?', 'Een teamuitje is meestal voor één team of afdeling, een bedrijfsuitje voor het hele bedrijf. Personeelsuitje en PV-uitje zijn andere woorden voor hetzelfde. De ideeën werken voor allemaal, alleen de groepsgrootte verschilt.' ),
 			),
 			'blokken'      => array(),
@@ -262,7 +265,7 @@ function thema_bedrijfsuitje_artikelen() {
 <li><strong>Bierproeverij bij een brouwerij:</strong> proeven, vergelijken en ontdekken wie de echte kenner van het team is.</li>
 <li><strong>Wijnproeverij:</strong> een rustige start van de middag, met veel om over te praten.</li>
 <li><strong>Cocktailworkshop:</strong> iedereen shaket zijn eigen drankje. Alcoholvrije varianten maken het voor iedereen leuk.</li>
-<li><strong>Diner op drie plekken:</strong> voorgerecht, hoofdgerecht en dessert bij drie verschillende restaurants. De bus rijdt tussen de gangen door.</li>
+<li><strong>Chocolade- of koffieworkshop:</strong> proeven, leren en zelf maken. Ook leuk voor collega's die geen alcohol drinken.</li>
 </ul>
 
 <h2>Creatief en slim: voor de denkers</h2>
@@ -286,10 +289,10 @@ function thema_bedrijfsuitje_artikelen() {
 <h2>Net even anders: voor teams die alles al gedaan hebben</h2>
 <ul>
 <li><strong>Mystery tour:</strong> iedereen stapt in, niemand weet waar de bus naartoe rijdt. Alleen de organisator en de chauffeur kennen de bestemming.</li>
-<li><strong>Dagje over de grens:</strong> een andere taal, ander eten en een heel ander uitje, en toch gewoon met de bus te doen.</li>
+<li><strong>Dinnershow:</strong> eten, muziek en een show in één avond, zonder dat je zelf iets hoeft te organiseren.</li>
 <li><strong>Uitje met overnachting:</strong> twee dagen weg met het team, met een feestavond die niet hoeft te stoppen voor de laatste trein.</li>
 <li><strong>Vrijwilligersdag:</strong> een dag samen de handen uit de mouwen voor een goed doel, en daarna samen proosten.</li>
-<li><strong>Rondrit langs jullie hoogtepunten:</strong> het eerste kantoor, de grootste klant, het café van de vrijdagmiddagborrel. Een uitje vol herinneringen, ideaal bij een jubileum.</li>
+<li><strong>Attractiepark:</strong> een dag in de achtbaan met het hele team. Iedereen is even weer twaalf.</li>
 </ul>
 
 <h2>Zo kies je het juiste bedrijfsuitje</h2>
@@ -322,7 +325,7 @@ HTML,
 			'offerte_kop'  => 'Vervoer voor het bedrijfsuitje *geregeld?*',
 			'vragen'       => array(
 				array( 'Hoe ver van tevoren organiseer je een bedrijfsuitje?', 'Begin twee tot drie maanden van tevoren. Voor een personeelsfeest of een uitje in december mag het nog eerder, want dan zitten locaties, restaurants en vervoer snel vol.' ),
-				array( 'Valt een bedrijfsuitje onder de werkkostenregeling?', 'Meestal wel. Een personeelsuitje telt in de regel mee in de vrije ruimte van de werkkostenregeling. Hoeveel ruimte er nog is, verschilt per bedrijf en per jaar. Vraag het je boekhouder of salarisadministratie voordat je het budget vastlegt.' ),
+				array( 'Valt een bedrijfsuitje onder de werkkostenregeling?', 'Ja. De kosten van een uitje zijn loon, maar de werkgever kan ze onderbrengen in de vrije ruimte van de werkkostenregeling. In 2026 is die 2% van de fiscale loonsom tot € 400.000 en 1,18% daarboven. Boven de vrije ruimte betaalt de werkgever 80% eindheffing. Vraag de boekhouder hoeveel ruimte er nog over is.' ),
 				array( 'Hoe zorg je dat iedereen meedoet?', 'Vraag vooraf wat collega\'s leuk vinden, kies een activiteit waaraan iedereen kan meedoen en zorg voor genoeg keuze zonder alcohol. En plan het uitje op een moment dat het grootste deel van het team kan.' ),
 			),
 			'blokken'      => array(
@@ -360,7 +363,8 @@ HTML,
 <p>Kies een datum waarop het grootste deel van het team kan, en zet hem ruim van tevoren in de agenda's. Een uitje dat in de middag begint en in de avond eindigt, werkt goed: het voelt als een cadeau van de werkgever en de avond is vrij om door te gaan. Vrijdagen zitten snel vol, bij locaties en ook bij vervoer. Een donderdag is vaak een slimme keuze.</p>
 
 <h2>3. Spreek het budget af</h2>
-<p>Tel alles bij elkaar op: activiteit, eten en drinken, locatie, vervoer en eventueel een aandenken. Deel het door het aantal deelnemers, dan weet je wat het per persoon mag kosten. Een personeelsuitje valt meestal onder de werkkostenregeling. Hoeveel vrije ruimte er nog is, verschilt per bedrijf, dus check het bij de boekhouder voordat je iets vastlegt.</p>
+<p>Tel alles bij elkaar op: activiteit, eten en drinken, locatie, vervoer en eventueel een aandenken. Deel het door het aantal deelnemers, dan weet je wat het per persoon mag kosten.</p>
+<p>Houd daarbij rekening met de werkkostenregeling (WKR). Een bedrijfsuitje telt mee in de vrije ruimte: in 2026 is dat 2% van de fiscale loonsom tot € 400.000 en 1,18% over het deel daarboven. Ga je erover, dan betaalt de werkgever 80% eindheffing over het meerdere. Een uitje buiten de deur telt met de volledige rekening mee, een borrel op de eigen werkplek veel minder. Hoe dat precies werkt, lees je in <a href="{$wkr}">bedrijfsuitje en de werkkostenregeling</a>. Check altijd even met de boekhouder hoeveel vrije ruimte er dit jaar nog over is.</p>
 
 <h2>4. Peil wat collega's willen</h2>
 <p>Een korte vragenlijst of een poll in de groepsapp voorkomt een uitje waar de helft geen zin in heeft. Vraag naar voorkeuren en naar dingen waar je rekening mee moet houden, zoals dieetwensen, mobiliteit of collega's die niet drinken. Geef twee of drie opties om uit te kiezen, geen open vraag.</p>
@@ -372,7 +376,7 @@ HTML,
 <p>Vraag bij elke locatie naar het maximum aantal personen, de mogelijkheden voor dieetwensen en een plan bij slecht weer. Plan het eten niet te laat: een groep die de hele middag actief is geweest, heeft om zes uur echt een bord nodig.</p>
 
 <h2>7. Regel het vervoer in één keer</h2>
-<p>Met dertig of zestig collega's van kantoor naar de activiteit, het restaurant en de borrel is een puzzel. Wie rijdt, wie neemt de trein en wie raakt onderweg kwijt? Met een eigen bus blijft de groep bij elkaar, komt iedereen tegelijk aan en hoeft niemand de Bob te zijn.</p>
+<p>Met veertig of tachtig collega's van kantoor naar de activiteit, het restaurant en de borrel is een puzzel. Wie rijdt, wie neemt de trein en wie raakt onderweg kwijt? Met een eigen bus blijft de groep bij elkaar, komt iedereen tegelijk aan en hoeft niemand de Bob te zijn.</p>
 <p>Met een <a href="{$landing}">partybus voor je bedrijfsuitje</a> halen we collega's op bij kantoor of op meerdere opstapplekken, en brengen we iedereen na afloop terug. Je krijgt binnen 1 werkdag een vaste all-in prijs, met chauffeur, gastvrouwke, licht en geluid erin. Dat zet je zo in de begroting.</p>
 
 <h2>8. Verstuur een duidelijke uitnodiging</h2>
@@ -511,11 +515,11 @@ HTML,
 <h2>Zes ideeën voor een kerstuitje op pad</h2>
 <ul>
 <li><strong>Kerstdiner op een bijzondere plek:</strong> samen aan een lange tafel, met een toost op het jaar.</li>
-<li><strong>Kerstmarkt bezoeken:</strong> slenteren, proeven en een warm drankje, in Nederland of net over de grens.</li>
+<li><strong>Kerstmarkt bezoeken:</strong> slenteren, proeven en samen een warm drankje.</li>
 <li><strong>Schaatsen:</strong> op een ijsbaan, met daarna erwtensoep en warme chocolademelk.</li>
 <li><strong>Workshop kerststukjes of kransen maken:</strong> creatief, gezellig en iedereen heeft een aandenken.</li>
 <li><strong>Kerstfeest met thema:</strong> van gala tot foute kerst, met een dresscode die het hele team meedoet.</li>
-<li><strong>Lichtjesrit met de bus:</strong> een avondrit langs de mooiste kerstverlichting, met muziek en een drankje aan boord, en daarna door naar het diner.</li>
+<li><strong>Kerstvoorstelling of kerstconcert:</strong> samen naar een show, met daarna een drankje om na te praten.</li>
 </ul>
 
 <h2>De planning voor de kerstborrel</h2>
@@ -526,6 +530,9 @@ HTML,
 <li><strong>De week ervoor:</strong> draaiboek delen en iedereen herinneren aan de dresscode.</li>
 </ul>
 <p>Ben je laat? Geen paniek. Vraag bij de locatie, het restaurant en het vervoer tegelijk na wat er nog kan, en kies dan de datum die overal past. Een uitgebreid stappenplan vind je in <a href="{$organiseren}">bedrijfsuitje organiseren</a>.</p>
+
+<h2>Nog vrije ruimte over in de WKR?</h2>
+<p>De vrije ruimte van de werkkostenregeling geldt per kalenderjaar: wat je in 2026 niet gebruikt, vervalt. Is er nog ruimte over, dan is een kerstuitje een mooie manier om die te benutten. Let wel op het verschil: een borrel op de eigen werkplek telt veel minder mee dan een diner of feest buiten de deur. Alles over de regels lees je in <a href="{$wkr}">bedrijfsuitje en de werkkostenregeling</a>.</p>
 
 <h2>Vervoer in december: waarom het extra fijn is</h2>
 <p>In december is het vroeg donker, vaak koud en soms glad. En na een kerstborrel wil niemand nog achter het stuur. Met een <a href="{$landing}">partybus voor je bedrijfsuitje</a> rijden jullie samen heen en samen terug. Het gastvrouwke zorgt voor de drankjes, de chauffeur houdt zijn aandacht bij de weg, en met verlichting, lasers en muziek aan boord voelt de rit zelf al als een kerstfeest.</p>
@@ -571,7 +578,7 @@ HTML,
 <li><strong>Indoor skiën of snowboarden:</strong> sneeuw gegarandeerd, ook als het buiten regent.</li>
 <li><strong>Vuurkorf en barbecue:</strong> winterbarbecue bij het vuur, met dekens en warme drankjes.</li>
 <li><strong>Stadsspel in het donker:</strong> een puzzeltocht met zaklampen door de verlichte stad.</li>
-<li><strong>Dagje over de grens:</strong> een winterse stad in het buitenland, met andere gerechten en een andere sfeer.</li>
+<li><strong>Curling:</strong> op het ijs met bezems en stenen. Ook leuk voor wie niet kan schaatsen.</li>
 </ul>
 
 <h2>Zo maak je een winteruitje geslaagd</h2>
@@ -594,6 +601,116 @@ HTML,
 <p>Liever in december? Lees dan onze tips voor een <a href="{$kerst}">kerstborrel of kerstuitje</a>. En zoek je nog meer inspiratie, bekijk dan onze <a href="{$ideeen}">25 ideeën voor een bedrijfsuitje</a>.</p>
 HTML,
 		),
+
+		/* 6. Werkkostenregeling. Cijfers 2026 gecheckt op 17 nov 2026 bij de Belastingdienst en vakmedia. */
+		array(
+			'slug'         => 'bedrijfsuitje-werkkostenregeling',
+			'titel'        => 'Bedrijfsuitje en de werkkostenregeling: zo zit het in 2026',
+			'seo_titel'    => 'Bedrijfsuitje en de WKR in 2026 | Lekker Geel Busje',
+			'samenvatting' => 'Valt een bedrijfsuitje of personeelsfeest onder de werkkostenregeling? De vrije ruimte in 2026, het verschil tussen de werkplek en buiten de deur, en een rekenvoorbeeld.',
+			'beeld'        => 'drankjes-halen-aan-de-bar-in-de-bus',
+			'kort'         => "Een bedrijfsuitje valt in de vrije ruimte: in 2026 is dat 2% van de fiscale loonsom tot € 400.000 en 1,18% daarboven.\nBuiten de deur telt de hele rekening mee, op de eigen werkplek een stuk minder.\nOnbenutte vrije ruimte vervalt aan het eind van het jaar.",
+			'faq_kop'      => 'Vragen over de *werkkostenregeling*',
+			'offerte_kop'  => 'Weet je je budget? *Wij rijden.*',
+			'vragen'       => array(
+				array( 'Valt een personeelsfeest onder de werkkostenregeling?', 'Ja. De kosten zijn loon voor de werknemers, maar de werkgever kan ze aanwijzen als eindheffingsloon en onderbrengen in de vrije ruimte. Zolang je binnen die ruimte blijft, betaalt niemand er belasting over.' ),
+				array( 'Wat gebeurt er als je over de vrije ruimte heen gaat?', 'Dan betaalt de werkgever 80% eindheffing over het bedrag boven de vrije ruimte. De werknemers merken daar niets van. Houd daarom door het jaar heen bij hoeveel ruimte je al gebruikt.' ),
+				array( 'Is een feest op kantoor fiscaal voordeliger?', 'Vaak wel. Op de eigen werkplek tellen hapjes en drankjes niet mee en een maaltijd telt voor een vast normbedrag. Buiten de deur telt de hele rekening mee. Of dat opweegt tegen een uitje dat iedereen onthoudt, is aan jullie.' ),
+			),
+			'blokken'      => array(),
+			'tekst'        => <<<HTML
+<p>Een bedrijfsuitje kost geld, en dan wil je weten hoe de Belastingdienst ernaar kijkt. Het antwoord zit in de werkkostenregeling, de WKR. Hieronder lees je hoe het in 2026 werkt voor een teamuitje, personeelsfeest of kerstborrel, met een rekenvoorbeeld en links naar de bronnen. Dit is algemene informatie, geen fiscaal advies: leg je eigen situatie altijd even voor aan je boekhouder.</p>
+
+<h2>Wat is de werkkostenregeling?</h2>
+<p>Met de werkkostenregeling mag een werkgever een deel van de fiscale loonsom onbelast besteden aan zijn personeel, bijvoorbeeld aan een kerstpakket, een bedrijfsfitness of een personeelsuitje. Dat deel heet de vrije ruimte. Volgens de <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/personeel-en-loon/content/werkkostenregeling" target="_blank" rel="noopener">Belastingdienst</a> is de vrije ruimte in 2026:</p>
+<ul>
+<li><strong>2%</strong> over de fiscale loonsom tot en met € 400.000;</li>
+<li><strong>1,18%</strong> over het deel daarboven.</li>
+</ul>
+<p>Voor 2027 staat een verhoging van de eerste schijf naar 2,16% gepland, onder voorbehoud van het Belastingplan.</p>
+
+<h2>Rekenvoorbeeld</h2>
+<ul>
+<li>Fiscale loonsom € 400.000: de vrije ruimte is 2% daarvan, dus <strong>€ 8.000</strong>.</li>
+<li>Fiscale loonsom € 1.000.000: 2% over € 400.000 is € 8.000, plus 1,18% over € 600.000 is € 7.080. Samen <strong>€ 15.080</strong>.</li>
+</ul>
+<p>Let op: dat bedrag is voor alles wat je in de vrije ruimte onderbrengt, dus ook voor kerstpakketten, cadeaus en andere vergoedingen. Het uitje is daar één onderdeel van.</p>
+
+<h2>Valt een bedrijfsuitje onder de WKR?</h2>
+<p>Ja. De kosten van een uitje of personeelsfeest zijn loon voor je werknemers. Als werkgever wijs je ze aan als eindheffingsloon en breng je ze onder in de vrije ruimte. Blijf je daarbinnen, dan betaalt niemand er belasting over. Ga je eroverheen, dan betaalt de werkgever 80% eindheffing over het meerdere. De werknemers merken daar niets van.</p>
+
+<h2>Op de werkplek of buiten de deur: dat scheelt</h2>
+<p>Voor de WKR maakt het veel uit waar het feest is. Als werkplek geldt elke plek waarvoor de werkgever arboverantwoordelijk is, zoals het kantoor, de werkplaats of de kantine.</p>
+<ul>
+<li><strong>Op de eigen werkplek:</strong> hapjes en drankjes tellen niet mee voor de vrije ruimte. Een maaltijd, zoals een buffet, telt mee voor een vast normbedrag van € 4,05 per persoon in 2026.</li>
+<li><strong>Buiten de deur:</strong> in een restaurant, op een feestlocatie of bij een activiteit telt de volledige rekening mee, inclusief btw.</li>
+</ul>
+<p>Een borrel op kantoor is fiscaal dus voordeliger. Maar een uitje buiten de deur is vaak precies wat het team onthoudt. Weeg het af tegen het doel van het uitje.</p>
+
+<h2>En het vervoer?</h2>
+<p>Neem het vervoer gewoon mee in je berekening van het totale uitje. Hoe het precies wordt behandeld, hangt af van de opzet van jullie uitje. Vraag het je boekhouder als je twijfelt. Bij Lekker Geel Busje krijg je binnen 1 werkdag een vaste all-in prijs, op factuur op naam van het bedrijf. Dan weet je vooraf precies welk bedrag je meeneemt. Meer over vervoer voor jullie uitje lees je op de pagina <a href="{$landing}">partybus voor je bedrijfsuitje</a>.</p>
+
+<h2>Gaan partners mee?</h2>
+<p>Mogen partners mee naar het personeelsfeest, dan kunnen ook hun kosten in de vrije ruimte worden ondergebracht. Neem ze dus mee in de berekening, zodat je niet aan het eind van het jaar voor een verrassing staat.</p>
+
+<h2>Tips voor de organisator</h2>
+<ul>
+<li><strong>Vraag vooraf hoeveel ruimte er nog is.</strong> De boekhouder of salarisadministratie weet wat er dit jaar al in de vrije ruimte zit.</li>
+<li><strong>Gebruik de ruimte voor het eind van het jaar.</strong> Onbenutte vrije ruimte vervalt en schuift niet door naar volgend jaar. Een <a href="{$kerst}">kerstborrel of kerstuitje</a> is dan een mooie besteding.</li>
+<li><strong>Werk met vaste prijzen.</strong> Met een vaste prijs per onderdeel weet je vooraf of je binnen de ruimte blijft.</li>
+<li><strong>Bewaar de facturen</strong> en geef ze door aan de administratie, met een korte omschrijving van het uitje.</li>
+</ul>
+<p>Budget helder? Gebruik dan ons <a href="{$organiseren}">stappenplan voor het organiseren van een bedrijfsuitje</a>.</p>
+
+<h2>Bronnen</h2>
+<ul>
+<li><a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/personeel-en-loon/content/werkkostenregeling" target="_blank" rel="noopener">Belastingdienst: wat is de werkkostenregeling (WKR)?</a></li>
+<li><a href="https://www.dezaak.nl/financien/payroll-en-salarisadministratie/eindejaarsfeest-en-werkkostenregeling-wat-telt-mee-in-2026/" target="_blank" rel="noopener">De Zaak: eindejaarsfeest en werkkostenregeling, wat telt mee in 2026</a></li>
+<li><a href="https://bjornlunden.com/nl/kennisbank/blogs/kerstborrel-zo-zit-het-fiscaal/" target="_blank" rel="noopener">Björn Lundén: kerstborrel, zo zit het fiscaal</a></li>
+<li><a href="https://www.mkbservicedesk.nl/personeel/beloning-arbeidsvoorwaarden/werkkostenregeling-welke-kosten-vallen-daaronder" target="_blank" rel="noopener">MKB Servicedesk: werkkostenregeling, welke kosten vallen daaronder</a></li>
+</ul>
+<p><em>Bijgewerkt op 17 november 2026. Regels en percentages kunnen per jaar veranderen.</em></p>
+HTML,
+		),
 	);
 }
 
+
+/**
+ * Uitroltaak blog-in-hoofdmenu-v1: Blog in het hoofdmenu, voor Neem contact op (anders achteraan).
+ */
+function thema_blog_in_hoofdmenu() {
+	$blog = thema_blog_pagina();
+	$plek = get_nav_menu_locations();
+	if ( ! $blog || empty( $plek['hoofdmenu'] ) ) {
+		return 'geen blog of hoofdmenu';
+	}
+	$menu  = (int) $plek['hoofdmenu'];
+	$items = (array) wp_get_nav_menu_items( $menu );
+	foreach ( $items as $item ) {
+		if ( (int) $item->object_id === (int) $blog->ID ) {
+			return 'staat er al';
+		}
+	}
+	$positie = count( $items ) + 1;
+	foreach ( $items as $item ) {
+		if ( 0 === (int) $item->menu_item_parent && false !== stripos( $item->title, 'contact' ) ) {
+			$positie = (int) $item->menu_order;
+			break;
+		}
+	}
+	foreach ( $items as $item ) {
+		if ( (int) $item->menu_order >= $positie ) {
+			wp_update_post( array( 'ID' => $item->ID, 'menu_order' => (int) $item->menu_order + 1 ) );
+		}
+	}
+	$id = wp_update_nav_menu_item( $menu, 0, array(
+		'menu-item-object-id' => $blog->ID,
+		'menu-item-object'    => 'page',
+		'menu-item-type'      => 'post_type',
+		'menu-item-title'     => 'Blog',
+		'menu-item-position'  => $positie,
+		'menu-item-status'    => 'publish',
+	) );
+	return is_wp_error( $id ) ? $id->get_error_message() : array( 'item' => $id, 'positie' => $positie );
+}

@@ -45,6 +45,9 @@ function thema_uitroltaken() {
 		'adresvelden-v3'          => 'thema_offerte_indeling',
 		'bedrijfsuitje-blog-v1'   => 'thema_bedrijfsuitje_blog',
 		'bedrijfsuitje-v1'        => 'thema_plaats_bedrijfsuitje',
+		'bedrijfsuitje-blog-v2'   => 'thema_bedrijfsuitje_blog',
+		'bedrijfsuitje-v2'        => 'thema_plaats_bedrijfsuitje',
+		'blog-in-hoofdmenu-v1'    => 'thema_blog_in_hoofdmenu',
 	);
 }
 
