@@ -300,9 +300,11 @@ function thema_adres_pdok_zoek( $q, $soort ) {
 			$titel = $plaats;
 			$sub   = trim( preg_replace( '/^[^,]*,\s*/', '', (string) ( $doc['weergavenaam'] ?? '' ) ) );
 			$label = 'Plaats';
-		} else {
-			$titel = trim( ( $doc['straatnaam'] ?? '' ) . ' ' . ( $doc['huis_nlt'] ?? '' ) );
-			$sub   = trim( ( $doc['postcode'] ?? '' ) . ' ' . $plaats );
+		}
+		$delen = thema_adres_delen( $doc['straatnaam'] ?? '', $doc['huis_nlt'] ?? '', $doc['postcode'] ?? '', $plaats, '', 'NL' );
+		if ( 'woonplaats' !== $type ) {
+			$titel = trim( $delen['straat'] . ' ' . $delen['huisnummer'] );
+			$sub   = trim( $delen['postcode'] . ' ' . $plaats );
 			$label = 'Adres';
 		}
 		$resultaten[] = array(
@@ -310,7 +312,7 @@ function thema_adres_pdok_zoek( $q, $soort ) {
 			'titel' => $titel,
 			'sub'   => $sub,
 			'label' => $label,
-			'delen' => thema_adres_delen( $doc['straatnaam'] ?? '', $doc['huis_nlt'] ?? '', $doc['postcode'] ?? '', $plaats, '', 'NL' ),
+			'delen' => $delen,
 		);
 	}
 	return $resultaten;
