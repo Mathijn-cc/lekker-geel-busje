@@ -57,6 +57,7 @@ function thema_uitroltaken() {
 		'bruiloft-volgorde-v1'    => 'thema_bruiloft_volgorde',
 		'bruiloft-v1'             => 'thema_plaats_bruiloft',
 		'bruiloft-volgorde-v2'    => 'thema_bruiloft_volgorde',
+		'bruiloft-v2'             => 'thema_plaats_bruiloft',
 	);
 }
 

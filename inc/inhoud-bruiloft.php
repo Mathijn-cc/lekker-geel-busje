@@ -111,7 +111,7 @@ function thema_plaats_bruiloft() {
 
 	update_field( 'field_gel_ondertitel', 'Van ceremonie naar feest, met al jullie gasten.', $id );
 	update_field( 'field_seo_seo_titel', 'Partybus en gastenvervoer voor je bruiloft | Lekker Geel Busje', $id );
-	update_field( 'field_seo_seo_omschrijving', 'Vervoer voor jullie bruiloftsgasten: van ceremonie naar feest en na afloop veilig naar huis. Chauffeur en gastvrouwke aan boord, binnen 1 werkdag een vaste prijs.', $id );
+	update_field( 'field_seo_seo_omschrijving', 'Trouwvervoer voor al jullie gasten: van ceremonie naar feest, daggasten en avondgasten, en na afloop veilig naar huis. Binnen 1 werkdag een vaste prijs.', $id );
 
 	$reviews             = thema_blok_reviews();
 	$reviews['kop']      = 'Zij stapten al in, *dit vonden ze ervan*';
@@ -122,7 +122,7 @@ function thema_plaats_bruiloft() {
 		array( 'Wat kost een partybus voor een bruiloft?', 'Dat hangt af van het aantal gasten, de afstand en rijtijd, de dag en hoe lang de bus erbij blijft. Binnen 1 werkdag heb je een vaste all-in prijs, met chauffeur, gastvrouwke, licht en geluid, brandstof en btw erin. Zo zetten jullie het vervoer meteen in de trouwbegroting.' ),
 	);
 	$extra = array(
-		array( 'Kunnen we daggasten en avondgasten apart laten ophalen?', 'Ja. Daggasten rijden mee naar de ceremonie en het diner, avondgasten halen we later op bij een verzamelpunt. Zet de tijden en plekken in je aanvraag, dan maken we er één planning van.' ),
+		array( 'Regelen jullie ook vervoer voor daggasten en avondgasten?', 'Ja. Daggasten rijden mee naar de ceremonie en het diner, avondgasten halen we later op bij een verzamelpunt. Zet de tijden en plekken in je aanvraag, dan maken we er één planning van voor het trouwvervoer.' ),
 		array( 'Kan het bruidspaar ook mee in de bus?', 'Natuurlijk. Veel stellen rijden een stuk mee met hun gasten, bijvoorbeeld van de ceremonie naar het feest. Maar ook als jullie zelf met een trouwauto gaan, rijden wij de gasten.' ),
 	);
 	$vragen        = function_exists( 'thema_faq_rijen' ) ? thema_faq_rijen( array_merge( $eigen, $lijst, $extra ) ) : array();
@@ -158,8 +158,8 @@ function thema_plaats_bruiloft() {
 			'acf_fc_layout' => 'over_ons',
 			'eyebrow'       => 'Voor het bruidspaar',
 			'kop'           => 'Jullie zeggen ja, *wij rijden de gasten.*',
-			'tekst_1'       => 'Op een trouwdag liggen de ceremonie, de receptie en het feest vaak op verschillende plekken. Met tientallen gasten die allemaal zelf rijden, betekent dat parkeerplekken zoeken, gasten die te laat binnenkomen en een tante die de weg kwijt is. Met Lekker Geel Busje rijdt iedereen samen. We halen de gasten op bij een verzamelpunt of het hotel, rijden van ceremonie naar feest en brengen iedereen na het laatste nummer weer veilig terug.',
-			'tekst_2'       => 'Zo hoeft niemand de Bob te zijn en kan iedereen proosten op het bruidspaar. Aan boord zorgt het gastvrouwke voor de drankjes, en met professionele verlichting en een goede geluidsinstallatie zit de feeststemming er al in voordat jullie gasten binnen zijn. Binnen 1 werkdag heb je een vaste all-in prijs, zodat het vervoer meteen in de trouwbegroting staat.',
+			'tekst_1'       => 'Op een trouwdag liggen de ceremonie, de receptie en het feest vaak op verschillende plekken. Met tientallen gasten die allemaal zelf rijden, betekent dat parkeerplekken zoeken, gasten die te laat binnenkomen en een tante die de weg kwijt is. Met het trouwvervoer van Lekker Geel Busje rijdt iedereen samen. We halen de gasten op bij een verzamelpunt of het hotel, rijden van ceremonie naar feest en brengen iedereen na het laatste nummer weer veilig terug.',
+			'tekst_2'       => 'Zo wordt onze bus jullie trouwbus: niemand hoeft de Bob te zijn en iedereen kan proosten op het bruidspaar. Aan boord zorgt het gastvrouwke voor de drankjes, en met professionele verlichting en een goede geluidsinstallatie zit de feeststemming er al in voordat jullie gasten binnen zijn. Binnen 1 werkdag heb je een vaste all-in prijs, zodat het vervoer meteen in de trouwbegroting staat.',
 			'knop'          => thema_link( 'Bekijk onze bussen', $bussen ),
 			'beelden'       => array_values( array_filter( array( $b['gasten-stappen-in-lekker-geel-busje'], $b['gastheer-deelt-drankjes-uit-aan-de-bar'], $b['proosten-in-het-gangpad-van-de-bus'] ) ) ),
 			'achtergrond'   => 'standaard',
@@ -168,12 +168,12 @@ function thema_plaats_bruiloft() {
 		array(
 			'acf_fc_layout' => 'opdrachten',
 			'eyebrow'       => 'Op jullie trouwdag',
-			'kop'           => 'Hier maakt de bus *het verschil*',
+			'kop'           => 'Trouwvervoer voor *al jullie gasten*',
 			'intro'         => 'Van de eerste gast die instapt tot de laatste die thuis wordt gebracht: zo regelen we het vervoer op jullie dag.',
 			'items'         => array(
 				array( 'soort' => 'Verzamelpunt', 'titel' => 'Gasten ophalen', 'tekst' => 'Bij het hotel, een station of een centraal punt. Zo komt iedereen tegelijk en op tijd aan bij de ceremonie.' ),
 				array( 'soort' => 'Onderweg', 'titel' => 'Van ceremonie naar feest', 'tekst' => 'Liggen de ceremonie en het feest op verschillende plekken? De bus rijdt alle gasten in één keer door, terwijl jullie op de foto gaan.' ),
-				array( 'soort' => 'Pendel', 'titel' => 'Daggasten en avondgasten', 'tekst' => 'Avondgasten later ophalen of daggasten tussendoor naar het hotel brengen: we rijden zo vaak als nodig.' ),
+				array( 'soort' => 'Pendel', 'titel' => 'Daggasten en avondgasten', 'tekst' => 'Vervoer voor de daggasten overdag en voor de avondgasten later op de dag. Of daggasten tussendoor naar het hotel: we rijden zo vaak als nodig.' ),
 				array( 'soort' => 'Na het feest', 'titel' => 'Veilig naar huis', 'tekst' => 'Iedereen kan proosten op het bruidspaar. Na het laatste nummer brengen we de gasten naar huis of naar het hotel.' ),
 				array( 'soort' => 'Grote bruiloft', 'titel' => 'Meerdere bussen', 'tekst' => 'Meer dan 88 gasten? Dan rijden er meerdere bussen tegelijk. Reserveer op tijd, want trouwdata zitten vroeg vol.' ),
 				array( 'soort' => 'Later', 'titel' => 'Huwelijksjubileum', 'tekst' => 'Zilveren of gouden bruiloft? Dan halen we de hele familie op voor het feest, en brengen we iedereen weer thuis.' ),
