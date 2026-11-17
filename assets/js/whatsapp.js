@@ -231,7 +231,6 @@
 		} else {
 			regels.push(antwoorden.map(function (a) { return a.waarde; }).join('\n'));
 		}
-		if (g.pagina) { regels.push('', '(Via de pagina ' + g.pagina + ')'); }
 		return regels.join('\n');
 	}
 
@@ -362,7 +361,7 @@
 		bewaar(sleutelMelding);
 		melding.hidden = false;
 		requestAnimationFrame(function () { melding.classList.add('is-zichtbaar'); });
-		meldingWeg = setTimeout(verbergMelding, 15000);
+		meldingWeg = setTimeout(verbergMelding, 5000);
 	}
 
 	function verbergMelding() {

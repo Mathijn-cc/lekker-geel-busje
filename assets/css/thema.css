@@ -10254,10 +10254,12 @@ div.zweefknoppen span.whatsapp-avatar img {
 
 /*Zweefknoppen -- Berichtje als WhatsApp-melding*/
 div.zweefknoppen div.whatsapp-melding {
-  position:   relative;
-  width:      min(300px, calc(100vw - 2 * var(--chat-afstand)));
+  position:   absolute;
+  right:      calc(var(--knop-maat) + 14px);
+  bottom:     0;
+  width:      min(290px, calc(100vw - 2 * var(--chat-afstand) - var(--knop-maat) - 14px));
   opacity:    0;
-  transform:  translateY(14px);
+  transform:  translateX(14px);
   transition: opacity .3s var(--zacht), transform .5s var(--veer);
 }
 div.zweefknoppen div.whatsapp-melding.is-zichtbaar {
