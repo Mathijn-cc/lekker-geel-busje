@@ -7,10 +7,12 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Tekst met accentwoorden: *zo* wordt het accentlettertype.
+ * Een nieuwe regel kan met Enter (tekstvakken) of met <br> (eenregelige velden).
  */
 function thema_accent( $tekst, $class = 'accent' ) {
 	$html = esc_html( (string) $tekst );
-	$html = preg_replace( '/\*(.+?)\*/u', '<span class="' . esc_attr( $class ) . '">$1</span>', $html );
+	$html = preg_replace( '/\s*&lt;br\s*\/?&gt;\s*/iu', "\n", $html );
+	$html = preg_replace( '/\*(.+?)\*/su', '<span class="' . esc_attr( $class ) . '">$1</span>', $html );
 	return nl2br( $html, false );
 }
 

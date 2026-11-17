@@ -39,7 +39,7 @@ function thema_breed( $breedte ) {
 	return array( 'wrapper' => array( 'width' => $breedte ) );
 }
 
-const THEMA_ACCENT_UITLEG = 'Zet *sterretjes* om woorden voor de accentletter.';
+const THEMA_ACCENT_UITLEG = 'Zet *sterretjes* om woorden voor de accentletter. Nieuwe regel: typ &lt;br&gt;.';
 
 /**
  * Standaard achtergrond per blok. Blokken zonder vermelding krijgen geen keuze.
