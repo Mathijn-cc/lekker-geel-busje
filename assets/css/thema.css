@@ -8366,7 +8366,8 @@ section.sectie-artikelen div.artikelen-binnen div.knop-houder.artikelen-knop {
     grid-area: raster;
   }
   section.sectie-artikelen div.artikelen-binnen div.knop-houder.artikelen-knop {
-    grid-area: knop;
+    grid-area:  knop;
+    align-self: end;
   }
 }
 
