@@ -469,13 +469,13 @@ function thema_blog_artikel_opdrachten() {
 		'slug'         => 'spelletjes-opdrachten-vrijgezellenfeest-bus',
 		'titel'        => 'Spelletjes voor het vrijgezellenfeest: 8 opdrachten voor in de bus',
 		'seo_titel'    => 'Vrijgezellenfeest opdrachten: 8 spelletjes | Lekker Geel Busje',
-		'samenvatting' => 'Acht spelletjes en opdrachten voor het vrijgezellenfeest die je gewoon op je plek in de bus speelt. Van een quiz over het stel tot vrijgezellenbingo.',
+		'samenvatting' => 'Acht spelletjes en opdrachten voor het vrijgezellenfeest die je gewoon samen in de bus speelt. Van een quiz over het stel tot vrijgezellenbingo.',
 		'beeld'        => 'meezingen-met-microfoon-in-sfeerbus',
 		'beeld_oud'    => 'feest-disco.jpg',
-		'kort'         => "Alle acht opdrachten speel je op je plek, ook tijdens de rit.\nBereid ze een week van tevoren voor: vragen, kaartjes en een bingokaart.\nHoud het leuk voor de vrijgezel en kies niets wat de chauffeur afleidt.",
+		'kort'         => "Alle acht opdrachten speel je gewoon in de bus, ook tijdens de rit.\nBereid ze een week van tevoren voor: vragen, kaartjes en een bingokaart.\nHoud het leuk voor de vrijgezel en kies niets wat de chauffeur afleidt.",
 		'faq_kop'      => 'Vragen over *spelletjes*',
 		'vragen'       => array(
-			array( 'Welke spelletjes kun je doen op een vrijgezellenfeest?', 'Een quiz over het stel, vrijgezellenbingo, songteksten raden of een fotojacht. Spelletjes die je in een groep op je plek speelt, werken het best: overal te doen en iedereen doet mee.' ),
+			array( 'Welke spelletjes kun je doen op een vrijgezellenfeest?', 'Een quiz over het stel, vrijgezellenbingo, songteksten raden of een fotojacht. Spelletjes die je met de hele groep in de bus speelt, werken het best: overal te doen en iedereen doet mee.' ),
 			array( 'Wat heb je nodig voor de opdrachten?', 'Weinig: een lijst met vragen, wat kaartjes en pennen, een bingokaart per persoon en een telefoon voor de muziek en de foto\'s. Bereid het een week van tevoren voor en neem het mee in een tas.' ),
 			array( 'Hoe zorg je dat de vrijgezel het leuk blijft vinden?', 'Houd het luchtig en persoonlijk. Vraag de partner wat wel en niet kan, en kies opdrachten waar de vrijgezel om kan lachen in plaats van zich te schamen.' ),
 		),
@@ -484,7 +484,7 @@ function thema_blog_artikel_opdrachten() {
 				'acf_fc_layout' => 'opdrachten',
 				'eyebrow'       => 'Voor onderweg',
 				'kop'           => 'Acht opdrachten voor *in de bus*',
-				'intro'         => 'Allemaal op je plek te doen. Bereid ze voor, dan vliegt de tijd tussen twee stops voorbij.',
+				'intro'         => 'Allemaal in de bus te doen. Bereid ze voor, dan vliegt de tijd tussen twee stops voorbij.',
 				'items'         => array(
 				array( 'soort' => 'Quiz', 'titel' => 'Hoe goed ken jij je partner?', 'tekst' => 'Stel vooraf tien vragen aan de partner van de vrijgezel en neem de antwoorden op. In de bus raadt de vrijgezel. Elk fout antwoord wordt een opdracht bij de volgende stop.' ),
 				array( 'soort' => 'Muziek', 'titel' => 'Zing de volgende regel', 'tekst' => 'Zet een nummer na een paar seconden stil. Wie zingt de volgende regel goed? De vrijgezel mag als eerste, de rest van de bus zingt mee.' ),
@@ -495,13 +495,13 @@ function thema_blog_artikel_opdrachten() {
 				array( 'soort' => 'Foto', 'titel' => 'De fotojacht', 'tekst' => 'Geef de groep een lijstje foto’s voor onderweg: iedereen in één selfie, iets geels, de vrijgezel met een vreemde hoed. Op de terugweg kiezen jullie samen de beste.' ),
 				array( 'soort' => 'Proosten', 'titel' => 'Toost met een verhaal', 'tekst' => 'Bij elke rit brengt één iemand een toost uit met een mooi of gênant verhaal over de vrijgezel. Kort houden, glazen omhoog.' ),
 			),
-				'noot'          => 'Alles op je plek te doen en niets wat de chauffeur afleidt. Zo blijft het leuk voor iedereen.',
+				'noot'          => 'Alles in de bus te doen en niets wat de chauffeur afleidt. Zo blijft het leuk voor iedereen.',
 				'achtergrond'   => 'paars',
 				'anker'         => 'opdrachten',
 			),
 		),
 		'tekst'        => <<<HTML
-<p>De rit tussen twee onderdelen van het vrijgezellenfeest is geen dode tijd. Met een paar goede spelletjes wordt het juist een van de leukste momenten van de dag: de groep zit bij elkaar, de muziek staat aan en de vrijgezel staat in het middelpunt. Hieronder vind je acht opdrachten voor in de bus die je allemaal op je plek speelt.</p>
+<p>De rit tussen twee onderdelen van het vrijgezellenfeest is geen dode tijd. Met een paar goede spelletjes wordt het juist een van de leukste momenten van de dag: de groep zit bij elkaar, de muziek staat aan en de vrijgezel staat in het middelpunt. Hieronder vind je acht opdrachten die je allemaal samen in de bus speelt.</p>
 
 <h2>Waarom spelletjes in de bus zo goed werken</h2>
 <p>In de bus is iedereen samen, ook de mensen die elkaar nog niet kennen. Vrienden van vroeger, familie en collega's raken met een quiz of een bingokaart sneller aan de praat dan aan een lange tafel in een restaurant. En omdat een rit een vast begin en einde heeft, past er precies een spelletje of twee in.</p>

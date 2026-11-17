@@ -74,6 +74,7 @@ function thema_uitroltaken() {
 		'trip-blog-v2'            => 'thema_trip_blog',
 		'vval-stoelen-v1'         => 'thema_plaats_vval_stoelen',
 		'vval-agenda-link-v1'     => 'thema_vval_agenda_link',
+		'staan-mag-v1'            => 'thema_staan_mag',
 	);
 }
 
@@ -553,6 +554,42 @@ function thema_copy_17nov() {
 			clean_post_cache( $rij->ID );
 			$uit['berichten']++;
 		}
+	}
+	wp_cache_flush();
+	return $uit;
+}
+
+/**
+ * Uitroltaak staan-mag-v1: staan tijdens de rit mag, dus de spelletjes heten niet langer "op je plek".
+ */
+function thema_staan_mag() {
+	global $wpdb;
+	$paren = array(
+			array( 'gewoon op je plek in de bus speelt', 'gewoon samen in de bus speelt' ),
+			array( 'Alle acht opdrachten speel je op je plek, ook tijdens de rit.', 'Alle acht opdrachten speel je gewoon in de bus, ook tijdens de rit.' ),
+			array( 'Spellen die je op je plek speelt:', 'Spellen die je met de hele groep in de bus speelt:' ),
+			array( 'Spelletjes die je in een groep op je plek speelt, werken het best', 'Spelletjes die je met de hele groep in de bus speelt, werken het best' ),
+			array( 'Allemaal op je plek te doen.', 'Allemaal in de bus te doen.' ),
+			array( 'Alles op je plek te doen en niets wat de chauffeur afleidt.', 'Alles in de bus te doen en niets wat de chauffeur afleidt.' ),
+			array( 'acht opdrachten voor in de bus die je allemaal op je plek speelt', 'acht opdrachten die je allemaal samen in de bus speelt' ),
+			array( 'acht opdrachten die je allemaal op je plek speelt', 'acht opdrachten die je allemaal samen in de bus speelt' )
+	);
+	$zoek = array_column( $paren, 0 );
+	$door = array_column( $paren, 1 );
+	$uit  = array( 'meta' => 0, 'berichten' => 0 );
+	foreach ( $wpdb->get_results( "SELECT meta_id, post_id, meta_value FROM {$wpdb->postmeta} WHERE meta_value LIKE '%op je plek%'" ) as $rij ) {
+		$oud   = maybe_unserialize( $rij->meta_value );
+		$nieuw = is_string( $oud ) ? str_replace( $zoek, $door, $oud ) : $oud;
+		if ( $nieuw !== $oud ) {
+			$wpdb->update( $wpdb->postmeta, array( 'meta_value' => maybe_serialize( $nieuw ) ), array( 'meta_id' => $rij->meta_id ) );
+			clean_post_cache( $rij->post_id );
+			$uit['meta']++;
+		}
+	}
+	foreach ( $wpdb->get_results( "SELECT ID, post_content, post_excerpt FROM {$wpdb->posts} WHERE post_content LIKE '%op je plek%' OR post_excerpt LIKE '%op je plek%'" ) as $rij ) {
+		$wpdb->update( $wpdb->posts, array( 'post_content' => str_replace( $zoek, $door, $rij->post_content ), 'post_excerpt' => str_replace( $zoek, $door, $rij->post_excerpt ) ), array( 'ID' => $rij->ID ) );
+		clean_post_cache( $rij->ID );
+		$uit['berichten']++;
 	}
 	wp_cache_flush();
 	return $uit;

@@ -407,13 +407,13 @@ HTML,
 			'slug'         => 'teambuilding-spellen-collegas-bus',
 			'titel'        => 'Teambuilding in de bus: 8 spellen en opdrachten voor collega\'s',
 			'seo_titel'    => 'Teambuilding opdrachten voor collega\'s | Lekker Geel Busje',
-			'samenvatting' => 'Acht teambuilding spellen en opdrachten die je met collega\'s gewoon op je plek in de bus speelt. Plus tien ijsbrekervragen om elkaar beter te leren kennen.',
+			'samenvatting' => 'Acht teambuilding spellen en opdrachten die je met collega\'s gewoon samen in de bus speelt. Plus tien ijsbrekervragen om elkaar beter te leren kennen.',
 			'beeld'        => 'gasten-lachen-aan-tafel-in-sfeerbus',
-			'kort'         => "Alle acht opdrachten speel je op je plek, ook tijdens de rit.\nMix afdelingen in de teams, dan leren collega's elkaar echt kennen.\nBereid de quiz en de bingokaarten een week van tevoren voor.",
+			'kort'         => "Alle acht opdrachten speel je gewoon in de bus, ook tijdens de rit.\nMix afdelingen in de teams, dan leren collega's elkaar echt kennen.\nBereid de quiz en de bingokaarten een week van tevoren voor.",
 			'faq_kop'      => 'Vragen over *teambuilding*',
 			'offerte_kop'  => 'Spellen klaar? *Wij rijden.*',
 			'vragen'       => array(
-				array( 'Welke teambuilding opdrachten kun je in de bus doen?', 'Spellen die je op je plek speelt: een pubquiz in teams, bedrijfsbingo, twee waarheden en een leugen of een complimentenronde. Ze werken met elke groepsgrootte en iedereen doet mee.' ),
+				array( 'Welke teambuilding opdrachten kun je in de bus doen?', 'Spellen die je met de hele groep in de bus speelt: een pubquiz in teams, bedrijfsbingo, twee waarheden en een leugen of een complimentenronde. Ze werken met elke groepsgrootte en iedereen doet mee.' ),
 				array( 'Wat zijn goede ijsbrekervragen voor collega\'s?', 'Vragen die makkelijk te beantwoorden zijn en toch iets vertellen, zoals wat je eerste baantje was of welk talent niemand van je kent. Houd ze luchtig en persoonlijk, maar nooit te privé.' ),
 				array( 'Hoe houd je het leuk voor collega\'s die niet graag in de schijnwerpers staan?', 'Speel in teams in plaats van alleen, en laat iedereen zelf kiezen of hij iets voorleest of zingt. Een quiz of bingokaart werkt voor iedereen, ook voor de stillere collega\'s.' ),
 			),
@@ -422,7 +422,7 @@ HTML,
 					'acf_fc_layout' => 'opdrachten',
 					'eyebrow'       => 'Voor onderweg',
 					'kop'           => 'Acht spellen voor *in de bus*',
-					'intro'         => 'Allemaal op je plek te doen. Bereid ze voor, dan vliegt de tijd tussen twee stops voorbij.',
+					'intro'         => 'Allemaal in de bus te doen. Bereid ze voor, dan vliegt de tijd tussen twee stops voorbij.',
 					'items'         => array(
 						array( 'soort' => 'Quiz', 'titel' => 'Pubquiz op wielen', 'tekst' => 'Elke rij is een team. Een quizmaster leest de vragen voor, met een ronde over het eigen bedrijf: wanneer is het opgericht, wie werkt er het langst en wat staat er op het bord in de kantine?' ),
 						array( 'soort' => 'Kennismaken', 'titel' => 'Van wie is dit feitje?', 'tekst' => 'Iedereen schrijft vooraf een onbekend feitje over zichzelf op. Lees ze voor in de bus en laat de groep raden van wie het is. Ideaal als afdelingen elkaar nog niet goed kennen.' ),
@@ -433,13 +433,13 @@ HTML,
 						array( 'soort' => 'Toekomst', 'titel' => 'Het bedrijf over tien jaar', 'tekst' => 'Elke rij bedenkt om de beurt één zin over hoe het bedrijf er over tien jaar uitziet. Serieus mag, ludiek mag ook. Lees het verhaal aan het eind van de dag voor.' ),
 						array( 'soort' => 'Proosten', 'titel' => 'De complimentenronde', 'tekst' => 'Iedereen trekt een naam uit een pot en geeft die collega bij de volgende toost een compliment. Kort, gemeend, glazen omhoog.' ),
 					),
-					'noot'          => 'Alles op je plek te doen en niets wat de chauffeur afleidt. Zo blijft het leuk voor iedereen.',
+					'noot'          => 'Alles in de bus te doen en niets wat de chauffeur afleidt. Zo blijft het leuk voor iedereen.',
 					'achtergrond'   => 'paars',
 					'anker'         => 'opdrachten',
 				),
 			),
 			'tekst'        => <<<HTML
-<p>De rit naar het bedrijfsuitje is geen dode tijd. Juist in de bus zitten collega's bij elkaar die elkaar anders alleen in een overleg zien. Met een paar goede spellen wordt de rit een van de leukste momenten van de dag, en is de teambuilding al begonnen voordat jullie er zijn. Hieronder vind je acht opdrachten die je allemaal op je plek speelt, plus tien ijsbrekervragen.</p>
+<p>De rit naar het bedrijfsuitje is geen dode tijd. Juist in de bus zitten collega's bij elkaar die elkaar anders alleen in een overleg zien. Met een paar goede spellen wordt de rit een van de leukste momenten van de dag, en is de teambuilding al begonnen voordat jullie er zijn. Hieronder vind je acht opdrachten die je allemaal samen in de bus speelt, plus tien ijsbrekervragen.</p>
 
 <h2>Waarom teambuilding in de bus zo goed werkt</h2>
 <p>In de bus is iedereen samen, van stagiair tot directeur. Niemand zit achter een laptop en niemand kan ontsnappen naar zijn eigen bureau. Een quiz of bingokaart brengt collega's van verschillende afdelingen sneller aan de praat dan een lange tafel in een restaurant. En omdat een rit een vast begin en einde heeft, past er precies een spel of twee in.</p>

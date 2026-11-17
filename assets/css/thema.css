@@ -3727,6 +3727,9 @@ section.sectie-faq {
   --onder:  var(--ruimte);
   padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
 }
+section.sectie-faq div.rij div.kolom.faq-tekst :is(h1, h2, h3).kop-middel {
+  font-size: calc(clamp(34px, 3.4vw, 54px) * var(--kop-schaal));
+}
 section.sectie-faq div.rij div.kolom.faq-tekst {
   display:        flex;
   flex-direction: column;
@@ -8306,9 +8309,6 @@ article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet a.artik
 /*Artikel -- Vragen onder een artikel op zand, los van de artikeltekst*/
 body.single-post section.sectie-faq {
   background: var(--kleur-zand);
-}
-body.single-post section.sectie-faq :is(h1, h2, h3).kop-middel {
-  font-size: calc(clamp(34px, 3.4vw, 54px) * var(--kop-schaal));
 }
 
 /**Blokken -- Artikelen**/
