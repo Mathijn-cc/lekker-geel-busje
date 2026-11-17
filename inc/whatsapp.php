@@ -251,7 +251,7 @@ function thema_zweefknoppen() {
 						<input class="whatsapp-datum" id="whatsapp-datum" type="date" data-whatsapp-datum hidden>
 						<button type="submit" class="whatsapp-verstuur" aria-label="Antwoord versturen" data-whatsapp-verstuur disabled><?php echo thema_icoon( 'verstuur', 18, 2.2 ); ?></button>
 					</div>
-					<a class="whatsapp-naar-app" href="#" target="_blank" rel="noopener" data-whatsapp-naar-app hidden><?php echo thema_whatsapp_logo( 20 ); // phpcs:ignore ?><span>Verstuur via WhatsApp</span></a>
+					<a class="whatsapp-naar-app" href="#" target="_blank" rel="noopener" data-whatsapp-naar-app hidden><?php echo thema_whatsapp_logo( 17 ); // phpcs:ignore ?><span>Verstuur via WhatsApp</span></a>
 				</form>
 			</div>
 		<?php endif; ?>

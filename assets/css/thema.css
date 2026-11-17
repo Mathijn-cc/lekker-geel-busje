@@ -10327,18 +10327,19 @@ div.zweefknoppen div.whatsapp-venster form.whatsapp-venster-formulier button.wha
   opacity: .25;
   cursor:  default;
 }
-/*Zweefknoppen -- Laatste stap: grote groene knop naar WhatsApp*/
+/*Zweefknoppen -- Laatste stap: groene knop naar WhatsApp, rechts zoals een antwoord*/
 div.zweefknoppen div.whatsapp-venster form.whatsapp-venster-formulier a.whatsapp-naar-app {
   display:         flex;
   align-items:     center;
-  justify-content: center;
-  gap:             10px;
-  min-height:      54px;
-  padding:         12px 20px;
+  gap:             8px;
+  width:           fit-content;
+  min-height:      42px;
+  margin-left:     auto;
+  padding:         9px 16px 9px 12px;
   border-radius:   999px;
   background:      var(--kleur-whatsapp);
   color:           var(--kleur-wit);
-  font-size:       17px;
+  font-size:       15px;
   font-weight:     700;
   text-decoration: none;
   animation:       zweefknoppen-in .45s var(--veer) both;
