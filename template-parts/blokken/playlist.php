@@ -1,7 +1,7 @@
 <?php
 /**
- * Blok: Spotify-playlist. Spotify laadt pas na een klik (geen cookies van Spotify voor die tijd, en snel).
- * Zonder link toont het blok alleen de nummers; zonder link en zonder nummers niets (beheerders zien een melding).
+ * Blok: Spotify-playlist. De speler staat meteen in beeld en laadt pas als het blok in de buurt komt (lazy).
+ * Met een link alleen de speler; zonder link de nummers; zonder link en zonder nummers niets (beheerders zien een melding).
  */
 $b       = $args['blok'];
 $link    = trim( (string) ( $b['spotify'] ?? '' ) );
@@ -17,7 +17,6 @@ if ( ! $embed && ! $nummers ) {
 	}
 	return;
 }
-wp_enqueue_script( 'thema-playlist' );
 
 echo thema_sectie_open( $b, 'playlist' );
 ?>
@@ -33,21 +32,14 @@ echo thema_sectie_open( $b, 'playlist' );
 
 		<div class="playlist-vak" data-animeer>
 			<?php if ( $embed ) : ?>
-				<div class="playlist-speler" data-playlist="<?php echo esc_url( $embed ); ?>">
-					<button class="playlist-start" type="button" data-playlist-start>
-						<span class="playlist-plaat" aria-hidden="true"><span class="playlist-label"><?php echo thema_icoon( 'bus', 26 ); ?></span></span>
-						<span class="playlist-start-tekst">
-							<span class="playlist-start-titel"><?php echo esc_html( ( $b['titel'] ?? '' ) ?: 'Druk op play' ); ?></span>
-							<span class="playlist-start-uitleg">Spotify laadt pas als je op play drukt.</span>
-						</span>
-						<span class="playlist-knop" aria-hidden="true"><?php echo thema_icoon( 'speel', 22 ); ?></span>
-					</button>
+				<div class="playlist-speler is-geladen">
+					<iframe class="playlist-frame" src="<?php echo esc_url( $embed ); ?>" title="<?php echo esc_attr( ( $b['titel'] ?? '' ) ?: 'Spotify-playlist' ); ?>" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
 				</div>
 			<?php endif; ?>
 
-			<?php if ( $nummers ) : ?>
+			<?php if ( $nummers && ! $embed ) : /* Met een Spotify-speler is een losse lijst dubbel. */ ?>
 				<div class="playlist-nummers">
-					<p class="playlist-nummers-titel"><?php echo esc_html( $embed ? 'Een greep uit de lijst' : 'Op de playlist' ); ?></p>
+					<p class="playlist-nummers-titel">Op de playlist</p>
 					<ol>
 						<?php foreach ( $nummers as $nummer ) : ?>
 							<?php $delen = array_map( 'trim', explode( '|', $nummer, 2 ) ); ?>
