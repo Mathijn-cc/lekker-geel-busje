@@ -200,18 +200,10 @@
 		this.huidig = id;
 		this.ok = null;
 
-		var oud = this.podium.querySelector('.stap');
+		/* Direct wisselen, zonder wachten: de nieuwe vraag komt meteen, met alleen een korte fade. */
 		var stap = this.bouw(id);
-		stap.classList.add(terugNaar ? 'komt-van-boven' : 'komt-van-onder');
-
-		if (oud) {
-			oud.classList.add(terugNaar ? 'gaat-naar-onder' : 'gaat-naar-boven');
-			setTimeout(function () { oud.remove(); }, rustig ? 0 : 260);
-		}
+		this.podium.querySelectorAll('.stap').forEach(function (oud) { oud.remove(); });
 		this.podium.appendChild(stap);
-		requestAnimationFrame(function () {
-			requestAnimationFrame(function () { stap.classList.remove('komt-van-onder', 'komt-van-boven'); });
-		});
 
 		this.zetVoortgang(id);
 		this.terugKnop.disabled = !this.geschiedenis.length || id === 'bedankt' || id === 'bezig';
@@ -359,7 +351,7 @@
 					if (!o.kies) { return; }
 					rij.querySelectorAll('.stap-optie').forEach(function (k) { k.classList.remove('is-gekozen'); });
 					knop.classList.add('is-gekozen');
-					setTimeout(function () { o.kies(); }, rustig ? 0 : 220);
+					o.kies();
 				});
 				rij.appendChild(knop);
 			});
