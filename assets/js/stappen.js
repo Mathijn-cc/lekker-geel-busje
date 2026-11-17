@@ -28,6 +28,22 @@
 	var telefoonInTekst = /(?:\+31|0031|0)[\s-]?(?:\d[\s-]?){9}/;
 	var LETTERS = 'ABCDEFGHIJ';
 
+	var domeinFouten = {
+		'gmial.com': 'gmail.com', 'gmai.com': 'gmail.com', 'gmal.com': 'gmail.com', 'gamil.com': 'gmail.com', 'gmail.nl': 'gmail.com', 'gmail.co': 'gmail.com', 'gmail.con': 'gmail.com',
+		'hotmial.com': 'hotmail.com', 'hotmal.com': 'hotmail.com', 'hotmail.co': 'hotmail.com', 'hotmail.con': 'hotmail.com', 'hotmai.com': 'hotmail.com', 'hotmil.com': 'hotmail.com',
+		'hotmial.nl': 'hotmail.nl', 'hotmal.nl': 'hotmail.nl', 'hotmai.nl': 'hotmail.nl',
+		'outlok.com': 'outlook.com', 'outloo.com': 'outlook.com', 'outlook.co': 'outlook.com', 'outlook.con': 'outlook.com', 'outlok.nl': 'outlook.nl',
+		'live.co': 'live.nl', 'icloud.co': 'icloud.com', 'iclod.com': 'icloud.com', 'kpnmial.nl': 'kpnmail.nl', 'ziggo.n': 'ziggo.nl'
+	};
+
+	/* Voorstel bij een bekende tikfout in het domein, anders leeg. */
+	function emailVoorstel(waarde) {
+		var delen = String(waarde).toLowerCase().split('@');
+		if (delen.length !== 2 || !delen[0]) { return ''; }
+		var goed = domeinFouten[delen[1]];
+		return goed ? delen[0] + '@' + goed : '';
+	}
+
 	function telefoonGoed(waarde) {
 		var cijfers = String(waarde).replace(/\D+/g, '');
 		return cijfers.length >= 10 && cijfers.length <= 13;
@@ -106,7 +122,7 @@
 		this.formulierVak = vak.querySelector('[data-stappen-formulier]');
 		this.formulier = this.formulierVak.querySelector('form');
 		this.podium = this.el.querySelector('[data-stappen-podium]');
-		this.voortgang = this.el.querySelector('[data-stappen-voortgang]');
+		this.fases = this.el.querySelector('[data-stappen-fases]');
 		this.terugKnop = this.el.querySelector('[data-stappen-terug]');
 		this.verderKnop = this.el.querySelector('[data-stappen-verder]');
 		this.opnieuwKnop = this.el.querySelector('[data-stappen-opnieuw]');
@@ -138,7 +154,7 @@
 	};
 
 	Stappen.prototype.leeg = function () {
-		this.a = { vraag: '', voornaam: '', achternaam: '', voorkeur: '', email: '', telefoon: '', uitVraag: {}, extra: [] };
+		this.a = { vraag: '', voornaam: '', achternaam: '', vroegAchternaam: false, voorkeur: '', email: '', telefoon: '', uitVraag: {}, extra: [] };
 		this.geschiedenis = [];
 		this.huidig = null;
 		this.ok = null;
@@ -159,7 +175,7 @@
 		var r = ['keuze', 'vraag'];
 		if (v.naam) {
 			r.push('naam');
-			if (v.naam.achter && v.naam.verplicht && this.a.voornaam && !this.a.achternaam) { r.push('achternaam'); }
+			if (v.naam.achter && v.naam.verplicht && (this.a.vroegAchternaam || (this.a.voornaam && !this.a.achternaam))) { r.push('achternaam'); }
 		}
 		if (v.email && v.telefoon) {
 			r.push('voorkeur');
@@ -182,14 +198,51 @@
 	Stappen.prototype.volgende = function (id) {
 		var r = this.route();
 		var i = r.indexOf(id);
-		return i > -1 && i < r.length - 1 ? r[i + 1] : 'versturen';
+		if (i === -1) {
+			/* Hoort niet bij de route: ga naar de eerste vraag die nog leeg is, anders versturen. */
+			var a = this.a;
+			var leeg = r.filter(function (s) {
+				return (s === 'email' && !a.email) || (s === 'telefoon' && !a.telefoon) || (s === 'voorkeur' && !a.voorkeur) || (s === 'naam' && !a.voornaam);
+			});
+			return leeg.length ? leeg[0] : 'versturen';
+		}
+		return i < r.length - 1 ? r[i + 1] : 'versturen';
 	};
 
+	/* Bij welke fase hoort een scherm. */
+	Stappen.prototype.faseVan = function (id) {
+		if (id === 'keuze' || id === 'prijs' || id === 'direct') { return 'onderwerp'; }
+		if (id === 'vraag' || id === 'faq-bedankt') { return 'vraag'; }
+		if (id === 'naam' || id === 'achternaam') { return 'jij'; }
+		if (id === 'voorkeur' || id === 'email' || id === 'telefoon') { return 'contact'; }
+		if (/^extra-/.test(id)) { return 'extra'; }
+		return 'klaar';
+	};
+
+	/* Stappenbalk: alle fases met naam, de huidige gemarkeerd, de vorige met een vinkje. */
 	Stappen.prototype.zetVoortgang = function (id) {
-		var r = this.route();
-		var i = r.indexOf(id);
-		var deel = id === 'bedankt' ? 1 : (i > -1 ? i / r.length : 0);
-		this.voortgang.style.width = Math.round(deel * 100) + '%';
+		if (!this.fases) { return; }
+		var t = this.t;
+		var lijst = [
+			{ id: 'onderwerp', naam: t.fase_onderwerp },
+			{ id: 'vraag', naam: t.fase_vraag }
+		];
+		if (this.v.naam) { lijst.push({ id: 'jij', naam: t.fase_jij }); }
+		if (this.v.email || this.v.telefoon) { lijst.push({ id: 'contact', naam: t.fase_contact }); }
+		if (this.v.extra.length) { lijst.push({ id: 'extra', naam: t.fase_extra }); }
+		var nu = this.faseVan(id);
+		var index = nu === 'klaar' ? lijst.length : lijst.map(function (f) { return f.id; }).indexOf(nu);
+		var zelf = this;
+		this.fases.innerHTML = '';
+		lijst.forEach(function (f, i) {
+			var li = maak('li', 'stappen-fase' + (i < index ? ' is-klaar' : '') + (i === index ? ' is-nu' : ''));
+			var nr = maak('span', 'stappen-fase-nr');
+			if (i < index) { nr.innerHTML = zelf.vink; } else { nr.textContent = String(i + 1); }
+			li.appendChild(nr);
+			li.appendChild(maak('span', 'stappen-fase-naam', f.naam));
+			if (i === index) { li.setAttribute('aria-current', 'step'); }
+			zelf.fases.appendChild(li);
+		});
 	};
 
 	/* ---------- Tonen ---------- */
@@ -234,15 +287,8 @@
 		var t = this.t;
 		var stap = maak('div', 'stap stap-' + id.replace(/-\d+$/, ''));
 		stap.tabIndex = -1;
-		var r = this.route();
-		var nummer = r.indexOf(id);
 
 		var kop = maak('div', 'stap-kop');
-		if (nummer > -1) {
-			var nr = maak('span', 'stap-nummer', String(nummer + 1));
-			nr.insertAdjacentHTML('beforeend', this.pijl);
-			kop.appendChild(nr);
-		}
 		var vraag = maak('h3', 'stap-vraag');
 		kop.appendChild(vraag);
 		stap.appendChild(kop);
@@ -369,8 +415,8 @@
 		if (id === 'keuze') {
 			zet(t.keuze, t.keuze_uitleg);
 			var keuzes = [
-				{ tekst: t.keuze_prijs, kies: function () { zelf.ga('prijs'); } },
-				{ tekst: t.keuze_vraag, kies: function () { zelf.ga('vraag'); } }
+				{ tekst: t.keuze_vraag, kies: function () { zelf.ga('vraag'); } },
+				{ tekst: t.keuze_prijs, kies: function () { zelf.ga('prijs'); } }
 			];
 			if (this.direct.length) { keuzes.push({ tekst: t.keuze_direct, kies: function () { zelf.ga('direct'); } }); }
 			opties(keuzes);
@@ -451,6 +497,8 @@
 				var delen = waarde.split(/\s+/);
 				zelf.a.voornaam = delen.shift() || '';
 				zelf.a.achternaam = delen.join(' ');
+				/* Alleen een voornaam en de achternaam is verplicht: die vragen we apart, en dat blijft zo in de route. */
+				zelf.a.vroegAchternaam = !zelf.a.achternaam && !!(zelf.v.naam.achter && zelf.v.naam.verplicht);
 				return '';
 			});
 		} else if (id === 'achternaam') {
@@ -480,10 +528,49 @@
 			var ook = this.a.voorkeur === 'bel' || this.a.voorkeur === 'app';
 			zet(ook ? t.email_ook : t.email, this.a.uitVraag.email ? t.overgenomen : (ook ? t.email_ook_uitleg : ''));
 			var mailVeld = veld({ type: 'email', inputmode: 'email', autocomplete: 'email', plaatshouder: t.email_veld, waarde: this.a.email });
+			/* Direct controleren: na een korte typpauze en bij het verlaten van het veld.
+			   Een bekende tikfout in het domein (gmial.com) krijgt een voorstel met één klik. */
+			var mailWacht = null;
+			var controleer = function (streng) {
+				var waarde = mailVeld.value.trim();
+				mailVeld.classList.remove('is-goed', 'is-fout');
+				if (!waarde) { fout(''); return; }
+				var voorstel = emailVoorstel(waarde);
+				if (emailPatroon.test(waarde) && !voorstel) {
+					mailVeld.classList.add('is-goed');
+					fout('');
+				} else if (voorstel) {
+					mailVeld.classList.add('is-fout');
+					fout('');
+					melding.hidden = false;
+					melding.textContent = t.email_bedoel + ' ';
+					var neem = maak('button', 'stap-melding-knop', voorstel);
+					neem.type = 'button';
+					/* Niet eerst het veld laten verlaten: dan wordt de melding opnieuw opgebouwd en valt de klik weg. */
+					neem.addEventListener('mousedown', function (e) { e.preventDefault(); });
+					neem.addEventListener('click', function () {
+						mailVeld.value = voorstel;
+						controleer(true);
+						mailVeld.focus();
+					});
+					melding.appendChild(neem);
+					melding.appendChild(document.createTextNode('?'));
+				} else if (streng || /@[^@]*\.[^.]{2,}$/.test(waarde)) {
+					mailVeld.classList.add('is-fout');
+					fout(t.email_fout);
+				}
+			};
+			mailVeld.addEventListener('input', function () {
+				clearTimeout(mailWacht);
+				mailVeld.classList.remove('is-goed', 'is-fout');
+				mailWacht = setTimeout(function () { controleer(false); }, 500);
+			});
+			mailVeld.addEventListener('blur', function () { controleer(true); });
+			if (mailVeld.value) { controleer(true); }
 			acties(function () {
 				var waarde = mailVeld.value.trim();
 				if (!waarde) { return t.verplicht; }
-				if (!emailPatroon.test(waarde)) { return t.email_fout; }
+				if (!emailPatroon.test(waarde)) { mailVeld.classList.add('is-fout'); return t.email_fout; }
 				zelf.a.email = waarde;
 				return '';
 			});

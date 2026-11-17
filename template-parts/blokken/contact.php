@@ -134,7 +134,7 @@ echo thema_sectie_open( $b, 'contact' );
 						<?php endif; ?>
 						<?php if ( $met_gesprek ) : ?>
 							<div class="stappen" data-stappen data-offerte-link="<?php echo esc_url( thema_offerte_url() ); ?>" data-teksten="<?php echo esc_attr( wp_json_encode( thema_stappen_teksten() ) ); ?>" data-antwoorden="<?php echo esc_attr( wp_json_encode( thema_gesprek_antwoorden() ) ); ?>" data-direct="<?php echo esc_attr( wp_json_encode( array_map( fn( $d ) => array( 'soort' => $d['soort'], 'icoon' => thema_icoon( $d['icoon'], 20 ), 'label' => $d['label'], 'tekst' => $d['tekst'], 'href' => $d['href'], 'nieuw' => $d['nieuw'] ), $direct ) ) ); ?>" data-pijl="<?php echo esc_attr( thema_icoon( 'chevron', 16, 2.6 ) ); ?>" data-vink="<?php echo esc_attr( thema_icoon( 'vink', 16, 2.6 ) ); ?>" hidden>
-								<div class="stappen-balk" aria-hidden="true"><span class="stappen-voortgang" data-stappen-voortgang></span></div>
+								<ol class="stappen-fases" aria-label="Stappen" data-stappen-fases></ol>
 								<div class="stappen-podium" data-stappen-podium aria-live="polite"></div>
 								<div class="stappen-voet">
 									<button type="button" class="stappen-opnieuw" data-stappen-opnieuw hidden><?php echo thema_icoon( 'opnieuw', 14, 2.4 ); ?><span><?php echo esc_html( thema_stappen_teksten()['opnieuw'] ); ?></span></button>

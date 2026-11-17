@@ -6211,19 +6211,81 @@ section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak di
 section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen[hidden] {
   display: none;
 }
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-balk {
-  height:        4px;
-  border-radius: 999px;
-  background:    var(--kleur-zand);
-  overflow:      hidden;
+/*Stappen -- Stappenbalk met de namen van de fases*/
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen ol.stappen-fases {
+  display:    flex;
+  gap:        8px;
+  margin:     0;
+  padding:    0;
+  list-style: none;
 }
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-balk span.stappen-voortgang {
-  display:       block;
-  width:         0;
-  height:        100%;
-  border-radius: 999px;
-  background:    var(--kleur-paars);
-  transition:    width .5s var(--zacht);
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen ol.stappen-fases li.stappen-fase {
+  display:     flex;
+  flex:        1 1 0;
+  align-items: center;
+  gap:         8px;
+  min-width:   0;
+  color:       var(--kleur-paars);
+  font-size:   14px;
+  font-weight: 600;
+  opacity:     .45;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen ol.stappen-fases li.stappen-fase::after {
+  content:       "";
+  flex:          1 1 auto;
+  min-width:     8px;
+  height:        2px;
+  border-radius: 2px;
+  background:    var(--kleur-zand);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen ol.stappen-fases li.stappen-fase:last-child {
+  flex: 0 0 auto;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen ol.stappen-fases li.stappen-fase:last-child::after {
+  display: none;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen ol.stappen-fases li.stappen-fase span.stappen-fase-nr {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  flex:            0 0 26px;
+  width:           26px;
+  height:          26px;
+  border:          1.5px solid currentColor;
+  border-radius:   50%;
+  font-size:       13px;
+  font-weight:     800;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen ol.stappen-fases li.stappen-fase span.stappen-fase-naam {
+  white-space: nowrap;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen ol.stappen-fases li.stappen-fase.is-klaar,
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen ol.stappen-fases li.stappen-fase.is-nu {
+  opacity: 1;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen ol.stappen-fases li.stappen-fase.is-klaar::after {
+  background: var(--kleur-paars);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen ol.stappen-fases li.stappen-fase.is-klaar span.stappen-fase-nr {
+  border-color: var(--kleur-paars);
+  background:   var(--kleur-paars);
+  color:        var(--kleur-wit);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen ol.stappen-fases li.stappen-fase.is-nu span.stappen-fase-nr {
+  border-color: var(--kleur-geel);
+  background:   var(--kleur-geel);
+  color:        var(--kleur-paars);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen ol.stappen-fases li.stappen-fase.is-nu span.stappen-fase-naam {
+  font-weight: 800;
+}
+@media (max-width: 640px) {
+  section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen ol.stappen-fases li.stappen-fase span.stappen-fase-naam {
+    display: none;
+  }
+  section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen ol.stappen-fases li.stappen-fase.is-nu span.stappen-fase-naam {
+    display: inline;
+  }
 }
 section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium {
   display:     grid;
@@ -6263,15 +6325,6 @@ section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak di
   display:        flex;
   flex-direction: column;
   gap:            8px;
-}
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-kop span.stap-nummer {
-  display:     inline-flex;
-  align-items: center;
-  gap:         4px;
-  color:       var(--kleur-paars);
-  font-size:   15px;
-  font-weight: 700;
-  opacity:     .55;
 }
 section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-kop h3.stap-vraag {
   margin:      0;
@@ -6313,6 +6366,12 @@ section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak di
 }
 section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud .stap-veld:focus {
   border-bottom-color: var(--kleur-paars);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud .stap-veld.is-goed {
+  border-bottom-color: #2fbf71;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud .stap-veld.is-fout {
+  border-bottom-color: var(--kleur-roze);
 }
 section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud .stap-veld::placeholder {
   color:   var(--kleur-paars);
@@ -6438,6 +6497,18 @@ section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak di
   color:         var(--kleur-paars);
   font-size:     15px;
   font-weight:   600;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap p.stap-melding button.stap-melding-knop {
+  margin:                0;
+  padding:               0;
+  border:                0;
+  background:            none;
+  color:                 var(--kleur-paars);
+  font:                  inherit;
+  font-weight:           800;
+  text-decoration:       underline;
+  text-underline-offset: 3px;
+  cursor:                pointer;
 }
 section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap p.stap-melding[hidden] {
   display: none;
@@ -6604,9 +6675,6 @@ section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak di
 
 /*Stappen -- Minder beweging*/
 @media (prefers-reduced-motion: reduce) {
-  section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-balk span.stappen-voortgang {
-    transition: none;
-  }
   section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap,
   section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap.schudt,
   section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud div.stap-hint {

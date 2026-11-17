@@ -5,7 +5,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'THEMA_VERSIE', '2.22.1' );
+define( 'THEMA_VERSIE', '2.23.0' );
 define( 'THEMA_PAD', get_template_directory() );
 define( 'THEMA_URL', get_template_directory_uri() );
 
@@ -35,6 +35,7 @@ require THEMA_PAD . '/inc/adreszoeker.php';
 require THEMA_PAD . '/inc/faq-copy.php';
 require THEMA_PAD . '/inc/fotoselectie.php';
 require THEMA_PAD . '/inc/whatsapp.php';
+require THEMA_PAD . '/inc/formulier-nl.php';
 
 /**
  * Basis thema-ondersteuning.
