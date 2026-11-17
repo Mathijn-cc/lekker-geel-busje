@@ -5984,10 +5984,15 @@ section.sectie-contact div.contact-binnen div.contactraster {
 }
 @media (min-width: 901px) {
   section.sectie-contact div.contact-binnen div.contactraster {
-    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-    grid-template-areas:   "kop ." "vak gegevens";
-    column-gap:            24px;
+    grid-template-columns: minmax(0, 3fr) minmax(320px, 2fr);
+    grid-template-areas:   "kop gegevens" "vak gegevens";
+    grid-template-rows:    auto 1fr;
+    column-gap:            clamp(24px, 3vw, 40px);
     align-items:           start;
+  }
+  section.sectie-contact div.contact-binnen div.contactraster div.contactgegevens {
+    position: sticky;
+    top:      110px;
   }
   section.sectie-contact div.contact-binnen div.contactraster.contactraster-zonder-formulier {
     grid-template-columns: minmax(0, 1fr);
@@ -6010,6 +6015,33 @@ section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak {
   border-radius: 32px;
   background:    var(--kleur-wit);
   box-shadow:    0 30px 60px -40px rgba(56, 6, 94, .35);
+}
+
+/*Contact -- Bel- en mailkaarten in de zijbalk*/
+section.sectie-contact div.contact-binnen div.contactraster div.contactgegevens div.contactkaarten.contactkaarten-zijbalk {
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 641px) and (max-width: 900px) {
+  section.sectie-contact div.contact-binnen div.contactraster div.contactgegevens div.contactkaarten.contactkaarten-zijbalk {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 641px) {
+  section.sectie-contact div.contact-binnen div.contactraster div.contactgegevens div.contactkaarten.contactkaarten-zijbalk a.contactkaart,
+  section.sectie-contact div.contact-binnen div.contactraster div.contactgegevens div.contactkaarten.contactkaarten-zijbalk div.contactkaart {
+    padding: 26px 26px 26px 92px;
+  }
+  section.sectie-contact div.contact-binnen div.contactraster div.contactgegevens div.contactkaarten.contactkaarten-zijbalk a.contactkaart span.contactkaart-icoon,
+  section.sectie-contact div.contact-binnen div.contactraster div.contactgegevens div.contactkaarten.contactkaarten-zijbalk div.contactkaart span.contactkaart-icoon {
+    top:    26px;
+    left:   26px;
+    width:  48px;
+    height: 48px;
+  }
+}
+section.sectie-contact div.contact-binnen div.contactraster div.contactgegevens div.contactkaarten.contactkaarten-zijbalk a.contactkaart span.contactkaart-waarde,
+section.sectie-contact div.contact-binnen div.contactraster div.contactgegevens div.contactkaarten.contactkaarten-zijbalk div.contactkaart a.contactkaart-waarde {
+  font-size: clamp(22px, 1.9vw, 30px);
 }
 
 /*Contact -- Gegevensblokken*/

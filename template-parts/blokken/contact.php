@@ -17,7 +17,7 @@ $aan = function ( $sleutel ) use ( $b ) {
 $whatsapp      = preg_replace( '/\D+/', '', (string) $s['whatsapp'] );
 $whatsapp_link = $whatsapp && $aan( 'toon_whatsapp' ) ? 'https://wa.me/' . $whatsapp : '';
 
-/* WhatsApp zit in de belkaart (twee kaarten naast elkaar). Alleen zonder telefoonnummer krijgt WhatsApp een eigen kaart. */
+/* WhatsApp zit in de belkaart. Alleen zonder telefoonnummer krijgt WhatsApp een eigen kaart. */
 $kaarten = array();
 if ( $s['telefoon'] ) {
 	$kaarten[] = array( 'bellen', thema_telefoon_link(), 'telefoon', $waarde( 'bellen_label', 'Bel ons' ), $s['telefoon'], $waarde( 'bellen_uitleg' ), '' );
@@ -67,20 +67,12 @@ if ( $met_gesprek ) {
 	wp_enqueue_script( 'thema-gesprek' );
 }
 
-echo thema_sectie_open( $b, 'contact' );
-?>
-	<div class="contact-binnen">
-		<div class="contact-kop">
-			<?php echo thema_eyebrow( $waarde( 'eyebrow' ) ); ?>
-			<?php echo thema_kop( $waarde( 'kop', 'Neem *contact* met ons op' ), 0 === (int) ( $args['index'] ?? 1 ) ? 'h1' : 'h2', 'kop-middel' ); ?>
-			<?php if ( $waarde( 'intro' ) ) : ?><p class="tekst-groot contact-intro" data-animeer><?php echo esc_html( $waarde( 'intro' ) ); ?></p><?php endif; ?>
-			<?php if ( $aan( 'toon_offerte' ) && $waarde( 'offerte_knop' ) ) : ?>
-				<p class="contact-offerte" data-animeer><?php echo esc_html( $waarde( 'offerte_tekst' ) ); ?> <a href="<?php echo esc_url( thema_offerte_url() ); ?>"><?php echo esc_html( $waarde( 'offerte_knop' ) ); ?></a></p>
-			<?php endif; ?>
-		</div>
-
-		<?php if ( $kaarten ) : ?>
-			<div class="contactkaarten contactkaarten-<?php echo count( $kaarten ); ?>" data-animeer>
+/* Bel- en mailkaarten: met formulier in de zijbalk naast het formulier, zonder formulier bovenaan. */
+$kaarten_html = '';
+if ( $kaarten ) {
+	ob_start();
+	?>
+			<div class="contactkaarten contactkaarten-<?php echo count( $kaarten ); ?><?php echo $met_formulier ? ' contactkaarten-zijbalk' : ''; ?>" data-animeer>
 				<?php foreach ( $kaarten as $k ) : ?>
 					<?php if ( 'bellen' === $k[0] && $whatsapp_link ) : ?>
 						<div class="contactkaart contactkaart-bellen contactkaart-met-whatsapp">
@@ -100,7 +92,23 @@ echo thema_sectie_open( $b, 'contact' );
 					</a>
 				<?php endforeach; ?>
 			</div>
-		<?php endif; ?>
+	<?php
+	$kaarten_html = ob_get_clean();
+}
+
+echo thema_sectie_open( $b, 'contact' );
+?>
+	<div class="contact-binnen">
+		<div class="contact-kop">
+			<?php echo thema_eyebrow( $waarde( 'eyebrow' ) ); ?>
+			<?php echo thema_kop( $waarde( 'kop', 'Neem *contact* met ons op' ), 0 === (int) ( $args['index'] ?? 1 ) ? 'h1' : 'h2', 'kop-middel' ); ?>
+			<?php if ( $waarde( 'intro' ) ) : ?><p class="tekst-groot contact-intro" data-animeer><?php echo esc_html( $waarde( 'intro' ) ); ?></p><?php endif; ?>
+			<?php if ( $aan( 'toon_offerte' ) && $waarde( 'offerte_knop' ) ) : ?>
+				<p class="contact-offerte" data-animeer><?php echo esc_html( $waarde( 'offerte_tekst' ) ); ?> <a href="<?php echo esc_url( thema_offerte_url() ); ?>"><?php echo esc_html( $waarde( 'offerte_knop' ) ); ?></a></p>
+			<?php endif; ?>
+		</div>
+
+		<?php if ( ! $met_formulier ) { echo $kaarten_html; } // phpcs:ignore ?>
 
 		<?php if ( $met_formulier || $blokken ) : ?>
 			<div class="contactraster<?php echo $met_formulier ? '' : ' contactraster-zonder-formulier'; ?>">
@@ -140,8 +148,9 @@ echo thema_sectie_open( $b, 'contact' );
 				<?php elseif ( $id && current_user_can( 'edit_pages' ) ) : ?>
 					<p class="melding">Gravity Forms is niet actief.</p>
 				<?php endif; ?>
-				<?php if ( $blokken ) : ?>
+				<?php if ( $blokken || ( $met_formulier && $kaarten_html ) ) : ?>
 					<div class="contactgegevens" data-animeer>
+						<?php if ( $met_formulier ) { echo $kaarten_html; } // phpcs:ignore ?>
 						<?php foreach ( $blokken as $blok ) : ?>
 							<div class="contactblok">
 								<p class="contactblok-titel"><?php echo esc_html( $blok[0] ); ?></p>
