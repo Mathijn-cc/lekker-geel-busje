@@ -77,7 +77,7 @@ function thema_festival_agenda_items() {
 	return array(
 		array( 'titel' => 'De Vrienden van Amstel LIVE', 'plek' => 'Rotterdam Ahoy', 'start' => '20270114', 'eind' => '20270130', 'datum_tekst' => 'Diverse avonden in januari 2027', 'tekst' => 'De grootste kroeg van Nederland, met Nederlandstalige meezingers van begin tot eind. Met de hele groep heen en samen weer terug.', 'link' => '' ),
 		array( 'titel' => 'Paaspop', 'plek' => 'Schijndel', 'start' => '20270326', 'eind' => '20270328', 'datum_tekst' => '', 'tekst' => 'De 50ste editie van het gezelligste festival van Brabant, in het paasweekend.', 'link' => $link( 'https://www.paaspop.nl' ) ),
-		array( 'titel' => 'Intents Festival', 'plek' => 'Oisterwijk', 'start' => '20270604', 'eind' => '20270606', 'datum_tekst' => '', 'tekst' => 'Hardstyle en hardcore op een thuiswedstrijd: Intents is in onze eigen woonplaats.', 'link' => $link( 'https://www.intentsfestival.nl' ) ),
+		array( 'titel' => 'Intents Festival', 'plek' => 'Oisterwijk', 'start' => '20270604', 'eind' => '20270606', 'datum_tekst' => '', 'tekst' => 'Hardstyle en hardcore bij ons om de hoek: Intents is in onze eigen woonplaats.', 'link' => $link( 'https://www.intentsfestival.nl' ) ),
 		array( 'titel' => 'Defqon.1', 'plek' => 'Biddinghuizen', 'start' => '20270624', 'eind' => '20270627', 'datum_tekst' => '', 'tekst' => 'Vier dagen hardstyle op de Holy Grounds. We brengen je groep tot aan het terrein.', 'link' => $link( 'https://www.defqon1.com' ) ),
 		array( 'titel' => 'Zwarte Cross', 'plek' => 'Lichtenvoorde', 'start' => '20270715', 'eind' => '20270718', 'datum_tekst' => '', 'tekst' => 'Muziek, motorcross en complete waanzin in de Achterhoek. Een lange rit, dus een feestrit.', 'link' => $link( 'https://www.zwartecross.nl' ) ),
 		array( 'titel' => 'Decibel outdoor', 'plek' => 'Hilvarenbeek', 'start' => '20270827', 'eind' => '20270829', 'datum_tekst' => 'Eind augustus 2027', 'tekst' => 'Het hardstyle-feest waarmee de zomer eindigt, op een kwartiertje van onze bussen.', 'link' => $link( 'https://www.decibeloutdoor.com' ) ),
@@ -350,7 +350,7 @@ HTML,
 <p>Het grootste hardstyle festival van Nederland, elk jaar in juni op het festivalterrein in Biddinghuizen. Meerdere dagen, tientallen podia en een eindshow waar mensen een jaar naar uitkijken. De 2027-editie staat gepland voor 24 tot en met 27 juni.</p>
 
 <h2>Intents Festival</h2>
-<p>Intents in Oisterwijk is bekend om zijn enorme podia en producties, met de nadruk op de hardere stijlen. Het festival is meestal rond het Pinksterweekend, in 2027 van 4 tot en met 6 juni. Voor ons is het een thuiswedstrijd: onze bussen staan in Oisterwijk.</p>
+<p>Intents in Oisterwijk is bekend om zijn enorme podia en producties, met de nadruk op de hardere stijlen. Het festival is meestal rond het Pinksterweekend, in 2027 van 4 tot en met 6 juni. Voor ons is het een feest om de hoek: onze bussen staan in Oisterwijk.</p>
 
 <h2>Decibel outdoor</h2>
 <p>De Loudest City on Earth in Hilvarenbeek sluit eind augustus de hardstyle-zomer af. Drie dagen harde muziek, met een grote camping erbij.</p>
@@ -407,7 +407,7 @@ HTML,
 <p>In het Pinksterweekend staat de Bossche binnenstad in het teken van jazz, blues en soul, op podia door de hele stad.</p>
 
 <h2>Intents Festival</h2>
-<p>Hardstyle en hardcore in Oisterwijk, meestal rond Pinksteren. In 2027 van 4 tot en met 6 juni. Onze eigen thuiswedstrijd.</p>
+<p>Hardstyle en hardcore in Oisterwijk, meestal rond Pinksteren. In 2027 van 4 tot en met 6 juni. Bij ons om de hoek.</p>
 
 <h2>Awakenings Festival</h2>
 <p>Een van de grootste technofestivals ter wereld, elke zomer in Hilvarenbeek.</p>

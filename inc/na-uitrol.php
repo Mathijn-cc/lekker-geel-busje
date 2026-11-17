@@ -70,6 +70,8 @@ function thema_uitroltaken() {
 		'festival-blog-v1'        => 'thema_festival_blog',
 		'festival-volgorde-v1'    => 'thema_festival_volgorde',
 		'festival-v1'             => 'thema_plaats_festival',
+		'copy-17nov-v1'           => 'thema_copy_17nov',
+		'trip-blog-v2'            => 'thema_trip_blog',
 	);
 }
 
@@ -486,6 +488,69 @@ function thema_geen_voetbal() {
 	}
 	foreach ( $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_type, post_status FROM {$wpdb->posts} WHERE post_content LIKE %s OR post_title LIKE %s", $zoek, $zoek ) ) as $rij ) {
 		$uit['over'][] = 'post ' . $rij->ID . ' ' . $rij->post_type . ' ' . $rij->post_status;
+	}
+	wp_cache_flush();
+	return $uit;
+}
+
+/**
+ * Uitroltaak copy-17nov-v1: geen wedstrijden of stadions in de copy, en bij de 35 personen erbij
+ * dat het ook met minder kan, tegen hogere kosten per persoon.
+ */
+function thema_copy_17nov_tekst( $waarde ) {
+	if ( is_array( $waarde ) ) {
+		return array_map( 'thema_copy_17nov_tekst', $waarde );
+	}
+	if ( ! is_string( $waarde ) ) {
+		return $waarde;
+	}
+	$minder = ' Met minder mensen kan het ook, alleen worden de kosten per persoon dan wat hoger.';
+	if ( false === strpos( $waarde, 'Met minder mensen kan het ook' ) ) {
+		$waarde = str_replace(
+			array( "tot zijn recht vanaf zo'n 35 personen.", "De bus is het best vanaf zo'n 35 personen." ),
+			array( "tot zijn recht vanaf zo'n 35 personen." . $minder, "De bus is het best vanaf zo'n 35 personen." . $minder ),
+			$waarde
+		);
+	}
+	return str_replace(
+		array(
+			'Karten, een brouwerij of een wedstrijd, en daarna gewoon door.',
+			'tot een wedstrijd en een avond uit',
+			'Hardstyle en hardcore op een thuiswedstrijd: Intents is in onze eigen woonplaats.',
+			'Voor ons is het een thuiswedstrijd: onze bussen staan in Oisterwijk.',
+			'Onze eigen thuiswedstrijd.',
+		),
+		array(
+			'Karten, een brouwerij of een escape room, en daarna gewoon door.',
+			'tot een escape room en een avond uit',
+			'Hardstyle en hardcore bij ons om de hoek: Intents is in onze eigen woonplaats.',
+			'Voor ons is het een feest om de hoek: onze bussen staan in Oisterwijk.',
+			'Bij ons om de hoek.',
+		),
+		$waarde
+	);
+}
+
+function thema_copy_17nov() {
+	global $wpdb;
+	$uit = array( 'meta' => 0, 'berichten' => 0 );
+	foreach ( $wpdb->get_results( "SELECT meta_id, post_id, meta_value FROM {$wpdb->postmeta} WHERE meta_value LIKE '%wedstrijd%' OR meta_value LIKE '%35 personen%'" ) as $rij ) {
+		$oud   = maybe_unserialize( $rij->meta_value );
+		$nieuw = thema_copy_17nov_tekst( $oud );
+		if ( $nieuw !== $oud ) {
+			$wpdb->update( $wpdb->postmeta, array( 'meta_value' => maybe_serialize( $nieuw ) ), array( 'meta_id' => $rij->meta_id ) );
+			clean_post_cache( $rij->post_id );
+			$uit['meta']++;
+		}
+	}
+	foreach ( $wpdb->get_results( "SELECT ID, post_content, post_excerpt FROM {$wpdb->posts} WHERE post_content LIKE '%wedstrijd%' OR post_excerpt LIKE '%wedstrijd%' OR post_content LIKE '%35 personen%'" ) as $rij ) {
+		$c = thema_copy_17nov_tekst( $rij->post_content );
+		$e = thema_copy_17nov_tekst( $rij->post_excerpt );
+		if ( $c !== $rij->post_content || $e !== $rij->post_excerpt ) {
+			$wpdb->update( $wpdb->posts, array( 'post_content' => $c, 'post_excerpt' => $e ), array( 'ID' => $rij->ID ) );
+			clean_post_cache( $rij->ID );
+			$uit['berichten']++;
+		}
 	}
 	wp_cache_flush();
 	return $uit;

@@ -8237,15 +8237,29 @@ article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet a.artik
   gap:             18px;
   padding:         14px 22px 14px 14px;
   border-radius:   24px;
-  background:      var(--kleur-paars);
-  color:           var(--kleur-creme);
+  background:      var(--kleur-wit);
+  color:           var(--kleur-paars);
   text-decoration: none;
-  transition:      transform .5s var(--veer);
+  box-shadow:      0 18px 40px -28px rgba(56, 6, 94, .45);
+  transition:      transform .5s var(--veer), box-shadow .3s var(--zacht);
 }
 @media (hover: hover) {
   article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet a.artikel-gelegenheid:hover {
-    transform: translateY(-4px) rotate(-.6deg);
+    transform:  translateY(-4px) rotate(-.6deg);
+    box-shadow: 0 24px 48px -28px rgba(56, 6, 94, .55);
   }
+  article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet a.artikel-gelegenheid:hover span.artikel-gelegenheid-titel {
+    text-decoration-color: var(--kleur-geel);
+  }
+  article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet a.artikel-gelegenheid:hover span.artikel-gelegenheid-pijl {
+    box-shadow: 0 0 0 4px var(--kleur-wit), 0 0 0 6px var(--kleur-paars);
+  }
+}
+article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet a.artikel-gelegenheid:focus-visible span.artikel-gelegenheid-titel {
+  text-decoration-color: var(--kleur-geel);
+}
+article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet a.artikel-gelegenheid:focus-visible span.artikel-gelegenheid-pijl {
+  box-shadow: 0 0 0 4px var(--kleur-wit), 0 0 0 6px var(--kleur-paars);
 }
 article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet a.artikel-gelegenheid img.artikel-gelegenheid-foto {
   flex-shrink:   0;
@@ -8264,13 +8278,18 @@ article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet a.artik
   font-family: var(--accent-letter);
   font-style:  var(--accent-stijl);
   font-size:   calc(19px * var(--accent-schaal, 1));
-  color:       var(--kleur-geel);
+  color:       var(--kleur-roze);
 }
 article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet a.artikel-gelegenheid span.artikel-gelegenheid-titel {
-  font-family: var(--kop-letter);
-  font-size:   calc(clamp(20px, 1.8vw, 24px) * var(--kop-schaal));
-  font-weight: var(--kop-gewicht);
-  line-height: 1.1;
+  font-family:               var(--kop-letter);
+  font-size:                 calc(clamp(20px, 1.8vw, 24px) * var(--kop-schaal));
+  font-weight:               var(--kop-gewicht);
+  line-height:               1.1;
+  text-decoration-line:      underline;
+  text-decoration-color:     transparent;
+  text-decoration-thickness: 3px;
+  text-underline-offset:     6px;
+  transition:                text-decoration-color .25s var(--zacht);
 }
 article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet a.artikel-gelegenheid span.artikel-gelegenheid-pijl {
   display:         flex;
@@ -8282,6 +8301,14 @@ article.artikel div.artikel-raster div.artikel-hoofd footer.artikel-voet a.artik
   border-radius:   50%;
   background:      var(--kleur-geel);
   color:           var(--kleur-paars);
+  transition:      box-shadow .3s var(--zacht);
+}
+/*Artikel -- Vragen onder een artikel op zand, los van de artikeltekst*/
+body.single-post section.sectie-faq {
+  background: var(--kleur-zand);
+}
+body.single-post section.sectie-faq :is(h1, h2, h3).kop-middel {
+  font-size: calc(clamp(34px, 3.4vw, 54px) * var(--kop-schaal));
 }
 
 /**Blokken -- Artikelen**/

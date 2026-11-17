@@ -118,7 +118,7 @@ function thema_plaats_trip() {
 	$lijst = function_exists( 'thema_faq_per_pagina' ) ? ( thema_faq_per_pagina()['gelegenheid/trip-met-vrienden'] ?? array() ) : array();
 	$eigen = array(
 		array( 'Wat kost een partybus voor een uitje met vrienden?', 'Dat hangt af van de grootte van de groep, de afstand en rijtijd, de dag en eventuele wachttijd. Binnen 1 werkdag heb je een vaste all-in prijs, met chauffeur, gastvrouwke, licht en geluid, brandstof en btw erin. Deel je die door de groep, dan weet iedereen vooraf precies wat zijn deel is.' ),
-		array( 'Vanaf hoeveel personen is de bus geschikt?', 'De bus komt het best tot zijn recht vanaf zo\'n 35 personen. Elke bus heeft minstens 39 zitplaatsen en in onze verlengde bus gaan tot 88 personen mee. Met een grotere groep rijden er meerdere bussen.' ),
+		array( 'Vanaf hoeveel personen is de bus geschikt?', 'De bus komt het best tot zijn recht vanaf zo\'n 35 personen. Met minder mensen kan het ook, alleen worden de kosten per persoon dan wat hoger. Elke bus heeft minstens 39 zitplaatsen en in onze verlengde bus gaan tot 88 personen mee. Met een grotere groep rijden er meerdere bussen.' ),
 	);
 	$extra = array(
 		array( 'Kan de bus de hele dag bij ons blijven?', 'Ja. De bus wacht tijdens jullie activiteit of komt op een afgesproken tijd terug. Zet het programma in je aanvraag, dan maken we er één route van met een vaste prijs.' ),
@@ -173,7 +173,7 @@ function thema_plaats_trip() {
 			'items'         => array(
 				array( 'soort' => 'Vrienden', 'titel' => 'Dagje uit met de groep', 'tekst' => 'Een activiteit, samen eten en daarna de stad in. Iedereen stapt samen in en samen weer uit.' ),
 				array( 'soort' => 'Vriendinnen', 'titel' => 'Vriendinnenuitje', 'tekst' => 'Een middag proeven, shoppen of een workshop, met een feestrit als toetje. Het gastvrouwke zorgt voor de bubbels.' ),
-				array( 'soort' => 'De jongens', 'titel' => 'Mannenuitje', 'tekst' => 'Karten, een brouwerij of een wedstrijd, en daarna gewoon door. Niemand hoeft te loten wie er rijdt.' ),
+				array( 'soort' => 'De jongens', 'titel' => 'Mannenuitje', 'tekst' => 'Karten, een brouwerij of een escape room, en daarna gewoon door. Niemand hoeft te loten wie er rijdt.' ),
 				array( 'soort' => 'Avond uit', 'titel' => 'Kroegentocht', 'tekst' => 'We zetten jullie af in het uitgaansgebied en halen jullie op als de laatste kroeg sluit.' ),
 				array( 'soort' => 'Jong en oud', 'titel' => 'Familiedag', 'tekst' => 'Opa, oma, neven en nichten in één bus. Zo is iedereen erbij, ook wie liever niet zelf rijdt.' ),
 				array( 'soort' => 'Samen sterk', 'titel' => 'Club of vereniging', 'tekst' => 'Het jaarlijkse uitje van het elftal, de koor- of buurtvereniging. Eén vaste prijs, makkelijk te delen.' ),
@@ -303,13 +303,12 @@ function thema_trip_artikelen() {
 <li><strong>Themafeest:</strong> iedereen verkleed in hetzelfde thema.</li>
 </ul>
 
-<h2>Langer weg: voor als één dag niet genoeg is</h2>
+<h2>Er samen op uit: voor de hele groep</h2>
 <ul>
-<li><strong>Vriendenweekend:</strong> een huisje met de hele groep. Lees <a href="{$weekend}">vriendenweekend organiseren</a>.</li>
 <li><strong>Bowlen of glow golf:</strong> laagdrempelig, en de hele groep kan meedoen.</li>
 <li><strong>Strand of meer:</strong> een dag aan het water, met een barbecue erbij.</li>
 <li><strong>Pretpark:</strong> een dag in de achtbaan, iedereen is even weer twaalf.</li>
-<li><strong>Sportwedstrijd:</strong> samen naar het stadion, met een feestrit heen en terug.</li>
+<li><strong>Vriendenweekend:</strong> voor als één dag niet genoeg is, een huisje met de hele groep. Lees <a href="{$weekend}">vriendenweekend organiseren</a>.</li>
 </ul>
 
 <h2>Zo plan je het uitje</h2>
@@ -317,7 +316,7 @@ function thema_trip_artikelen() {
 <li><strong>Prik de datum ruim van tevoren.</strong> Hoe groter de groep, hoe eerder.</li>
 <li><strong>Spreek een budget per persoon af</strong> en laat iedereen vooraf betalen.</li>
 <li><strong>Kies één hoofdactiviteit,</strong> vul aan met eten en een avond uit.</li>
-<li><strong>Regel het vervoer.</strong> Met een <a href="{$landing}">partybus voor je uitje met vrienden</a> blijft de groep bij elkaar en hoeft niemand de Bob te zijn. De bus is het best vanaf zo'n 35 personen.</li>
+<li><strong>Regel het vervoer.</strong> Met een <a href="{$landing}">partybus voor je uitje met vrienden</a> blijft de groep bij elkaar en hoeft niemand de Bob te zijn. De bus is het best vanaf zo'n 35 personen. Met minder mensen kan het ook, alleen worden de kosten per persoon dan wat hoger.</li>
 </ul>
 <p>Op pad met alleen de meiden of de jongens? Bekijk dan de ideeën voor een <a href="{$vriendin}">vriendinnenuitje</a> of een <a href="{$mannen}">mannenuitje</a>.</p>
 HTML,
@@ -536,7 +535,7 @@ HTML,
 			'slug'         => 'mannenuitje-ideeen',
 			'titel'        => 'Mannenuitje: 15 ideeën voor een dag uit met de jongens',
 			'seo_titel'    => 'Mannenuitje: 15 ideeën voor een dag uit | Lekker Geel Busje',
-			'samenvatting' => 'Op zoek naar een leuk mannenuitje of jongensuitje? Vijftien ideeën voor een dag uit met de jongens, van karten en brouwerijen tot een wedstrijd en een avond uit.',
+			'samenvatting' => 'Op zoek naar een leuk mannenuitje of jongensuitje? Vijftien ideeën voor een dag uit met de jongens, van karten en brouwerijen tot een escape room en een avond uit.',
 			'beeld'        => 'feest-met-armen-omhoog-in-de-bus',
 			'kort'         => "Kies iets met een beetje competitie, dat werkt bijna altijd.\nCombineer een activiteit met goed eten en een drankje.\nRegel vervoer, dan hoeft niemand te loten wie er rijdt.",
 			'faq_kop'      => 'Vragen over een *mannenuitje*',
