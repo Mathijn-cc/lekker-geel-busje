@@ -42,6 +42,7 @@ function thema_uitroltaken() {
 		'een-werkdag-v1'          => 'thema_een_werkdag',
 		'adresvelden-v1'          => 'thema_adres_velden_toevoegen',
 		'adresvelden-v2'          => 'thema_offerte_indeling',
+		'adresvelden-v3'          => 'thema_offerte_indeling',
 	);
 }
 

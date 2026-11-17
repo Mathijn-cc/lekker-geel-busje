@@ -572,7 +572,7 @@ function thema_adres_pdok_zoek( $q, $soort ) {
 }
 
 /* --------------------------------------------------------------------------
- * Uitroltaak adresvelden-v2: indeling van stap 2. Datum en tijd naast elkaar,
+ * Uitroltaak adresvelden-v2 en -v3: indeling van stap 2. Datum en tijd naast elkaar,
  * adres- en naamvelden over de volle breedte, een lijntje tussen vertrek,
  * bestemming en terugreis (klasse veld-scheiding, zie thema.css).
  * ----------------------------------------------------------------------- */
@@ -614,6 +614,13 @@ function thema_offerte_indeling() {
 		if ( $veld && false === strpos( (string) $veld->cssClass, 'veld-scheiding' ) ) {
 			$veld->cssClass = trim( $veld->cssClass . ' veld-scheiding' );
 			$gedaan[]       = $veld->id . ':scheiding';
+		}
+	}
+	foreach ( (array) ( $in['uitleg_boven'] ?? array() ) as $verwijzing ) {
+		$veld = thema_offerte_veld( $form, thema_adres_veld_id( $form, $verwijzing ) );
+		if ( $veld ) {
+			$veld->descriptionPlacement = 'above';
+			$gedaan[]                   = $veld->id . ':uitleg boven';
 		}
 	}
 	$uitkomst = GFAPI::update_form( $form );

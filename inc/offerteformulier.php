@@ -36,6 +36,8 @@ function thema_offerte_velden() {
 			),
 			'vol'       => array( 8, 'vertrek_naam', 63, 'bestemming_naam' ),
 			'scheiding' => array( 63, 10, 68 ), // Begin bestemming, begin terugreis (hele rij)
+			// Uitleg boven het invulveld, net als bij de andere velden (gelijke hoogte in een rij).
+			'uitleg_boven' => array( 67, 68, 'vertrek_naam', 'bestemming_naam' ),
 		),
 
 		// Velden met de adreszoeker (inc/adreszoeker.php), per veld-ID.
