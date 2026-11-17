@@ -80,10 +80,18 @@ function thema_extra_velden( $p, $standaard = '', $weergave = array() ) {
 	$achtergronden = thema_blok_achtergronden();
 
 	$met_knop = in_array( $p, array( 'hero', 'over_ons', 'voordelen', 'prijs', 'faq', 'agenda', 'slot_cta', 'lopende_band' ), true );
+	$met_kop  = in_array( $p, thema_blokken_met_kop_uitlijning(), true );
 
-	if ( $weergave || $met_knop || isset( $achtergronden[ $p ] ) ) {
+	if ( $weergave || $met_knop || $met_kop || isset( $achtergronden[ $p ] ) ) {
 		$velden[] = thema_tab( $p, 'Weergave' );
 		$velden   = array_merge( $velden, $weergave );
+		if ( $met_kop ) {
+			$velden[] = thema_veld( $p, 'kop_uitlijning', 'Kop uitlijnen', 'button_group', array(
+				'choices'       => array( 'links' => 'Links', 'midden' => 'In het midden' ),
+				'default_value' => 'links',
+				'instructions'  => 'Label, kop en intro boven het blok links of in het midden.',
+			) );
+		}
 		if ( $met_knop ) {
 			$velden[] = thema_veld( $p, 'knop_vorm', 'Knopvorm', 'button_group', array_merge( thema_breed( 50 ), array(
 				'choices'       => array( 'standaard' => 'Zoals ontworpen', 'rond' => 'Rond met pijl', 'schuin' => 'Schuin' ),

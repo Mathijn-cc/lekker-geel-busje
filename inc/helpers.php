@@ -175,7 +175,15 @@ function thema_blok_kop( $html, $niveau ) {
 }
 
 /**
- * Achtergrond en ruimte uit de tabs Weergave en Geavanceerd op de eerste sectie zetten.
+ * Blokken waarvan de kop (label, kop, intro) boven de inhoud staat en dus ook in het midden kan.
+ * Blokken met de kop naast de inhoud (feiten, checklist, aan boord) horen hier niet bij.
+ */
+function thema_blokken_met_kop_uitlijning() {
+	return array( 'route', 'tekst', 'artikelen', 'tips', 'opdrachten', 'formulier' );
+}
+
+/**
+ * Achtergrond, ruimte en uitlijning van de kop uit de tabs Weergave en Geavanceerd op de eerste sectie zetten.
  */
 function thema_blok_klassen( $html, $layout, $blok ) {
 	$klassen       = array();
@@ -185,6 +193,9 @@ function thema_blok_klassen( $html, $layout, $blok ) {
 	if ( isset( $achtergronden[ $layout ] ) ) {
 		$kleur     = in_array( $blok['achtergrond'] ?? '', array( 'standaard', 'geel', 'paars' ), true ) ? $blok['achtergrond'] : $achtergronden[ $layout ];
 		$klassen[] = 'achtergrond-' . $kleur;
+	}
+	if ( 'midden' === ( $blok['kop_uitlijning'] ?? '' ) && in_array( $layout, thema_blokken_met_kop_uitlijning(), true ) ) {
+		$klassen[] = 'kop-midden';
 	}
 	foreach ( array( 'boven', 'onder' ) as $kant ) {
 		$waarde = $blok[ 'ruimte_' . $kant ] ?? 'normaal';

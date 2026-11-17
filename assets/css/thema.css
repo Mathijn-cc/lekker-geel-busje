@@ -6139,6 +6139,29 @@ section.sectie-contact div.contact-binnen div.contactraster div.contactgegevens 
   }
 }
 
+/**Blokken -- Kop in het midden**/
+/*Kop in het midden -- Label, kop en intro gecentreerd boven het blok*/
+section.sectie-route.kop-midden div.route-binnen div.route-kop,
+section.sectie-artikelen.kop-midden div.artikelen-binnen div.artikelen-kop,
+section.sectie-tips.kop-midden div.tips-binnen div.tips-kop,
+section.sectie-opdrachten.kop-midden div.opdrachten-binnen div.opdrachten-kop,
+section.sectie-tekst.kop-midden:not(.tekst-twee) div.tekst-binnen div.tekst-kop,
+section.sectie-formulier.kop-midden div.formulier-binnen div.formulier-kop {
+  align-items:  center;
+  margin-right: auto;
+  margin-left:  auto;
+  text-align:   center;
+}
+section.sectie-route.kop-midden div.route-binnen div.route-kop > *,
+section.sectie-artikelen.kop-midden div.artikelen-binnen div.artikelen-kop > *,
+section.sectie-tips.kop-midden div.tips-binnen div.tips-kop > *,
+section.sectie-opdrachten.kop-midden div.opdrachten-binnen div.opdrachten-kop > *,
+section.sectie-tekst.kop-midden:not(.tekst-twee) div.tekst-binnen div.tekst-kop > *,
+section.sectie-formulier.kop-midden div.formulier-binnen div.formulier-kop > * {
+  margin-right: auto;
+  margin-left:  auto;
+}
+
 /**Blokken -- Contact vraag voor vraag**/
 /*Stappen -- Offertebalk bovenin het gewone formulier*/
 section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.formulier-wissel {

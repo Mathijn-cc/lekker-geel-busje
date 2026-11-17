@@ -12,6 +12,10 @@ $menuknop_pil = sprintf(
 );
 
 $offerte_knop = function ( $variant, $kort = false ) use ( $s ) {
+	/* Op de bedankpagina's geen offerteknop: de bezoeker heeft net iets verstuurd. */
+	if ( function_exists( 'thema_is_bedankt_nu' ) && thema_is_bedankt_nu() ) {
+		return '';
+	}
 	$label = $kort ? $s['menu_knop_kort'] : $s['menu_knop'];
 	return sprintf(
 		'<a class="knop-rond knop-rond-%1$s menu-offerte" href="%2$s"><span class="knoptekst" aria-hidden="true"><span class="knoptekst-schuif"><span>%3$s</span><span>%4$s</span></span></span><span class="sr-tekst">%3$s</span><span class="knop-rond-pijl" aria-hidden="true">%5$s</span></a>',

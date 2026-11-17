@@ -178,6 +178,7 @@ function thema_plaats_bedankt() {
 			),
 			array(
 				'acf_fc_layout' => 'route',
+				'kop_uitlijning' => 'midden',
 				'eyebrow'       => 'Wat er nu gebeurt',
 				'kop'           => 'Zo gaat het *verder*',
 				'intro'         => 'Je vraag komt rechtstreeks bij ons binnen, er zit geen callcenter tussen. Dit kun je verwachten.',
@@ -192,23 +193,7 @@ function thema_plaats_bedankt() {
 				'anker'         => 'verder',
 			),
 			thema_bedankt_playlist(),
-			array(
-				'acf_fc_layout' => 'gelegenheden',
-				'kop'           => "Waar gaat jullie\n*feestje* naartoe?",
-				'weergave'      => 'raster',
-				'keuze'         => array(),
-				'achtergrond'   => 'standaard',
-				'anker'         => 'gelegenheden',
-			),
 			$artikelen,
-			array(
-				'acf_fc_layout' => 'slot_cta',
-				'kop'           => 'Plannen gemaakt?',
-				'pil'           => 'Wij rijden!',
-				'tekst'         => 'Vraag vrijblijvend je prijs aan. Binnen 1 werkdag weet je waar je aan toe bent.',
-				'knop'          => thema_link( 'Vraag je prijs aan', $offerte ),
-				'anker'         => 'prijs',
-			),
 		), $id );
 		clean_post_cache( $id );
 		$uit['contact'] = $id;
@@ -258,6 +243,7 @@ function thema_plaats_bedankt() {
 			),
 			array(
 				'acf_fc_layout' => 'route',
+				'kop_uitlijning' => 'midden',
 				'eyebrow'       => 'Van aanvraag naar feestrit',
 				'kop'           => 'Dit gebeurt er *nu*',
 				'intro'         => 'Geen gedoe en geen kleine lettertjes. Zo gaat het van je aanvraag naar de dag zelf.',
@@ -443,3 +429,44 @@ add_filter( 'body_class', function ( $klassen ) {
 	}
 	return $klassen;
 } );
+
+/**
+ * Uitroltaak bedankt-opschonen-v1: geen offerte meer op de bedankpagina's (blokken gelegenheden,
+ * offerte en slot-cta eraf) en de kop van "Zo gaat het verder" in het midden.
+ */
+function thema_bedankt_opschonen() {
+	if ( ! function_exists( 'delete_row' ) || ! function_exists( 'update_sub_field' ) ) {
+		return 0;
+	}
+	$uit = array();
+	foreach ( thema_bedankt_slugs() as $slug ) {
+		$pagina = get_page_by_path( $slug );
+		if ( ! $pagina ) {
+			continue;
+		}
+		$blokken = (array) get_field( 'blokken', $pagina->ID );
+		$weg     = array();
+		foreach ( $blokken as $i => $blok ) {
+			$layout = $blok['acf_fc_layout'] ?? '';
+			if ( in_array( $layout, array( 'gelegenheden', 'offerte', 'slot_cta' ), true ) ) {
+				$weg[] = $i + 1;
+			} elseif ( 'route' === $layout ) {
+				update_sub_field( array( 'blokken', $i + 1, 'kop_uitlijning' ), 'midden', $pagina->ID );
+			}
+		}
+		/* Van achter naar voren, anders schuiven de nummers op. */
+		foreach ( array_reverse( $weg ) as $rij ) {
+			delete_row( 'blokken', $rij, $pagina->ID );
+		}
+		clean_post_cache( $pagina->ID );
+		$uit[ $slug ] = count( $weg );
+	}
+	return $uit;
+}
+
+/**
+ * Of de huidige pagina een bedankpagina is (voor menu en footer: dan geen offerteknop).
+ */
+function thema_is_bedankt_nu() {
+	return is_page() && thema_is_bedankt();
+}
