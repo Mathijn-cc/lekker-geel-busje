@@ -20,13 +20,11 @@ while ( have_posts() ) :
 		<header class="sectie sectie-artikelkop">
 			<div class="artikelkop-binnen">
 				<a class="terugpil" href="<?php echo esc_url( $blog ? get_permalink( $blog ) : home_url( '/' ) ); ?>"><span aria-hidden="true">←</span> <?php echo esc_html( $blog ? get_the_title( $blog ) : 'Blog' ); ?></a>
-				<div class="artikel-titelregel">
-					<?php echo thema_kop( get_the_title(), 'h1', 'kop-middel artikel-titel' ); ?>
-					<?php if ( $cat && 'algemeen' !== $cat->slug ) : ?>
-						<a class="blogkaart-onderwerp" href="<?php echo esc_url( get_category_link( $cat ) ); ?>"><?php echo esc_html( $cat->name ); ?></a>
-					<?php endif; ?>
-				</div>
+				<?php echo thema_kop( get_the_title(), 'h1', 'kop-middel artikel-titel' ); ?>
 				<ul class="artikel-meta" aria-label="Over dit artikel">
+					<?php if ( $cat && 'algemeen' !== $cat->slug ) : ?>
+						<li class="metapil metapil-onderwerp"><a href="<?php echo esc_url( get_category_link( $cat ) ); ?>"><?php echo esc_html( $cat->name ); ?></a></li>
+					<?php endif; ?>
 					<li class="metapil metapil-auteur"><?php echo thema_icoon( 'bus', 16 ); ?><span>Door <?php echo esc_html( $auteur['naam'] ); ?></span></li>
 					<li class="metapil"><?php echo thema_icoon( 'kalender', 16 ); ?><span><?php echo thema_blog_datums( $id ); ?></span></li>
 					<li class="metapil"><?php echo thema_icoon( 'klok', 16 ); ?><span><?php echo (int) thema_leestijd( $id ); ?> min lezen</span></li>

@@ -569,7 +569,7 @@ HTML,
 
 <h2>Sport en uitgaan</h2>
 <ul>
-<li><strong>Samen naar een wedstrijd:</strong> voetbal, ijshockey of darts, met een feestrit heen en terug.</li>
+<li><strong>Samen naar een show:</strong> een concert, musical of comedyavond, met een feestrit heen en terug.</li>
 <li><strong>Darts of poolbiljart:</strong> in een eigen ruimte, met een toernooi.</li>
 <li><strong>Kroegentocht:</strong> van kroeg naar kroeg. Lees <a href="{$kroeg}">kroegentocht organiseren</a>.</li>
 <li><strong>Pubquiz:</strong> wie weet het meeste over sport, muziek en de groep zelf?</li>

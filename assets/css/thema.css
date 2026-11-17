@@ -8063,21 +8063,6 @@ article.artikel header.sectie-artikelkop div.artikelkop-binnen {
   max-width:      900px;
   margin:         0 auto;
 }
-/*Artikelkop -- Titel met het onderwerp als label direct na het laatste woord*/
-article.artikel header.sectie-artikelkop div.artikelkop-binnen div.artikel-titelregel {
-  line-height: 1;
-}
-article.artikel header.sectie-artikelkop div.artikelkop-binnen div.artikel-titelregel h1.artikel-titel {
-  display: inline;
-  margin:  0 14px 0 0;
-}
-article.artikel header.sectie-artikelkop div.artikelkop-binnen div.artikel-titelregel a.blogkaart-onderwerp {
-  display:        inline-block;
-  position:       relative;
-  top:            -.7em;
-  vertical-align: middle;
-  white-space:    nowrap;
-}
 /*Artikelkop -- Meta als losse pillen*/
 article.artikel header.sectie-artikelkop div.artikelkop-binnen ul.artikel-meta {
   display:     flex;
@@ -8110,6 +8095,24 @@ article.artikel header.sectie-artikelkop div.artikelkop-binnen ul.artikel-meta l
 }
 article.artikel header.sectie-artikelkop div.artikelkop-binnen ul.artikel-meta li.metapil.metapil-auteur svg {
   color: var(--kleur-geel);
+}
+/*Artikelkop -- Onderwerp als eerste pil*/
+article.artikel header.sectie-artikelkop div.artikelkop-binnen ul.artikel-meta li.metapil.metapil-onderwerp {
+  padding:    0;
+  background: var(--kleur-geel);
+}
+article.artikel header.sectie-artikelkop div.artikelkop-binnen ul.artikel-meta li.metapil.metapil-onderwerp a {
+  display:         inline-flex;
+  align-items:     center;
+  padding:         9px 16px;
+  border-radius:   999px;
+  color:           var(--kleur-paars);
+  text-decoration: none;
+  transition:      box-shadow .2s ease;
+}
+article.artikel header.sectie-artikelkop div.artikelkop-binnen ul.artikel-meta li.metapil.metapil-onderwerp a:hover,
+article.artikel header.sectie-artikelkop div.artikelkop-binnen ul.artikel-meta li.metapil.metapil-onderwerp a:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--kleur-paars);
 }
 article.artikel header.sectie-artikelkop div.artikelkop-binnen ul.artikel-meta li.metapil span.blog-bijgewerkt {
   font-weight: 600;

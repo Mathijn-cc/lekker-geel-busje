@@ -66,6 +66,10 @@ function thema_uitroltaken() {
 		'trip-blog-v1'            => 'thema_trip_blog',
 		'trip-volgorde-v1'        => 'thema_trip_volgorde',
 		'trip-v1'                 => 'thema_plaats_trip',
+		'geen-voetbal-v1'         => 'thema_geen_voetbal',
+		'festival-blog-v1'        => 'thema_festival_blog',
+		'festival-volgorde-v1'    => 'thema_festival_volgorde',
+		'festival-v1'             => 'thema_plaats_festival',
 	);
 }
 
@@ -415,4 +419,74 @@ function thema_een_werkdag() {
 		}
 	}
 	return $uitkomst;
+}
+
+/**
+ * Uitroltaak geen-voetbal-v1: voetbalwedstrijd is een verboden woord (we willen geen hooligans aantrekken).
+ * Vervangt de bekende zinnen in metavelden, berichten en opties, en meldt wat er daarna nog over is.
+ */
+function thema_geen_voetbal_tekst( $waarde ) {
+	if ( is_array( $waarde ) ) {
+		return array_map( 'thema_geen_voetbal_tekst', $waarde );
+	}
+	if ( ! is_string( $waarde ) ) {
+		return $waarde;
+	}
+	return str_replace(
+		array(
+			'tot een voetbalwedstrijd in Oostenrijk aan toe',
+			'Soms naar een voetbalwedstrijd in Oostenrijk.',
+			'Zelfs een voetbalwedstrijd in Oostenrijk was geen brug te ver.',
+			'<li><strong>Samen naar een wedstrijd:</strong> voetbal, ijshockey of darts, met een feestrit heen en terug.</li>',
+		),
+		array(
+			'tot in Oostenrijk aan toe',
+			'Soms helemaal naar Oostenrijk.',
+			'Zelfs een rit naar Oostenrijk was geen brug te ver.',
+			'<li><strong>Samen naar een show:</strong> een concert, musical of comedyavond, met een feestrit heen en terug.</li>',
+		),
+		$waarde
+	);
+}
+
+function thema_geen_voetbal() {
+	global $wpdb;
+	$uit  = array( 'meta' => 0, 'berichten' => 0, 'opties' => 0, 'over' => array() );
+	$zoek = '%voetbal%';
+
+	foreach ( $wpdb->get_results( $wpdb->prepare( "SELECT meta_id, post_id, meta_value FROM {$wpdb->postmeta} WHERE meta_value LIKE %s", $zoek ) ) as $rij ) {
+		$oud   = maybe_unserialize( $rij->meta_value );
+		$nieuw = thema_geen_voetbal_tekst( $oud );
+		if ( $nieuw !== $oud ) {
+			$wpdb->update( $wpdb->postmeta, array( 'meta_value' => maybe_serialize( $nieuw ) ), array( 'meta_id' => $rij->meta_id ) );
+			clean_post_cache( $rij->post_id );
+			$uit['meta']++;
+		}
+	}
+	foreach ( $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_content, post_excerpt FROM {$wpdb->posts} WHERE post_content LIKE %s OR post_excerpt LIKE %s", $zoek, $zoek ) ) as $rij ) {
+		$wpdb->update(
+			$wpdb->posts,
+			array( 'post_content' => thema_geen_voetbal_tekst( $rij->post_content ), 'post_excerpt' => thema_geen_voetbal_tekst( $rij->post_excerpt ) ),
+			array( 'ID' => $rij->ID )
+		);
+		clean_post_cache( $rij->ID );
+		$uit['berichten']++;
+	}
+	foreach ( $wpdb->get_col( $wpdb->prepare( "SELECT option_name FROM {$wpdb->options} WHERE option_value LIKE %s", $zoek ) ) as $naam ) {
+		$oud   = get_option( $naam );
+		$nieuw = thema_geen_voetbal_tekst( $oud );
+		if ( $nieuw !== $oud ) {
+			update_option( $naam, $nieuw );
+			$uit['opties']++;
+		}
+	}
+	/* Wat er na vervangen nog over is, voor de controle. */
+	foreach ( $wpdb->get_results( $wpdb->prepare( "SELECT post_id, meta_key FROM {$wpdb->postmeta} WHERE meta_value LIKE %s", $zoek ) ) as $rij ) {
+		$uit['over'][] = 'meta ' . $rij->post_id . ' ' . $rij->meta_key;
+	}
+	foreach ( $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_type, post_status FROM {$wpdb->posts} WHERE post_content LIKE %s OR post_title LIKE %s", $zoek, $zoek ) ) as $rij ) {
+		$uit['over'][] = 'post ' . $rij->ID . ' ' . $rij->post_type . ' ' . $rij->post_status;
+	}
+	wp_cache_flush();
+	return $uit;
 }

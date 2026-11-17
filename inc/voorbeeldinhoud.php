@@ -88,7 +88,7 @@ function thema_ontwerp_teksten() {
 		'vragen'       => array(
 			array( 'Hoe ver van tevoren moet ik boeken?', 'Hoe eerder, hoe beter. Vrijdagen, zaterdagen en het festivalseizoen zijn snel vol.' ),
 			array( 'Mag je drinken in de bus?', 'Ja, drinken in de bus mag. Je bestelt je drankjes bij ons gastvrouwke, uit een koeling vol koude drank. Eigen drank meenemen is niet toegestaan.' ),
-			array( 'Rijden jullie ook buiten Brabant?', 'Zeker. Vanuit Oisterwijk rijden we heel Brabant en ver daarbuiten, tot een voetbalwedstrijd in Oostenrijk aan toe.' ),
+			array( 'Rijden jullie ook buiten Brabant?', 'Zeker. Vanuit Oisterwijk rijden we heel Brabant en ver daarbuiten, tot in Oostenrijk aan toe.' ),
 			array( 'Wat als we later terug willen?', 'We rijden terug op een vooraf afgesproken tijdstip. Wil je later? Overleg het met de chauffeur, dan kijken we wat kan.' ),
 			array( 'Kan ik eigen muziek meenemen?', 'Ja, sluit je eigen muziek aan op het geluidssysteem. DJ Booth nodig? Regelen we!' ),
 			array( 'Wat gebeurt er bij schade?', 'Dat staat duidelijk in onze huisregels en algemene voorwaarden.' ),
@@ -347,7 +347,7 @@ function thema_plaats_voorbeeldinhoud() {
 			'acf_fc_layout' => 'werkgebied',
 			'kop'           => 'We komen *overal!*',
 			'legenda'       => 'Thuisbasis Oisterwijk',
-			'tekst'         => 'Vanuit Oisterwijk rijden we heel Brabant en ver daarbuiten. Soms een ritje om de hoek. Soms naar een voetbalwedstrijd in Oostenrijk. Wij draaien onze bus er niet voor om!',
+			'tekst'         => 'Vanuit Oisterwijk rijden we heel Brabant en ver daarbuiten. Soms een ritje om de hoek. Soms helemaal naar Oostenrijk. Wij draaien onze bus er niet voor om!',
 			'steden'        => "Oisterwijk | Thuis\nUtrecht | 55 min\nRotterdam | 1 uur\nAmsterdam | 1 u 15\nMaastricht | 1 u 15\nGroningen | 2 u 45\nAntwerpen | 1 uur\nBrussel | 1 u 30\nDüsseldorf | 1 u 45\nKeulen | 2 uur\nOostenrijk | Ja, ook!",
 			'anker'         => 'locaties',
 		),

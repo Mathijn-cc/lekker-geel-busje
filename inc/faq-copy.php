@@ -15,7 +15,7 @@ function thema_faq_vragen() {
 		'boeken'      => array( 'Hoe ver van tevoren moet ik boeken?', 'Hoe eerder, hoe beter. Vrijdagen, zaterdagen en het festivalseizoen zitten snel vol. Staat de datum vast? Vraag dan meteen je offerte aan, dan ben je er op tijd bij.' ),
 		'drinken'     => array( 'Mag je drinken in de bus?', 'Ja, drinken in de bus mag. Je bestelt je drankjes bij ons gastvrouwke, uit een koeling vol koude drank. Eigen drank meenemen is niet toegestaan.' ),
 		'eigen-drank' => array( 'Mogen we eigen drank meenemen?', 'Nee, eigen drank is niet toegestaan. Drinken in de bus mag wel: je bestelt je drankjes bij ons gastvrouwke, uit een koeling vol koude drank.' ),
-		'buiten'      => array( 'Rijden jullie ook buiten Brabant?', 'Zeker. Vanuit Oisterwijk rijden we door heel Brabant en ver daarbuiten. Zelfs een voetbalwedstrijd in Oostenrijk was geen brug te ver.' ),
+		'buiten'      => array( 'Rijden jullie ook buiten Brabant?', 'Zeker. Vanuit Oisterwijk rijden we door heel Brabant en ver daarbuiten. Zelfs een rit naar Oostenrijk was geen brug te ver.' ),
 		'later'       => array( 'Wat als we later terug willen?', 'We spreken vooraf een tijd af voor de terugrit. Is het feest dan nog lang niet klaar? Overleg het met de chauffeur, dan kijken we samen wat kan.' ),
 		'muziek'      => array( 'Kunnen we onze eigen muziek draaien?', 'Natuurlijk. Sluit je eigen playlist aan op het geluidssysteem en de bus is jullie dansvloer. Liever een DJ Booth? Regelen we.' ),
 		'schade'      => array( 'Wat gebeurt er bij schade?', 'Dat hopen we natuurlijk niet. Gaat er toch iets mis, dan lees je in de huisregels en de algemene voorwaarden precies hoe we dat samen oplossen.' ),
