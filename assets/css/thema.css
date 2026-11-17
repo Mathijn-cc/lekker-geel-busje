@@ -2113,6 +2113,9 @@ section.sectie-hero.hero-fotorol .hero-kop {
 section.sectie-hero.hero-fotorol.hero-compact {
   --kop-schaal: .84;
 }
+section.sectie-hero.hero-fotorol.hero-compact .hero-kop {
+  font-size: calc(clamp(56px, 7.6vw, 136px) * var(--kop-schaal) * .85);
+}
 section.sectie-hero.hero-fotorol p.hero-sub {
   margin:    0;
   font-size: calc(clamp(22px, 2.2vw, 34px) * var(--kop-schaal));
