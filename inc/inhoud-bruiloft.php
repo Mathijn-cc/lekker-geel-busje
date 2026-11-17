@@ -132,7 +132,7 @@ function thema_plaats_bruiloft() {
 
 	$offerte          = thema_blok_offerte();
 	$offerte['label'] = 'Binnen 1 werkdag je prijs';
-	$offerte['kop']   = 'Zeggen jullie ja? *Wij rijden de gasten.*';
+	$offerte['kop']   = 'Van jawoord tot *laatste dans*';
 
 	$trouwen      = get_category_by_slug( 'trouwen' );
 	$naar_offerte = thema_link( 'Vraag je prijs aan', '#offerte' );
@@ -157,7 +157,7 @@ function thema_plaats_bruiloft() {
 		array(
 			'acf_fc_layout' => 'over_ons',
 			'eyebrow'       => 'Voor het bruidspaar',
-			'kop'           => 'Jullie zeggen ja, *wij rijden de gasten.*',
+			'kop'           => 'Iedereen erbij, *niemand achter het stuur.*',
 			'tekst_1'       => 'Op een trouwdag liggen de ceremonie, de receptie en het feest vaak op verschillende plekken. Met tientallen gasten die allemaal zelf rijden, betekent dat parkeerplekken zoeken, gasten die te laat binnenkomen en een tante die de weg kwijt is. Met het trouwvervoer van Lekker Geel Busje rijdt iedereen samen. We halen de gasten op bij een verzamelpunt of het hotel, rijden van ceremonie naar feest en brengen iedereen na het laatste nummer weer veilig terug.',
 			'tekst_2'       => 'Zo wordt onze bus jullie trouwbus: niemand hoeft de Bob te zijn en iedereen kan proosten op het bruidspaar. Aan boord zorgt het gastvrouwke voor de drankjes, en met professionele verlichting en een goede geluidsinstallatie zit de feeststemming er al in voordat jullie gasten binnen zijn. Binnen 1 werkdag heb je een vaste all-in prijs, zodat het vervoer meteen in de trouwbegroting staat.',
 			'knop'          => thema_link( 'Bekijk onze bussen', $bussen ),
@@ -620,7 +620,7 @@ HTML,
 <li><strong>De trouwdag opnieuw:</strong> de geloften hernieuwen, met de familie erbij.</li>
 </ul>
 
-<h2>Iedereen erbij, niemand achter het stuur</h2>
+<h2>De hele familie erbij, zonder zorgen over de rit</h2>
 <p>Bij een groot jubileum komen gasten vaak van ver, en zijn er oudere familieleden die liever niet in het donker rijden. Met een bus halen we de hele familie op, rijden we naar het restaurant of de feestlocatie en brengen we iedereen weer thuis. Het gastvrouwke zorgt aan boord voor de drankjes. Lees meer op onze pagina over een <a href="{$landing}">partybus voor je bruiloft</a>, die ook geldt voor een huwelijksjubileum.</p>
 <p>Plannen jullie zelf een bruiloft? Bekijk dan onze <a href="{$checklist}">checklist voor de bruiloft</a> en <a href="{$ideeen}">20 ideeën voor een persoonlijke trouwdag</a>.</p>
 HTML,
