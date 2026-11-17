@@ -335,6 +335,23 @@ add_filter( 'gform_field_validation', function ( $resultaat, $waarde, $form, $ve
 	return $resultaat;
 }, 10, 4 );
 
+// Datumkiezer (Gravity Forms 3): vroegste keuze is morgen. Het filter moet er zijn
+// voordat de datumkiezers starten, dus het staat in de head. Gravity Forms kent geen
+// manier om dit na de start te wijzigen; de server bewaakt de regel hoe dan ook.
+add_action( 'wp_head', function () {
+	$v   = thema_offerte_velden();
+	$ids = array();
+	foreach ( array( $v['datum'], $v['retourdatum'] ) as $id ) {
+		$ids[] = 'input_' . (int) $v['formulier'] . '_' . (int) $id;
+	}
+	echo '<script>document.addEventListener("gform/theme/scripts_loaded",function(){'
+		. 'if(!window.gform||!gform.utils||!gform.utils.addFilter){return;}'
+		. 'var ids=' . wp_json_encode( $ids ) . ';'
+		. 'gform.utils.addFilter("gform/datepicker/pre_init",function(d){'
+		. 'if(d&&d.input&&ids.indexOf(d.input.id)>-1){var m=new Date();m.setHours(0,0,0,0);m.setDate(m.getDate()+1);d.options.minDate=m;}'
+		. 'return d;});});</script>' . "\n";
+}, 20 );
+
 // Is de retourdatum nog leeg, dan neemt hij de vertrekdatum over. Werkt los van
 // welke datumkiezer Gravity Forms gebruikt: het kopieert alleen de tekstwaarde.
 // De regels zelf (niet in het verleden, retour niet voor vertrek) bewaakt de server.
@@ -350,17 +367,6 @@ add_action( 'gform_register_init_scripts', function ( $form ) {
 		. 'function neem(){var w=$(v).val();if(w&&!$(r).val()){$(r).val(w).trigger("input").trigger("change");}}'
 		. '$(document).off(".themaDatum").on("change.themaDatum blur.themaDatum",v,neem).on("focus.themaDatum",r,neem);'
 		. 'neem();'
-		// Datumkiezer: vanaf morgen, en de terugreis niet voor de heenreis.
-		. 'function grens(){'
-		. 'if($(v).hasClass("hasDatepicker")){$(v).datepicker("option","minDate",1);}'
-		. 'if($(r).hasClass("hasDatepicker")){var d=$(v).hasClass("hasDatepicker")?$(v).datepicker("getDate"):null;'
-		. 'var m=new Date();m.setHours(0,0,0,0);m.setDate(m.getDate()+1);'
-		. '$(r).datepicker("option","minDate",d&&d>m?d:m);}'
-		. '}'
-		. 'if(window.gform&&gform.addFilter&&!window.themaDatumFilter){window.themaDatumFilter=1;'
-		. 'gform.addFilter("gform_datepicker_options_pre_init",function(o,f,i){'
-		. 'if(("#input_"+f+"_"+i)===v||("#input_"+f+"_"+i)===r){o.minDate=1;}return o;});}'
-		. 'setTimeout(grens,0);setTimeout(grens,300);$(document).on("change.themaDatum",v,grens);'
 		. '})(jQuery);';
 	GFFormDisplay::add_init_script( $form['id'], 'thema_offerte_datums', GFFormDisplay::ON_PAGE_RENDER, $script );
 } );
