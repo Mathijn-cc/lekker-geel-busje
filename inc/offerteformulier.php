@@ -132,6 +132,13 @@ function thema_offerte_vandaag() {
 	return new DateTimeImmutable( 'today', wp_timezone() );
 }
 
+/**
+ * De vroegste datum die je kunt kiezen: morgen. Voor vandaag boeken kan niet via het formulier.
+ */
+function thema_offerte_eerste_datum() {
+	return thema_offerte_vandaag()->modify( '+1 day' );
+}
+
 /* --------------------------------------------------------------------------
  * K1: vooraf invullen met wat de offertezin meestuurt.
  * De zin stuurt datum (jjjj-mm-dd), personen, van, naar en uitje.
@@ -191,7 +198,7 @@ function thema_offerte_vooraf_invullen( $form ) {
 	// Datum: van jjjj-mm-dd naar de notatie van het veld, niet in het verleden.
 	// De retourdatum krijgt dezelfde datum als startpunt.
 	$datum = DateTimeImmutable::createFromFormat( '!Y-m-d', (string) rgget( 'datum' ), wp_timezone() );
-	if ( $datum && $datum >= thema_offerte_vandaag() ) {
+	if ( $datum && $datum >= thema_offerte_eerste_datum() ) {
 		foreach ( array( $v['datum'], $v['retourdatum'] ) as $id ) {
 			$veld = thema_offerte_veld( $form, $id );
 			if ( $veld ) {
@@ -280,7 +287,7 @@ add_filter( 'gform_field_validation', function ( $resultaat, $waarde, $form, $ve
 }, 10, 4 );
 
 /* --------------------------------------------------------------------------
- * K5: geen datum in het verleden en geen terugreis voor de heenreis.
+ * K5: vroegste datum is morgen, en geen terugreis voor de heenreis.
  * ----------------------------------------------------------------------- */
 
 // Hint bij de retourdatum.
@@ -312,9 +319,9 @@ add_filter( 'gform_field_validation', function ( $resultaat, $waarde, $form, $ve
 	if ( ! $datum ) {
 		return $resultaat;
 	}
-	if ( $datum < thema_offerte_vandaag() ) {
+	if ( $datum < thema_offerte_eerste_datum() ) {
 		$resultaat['is_valid'] = false;
-		$resultaat['message']  = 'Deze datum ligt in het verleden. Kies een datum vanaf vandaag.';
+		$resultaat['message']  = 'Kies een datum vanaf morgen. Wil je vandaag nog op pad? Bel ons even.';
 		return $resultaat;
 	}
 	if ( $id === (int) $v['retourdatum'] ) {
@@ -343,6 +350,17 @@ add_action( 'gform_register_init_scripts', function ( $form ) {
 		. 'function neem(){var w=$(v).val();if(w&&!$(r).val()){$(r).val(w).trigger("input").trigger("change");}}'
 		. '$(document).off(".themaDatum").on("change.themaDatum blur.themaDatum",v,neem).on("focus.themaDatum",r,neem);'
 		. 'neem();'
+		// Datumkiezer: vanaf morgen, en de terugreis niet voor de heenreis.
+		. 'function grens(){'
+		. 'if($(v).hasClass("hasDatepicker")){$(v).datepicker("option","minDate",1);}'
+		. 'if($(r).hasClass("hasDatepicker")){var d=$(v).hasClass("hasDatepicker")?$(v).datepicker("getDate"):null;'
+		. 'var m=new Date();m.setHours(0,0,0,0);m.setDate(m.getDate()+1);'
+		. '$(r).datepicker("option","minDate",d&&d>m?d:m);}'
+		. '}'
+		. 'if(window.gform&&gform.addFilter&&!window.themaDatumFilter){window.themaDatumFilter=1;'
+		. 'gform.addFilter("gform_datepicker_options_pre_init",function(o,f,i){'
+		. 'if(("#input_"+f+"_"+i)===v||("#input_"+f+"_"+i)===r){o.minDate=1;}return o;});}'
+		. 'setTimeout(grens,0);setTimeout(grens,300);$(document).on("change.themaDatum",v,grens);'
 		. '})(jQuery);';
 	GFFormDisplay::add_init_script( $form['id'], 'thema_offerte_datums', GFFormDisplay::ON_PAGE_RENDER, $script );
 } );

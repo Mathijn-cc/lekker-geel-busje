@@ -27,7 +27,7 @@ echo thema_sectie_open( $b, 'offerte', '', '' );
 				<?php if ( $feest ) : ?><input type="hidden" name="uitje" value="<?php echo esc_attr( ucfirst( str_replace( '-', ' ', $feest ) ) ); ?>"><?php endif; ?>
 				<p class="offertezin-tekst">
 					<span class="offertezin-woord"><?php echo esc_html( $b['zin_1'] ?? 'Op' ); ?></span>
-					<label><span class="sr-tekst">Datum</span><input type="date" name="datum" class="zinveld zinveld-datum" min="<?php echo esc_attr( wp_date( 'Y-m-d' ) ); ?>"></label>
+					<label><span class="sr-tekst">Datum</span><input type="date" name="datum" class="zinveld zinveld-datum" min="<?php echo esc_attr( wp_date( 'Y-m-d', strtotime( '+1 day' ) ) ); ?>"></label>
 					<span class="offertezin-woord"><?php echo esc_html( $b['zin_2'] ?? 'gaan we met' ); ?></span>
 					<label><span class="sr-tekst">Aantal personen</span><input type="number" name="personen" class="zinveld zinveld-personen" min="1" max="9999" step="1" inputmode="numeric" placeholder="<?php echo esc_attr( ( $b['ph_personen'] ?? '' ) ?: 'aantal' ); ?>"></label>
 					<span class="offertezin-woord"><?php echo esc_html( $b['zin_3'] ?? 'personen van' ); ?></span>
