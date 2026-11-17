@@ -39,6 +39,7 @@
   --chat-afstand:          clamp(16px, 2.4vw, 28px);
   --kleur-whatsapp:        #25d366;
   --kleur-whatsapp-donker: #1da851;
+  --kleur-whatsapp-kop:    #008069;
 }
 
 /**Basis -- Document**/
@@ -10361,8 +10362,8 @@ div.zweefknoppen div.whatsapp-venster div.whatsapp-venster-kop {
   align-items: center;
   gap:         12px;
   padding:     14px 12px 14px 16px;
-  background:  var(--kleur-paars);
-  color:       var(--kleur-creme);
+  background:  var(--kleur-whatsapp-kop);
+  color:       var(--kleur-wit);
 }
 div.zweefknoppen div.whatsapp-venster div.whatsapp-venster-kop span.whatsapp-venster-afzender {
   display:        flex;
@@ -10382,7 +10383,7 @@ div.zweefknoppen div.whatsapp-venster div.whatsapp-venster-kop span.whatsapp-ven
   align-items: center;
   gap:         6px;
   font-size:   13px;
-  opacity:     .75;
+  opacity:     .85;
 }
 div.zweefknoppen div.whatsapp-venster div.whatsapp-venster-kop span.whatsapp-venster-afzender span.whatsapp-venster-naam,
 div.zweefknoppen div.whatsapp-venster div.whatsapp-venster-kop span.whatsapp-venster-afzender span.whatsapp-venster-status {
@@ -10411,13 +10412,13 @@ div.zweefknoppen div.whatsapp-venster div.whatsapp-venster-kop button.whatsapp-v
   padding:         0;
   border:          0;
   border-radius:   50%;
-  background:      rgba(250, 245, 238, .12);
-  color:           var(--kleur-creme);
+  background:      rgba(255, 255, 255, .16);
+  color:           var(--kleur-wit);
   cursor:          pointer;
   transition:      background .2s var(--zacht);
 }
 div.zweefknoppen div.whatsapp-venster div.whatsapp-venster-kop button.whatsapp-venster-knopje:hover {
-  background: rgba(250, 245, 238, .25);
+  background: rgba(255, 255, 255, .28);
 }
 div.zweefknoppen div.whatsapp-venster div.whatsapp-venster-kop button.whatsapp-venster-knopje[hidden] {
   display: none;
