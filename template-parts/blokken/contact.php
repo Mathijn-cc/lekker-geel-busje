@@ -14,6 +14,10 @@ $aan = function ( $sleutel ) use ( $b ) {
 	return ! array_key_exists( $sleutel, $b ) || null === $b[ $sleutel ] || '' === $b[ $sleutel ] || (bool) $b[ $sleutel ];
 };
 
+$whatsapp      = preg_replace( '/\D+/', '', (string) $s['whatsapp'] );
+$whatsapp_link = $whatsapp && $aan( 'toon_whatsapp' ) ? 'https://wa.me/' . $whatsapp : '';
+
+/* WhatsApp zit in de belkaart (twee kaarten naast elkaar). Alleen zonder telefoonnummer krijgt WhatsApp een eigen kaart. */
 $kaarten = array();
 if ( $s['telefoon'] ) {
 	$kaarten[] = array( 'bellen', thema_telefoon_link(), 'telefoon', $waarde( 'bellen_label', 'Bel ons' ), $s['telefoon'], $waarde( 'bellen_uitleg' ), '' );
@@ -21,9 +25,8 @@ if ( $s['telefoon'] ) {
 if ( $s['email'] ) {
 	$kaarten[] = array( 'mailen', 'mailto:' . $s['email'], 'mail', $waarde( 'mailen_label', 'Mail ons' ), $s['email'], $waarde( 'mailen_uitleg' ), '' );
 }
-$whatsapp = preg_replace( '/\D+/', '', (string) $s['whatsapp'] );
-if ( $whatsapp && $aan( 'toon_whatsapp' ) ) {
-	$kaarten[] = array( 'whatsapp', 'https://wa.me/' . $whatsapp, 'whatsapp', $waarde( 'whatsapp_label', 'App ons' ), 'WhatsApp', $waarde( 'whatsapp_uitleg' ), ' target="_blank" rel="noopener"' );
+if ( $whatsapp_link && ! $s['telefoon'] ) {
+	$kaarten[] = array( 'whatsapp', $whatsapp_link, 'whatsapp', $waarde( 'whatsapp_label', 'App ons' ), 'WhatsApp', $waarde( 'whatsapp_uitleg' ), ' target="_blank" rel="noopener"' );
 }
 
 $adres   = trim( (string) $s['adres'] );
@@ -79,6 +82,16 @@ echo thema_sectie_open( $b, 'contact' );
 		<?php if ( $kaarten ) : ?>
 			<div class="contactkaarten contactkaarten-<?php echo count( $kaarten ); ?>" data-animeer>
 				<?php foreach ( $kaarten as $k ) : ?>
+					<?php if ( 'bellen' === $k[0] && $whatsapp_link ) : ?>
+						<div class="contactkaart contactkaart-bellen contactkaart-met-whatsapp">
+							<span class="contactkaart-icoon" aria-hidden="true"><?php echo thema_icoon( $k[2], 24 ); ?></span>
+							<span class="contactkaart-label"><?php echo esc_html( $k[3] ); ?></span>
+							<a class="contactkaart-waarde" href="<?php echo esc_attr( $k[1] ); ?>"><?php echo esc_html( $k[4] ); ?></a>
+							<?php if ( $k[5] ) : ?><span class="contactkaart-uitleg"><?php echo esc_html( $k[5] ); ?></span><?php endif; ?>
+							<a class="contactkaart-whatsapp" href="<?php echo esc_url( $whatsapp_link ); ?>" target="_blank" rel="noopener"><?php echo thema_icoon( 'whatsapp', 18 ); ?>App ons via WhatsApp</a>
+						</div>
+						<?php continue; ?>
+					<?php endif; ?>
 					<a class="contactkaart contactkaart-<?php echo esc_attr( $k[0] ); ?>" href="<?php echo esc_attr( $k[1] ); ?>"<?php echo $k[6]; // phpcs:ignore ?>>
 						<span class="contactkaart-icoon" aria-hidden="true"><?php echo thema_icoon( $k[2], 24 ); ?></span>
 						<span class="contactkaart-label"><?php echo esc_html( $k[3] ); ?></span>

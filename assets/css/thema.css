@@ -5874,7 +5874,8 @@ section.sectie-contact div.contact-binnen div.contactkaarten {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
-section.sectie-contact div.contact-binnen div.contactkaarten a.contactkaart {
+section.sectie-contact div.contact-binnen div.contactkaarten a.contactkaart,
+section.sectie-contact div.contact-binnen div.contactkaarten div.contactkaart {
   position:        relative;
   display:         flex;
   flex-direction:  column;
@@ -5894,7 +5895,8 @@ section.sectie-contact div.contact-binnen div.contactkaarten a.contactkaart.cont
   color:      var(--kleur-paars);
 }
 /*Contact -- Kaart icoon*/
-section.sectie-contact div.contact-binnen div.contactkaarten a.contactkaart span.contactkaart-icoon {
+section.sectie-contact div.contact-binnen div.contactkaarten a.contactkaart span.contactkaart-icoon,
+section.sectie-contact div.contact-binnen div.contactkaarten div.contactkaart span.contactkaart-icoon {
   position:        absolute;
   top:             28px;
   left:            28px;
@@ -5912,14 +5914,16 @@ section.sectie-contact div.contact-binnen div.contactkaarten a.contactkaart.cont
   color:      var(--kleur-paars);
 }
 /*Contact -- Kaart tekst*/
-section.sectie-contact div.contact-binnen div.contactkaarten a.contactkaart span.contactkaart-label {
+section.sectie-contact div.contact-binnen div.contactkaarten a.contactkaart span.contactkaart-label,
+section.sectie-contact div.contact-binnen div.contactkaarten div.contactkaart span.contactkaart-label {
   font-size:      13px;
   font-weight:    700;
   letter-spacing: .08em;
   text-transform: uppercase;
   opacity:        .75;
 }
-section.sectie-contact div.contact-binnen div.contactkaarten a.contactkaart span.contactkaart-waarde {
+section.sectie-contact div.contact-binnen div.contactkaarten a.contactkaart span.contactkaart-waarde,
+section.sectie-contact div.contact-binnen div.contactkaarten div.contactkaart a.contactkaart-waarde {
   align-self:          flex-start;
   padding-bottom:      4px;
   background-image:    linear-gradient(currentColor, currentColor);
@@ -5933,10 +5937,39 @@ section.sectie-contact div.contact-binnen div.contactkaarten a.contactkaart span
   overflow-wrap:       anywhere;
   transition:          background-size .4s var(--zacht);
 }
-section.sectie-contact div.contact-binnen div.contactkaarten a.contactkaart:hover span.contactkaart-waarde {
+section.sectie-contact div.contact-binnen div.contactkaarten a.contactkaart:hover span.contactkaart-waarde,
+section.sectie-contact div.contact-binnen div.contactkaarten div.contactkaart a.contactkaart-waarde:hover {
   background-size: 100% 2px;
 }
-section.sectie-contact div.contact-binnen div.contactkaarten a.contactkaart span.contactkaart-uitleg {
+/*Contact -- Belkaart met WhatsApp*/
+section.sectie-contact div.contact-binnen div.contactkaarten div.contactkaart a.contactkaart-waarde {
+  color:           inherit;
+  text-decoration: none;
+}
+section.sectie-contact div.contact-binnen div.contactkaarten div.contactkaart a.contactkaart-whatsapp {
+  display:         inline-flex;
+  align-items:     center;
+  align-self:      flex-start;
+  gap:             8px;
+  margin-top:      10px;
+  padding:         10px 16px;
+  border-radius:   999px;
+  background:      var(--kleur-paars);
+  color:           var(--kleur-wit);
+  font-size:       15px;
+  font-weight:     700;
+  text-decoration: none;
+  transition:      background .3s var(--zacht), transform .3s var(--veer);
+}
+section.sectie-contact div.contact-binnen div.contactkaarten div.contactkaart a.contactkaart-whatsapp:hover {
+  background: var(--kleur-hover);
+  transform:  translateY(-2px);
+}
+section.sectie-contact div.contact-binnen div.contactkaarten div.contactkaart a.contactkaart-whatsapp svg {
+  color: #25d366;
+}
+section.sectie-contact div.contact-binnen div.contactkaarten a.contactkaart span.contactkaart-uitleg,
+section.sectie-contact div.contact-binnen div.contactkaarten div.contactkaart span.contactkaart-uitleg {
   font-size: 15px;
   opacity:   .85;
 }
@@ -6042,10 +6075,12 @@ section.sectie-contact div.contact-binnen div.contactraster div.contactgegevens 
 
 /*Contact -- Mobiel*/
 @media (max-width: 640px) {
-  section.sectie-contact div.contact-binnen div.contactkaarten a.contactkaart {
+  section.sectie-contact div.contact-binnen div.contactkaarten a.contactkaart,
+  section.sectie-contact div.contact-binnen div.contactkaarten div.contactkaart {
     padding: 96px 24px 24px;
   }
-  section.sectie-contact div.contact-binnen div.contactkaarten a.contactkaart span.contactkaart-icoon {
+  section.sectie-contact div.contact-binnen div.contactkaarten a.contactkaart span.contactkaart-icoon,
+  section.sectie-contact div.contact-binnen div.contactkaarten div.contactkaart span.contactkaart-icoon {
     top:  24px;
     left: 24px;
   }
