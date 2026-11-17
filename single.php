@@ -80,9 +80,8 @@ while ( have_posts() ) :
 		</div>
 	</article>
 
-	<?php thema_blokken( $id, false ); ?>
-
 	<?php
+	/* Lees ook alvast ophalen: de blokken hieronder kunnen variabelen met dezelfde naam gebruiken. */
 	$verder = thema_blog_artikelen( array(), $cat ? $cat->term_id : 0, 3, $id );
 	if ( count( $verder ) < 3 ) {
 		$al = wp_list_pluck( $verder, 'ID' );
@@ -92,8 +91,14 @@ while ( have_posts() ) :
 			}
 		}
 	}
+	$leesook_cat = $cat;
+	?>
+
+	<?php thema_blokken( $id, false ); ?>
+
+	<?php
 	if ( $verder ) :
-		$onderwerp = ( $cat && 'algemeen' !== $cat->slug ) ? $cat : null;
+		$onderwerp = ( $leesook_cat && 'algemeen' !== $leesook_cat->slug ) ? $leesook_cat : null;
 		$intro     = $onderwerp ? wp_strip_all_tags( (string) $onderwerp->description ) : '';
 		if ( '' === $intro ) {
 			$intro = 'Meer tips, ideeën en checklists voor jullie feestje met de groep. Zo regel je het zonder gedoe, en begint het feest al in de bus.';

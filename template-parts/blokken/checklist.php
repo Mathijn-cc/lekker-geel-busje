@@ -23,12 +23,12 @@ echo thema_sectie_open( $b, 'checklist' );
 		<ul class="checklist-lijst" data-checklist="<?php echo esc_attr( $sleutel ); ?>">
 			<?php foreach ( $items as $i => $c ) : ?>
 				<?php
-				$id   = $sleutel . '-' . $i;
+				$vink_id = $sleutel . '-' . $i;
 				$link = ! empty( $c['link']['url'] ) ? $c['link'] : null;
 				?>
 				<li class="checklist-punt<?php echo $link ? ' checklist-punt-uitgelicht' : ''; ?>" data-animeer>
-					<input type="checkbox" class="checklist-vink" id="<?php echo esc_attr( $id ); ?>" data-checklist-vink>
-					<label class="checklist-label" for="<?php echo esc_attr( $id ); ?>">
+					<input type="checkbox" class="checklist-vink" id="<?php echo esc_attr( $vink_id ); ?>" data-checklist-vink>
+					<label class="checklist-label" for="<?php echo esc_attr( $vink_id ); ?>">
 						<span class="checklist-hokje" aria-hidden="true"><?php echo thema_icoon( 'vink', 16, 3 ); ?></span>
 						<span class="checklist-tekst">
 							<?php if ( ! empty( $c['wanneer'] ) ) : ?><span class="checklist-wanneer"><?php echo esc_html( $c['wanneer'] ); ?></span><?php endif; ?>
