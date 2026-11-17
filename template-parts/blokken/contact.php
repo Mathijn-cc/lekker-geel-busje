@@ -14,7 +14,7 @@ $aan = function ( $sleutel ) use ( $b ) {
 	return ! array_key_exists( $sleutel, $b ) || null === $b[ $sleutel ] || '' === $b[ $sleutel ] || (bool) $b[ $sleutel ];
 };
 
-$whatsapp      = preg_replace( '/\D+/', '', (string) $s['whatsapp'] );
+$whatsapp      = thema_whatsapp_nummer();
 $whatsapp_link = $whatsapp && $aan( 'toon_whatsapp' ) ? 'https://wa.me/' . $whatsapp : '';
 
 /* WhatsApp zit in de belkaart. Alleen zonder telefoonnummer krijgt WhatsApp een eigen kaart. */

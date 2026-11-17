@@ -1,9 +1,10 @@
 <?php
 /**
- * WhatsApp-chat: zwevende knop rechtsonder met een ballonnetje en een uitklapvenster.
+ * Zwevende knoppen rechtsonder: knop naar boven en de WhatsApp-chat.
  *
- * De bezoeker typt zijn eerste vraag in het venster en gaat daarna verder in WhatsApp,
- * met die vraag al ingevuld (wa.me-link met ?text=). Geen scripts of cookies van derden.
+ * De chat is een kort, geleid gesprek. De bezoeker kiest wat hij wil (prijs, vraag over zijn rit
+ * of iets anders), beantwoordt een paar vragen met knopjes of een kort antwoord, en stuurt
+ * het geheel met één tik via WhatsApp (wa.me-link met ?text=). Geen scripts of cookies van derden.
  * Zonder JavaScript is de knop een gewone link naar WhatsApp.
  *
  * Alles is instelbaar in Thema > WhatsApp. Het nummer komt uit Thema > Algemeen > Contact.
@@ -12,10 +13,17 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Het WhatsApp-nummer als cijfers, of een lege string.
+ * Het WhatsApp-nummer in internationale vorm (31612345678), of een lege string.
+ * Werkt ook als het nummer als 06-nummer, met +31 of met 0031 is ingevuld.
  */
-function thema_whatsapp_nummer() {
-	return preg_replace( '/\D+/', '', (string) thema_instellingen( 'whatsapp' ) );
+function thema_whatsapp_nummer( $nummer = null ) {
+	$cijfers = preg_replace( '/\D+/', '', (string) ( null === $nummer ? thema_instellingen( 'whatsapp' ) : $nummer ) );
+	if ( 0 === strpos( $cijfers, '00' ) ) {
+		$cijfers = substr( $cijfers, 2 );
+	} elseif ( 0 === strpos( $cijfers, '0' ) ) {
+		$cijfers = '31' . substr( $cijfers, 1 );
+	}
+	return $cijfers;
 }
 
 /**
@@ -56,25 +64,26 @@ function thema_chat_tonen() {
 }
 
 /**
- * Eenmalig: oude standaardteksten uit de eerste versie omzetten naar de nieuwe.
+ * Eenmalig: standaardteksten uit eerdere versies omzetten naar de nieuwe.
  * Zelf aangepaste teksten blijven staan.
  */
 add_action( 'admin_init', function () {
-	$opgeslagen = get_option( THEMA_OPTIE, array() );
-	if ( get_option( 'thema_chat_versie' ) ) {
+	if ( (int) get_option( 'thema_chat_versie' ) >= 3 ) {
 		return;
 	}
-	update_option( 'thema_chat_versie', 2, false );
+	update_option( 'thema_chat_versie', 3, false );
+	$opgeslagen = get_option( THEMA_OPTIE, array() );
 	if ( ! is_array( $opgeslagen ) || ! $opgeslagen ) {
 		return;
 	}
 	$oud = array(
-		'chat_knop'      => array( 'Verder in WhatsApp', 'Je gaat verder in WhatsApp' ),
 		'chat_ballon'    => array( 'Vraagje? App ons gerust!', 'Hoi! Vraagje over je feestje? App ons gerust.' ),
 		'chat_ballon_na' => array( 8, 12 ),
+		'chat_welkom'    => array( "Hoi! Waar kunnen we je mee helpen?\nTyp je vraag hieronder, dan zet je hem met één tik in WhatsApp.", 'Hoi! Waar kunnen we je mee helpen?' ),
+		'chat_veld'      => array( 'Typ je vraag...', 'Of typ meteen je vraag...' ),
 	);
 	foreach ( $oud as $sleutel => $paar ) {
-		if ( isset( $opgeslagen[ $sleutel ] ) && (string) $opgeslagen[ $sleutel ] === (string) $paar[0] ) {
+		if ( isset( $opgeslagen[ $sleutel ] ) && str_replace( "\r", '', (string) $opgeslagen[ $sleutel ] ) === (string) $paar[0] ) {
 			$opgeslagen[ $sleutel ] = $paar[1];
 		}
 	}
@@ -100,47 +109,7 @@ function thema_whatsapp_logo( $maat = 26 ) {
 }
 
 /**
- * Zwevende knoppen rechtsonder: knop naar boven en de WhatsApp-chat, samen in één balk.
- * Wordt in footer.php geplaatst.
- */
-function thema_zweefknoppen() {
-	$s     = thema_instellingen();
-	$chat  = thema_chat_tonen();
-	$boven = (bool) $s['naar_boven'];
-	if ( ! $chat && ! $boven ) {
-		return '';
-	}
-
-	$class = array( 'zweefknoppen' );
-	if ( '' !== thema_onderbalk() ) {
-		$class[] = 'met-onderbalk';
-	}
-
-	ob_start();
-	?>
-	<div class="<?php echo esc_attr( implode( ' ', $class ) ); ?>" data-zweefknoppen>
-		<?php echo $chat ? thema_whatsapp_venster() : ''; // phpcs:ignore -- opgebouwd met esc-functies. ?>
-		<div class="zweefknoppen-rij">
-			<?php if ( $boven ) : ?>
-				<a class="naar-boven" href="#top" aria-label="Terug naar boven" data-naar-boven><?php echo thema_icoon( 'omhoog', 22, 2.4 ); ?></a>
-			<?php endif; ?>
-			<?php if ( $chat ) : ?>
-				<a class="whatsapp-knop" href="<?php echo esc_url( 'https://wa.me/' . thema_whatsapp_nummer() ); ?>" target="_blank" rel="noopener" aria-label="Chat met ons via WhatsApp" aria-controls="whatsapp-venster" aria-expanded="false" data-whatsapp-knop>
-					<span class="whatsapp-knop-tekst" aria-hidden="true"><span class="whatsapp-knop-rol"><span><?php echo esc_html( $s['chat_knoptekst'] ?: 'App ons' ); ?></span><span><?php echo esc_html( $s['chat_knoptekst'] ?: 'App ons' ); ?></span><span>Sluiten</span></span></span>
-					<span class="whatsapp-knop-cirkel" aria-hidden="true">
-						<span class="whatsapp-knop-icoon whatsapp-knop-logo"><?php echo thema_whatsapp_logo( 26 ); // phpcs:ignore ?></span>
-						<span class="whatsapp-knop-icoon whatsapp-knop-kruis"><?php echo thema_icoon( 'sluiten', 20, 2.4 ); ?></span>
-					</span>
-				</a>
-			<?php endif; ?>
-		</div>
-	</div>
-	<?php
-	return ob_get_clean();
-}
-
-/**
- * Avatar voor kop en berichtvoorbeeld: foto uit de instellingen, anders het busicoon.
+ * Avatar voor kop en berichtje: foto uit de instellingen, anders het busicoon.
  */
 function thema_chat_avatar() {
 	$id = (int) thema_instellingen( 'chat_foto' );
@@ -154,16 +123,18 @@ function thema_chat_avatar() {
 }
 
 /**
- * Berichtvoorbeeld en uitklapvenster.
+ * Regels uit een tekstvak als lijst.
  */
-function thema_whatsapp_venster() {
-	$s      = thema_instellingen();
-	$naam   = $s['chat_naam'] ?: get_bloginfo( 'name' );
-	$avatar = thema_chat_avatar();
-	$welkom = array_values( array_filter( array_map( 'trim', preg_split( '/\R/', (string) $s['chat_welkom'] ) ) ) );
-	$keuzes = array_slice( array_filter( array_map( 'trim', preg_split( '/\R/', (string) $s['chat_suggesties'] ) ) ), 0, 5 );
+function thema_chat_regels( $tekst ) {
+	return array_values( array_filter( array_map( 'trim', preg_split( '/\R/', (string) $tekst ) ) ) );
+}
 
-	/* Pagina meesturen: de titel van de pagina, zonder sitenaam. */
+/**
+ * Het gesprek: per keuze de vragen die gesteld worden. Gaat als JSON naar het script.
+ */
+function thema_chat_gesprek() {
+	$s = thema_instellingen();
+
 	$pagina = '';
 	if ( $s['chat_pagina'] ) {
 		if ( is_front_page() ) {
@@ -175,11 +146,71 @@ function thema_whatsapp_venster() {
 		}
 	}
 
+	return array(
+		'nummer'  => thema_whatsapp_nummer(),
+		'pagina'  => $pagina,
+		'welkom'  => thema_chat_regels( $s['chat_welkom'] ),
+		'veld'    => $s['chat_veld'],
+		'klaar'   => $s['chat_klaar'],
+		'paden'   => array(
+			array(
+				'id'      => 'prijs',
+				'label'   => $s['chat_keuze_prijs'],
+				'intro'   => 'Hoi! Ik wil graag een prijs voor een rit met de bus.',
+				'stappen' => array(
+					array( 'naam' => 'Gelegenheid', 'vraag' => $s['chat_v_gelegenheid'], 'keuzes' => thema_chat_regels( $s['chat_gelegenheden'] ), 'veld' => 'Of typ iets anders...' ),
+					array( 'naam' => 'Datum', 'vraag' => $s['chat_v_datum'], 'soort' => 'datum', 'keuzes' => array( 'Nog niet zeker' ) ),
+					array( 'naam' => 'Aantal personen', 'vraag' => $s['chat_v_personen'], 'keuzes' => thema_chat_regels( $s['chat_groepen'] ), 'veld' => 'Of typ een aantal...' ),
+					array( 'naam' => 'Route', 'vraag' => $s['chat_v_route'], 'veld' => 'Bijvoorbeeld van Tilburg naar Breda' ),
+				),
+			),
+			array(
+				'id'      => 'rit',
+				'label'   => $s['chat_keuze_rit'],
+				'intro'   => 'Hoi! Ik heb een vraag over mijn rit.',
+				'stappen' => array(
+					array( 'naam' => 'Datum rit', 'vraag' => $s['chat_v_ritdatum'], 'soort' => 'datum' ),
+					array( 'naam' => 'Vraag', 'vraag' => $s['chat_v_ritvraag'], 'veld' => 'Typ je vraag...' ),
+				),
+			),
+			array(
+				'id'      => 'anders',
+				'label'   => $s['chat_keuze_anders'],
+				'intro'   => '',
+				'stappen' => array(
+					array( 'naam' => '', 'vraag' => $s['chat_v_vraag'], 'veld' => 'Typ je vraag...' ),
+				),
+			),
+		),
+	);
+}
+
+/**
+ * Zwevende knoppen en chat. Wordt in footer.php geplaatst.
+ */
+function thema_zweefknoppen() {
+	$s     = thema_instellingen();
+	$chat  = thema_chat_tonen();
+	$boven = (bool) $s['naar_boven'];
+	if ( ! $chat && ! $boven ) {
+		return '';
+	}
+
+	$class = array( 'zweefknoppen' );
+	if ( '' !== thema_onderbalk() ) {
+		$class[] = 'met-onderbalk';
+	}
+	if ( ! $chat ) {
+		$class[] = 'zonder-chat';
+	}
+	$naam   = $s['chat_naam'] ?: get_bloginfo( 'name' );
+	$avatar = $chat ? thema_chat_avatar() : '';
+
 	ob_start();
 	?>
-	<div class="whatsapp-chat" data-whatsapp-chat data-nummer="<?php echo esc_attr( thema_whatsapp_nummer() ); ?>" data-pagina="<?php echo esc_attr( $pagina ); ?>" data-ballon-na="<?php echo (int) $s['chat_ballon_na']; ?>">
+	<div class="<?php echo esc_attr( implode( ' ', $class ) ); ?>" data-zweefknoppen>
 
-		<?php if ( $s['chat_ballon'] ) : ?>
+		<?php if ( $chat && $s['chat_ballon'] ) : ?>
 			<div class="whatsapp-melding" data-whatsapp-ballon hidden>
 				<button type="button" class="whatsapp-melding-open" data-whatsapp-ballon-open>
 					<span class="whatsapp-avatar"><?php echo $avatar; // phpcs:ignore ?></span>
@@ -192,44 +223,43 @@ function thema_whatsapp_venster() {
 			</div>
 		<?php endif; ?>
 
-		<div class="whatsapp-venster" id="whatsapp-venster" role="dialog" aria-modal="false" aria-labelledby="whatsapp-venster-naam" data-whatsapp-venster data-lenis-prevent hidden>
-			<div class="whatsapp-venster-kop">
-				<span class="whatsapp-avatar"><?php echo $avatar; // phpcs:ignore ?></span>
-				<span class="whatsapp-venster-afzender">
-					<span class="whatsapp-venster-naam" id="whatsapp-venster-naam"><?php echo esc_html( $naam ); ?></span>
-					<?php if ( $s['chat_status'] ) : ?>
-						<span class="whatsapp-venster-status"><?php echo esc_html( $s['chat_status'] ); ?></span>
-					<?php endif; ?>
-				</span>
-				<button type="button" class="whatsapp-venster-sluiten" aria-label="Venster sluiten" data-whatsapp-sluiten><?php echo thema_icoon( 'sluiten', 16, 2.4 ); ?></button>
-			</div>
+		<?php if ( $boven ) : ?>
+			<a class="naar-boven" href="#top" aria-label="Terug naar boven" data-naar-boven><?php echo thema_icoon( 'omhoog', 18, 2.4 ); ?></a>
+		<?php endif; ?>
 
-			<div class="whatsapp-venster-log" data-whatsapp-log aria-live="polite">
-				<?php foreach ( $welkom as $regel ) : ?>
-					<p class="whatsapp-bericht whatsapp-bericht-bus"><?php echo esc_html( $regel ); ?></p>
-				<?php endforeach; ?>
+		<?php if ( $chat ) : ?>
+			<a class="whatsapp-knop" href="<?php echo esc_url( 'https://wa.me/' . thema_whatsapp_nummer() ); ?>" target="_blank" rel="noopener" aria-label="Chat met ons via WhatsApp" aria-controls="whatsapp-venster" aria-expanded="false" data-whatsapp-knop>
+				<span class="whatsapp-knop-tekst"><?php echo esc_html( $s['chat_knoptekst'] ?: 'App ons' ); ?></span>
+				<span class="whatsapp-knop-cirkel" aria-hidden="true"><?php echo thema_whatsapp_logo( 26 ); // phpcs:ignore ?></span>
+			</a>
 
-				<?php if ( $keuzes || $s['chat_offerte'] ) : ?>
-					<div class="whatsapp-keuzes" data-whatsapp-keuzes>
-						<?php foreach ( $keuzes as $keuze ) : ?>
-							<button type="button" class="whatsapp-keuze" data-whatsapp-keuze><?php echo esc_html( $keuze ); ?></button>
-						<?php endforeach; ?>
-						<?php if ( $s['chat_offerte'] ) : ?>
-							<a class="whatsapp-keuze whatsapp-keuze-offerte" href="<?php echo esc_url( thema_offerte_url() ); ?>" data-whatsapp-offerte><?php echo esc_html( $s['chat_offerte_tekst'] ?: 'Liever meteen een prijs' ); ?><?php echo thema_icoon( 'pijl-op', 14, 2.4 ); ?></a>
+			<div class="whatsapp-venster" id="whatsapp-venster" role="dialog" aria-modal="false" aria-labelledby="whatsapp-venster-naam" data-whatsapp-venster data-gesprek="<?php echo esc_attr( wp_json_encode( thema_chat_gesprek() ) ); ?>" data-ballon-na="<?php echo (int) $s['chat_ballon_na']; ?>" data-lenis-prevent hidden>
+				<div class="whatsapp-venster-kop">
+					<span class="whatsapp-avatar"><?php echo $avatar; // phpcs:ignore ?></span>
+					<span class="whatsapp-venster-afzender">
+						<span class="whatsapp-venster-naam" id="whatsapp-venster-naam"><?php echo esc_html( $naam ); ?></span>
+						<?php if ( $s['chat_status'] ) : ?>
+							<span class="whatsapp-venster-status"><?php echo esc_html( $s['chat_status'] ); ?></span>
 						<?php endif; ?>
-					</div>
-				<?php endif; ?>
-			</div>
-
-			<form class="whatsapp-venster-formulier" data-whatsapp-formulier>
-				<div class="whatsapp-venster-invoer">
-					<label class="sr-tekst" for="whatsapp-vraag">Je vraag</label>
-					<textarea class="whatsapp-vraag" id="whatsapp-vraag" rows="1" maxlength="1000" placeholder="<?php echo esc_attr( $s['chat_veld'] ); ?>" data-whatsapp-vraag></textarea>
-					<button type="submit" class="whatsapp-verstuur" aria-label="<?php echo esc_attr( $s['chat_knop'] ?: 'Verder in WhatsApp' ); ?>" data-whatsapp-verstuur disabled><?php echo thema_icoon( 'verstuur', 18, 2.2 ); ?></button>
+					</span>
+					<button type="button" class="whatsapp-venster-knopje whatsapp-venster-opnieuw" aria-label="Opnieuw beginnen" title="Opnieuw beginnen" data-whatsapp-opnieuw hidden><?php echo thema_icoon( 'opnieuw', 16, 2.4 ); ?></button>
+					<button type="button" class="whatsapp-venster-knopje" aria-label="Venster sluiten" data-whatsapp-sluiten><?php echo thema_icoon( 'sluiten', 16, 2.4 ); ?></button>
 				</div>
-				<p class="whatsapp-venster-uitleg"><?php echo thema_whatsapp_logo( 13 ); // phpcs:ignore ?><?php echo esc_html( $s['chat_knop'] ?: 'Je gaat verder in WhatsApp' ); ?></p>
-			</form>
-		</div>
+
+				<div class="whatsapp-venster-log" data-whatsapp-log aria-live="polite"></div>
+
+				<form class="whatsapp-venster-formulier" data-whatsapp-formulier novalidate>
+					<div class="whatsapp-venster-invoer" data-whatsapp-invoer>
+						<label class="sr-tekst" for="whatsapp-antwoord">Je antwoord</label>
+						<textarea class="whatsapp-antwoord" id="whatsapp-antwoord" rows="1" maxlength="1000" placeholder="<?php echo esc_attr( $s['chat_veld'] ); ?>" data-whatsapp-tekst></textarea>
+						<label class="sr-tekst" for="whatsapp-datum">Datum</label>
+						<input class="whatsapp-datum" id="whatsapp-datum" type="date" data-whatsapp-datum hidden>
+						<button type="submit" class="whatsapp-verstuur" aria-label="Antwoord versturen" data-whatsapp-verstuur disabled><?php echo thema_icoon( 'verstuur', 18, 2.2 ); ?></button>
+					</div>
+					<a class="whatsapp-naar-app" href="#" target="_blank" rel="noopener" data-whatsapp-naar-app hidden><?php echo thema_whatsapp_logo( 20 ); // phpcs:ignore ?><span>Verstuur via WhatsApp</span></a>
+				</form>
+			</div>
+		<?php endif; ?>
 	</div>
 	<?php
 	return ob_get_clean();
