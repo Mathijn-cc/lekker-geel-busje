@@ -2,12 +2,14 @@
  * WhatsApp-chat als kort, geleid gesprek.
  *
  * 1. Welkom en drie keuzes: prijs opvragen, vraag over je rit, andere vraag.
+ *    Prijs opvragen is een link naar het offerteformulier: aanvragen lopen niet via WhatsApp.
  *    Wie meteen iets typt, slaat de keuze over.
- * 2. Per keuze een paar vragen, te beantwoorden met een knopje, een datum of een kort antwoord.
+ * 2. Per keuze een of twee vragen, te beantwoorden met een datum of een kort antwoord.
  * 3. Eén groene knop: WhatsApp opent met alle antwoorden netjes in één bericht.
  *
  * Er gaat niets via de server of naar derden. Zonder JavaScript is de knop een gewone link.
- * Metingen in de dataLayer: whatsapp_venster (open), whatsapp_keuze (pad), whatsapp_chat (versturen).
+ * Metingen in de dataLayer: whatsapp_venster (open), whatsapp_keuze (pad), whatsapp_offerte (naar de
+ * offerte), whatsapp_chat (versturen).
  */
 (function () {
 	'use strict';
@@ -103,16 +105,29 @@
 		return keten.then(function () { return mijnBeurt === beurt; });
 	}
 
+	/* Knopjes onder de vraag. Een keuze met een link (de prijsaanvraag) gaat direct naar die pagina. */
 	function toonKeuzes(lijst, kies) {
 		if (!lijst || !lijst.length) { return; }
 		var rij = element('div', 'whatsapp-keuzes');
-		lijst.forEach(function (label) {
-			var keuze = element('button', 'whatsapp-keuze', label);
-			keuze.type = 'button';
-			keuze.addEventListener('click', function () {
-				rij.remove();
-				kies(label);
-			});
+		lijst.forEach(function (item) {
+			var label = typeof item === 'string' ? item : item.label;
+			var keuze;
+			if (item.link) {
+				keuze = element('a', 'whatsapp-keuze whatsapp-keuze-link', label);
+				keuze.href = item.link;
+				if (item.pijl) { keuze.insertAdjacentHTML('beforeend', item.pijl); }
+				keuze.addEventListener('click', function () {
+					meet('whatsapp_offerte');
+					sluitVenster(false);
+				});
+			} else {
+				keuze = element('button', 'whatsapp-keuze', label);
+				keuze.type = 'button';
+				keuze.addEventListener('click', function () {
+					rij.remove();
+					kies(label);
+				});
+			}
 			rij.appendChild(keuze);
 		});
 		log.appendChild(rij);
@@ -168,7 +183,7 @@
 		var mijnBeurt = beurt;
 		busZegt(g.welkom).then(function (actueel) {
 			if (!actueel || mijnBeurt !== beurt || pad) { return; }
-			toonKeuzes(g.paden.map(function (p) { return p.label; }), function (label) {
+			toonKeuzes(g.paden, function (label) {
 				gastZegt(label);
 				kiesPad(g.paden.filter(function (p) { return p.label === label; })[0]);
 			});

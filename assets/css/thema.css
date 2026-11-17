@@ -35,6 +35,7 @@
   --lijn-dun:              2px;
   --lijn-dik:              3px;
   --halte:                 72px;
+  --chat-boven:            calc(120px + var(--wp-admin--admin-bar--height, 0px));
   --chat-afstand:          clamp(16px, 2.4vw, 28px);
   --kleur-whatsapp:        #25d366;
   --kleur-whatsapp-donker: #1da851;
@@ -9860,9 +9861,9 @@ div.zweefknoppen a.naar-boven {
   display:                 flex;
   align-items:             center;
   justify-content:         center;
-  width:                   40px;
-  height:                  40px;
-  margin-right:            calc(var(--cirkel-midden) - 20px);
+  width:                   48px;
+  height:                  48px;
+  margin-right:            calc(var(--cirkel-midden) - 24px);
   border-radius:           50%;
   background:              rgba(255, 255, 255, .88);
   color:                   var(--kleur-paars);
@@ -9902,20 +9903,16 @@ div.zweefknoppen a.whatsapp-knop:focus-visible {
   outline-offset: 3px;
 }
 
-/*Zweefknoppen -- WhatsApp-knop, zelfde vorm als de menuknop*/
+/*Zweefknoppen -- WhatsApp-knop: groen rondje in een paars rondje*/
 div.zweefknoppen a.whatsapp-knop {
-  display:         inline-flex;
+  display:         flex;
   align-items:     center;
-  gap:             14px;
-  min-height:      var(--knop-maat);
-  padding:         9px 9px 9px 24px;
-  border-radius:   999px;
+  justify-content: center;
+  width:           var(--knop-maat);
+  height:          var(--knop-maat);
+  border-radius:   50%;
   background:      var(--kleur-paars);
-  color:           var(--kleur-creme);
   box-shadow:      0 0 0 2px rgba(250, 245, 238, .18), 0 14px 30px -12px rgba(38, 4, 63, .55);
-  font-size:       16px;
-  font-weight:     700;
-  white-space:     nowrap;
   text-decoration: none;
   transition:      opacity .25s var(--zacht), transform .45s var(--veer);
 }
@@ -9923,9 +9920,8 @@ div.zweefknoppen a.whatsapp-knop span.whatsapp-knop-cirkel {
   display:         flex;
   align-items:     center;
   justify-content: center;
-  flex:            0 0 44px;
-  width:           44px;
-  height:          44px;
+  width:           calc(var(--knop-maat) - 18px);
+  height:          calc(var(--knop-maat) - 18px);
   border-radius:   50%;
   background:      var(--kleur-whatsapp);
   color:           var(--kleur-wit);
@@ -10035,8 +10031,8 @@ div.zweefknoppen div.whatsapp-venster {
   display:        flex;
   flex-direction: column;
   width:          min(390px, calc(100vw - 2 * var(--chat-afstand)));
-  min-height:     min(400px, calc(100dvh - 2 * var(--chat-afstand) - 20px));
-  max-height:     min(600px, calc(100dvh - 2 * var(--chat-afstand) - 20px));
+  min-height:     min(400px, calc(100dvh - var(--chat-afstand) - var(--chat-boven)));
+  max-height:     min(600px, calc(100dvh - var(--chat-afstand) - var(--chat-boven)));
   border-radius:  28px;
   background:     var(--kleur-creme);
   box-shadow:     0 30px 70px -24px rgba(38, 4, 63, .55);
@@ -10091,6 +10087,15 @@ div.zweefknoppen div.whatsapp-venster div.whatsapp-venster-kop span.whatsapp-ven
   gap:         6px;
   font-size:   13px;
   opacity:     .75;
+}
+div.zweefknoppen div.whatsapp-venster div.whatsapp-venster-kop span.whatsapp-venster-afzender span.whatsapp-venster-naam,
+div.zweefknoppen div.whatsapp-venster div.whatsapp-venster-kop span.whatsapp-venster-afzender span.whatsapp-venster-status {
+  overflow:      hidden;
+  white-space:   nowrap;
+  text-overflow: ellipsis;
+}
+div.zweefknoppen div.whatsapp-venster div.whatsapp-venster-kop span.whatsapp-venster-afzender span.whatsapp-venster-status {
+  display: block;
 }
 div.zweefknoppen div.whatsapp-venster div.whatsapp-venster-kop span.whatsapp-venster-status::before {
   content:       "";
@@ -10233,6 +10238,32 @@ div.zweefknoppen div.whatsapp-venster div.whatsapp-venster-log div.whatsapp-keuz
   background: var(--kleur-paars);
   color:      var(--kleur-creme);
 }
+/*Zweefknoppen -- Prijs aanvragen: link naar het offerteformulier*/
+div.zweefknoppen div.whatsapp-venster div.whatsapp-venster-log div.whatsapp-keuzes a.whatsapp-keuze.whatsapp-keuze-link {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             8px;
+  padding:         10px 15px;
+  border-radius:   999px;
+  background:      var(--kleur-geel);
+  color:           var(--kleur-paars);
+  font-size:       15px;
+  font-weight:     600;
+  line-height:     1.2;
+  text-decoration: none;
+  animation:       zweefknoppen-in .4s var(--veer) both;
+  transition:      background .2s var(--zacht), color .2s var(--zacht);
+}
+div.zweefknoppen div.whatsapp-venster div.whatsapp-venster-log div.whatsapp-keuzes a.whatsapp-keuze.whatsapp-keuze-link:hover {
+  background: var(--kleur-paars);
+  color:      var(--kleur-geel);
+}
+div.zweefknoppen div.whatsapp-venster div.whatsapp-venster-log div.whatsapp-keuzes a.whatsapp-keuze.whatsapp-keuze-link svg.icoon {
+  transition: transform .35s var(--veer);
+}
+div.zweefknoppen div.whatsapp-venster div.whatsapp-venster-log div.whatsapp-keuzes a.whatsapp-keuze.whatsapp-keuze-link:hover svg.icoon {
+  transform: translate(2px, -2px);
+}
 /*Zweefknoppen -- Invoer en verstuurknop*/
 div.zweefknoppen div.whatsapp-venster form.whatsapp-venster-formulier {
   margin:     0;
@@ -10325,34 +10356,18 @@ div.zweefknoppen div.whatsapp-venster form.whatsapp-venster-formulier a.whatsapp
   display: none;
 }
 
-/*Zweefknoppen -- Mobiel: alleen het groene rondje, venster bijna schermvullend*/
+/*Zweefknoppen -- Mobiel: iets kleinere knop, venster bijna schermvullend*/
 @media (max-width: 560px) {
   div.zweefknoppen {
     --knop-maat:     58px;
     --cirkel-midden: 29px;
   }
-  div.zweefknoppen a.whatsapp-knop {
-    gap:        0;
-    min-height: 0;
-    padding:    0;
-    background: transparent;
-    box-shadow: none;
-  }
-  div.zweefknoppen a.whatsapp-knop span.whatsapp-knop-tekst {
-    display: none;
-  }
-  div.zweefknoppen a.whatsapp-knop span.whatsapp-knop-cirkel {
-    flex-basis: 58px;
-    width:      58px;
-    height:     58px;
-    box-shadow: 0 0 0 2px rgba(250, 245, 238, .6), 0 14px 30px -12px rgba(18, 110, 52, .65);
-  }
   div.zweefknoppen div.whatsapp-venster {
-    max-height:    calc(100dvh - 2 * var(--chat-afstand) - env(safe-area-inset-bottom, 0px));
+    max-height:    calc(100dvh - var(--chat-afstand) - var(--chat-boven) - env(safe-area-inset-bottom, 0px));
     border-radius: 24px;
   }
   div.zweefknoppen.met-onderbalk div.whatsapp-venster {
-    max-height: calc(100dvh - 2 * var(--chat-afstand) - 76px);
+    max-height: calc(100dvh - var(--chat-afstand) - var(--chat-boven) - 76px);
   }
 }
 

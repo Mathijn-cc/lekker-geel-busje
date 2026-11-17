@@ -142,7 +142,6 @@ function thema_schema() {
 
 		// WhatsApp-chat.
 		'chat_aan'            => array( 'bool', 1 ),
-		'chat_knoptekst'      => array( 'text', 'App ons' ),
 		'chat_naam'           => array( 'text', 'Lekker Geel Busje' ),
 		'chat_status'         => array( 'text', 'Stel je vraag via WhatsApp' ),
 		'chat_foto'           => array( 'id', 0 ),
@@ -153,12 +152,6 @@ function thema_schema() {
 		'chat_keuze_prijs'    => array( 'text', 'Ik wil een prijs opvragen' ),
 		'chat_keuze_rit'      => array( 'text', 'Ik heb een vraag over mijn rit' ),
 		'chat_keuze_anders'   => array( 'text', 'Ik heb een andere vraag' ),
-		'chat_v_gelegenheid'  => array( 'text', 'Leuk! Wat gaan jullie vieren?' ),
-		'chat_gelegenheden'   => array( 'textarea', "Vrijgezellenfeest\nBedrijfsuitje\nBruiloft\nVerjaardag\nFestival" ),
-		'chat_v_datum'        => array( 'text', 'Op welke datum?' ),
-		'chat_v_personen'     => array( 'text', 'Met hoeveel personen ongeveer?' ),
-		'chat_groepen'        => array( 'textarea', "Minder dan 35\n35 tot 50\n50 tot 88\nMeer dan 88" ),
-		'chat_v_route'        => array( 'text', 'Waar stappen jullie op en waar gaat de rit naartoe?' ),
 		'chat_v_ritdatum'     => array( 'text', 'Op welke datum is je rit?' ),
 		'chat_v_ritvraag'     => array( 'text', 'En wat is je vraag?' ),
 		'chat_v_vraag'        => array( 'text', 'Vertel, waar kunnen we je mee helpen?' ),

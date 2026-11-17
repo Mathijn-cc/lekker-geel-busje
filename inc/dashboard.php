@@ -348,7 +348,7 @@ function thema_dashboard_pagina() {
 					<section class="paneel" data-paneel="whatsapp">
 						<div class="paneel-kop">
 							<h2>WhatsApp</h2>
-							<p>Groene knop rechtsonder met een kort gesprek. De bezoeker kiest wat hij wil, beantwoordt een paar vragen met knopjes en stuurt alles met één tik via WhatsApp. Het nummer staat bij <em>Algemeen &gt; Contact</em>.<?php echo '' === thema_whatsapp_nummer() ? ' <strong>Er staat nog geen WhatsApp-nummer, dus de knop is nu niet zichtbaar.</strong>' : ''; ?></p>
+							<p>Groene knop rechtsonder met een kort gesprek. Een prijs aanvragen gaat naar het offerteformulier; vragen gaan met één tik via WhatsApp. Het nummer staat bij <em>Algemeen &gt; Contact</em>.<?php echo '' === thema_whatsapp_nummer() ? ' <strong>Er staat nog geen WhatsApp-nummer, dus de knop is nu niet zichtbaar.</strong>' : ''; ?></p>
 						</div>
 
 						<div class="kaartje">
@@ -356,7 +356,6 @@ function thema_dashboard_pagina() {
 							<div class="veldenraster">
 								<?php
 								thema_veld_rij( 'Chatknop', 'Uit = nergens een zwevende WhatsApp-knop. De knop in het contactblok blijft staan.', thema_schakelaar( 'chat_aan', 'Tonen op de website' ) );
-								thema_veld_rij( 'Tekst op de knop', 'Op mobiel staat alleen het WhatsApp-logo.', thema_tekstveld( 'chat_knoptekst' ) );
 								thema_veld_rij( 'Berichtje', 'Verschijnt boven de knop als een WhatsApp-melding. Eén keer per bezoek, verdwijnt na 15 seconden vanzelf. Leeg = geen berichtje.', thema_tekstveld( 'chat_ballon' ) );
 								thema_veld_rij( 'Berichtje verschijnt na', 'Of eerder, zodra de bezoeker halverwege de pagina is.', thema_schuif( 'chat_ballon_na', ' sec' ) );
 								?>
@@ -381,13 +380,7 @@ function thema_dashboard_pagina() {
 								<?php
 								thema_veld_rij( 'Welkom', 'Elke regel wordt een eigen tekstwolkje.', thema_tekstveld( 'chat_welkom', 'textarea' ) );
 								thema_veld_rij( 'Tekst in het veld', 'Bij de start. Wie meteen een vraag typt, slaat de keuze over.', thema_tekstveld( 'chat_veld' ) );
-								thema_veld_rij( 'Keuze 1: prijs', 'Daarna: gelegenheid, datum, aantal personen en route.', thema_tekstveld( 'chat_keuze_prijs' ) );
-								thema_veld_rij( 'Vraag gelegenheid', '', thema_tekstveld( 'chat_v_gelegenheid' ) );
-								thema_veld_rij( 'Knopjes gelegenheid', 'Een per regel. De bezoeker kan ook zelf iets typen.', thema_tekstveld( 'chat_gelegenheden', 'textarea' ) );
-								thema_veld_rij( 'Vraag datum', 'Met een datumkiezer en een knopje Nog niet zeker.', thema_tekstveld( 'chat_v_datum' ) );
-								thema_veld_rij( 'Vraag personen', '', thema_tekstveld( 'chat_v_personen' ) );
-								thema_veld_rij( 'Knopjes personen', 'Een per regel.', thema_tekstveld( 'chat_groepen', 'textarea' ) );
-								thema_veld_rij( 'Vraag route', '', thema_tekstveld( 'chat_v_route' ) );
+								thema_veld_rij( 'Keuze 1: prijs', 'Gaat direct naar de offertelink bij Algemeen. Prijsaanvragen lopen niet via WhatsApp.', thema_tekstveld( 'chat_keuze_prijs' ) );
 								thema_veld_rij( 'Keuze 2: rit', 'Daarna: datum van de rit en de vraag.', thema_tekstveld( 'chat_keuze_rit' ) );
 								thema_veld_rij( 'Vraag datum rit', '', thema_tekstveld( 'chat_v_ritdatum' ) );
 								thema_veld_rij( 'Vraag over de rit', '', thema_tekstveld( 'chat_v_ritvraag' ) );

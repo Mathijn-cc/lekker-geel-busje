@@ -2,9 +2,10 @@
 /**
  * Zwevende knoppen rechtsonder: knop naar boven en de WhatsApp-chat.
  *
- * De chat is een kort, geleid gesprek. De bezoeker kiest wat hij wil (prijs, vraag over zijn rit
- * of iets anders), beantwoordt een paar vragen met knopjes of een kort antwoord, en stuurt
- * het geheel met één tik via WhatsApp (wa.me-link met ?text=). Geen scripts of cookies van derden.
+ * De chat is een kort, geleid gesprek. Een prijs aanvragen gaat altijd via het offerteformulier:
+ * die keuze is een link. Voor een vraag over je rit of een andere vraag beantwoordt de bezoeker
+ * een of twee vragen en stuurt alles met één tik via WhatsApp (wa.me-link met ?text=).
+ * Geen scripts of cookies van derden.
  * Zonder JavaScript is de knop een gewone link naar WhatsApp.
  *
  * Alles is instelbaar in Thema > WhatsApp. Het nummer komt uit Thema > Algemeen > Contact.
@@ -154,15 +155,10 @@ function thema_chat_gesprek() {
 		'klaar'   => $s['chat_klaar'],
 		'paden'   => array(
 			array(
-				'id'      => 'prijs',
-				'label'   => $s['chat_keuze_prijs'],
-				'intro'   => 'Hoi! Ik wil graag een prijs voor een rit met de bus.',
-				'stappen' => array(
-					array( 'naam' => 'Gelegenheid', 'vraag' => $s['chat_v_gelegenheid'], 'keuzes' => thema_chat_regels( $s['chat_gelegenheden'] ), 'veld' => 'Of typ iets anders...' ),
-					array( 'naam' => 'Datum', 'vraag' => $s['chat_v_datum'], 'soort' => 'datum', 'keuzes' => array( 'Nog niet zeker' ) ),
-					array( 'naam' => 'Aantal personen', 'vraag' => $s['chat_v_personen'], 'keuzes' => thema_chat_regels( $s['chat_groepen'] ), 'veld' => 'Of typ een aantal...' ),
-					array( 'naam' => 'Route', 'vraag' => $s['chat_v_route'], 'veld' => 'Bijvoorbeeld van Tilburg naar Breda' ),
-				),
+				'id'    => 'prijs',
+				'label' => $s['chat_keuze_prijs'],
+				'link'  => thema_offerte_url(),
+				'pijl'  => thema_icoon( 'pijl-op', 14, 2.4 ),
 			),
 			array(
 				'id'      => 'rit',
@@ -224,12 +220,11 @@ function thema_zweefknoppen() {
 		<?php endif; ?>
 
 		<?php if ( $boven ) : ?>
-			<a class="naar-boven" href="#top" aria-label="Terug naar boven" data-naar-boven><?php echo thema_icoon( 'omhoog', 18, 2.4 ); ?></a>
+			<a class="naar-boven" href="#top" aria-label="Terug naar boven" data-naar-boven><?php echo thema_icoon( 'omhoog', 21, 2.4 ); ?></a>
 		<?php endif; ?>
 
 		<?php if ( $chat ) : ?>
 			<a class="whatsapp-knop" href="<?php echo esc_url( 'https://wa.me/' . thema_whatsapp_nummer() ); ?>" target="_blank" rel="noopener" aria-label="Chat met ons via WhatsApp" aria-controls="whatsapp-venster" aria-expanded="false" data-whatsapp-knop>
-				<span class="whatsapp-knop-tekst"><?php echo esc_html( $s['chat_knoptekst'] ?: 'App ons' ); ?></span>
 				<span class="whatsapp-knop-cirkel" aria-hidden="true"><?php echo thema_whatsapp_logo( 26 ); // phpcs:ignore ?></span>
 			</a>
 
