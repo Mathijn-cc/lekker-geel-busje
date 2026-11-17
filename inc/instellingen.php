@@ -137,6 +137,9 @@ function thema_schema() {
 		'tiktok'              => array( 'url', '' ),
 		'youtube'             => array( 'url', '' ),
 
+		// Knop naar boven.
+		'naar_boven'          => array( 'bool', 1 ),
+
 		// WhatsApp-chat.
 		'chat_aan'            => array( 'bool', 1 ),
 		'chat_naam'           => array( 'text', 'Lekker Geel Busje' ),

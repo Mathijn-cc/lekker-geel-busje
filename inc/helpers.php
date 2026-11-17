@@ -328,6 +328,7 @@ function thema_iconen() {
 		'whatsapp'  => '<path d="M3 21l1.65-4.95A9 9 0 1 1 8.1 19.6z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1.2-1.4-1.9-1.1-.9.8c-1-.4-1.9-1.3-2.3-2.3l.8-.9-1.1-1.9z"/>',
 		'vonk'      => '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/>',
 		'sluiten'   => '<path d="M6 6l12 12M18 6 6 18"/>',
+		'omhoog'    => '<path d="M12 19V5"/><path d="m5 12 7-7 7 7"/>',
 		'verstuur'  => '<path d="M21.5 2.5 10.8 13.2"/><path d="M21.5 2.5 15 21l-4.2-7.8L3 9z"/>',
 		'huis'      => '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9v11a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9"/>',
 		'bestek'    => '<path d="M7 2v9"/><path d="M4 2v6a3 3 0 0 0 6 0V2"/><path d="M7 11v11"/><path d="M18 22V2c-2.2 1.3-3.5 3.7-3.5 6.5V13H18"/>',
@@ -506,5 +507,26 @@ function thema_onderbalk() {
 		esc_url( $url ),
 		esc_html( 'Vraag je prijs aan' ),
 		$bel
+	);
+}
+
+/**
+ * Knop terug naar boven, rechtsonder. Staat naast de WhatsApp-knop als die er is.
+ */
+function thema_naar_boven() {
+	if ( ! thema_instellingen( 'naar_boven' ) ) {
+		return '';
+	}
+	$class = array( 'naar-boven' );
+	if ( function_exists( 'thema_chat_tonen' ) && thema_chat_tonen() ) {
+		$class[] = 'naast-chat';
+	}
+	if ( '' !== thema_onderbalk() ) {
+		$class[] = 'met-onderbalk';
+	}
+	return sprintf(
+		'<a class="%s" href="#top" aria-label="Terug naar boven" data-naar-boven>%s</a>',
+		esc_attr( implode( ' ', $class ) ),
+		thema_icoon( 'omhoog', 22, 2.4 )
 	);
 }

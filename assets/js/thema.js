@@ -1514,4 +1514,32 @@
 		} );
 		zet();
 	}() );
+
+	/* ------------------------------------------------------------ Naar boven */
+
+	( function () {
+		var knop = document.querySelector( '[data-naar-boven]' );
+		if ( ! knop ) {
+			return;
+		}
+		var zichtbaar = false;
+		function zet() {
+			var nu = window.scrollY > window.innerHeight * 1.2;
+			if ( nu !== zichtbaar ) {
+				zichtbaar = nu;
+				knop.classList.toggle( 'is-zichtbaar', nu );
+			}
+		}
+		window.addEventListener( 'scroll', zet, { passive: true } );
+		zet();
+		knop.addEventListener( 'click', function ( e ) {
+			e.preventDefault();
+			if ( lenis ) {
+				lenis.scrollTo( 0 );
+			} else {
+				window.scrollTo( { top: 0, behavior: rustig ? 'auto' : 'smooth' } );
+			}
+			knop.blur();
+		} );
+	}() );
 }() );

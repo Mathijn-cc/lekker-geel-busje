@@ -1,41 +1,43 @@
 /**Basis -- Variabelen**/
 /*Basis -- Standaardwaarden, aangevuld vanuit de instellingen*/
 :root {
-  --kleur-geel:      #ffaf00;
-  --kleur-paars:     #38065e;
-  --kleur-diep:      #26043f;
-  --kleur-roze:      #e0479e;
-  --kleur-creme:     #faf5ee;
-  --kleur-zand:      #f1e9dc;
-  --kleur-wit:       #ffffff;
-  --kleur-veld:      #fdfbf8;
-  --kleur-hover:     #5a2690;
-  --achtergrond:     #faf5ee;
-  --kop-letter:      'Anybody', sans-serif;
-  --tekst-letter:    'Schibsted Grotesk', sans-serif;
-  --accent-letter:   'Instrument Serif', serif;
-  --accent-stijl:    italic;
-  --kop-schaal:      .84;
-  --kop-gewicht:     800;
-  --eyebrow-tekst:   #ffaf00;
-  --eyebrow-hoek:    #38065e;
-  --logo-hoogte:     60px;
-  --rand:            clamp(16px, 4vw, 48px);
-  --rand-smal:       clamp(12px, 2vw, 24px);
-  --breedte:         1400px;
-  --sectie-ruimte:   clamp(96px, 11vw, 160px);
-  --ruimte:         clamp(56px, 6vw, 96px);
-  --ruimte-kleur:   clamp(80px, 9vw, 136px);
-  --ruimte-intro:   clamp(32px, 4vw, 56px);
-  --afronding-groot: 40px;
-  --plak-afstand:    clamp(136px, 11vw, 168px);
-  --veer:            cubic-bezier(.34, 1.5, .55, 1);
-  --zacht:           cubic-bezier(.2, .7, .2, 1);
-  --duw:             cubic-bezier(.7, 0, .2, 1);
-  --lijn-dun:        2px;
-  --lijn-dik:        3px;
-  --halte:           72px;
-  --chat-afstand:    clamp(16px, 2.4vw, 28px);
+  --kleur-geel:            #ffaf00;
+  --kleur-paars:           #38065e;
+  --kleur-diep:            #26043f;
+  --kleur-roze:            #e0479e;
+  --kleur-creme:           #faf5ee;
+  --kleur-zand:            #f1e9dc;
+  --kleur-wit:             #ffffff;
+  --kleur-veld:            #fdfbf8;
+  --kleur-hover:           #5a2690;
+  --achtergrond:           #faf5ee;
+  --kop-letter:            'Anybody', sans-serif;
+  --tekst-letter:          'Schibsted Grotesk', sans-serif;
+  --accent-letter:         'Instrument Serif', serif;
+  --accent-stijl:          italic;
+  --kop-schaal:            .84;
+  --kop-gewicht:           800;
+  --eyebrow-tekst:         #ffaf00;
+  --eyebrow-hoek:          #38065e;
+  --logo-hoogte:           60px;
+  --rand:                  clamp(16px, 4vw, 48px);
+  --rand-smal:             clamp(12px, 2vw, 24px);
+  --breedte:               1400px;
+  --sectie-ruimte:         clamp(96px, 11vw, 160px);
+  --ruimte:                clamp(56px, 6vw, 96px);
+  --ruimte-kleur:          clamp(80px, 9vw, 136px);
+  --ruimte-intro:          clamp(32px, 4vw, 56px);
+  --afronding-groot:       40px;
+  --plak-afstand:          clamp(136px, 11vw, 168px);
+  --veer:                  cubic-bezier(.34, 1.5, .55, 1);
+  --zacht:                 cubic-bezier(.2, .7, .2, 1);
+  --duw:                   cubic-bezier(.7, 0, .2, 1);
+  --lijn-dun:              2px;
+  --lijn-dik:              3px;
+  --halte:                 72px;
+  --chat-afstand:          clamp(16px, 2.4vw, 28px);
+  --kleur-whatsapp:        #25d366;
+  --kleur-whatsapp-donker: #1da851;
 }
 
 /**Basis -- Document**/
@@ -9773,14 +9775,14 @@ div.whatsapp-chat a.whatsapp-chat-knop {
   width:           62px;
   height:          62px;
   border-radius:   50%;
-  background:      var(--kleur-paars);
-  color:           var(--kleur-geel);
-  box-shadow:      0 14px 30px -12px rgba(38, 4, 63, .55);
+  background:      var(--kleur-whatsapp);
+  color:           var(--kleur-wit);
+  box-shadow:      0 14px 30px -12px rgba(18, 110, 52, .6);
   transition:      background .3s var(--zacht), transform .4s var(--veer);
 }
 div.whatsapp-chat a.whatsapp-chat-knop:hover {
-  background: var(--kleur-hover);
-  color:      var(--kleur-geel);
+  background: var(--kleur-whatsapp-donker);
+  color:      var(--kleur-wit);
   transform:  scale(1.06) rotate(-4deg);
 }
 div.whatsapp-chat a.whatsapp-chat-knop:focus-visible {
@@ -9792,7 +9794,7 @@ div.whatsapp-chat a.whatsapp-chat-knop::before {
   position:      absolute;
   inset:         0;
   border-radius: 50%;
-  border:        var(--lijn-dun) solid var(--kleur-paars);
+  border:        var(--lijn-dun) solid var(--kleur-whatsapp);
   opacity:       0;
   animation:     whatsapp-chat-puls 3.2s 2s infinite var(--zacht);
 }
@@ -9819,6 +9821,10 @@ div.whatsapp-chat a.whatsapp-chat-knop span.whatsapp-chat-knop-icoon {
 div.whatsapp-chat a.whatsapp-chat-knop span.whatsapp-chat-knop-dicht {
   opacity:   0;
   transform: rotate(-90deg) scale(.6);
+}
+div.whatsapp-chat.is-open a.whatsapp-chat-knop {
+  background: var(--kleur-paars);
+  color:      var(--kleur-geel);
 }
 div.whatsapp-chat.is-open a.whatsapp-chat-knop span.whatsapp-chat-knop-app {
   opacity:   0;
@@ -10179,5 +10185,75 @@ div.whatsapp-chat div.whatsapp-chat-venster div.whatsapp-chat-voet a.whatsapp-ch
   }
   div.whatsapp-chat div.whatsapp-chat-venster.is-zichtbaar div.whatsapp-chat-log p.whatsapp-chat-bericht {
     animation: none;
+  }
+}
+
+/**Algemeen -- Naar boven**/
+/*Naar boven -- Knop rechtsonder, naast de WhatsApp-knop als die er is*/
+a.naar-boven {
+  position:        fixed;
+  right:           calc(var(--chat-afstand) + env(safe-area-inset-right, 0px));
+  bottom:          calc(var(--chat-afstand) + 7px + env(safe-area-inset-bottom, 0px));
+  z-index:         79;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           48px;
+  height:          48px;
+  border:          var(--lijn-dun) solid var(--kleur-paars);
+  border-radius:   50%;
+  background:      var(--kleur-wit);
+  color:           var(--kleur-paars);
+  box-shadow:      0 12px 26px -14px rgba(38, 4, 63, .45);
+  opacity:         0;
+  visibility:      hidden;
+  transform:       translateY(16px) scale(.8);
+  transition:      opacity .3s var(--zacht), transform .45s var(--veer), visibility 0s .45s, background .25s var(--zacht), color .25s var(--zacht);
+}
+a.naar-boven.is-zichtbaar {
+  opacity:    1;
+  visibility: visible;
+  transform:  none;
+  transition: opacity .3s var(--zacht), transform .45s var(--veer), visibility 0s, background .25s var(--zacht), color .25s var(--zacht);
+}
+a.naar-boven:hover {
+  background: var(--kleur-paars);
+  color:      var(--kleur-geel);
+}
+a.naar-boven:hover svg.icoon {
+  transform: translateY(-2px);
+}
+a.naar-boven svg.icoon {
+  transition: transform .3s var(--veer);
+}
+a.naar-boven:focus-visible {
+  outline:        var(--lijn-dik) solid var(--kleur-geel);
+  outline-offset: 3px;
+}
+a.naar-boven.naast-chat {
+  right: calc(var(--chat-afstand) + 62px + 12px + env(safe-area-inset-right, 0px));
+}
+@media (max-width: 899px) {
+  a.naar-boven.met-onderbalk {
+    bottom: calc(83px + env(safe-area-inset-bottom, 0px));
+  }
+}
+@media (max-width: 560px) {
+  a.naar-boven {
+    width:  44px;
+    height: 44px;
+    bottom: calc(var(--chat-afstand) + 6px + env(safe-area-inset-bottom, 0px));
+  }
+  a.naar-boven.naast-chat {
+    right: calc(var(--chat-afstand) + 56px + 10px + env(safe-area-inset-right, 0px));
+  }
+  a.naar-boven.met-onderbalk {
+    bottom: calc(82px + env(safe-area-inset-bottom, 0px));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  a.naar-boven,
+  a.naar-boven.is-zichtbaar {
+    transform: none;
   }
 }

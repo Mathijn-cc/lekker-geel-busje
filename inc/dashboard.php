@@ -336,6 +336,7 @@ function thema_dashboard_pagina() {
 								thema_veld_rij( 'Offerteknop kort', 'Voor smalle schermen.', thema_tekstveld( 'menu_knop_kort' ) );
 								thema_veld_rij( 'Tekst bij hover', 'Rolt in beeld als je over de knop beweegt.', thema_tekstveld( 'menu_knop_hover' ) );
 								thema_veld_rij( 'Zin in het menu', 'Grote zin op de gele kaart in het open menu.', thema_tekstveld( 'menu_kaart_tekst' ) );
+								thema_veld_rij( 'Knop naar boven', 'Ronde knop rechtsonder die verschijnt als je een stuk naar beneden scrolt. Staat naast de WhatsApp-knop.', thema_schakelaar( 'naar_boven', 'Tonen' ) );
 								thema_veld_rij( 'Google Places API-sleutel', 'Voor de adreszoeker in het offerteformulier, vindt ook bedrijfsnamen. Leeg = zoeken via PDOK (alleen Nederlandse adressen en plaatsen). Zet Places API (New) aan en beperk de sleutel tot die API.', thema_tekstveld( 'google_places_sleutel', 'password', 'AIza...' ) );
 								?>
 							</div>
