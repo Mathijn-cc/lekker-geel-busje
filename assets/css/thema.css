@@ -4089,8 +4089,27 @@ section.sectie div.formulier-vak .gform_wrapper textarea {
   border:        1.5px solid rgba(56, 6, 94, .18);
   border-radius: 14px;
   background:    var(--kleur-creme);
-  font-size:     17px;
+  font-size:     14px;
   transition:    border-color .25s, background .25s;
+}
+/*Formulier -- Placeholder even groot als de ingevulde tekst*/
+section.sectie div.formulier-vak .gform_wrapper input::placeholder,
+section.sectie div.formulier-vak .gform_wrapper textarea::placeholder {
+  font-size: 14px;
+}
+/*Formulier -- Mobiel: 16px, anders zoomt iOS in bij het aantikken van een veld*/
+@media (max-width: 767px) {
+  section.sectie div.formulier-vak .gform_wrapper input[type="text"],
+  section.sectie div.formulier-vak .gform_wrapper input[type="email"],
+  section.sectie div.formulier-vak .gform_wrapper input[type="tel"],
+  section.sectie div.formulier-vak .gform_wrapper input[type="number"],
+  section.sectie div.formulier-vak .gform_wrapper input[type="date"],
+  section.sectie div.formulier-vak .gform_wrapper select,
+  section.sectie div.formulier-vak .gform_wrapper textarea,
+  section.sectie div.formulier-vak .gform_wrapper input::placeholder,
+  section.sectie div.formulier-vak .gform_wrapper textarea::placeholder {
+    font-size: 16px;
+  }
 }
 section.sectie div.formulier-vak .gform_wrapper input:focus,
 section.sectie div.formulier-vak .gform_wrapper select:focus,
