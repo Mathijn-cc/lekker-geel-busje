@@ -5,7 +5,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'THEMA_VERSIE', '2.21.0' );
+define( 'THEMA_VERSIE', '2.22.0' );
 define( 'THEMA_PAD', get_template_directory() );
 define( 'THEMA_URL', get_template_directory_uri() );
 
@@ -99,8 +99,8 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_script( 'thema-animaties', THEMA_URL . '/assets/js/animaties.js', array(), THEMA_VERSIE, $laden );
 	wp_enqueue_script( 'thema-accordeon', THEMA_URL . '/assets/js/accordeon.js', array(), THEMA_VERSIE, $laden );
 	wp_enqueue_script( 'thema', THEMA_URL . '/assets/js/thema.js', $afhankelijk, THEMA_VERSIE, $laden );
-	/* Contactformulier als gesprek: alleen geladen als het contactblok een formulier toont. */
-	wp_register_script( 'thema-gesprek', THEMA_URL . '/assets/js/gesprek.js', array(), THEMA_VERSIE, $laden );
+	/* Contactformulier vraag voor vraag: alleen geladen als het contactblok een formulier toont. */
+	wp_register_script( 'thema-stappen', THEMA_URL . '/assets/js/stappen.js', array(), THEMA_VERSIE, $laden );
 	wp_register_script( 'thema-playlist', THEMA_URL . '/assets/js/playlist.js', array(), THEMA_VERSIE, $laden );
 	wp_add_inline_script( 'thema', 'window.themaInstellingen = ' . wp_json_encode( array(
 		'animaties'      => (bool) $s['animaties'],

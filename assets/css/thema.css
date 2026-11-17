@@ -6139,8 +6139,8 @@ section.sectie-contact div.contact-binnen div.contactraster div.contactgegevens 
   }
 }
 
-/**Blokken -- Contact gesprek**/
-/*Gesprek -- Offertebalk bovenin het formulier*/
+/**Blokken -- Contact vraag voor vraag**/
+/*Stappen -- Offertebalk bovenin het gewone formulier*/
 section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.formulier-wissel {
   display:         flex;
   flex-wrap:       wrap;
@@ -6184,8 +6184,8 @@ section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak di
   display: inline-flex;
 }
 
-/*Gesprek -- Formulier op de achtergrond zolang het gesprek loopt*/
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak.gesprek-aan div.gesprek-formulier {
+/*Stappen -- Formulier op de achtergrond zolang de vragen lopen*/
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak.stappen-aan div.stappen-formulier {
   position:   absolute;
   width:      1px;
   height:     1px;
@@ -6193,274 +6193,432 @@ section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak.ge
   clip:       rect(0 0 0 0);
   visibility: hidden;
 }
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak p.stappen-fout {
+  margin:        0 0 20px;
+  padding:       14px 18px;
+  border-radius: 16px;
+  background:    var(--kleur-creme);
+  color:         var(--kleur-paars);
+  font-weight:   600;
+}
 
-/*Gesprek -- Kop met afzender*/
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek {
+/*Stappen -- Houder*/
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen {
   display:        flex;
   flex-direction: column;
-  gap:            16px;
-  height:         clamp(440px, calc(100dvh - 260px - var(--wp-admin--admin-bar--height, 0px)), 640px);
+  min-height:     clamp(440px, calc(100dvh - 320px - var(--wp-admin--admin-bar--height, 0px)), 580px);
 }
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek[hidden] {
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen[hidden] {
   display: none;
 }
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-kop {
-  display:        flex;
-  align-items:    center;
-  gap:            12px;
-  padding-bottom: 16px;
-  border-bottom:  var(--lijn-dun) solid var(--kleur-zand);
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-balk {
+  height:        4px;
+  border-radius: 999px;
+  background:    var(--kleur-zand);
+  overflow:      hidden;
 }
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-kop span.gesprek-avatar {
-  display:         flex;
-  align-items:     center;
-  justify-content: center;
-  flex:            0 0 44px;
-  width:           44px;
-  height:          44px;
-  border-radius:   50%;
-  background:      var(--kleur-geel);
-  color:           var(--kleur-paars);
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-balk span.stappen-voortgang {
+  display:       block;
+  width:         0;
+  height:        100%;
+  border-radius: 999px;
+  background:    var(--kleur-paars);
+  transition:    width .5s var(--zacht);
 }
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-kop span.gesprek-afzender {
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium {
+  display:     grid;
+  flex:        1 1 auto;
+  align-items: center;
+  padding:     clamp(28px, 4vw, 48px) 0;
+}
+
+/*Stappen -- Eén vraag per scherm, met een overgang omhoog of omlaag*/
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap {
+  grid-area:  1 / 1;
+  max-width:  640px;
+  outline:    none;
+  transition: opacity .3s var(--zacht), transform .45s var(--zacht);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap.komt-van-onder,
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap.gaat-naar-onder {
+  opacity:   0;
+  transform: translateY(28px);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap.komt-van-boven,
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap.gaat-naar-boven {
+  opacity:   0;
+  transform: translateY(-28px);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap.gaat-naar-boven,
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap.gaat-naar-onder {
+  pointer-events: none;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap.schudt {
+  animation: stappen-schud .4s var(--zacht);
+}
+@keyframes stappen-schud {
+  20%,
+  60% {
+    transform: translateX(-6px);
+  }
+  40%,
+  80% {
+    transform: translateX(6px);
+  }
+}
+
+/*Stappen -- Vraag en uitleg*/
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-kop {
   display:        flex;
   flex-direction: column;
-  line-height:    1.25;
+  gap:            8px;
 }
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-kop span.gesprek-afzender span.gesprek-naam {
-  color:       var(--kleur-paars);
-  font-weight: 800;
-}
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-kop span.gesprek-afzender span.gesprek-status {
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-kop span.stap-nummer {
   display:     inline-flex;
   align-items: center;
-  gap:         6px;
+  gap:         4px;
   color:       var(--kleur-paars);
-  font-size:   14px;
+  font-size:   15px;
+  font-weight: 700;
+  opacity:     .55;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-kop h3.stap-vraag {
+  margin:      0;
+  color:       var(--kleur-paars);
+  font-family: var(--kop-letter);
+  font-size:   clamp(26px, 3vw, 38px);
+  font-weight: var(--kop-gewicht);
+  line-height: 1.12;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap p.stap-uitleg {
+  margin:      12px 0 0;
+  color:       var(--kleur-paars);
+  font-size:   17px;
+  line-height: 1.5;
   opacity:     .7;
 }
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-kop span.gesprek-afzender span.gesprek-status::before {
-  content:       "";
-  width:         8px;
-  height:        8px;
-  border-radius: 50%;
-  background:    #2fbf71;
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud {
+  margin-top: clamp(22px, 3vw, 32px);
 }
 
-/*Gesprek -- Opnieuw beginnen*/
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-kop button.gesprek-opnieuw {
-  display:       inline-flex;
-  align-items:   center;
-  gap:           6px;
-  margin-left:   auto;
-  padding:       8px 14px;
-  border:        var(--lijn-dun) solid var(--kleur-zand);
-  border-radius: 999px;
+/*Stappen -- Tekstvelden als één lijn, groot en rustig*/
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud .stap-veld {
+  display:       block;
+  width:         100%;
+  margin:        0;
+  padding:       8px 0 10px;
+  border:        0;
+  border-bottom: 2px solid rgba(56, 6, 94, .2);
+  border-radius: 0;
   background:    transparent;
   color:         var(--kleur-paars);
-  font:          inherit;
-  font-size:     14px;
-  font-weight:   600;
-  cursor:        pointer;
-  transition:    background .2s var(--zacht), border-color .2s var(--zacht);
+  font-family:   var(--tekst-letter);
+  font-size:     clamp(20px, 2.2vw, 26px);
+  line-height:   1.35;
+  resize:        none;
+  outline:       none;
+  box-shadow:    none;
+  transition:    border-color .25s var(--zacht);
 }
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-kop button.gesprek-opnieuw:hover {
-  border-color: var(--kleur-paars);
-  background:   var(--kleur-zand);
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud .stap-veld:focus {
+  border-bottom-color: var(--kleur-paars);
 }
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-kop button.gesprek-opnieuw[hidden] {
-  display: none;
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud .stap-veld::placeholder {
+  color:   var(--kleur-paars);
+  opacity: .3;
 }
-
-/*Gesprek -- Berichten*/
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log {
-  display:             flex;
-  flex:                1 1 auto;
-  flex-direction:      column;
-  align-items:         flex-start;
-  gap:                 10px;
-  min-height:          0;
-  padding:             4px 4px 10px;
-  overflow-y:          auto;
-  overscroll-behavior: contain;
-  scroll-behavior:     smooth;
-}
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-kop,
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek form.gesprek-invoer {
-  flex: 0 0 auto;
-}
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-bericht {
-  max-width:     min(88%, 520px);
-  padding:       12px 16px;
-  border-radius: 20px;
-  font-size:     16px;
-  line-height:   1.5;
-  white-space:   pre-wrap;
-  overflow-wrap: anywhere;
-  animation:     gesprek-in .35s var(--veer) both;
-}
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-bericht.gesprek-bericht-bus {
-  border-bottom-left-radius: 6px;
-  background:                var(--kleur-creme);
-  color:                     var(--kleur-paars);
-}
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-bericht.gesprek-bericht-gast {
-  align-self:                 flex-end;
-  border-bottom-right-radius: 6px;
-  background:                 var(--kleur-paars);
-  color:                      var(--kleur-wit);
-}
-@keyframes gesprek-in {
-  from {
-    opacity:   0;
-    transform: translateY(8px) scale(.97);
-  }
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud p.stap-tip {
+  margin:    8px 0 0;
+  color:     var(--kleur-paars);
+  font-size: 13px;
+  opacity:   .5;
 }
 
-/*Gesprek -- Typen*/
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-bericht.gesprek-typen {
-  display: inline-flex;
-  gap:     5px;
-  padding: 16px 18px;
+/*Stappen -- Keuzes met een letter*/
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud div.stap-opties {
+  display:   grid;
+  gap:       10px;
+  max-width: 440px;
 }
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-bericht.gesprek-typen span {
-  width:         7px;
-  height:        7px;
-  border-radius: 50%;
-  background:    var(--kleur-paars);
-  opacity:       .35;
-  animation:     gesprek-typen 1s infinite ease-in-out;
-}
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-bericht.gesprek-typen span:nth-child(2) {
-  animation-delay: .15s;
-}
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-bericht.gesprek-typen span:nth-child(3) {
-  animation-delay: .3s;
-}
-@keyframes gesprek-typen {
-  50% {
-    opacity:   1;
-    transform: translateY(-3px);
-  }
-}
-
-/*Gesprek -- Overzicht voor het versturen*/
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-bericht.gesprek-bericht-overzicht {
-  white-space: normal;
-}
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log dl.gesprek-overzicht {
-  display:               grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap:                   6px 16px;
-  margin:                0;
-}
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log dl.gesprek-overzicht dt {
-  font-weight: 700;
-}
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log dl.gesprek-overzicht dd {
-  margin:      0;
-  white-space: pre-wrap;
-}
-
-/*Gesprek -- Keuzeknoppen*/
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-keuzes {
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud div.stap-opties .stap-optie {
   display:         flex;
-  flex-wrap:       wrap;
-  justify-content: flex-end;
-  gap:             8px;
-  align-self:      flex-end;
-  margin-top:      20px;
-  animation:       gesprek-in .35s var(--veer) both;
-}
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-keuzes .gesprek-keuze {
-  display:         inline-flex;
   align-items:     center;
-  padding:         11px 18px;
-  border:          var(--lijn-dun) solid var(--kleur-paars);
-  border-radius:   999px;
-  background:      var(--kleur-wit);
+  gap:             12px;
+  margin:          0;
+  padding:         12px 18px 12px 12px;
+  border:          1.5px solid rgba(56, 6, 94, .22);
+  border-radius:   14px;
+  background:      rgba(56, 6, 94, .03);
   color:           var(--kleur-paars);
-  font:            inherit;
-  font-size:       15px;
-  font-weight:     700;
+  font-family:     var(--tekst-letter);
+  font-size:       18px;
+  font-weight:     600;
+  line-height:     1.25;
+  text-align:      left;
   text-decoration: none;
   cursor:          pointer;
-  transition:      background .25s var(--zacht), color .25s var(--zacht), transform .3s var(--veer);
+  transition:      background .2s var(--zacht), border-color .2s var(--zacht), color .2s var(--zacht);
 }
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-keuzes .gesprek-keuze:hover {
-  background: var(--kleur-paars);
-  color:      var(--kleur-wit);
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud div.stap-opties .stap-optie:hover {
+  border-color: var(--kleur-paars);
+  background:   rgba(56, 6, 94, .07);
 }
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-keuzes .gesprek-keuze.gesprek-keuze-hoofd {
-  border-color: var(--kleur-geel);
-  background:   var(--kleur-geel);
-  color:        var(--kleur-paars);
-}
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-keuzes a.gesprek-keuze.gesprek-keuze-hoofd::after {
-  content:     " \2192";
-  margin-left: 6px;
-}
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-keuzes .gesprek-keuze.gesprek-keuze-hoofd:hover {
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud div.stap-opties .stap-optie.is-gekozen {
   border-color: var(--kleur-paars);
   background:   var(--kleur-paars);
   color:        var(--kleur-wit);
 }
-
-/*Gesprek -- Invoer*/
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek form.gesprek-invoer {
-  display:       flex;
-  align-items:   flex-end;
-  gap:           8px;
-  padding:       6px 6px 6px 18px;
-  border:        var(--lijn-dun) solid var(--kleur-zand);
-  border-radius: 28px;
-  background:    var(--kleur-veld);
-  transition:    border-color .25s var(--zacht);
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud div.stap-opties .stap-optie span.stap-letter {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  flex:            0 0 28px;
+  width:           28px;
+  height:          28px;
+  border:          1.5px solid currentColor;
+  border-radius:   8px;
+  font-size:       13px;
+  font-weight:     800;
+  opacity:         .8;
 }
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek form.gesprek-invoer[hidden] {
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud div.stap-opties .stap-optie span.stap-optie-icoon {
+  display: inline-flex;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud div.stap-opties .stap-optie span.stap-optie-tekst {
+  display:        flex;
+  flex-direction: column;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud div.stap-opties .stap-optie span.stap-optie-tekst small {
+  font-size:   15px;
+  font-weight: 500;
+  opacity:     .7;
+}
+
+/*Stappen -- OK en Verstuur*/
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-acties {
+  display:     flex;
+  flex-wrap:   wrap;
+  align-items: center;
+  gap:         8px 16px;
+  margin-top:  clamp(22px, 3vw, 32px);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap .stap-ok {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             8px;
+  margin:          0;
+  padding:         13px 22px;
+  border:          0;
+  border-radius:   999px;
+  background:      var(--kleur-paars);
+  color:           var(--kleur-wit);
+  font-family:     var(--tekst-letter);
+  font-size:       17px;
+  font-weight:     700;
+  text-decoration: none;
+  cursor:          pointer;
+  transition:      background .25s var(--zacht);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap .stap-ok:hover {
+  background: var(--kleur-hover);
+  color:      var(--kleur-wit);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap a.stap-ok.stap-ok-groot {
+  padding:    16px 26px;
+  background: var(--kleur-geel);
+  color:      var(--kleur-paars);
+  font-size:  18px;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap a.stap-ok.stap-ok-groot:hover {
+  background: var(--kleur-paars);
+  color:      var(--kleur-geel);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-acties span.stap-enter {
+  color:     var(--kleur-paars);
+  font-size: 14px;
+  opacity:   .5;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap p.stap-melding {
+  display:       inline-block;
+  margin:        14px 0 0;
+  padding:       6px 12px;
+  border-radius: 8px;
+  background:    var(--kleur-geel);
+  color:         var(--kleur-paars);
+  font-size:     15px;
+  font-weight:   600;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap p.stap-melding[hidden] {
   display: none;
 }
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek form.gesprek-invoer:focus-within {
-  border-color: var(--kleur-paars);
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap button.stap-link {
+  display:               inline-block;
+  margin:                22px 0 0;
+  padding:               0;
+  border:                0;
+  background:            none;
+  color:                 var(--kleur-paars);
+  font-family:           var(--tekst-letter);
+  font-size:             16px;
+  font-weight:           600;
+  text-decoration:       underline;
+  text-underline-offset: 4px;
+  cursor:                pointer;
 }
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek form.gesprek-invoer textarea {
-  flex:       1 1 auto;
-  min-height: 44px;
-  padding:    11px 0;
-  border:     0;
-  background: transparent;
-  color:      var(--kleur-paars);
-  font:       inherit;
-  font-size:  16px;
-  resize:     none;
-  outline:    none;
+
+/*Stappen -- Antwoord of tip onder de vraag*/
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud div.stap-hint {
+  margin-top:    20px;
+  padding:       16px 20px 18px;
+  border-left:   4px solid var(--kleur-geel);
+  border-radius: 6px 16px 16px 6px;
+  background:    var(--kleur-creme);
+  color:         var(--kleur-paars);
+  animation:     stappen-in .35s var(--zacht) both;
 }
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek form.gesprek-invoer.gesprek-invoer-groot textarea {
-  min-height: 72px;
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud div.stap-hint[hidden] {
+  display: none;
 }
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek form.gesprek-invoer button.gesprek-stuur {
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud div.stap-hint p.stap-hint-kop {
+  margin:         0 0 4px;
+  font-size:      13px;
+  font-weight:    800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  opacity:        .65;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud div.stap-hint p.stap-hint-tekst {
+  margin:      0;
+  font-size:   16px;
+  line-height: 1.5;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud div.stap-hint div.stap-hint-acties {
+  display:     flex;
+  flex-wrap:   wrap;
+  align-items: center;
+  gap:         8px 16px;
+  margin-top:  12px;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud div.stap-hint .stap-hint-knop {
+  display:         inline-flex;
+  margin:          0;
+  padding:         9px 16px;
+  border:          0;
+  border-radius:   999px;
+  background:      var(--kleur-geel);
+  color:           var(--kleur-paars);
+  font-family:     var(--tekst-letter);
+  font-size:       15px;
+  font-weight:     700;
+  text-decoration: none;
+  cursor:          pointer;
+  transition:      background .2s var(--zacht), color .2s var(--zacht);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud div.stap-hint .stap-hint-knop:hover {
+  background: var(--kleur-paars);
+  color:      var(--kleur-geel);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud div.stap-hint a.stap-hint-link {
+  color:                 var(--kleur-paars);
+  font-size:             15px;
+  font-weight:           600;
+  text-decoration:       underline;
+  text-underline-offset: 3px;
+}
+@keyframes stappen-in {
+  from {
+    opacity:   0;
+    transform: translateY(8px);
+  }
+}
+
+/*Stappen -- Versturen*/
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud span.stap-laden {
+  display:          block;
+  width:            32px;
+  height:           32px;
+  border:           3px solid var(--kleur-zand);
+  border-top-color: var(--kleur-paars);
+  border-radius:    50%;
+  animation:        stappen-draai .8s linear infinite;
+}
+@keyframes stappen-draai {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/*Stappen -- Onderbalk met opnieuw en de pijlen*/
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-voet {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  gap:             12px;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-voet button.stappen-opnieuw {
+  display:     inline-flex;
+  align-items: center;
+  gap:         6px;
+  margin:      0;
+  padding:     6px 0;
+  border:      0;
+  background:  none;
+  color:       var(--kleur-paars);
+  font-family: var(--tekst-letter);
+  font-size:   14px;
+  font-weight: 600;
+  opacity:     .6;
+  cursor:      pointer;
+  transition:  opacity .2s var(--zacht);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-voet button.stappen-opnieuw:hover {
+  opacity: 1;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-voet button.stappen-opnieuw[hidden] {
+  visibility: hidden;
+  display:    inline-flex;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-voet div.stappen-pijlen {
+  display:     flex;
+  gap:         4px;
+  margin-left: auto;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-voet div.stappen-pijlen button.stappen-pijl {
   display:         flex;
   align-items:     center;
   justify-content: center;
-  flex:            0 0 44px;
-  width:           44px;
-  height:          44px;
+  width:           40px;
+  height:          40px;
+  padding:         0;
   border:          0;
-  border-radius:   50%;
+  border-radius:   10px;
   background:      var(--kleur-paars);
   color:           var(--kleur-wit);
   cursor:          pointer;
-  transition:      background .25s var(--zacht), transform .3s var(--veer);
+  transition:      background .2s var(--zacht), opacity .2s var(--zacht);
 }
-section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek form.gesprek-invoer button.gesprek-stuur:hover {
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-voet div.stappen-pijlen button.stappen-pijl:hover:not(:disabled) {
   background: var(--kleur-hover);
-  transform:  scale(1.06);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-voet div.stappen-pijlen button.stappen-pijl:disabled {
+  opacity: .25;
+  cursor:  default;
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-voet div.stappen-pijlen button.stappen-pijl.stappen-pijl-terug svg {
+  transform: rotate(-90deg);
+}
+section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-voet div.stappen-pijlen button.stappen-pijl.stappen-pijl-verder svg {
+  transform: rotate(90deg);
 }
 
-/*Gesprek -- Minder beweging*/
+/*Stappen -- Minder beweging*/
 @media (prefers-reduced-motion: reduce) {
-  section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-bericht,
-  section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.gesprek div.gesprek-log div.gesprek-keuzes {
+  section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap,
+  section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-balk span.stappen-voortgang {
+    transition: none;
+  }
+  section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap.schudt,
+  section.sectie-contact div.contact-binnen div.contactraster div.formulier-vak div.stappen div.stappen-podium div.stap div.stap-inhoud div.stap-hint {
     animation: none;
   }
 }

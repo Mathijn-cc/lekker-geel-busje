@@ -64,7 +64,7 @@ if ( $bedrijf && $aan( 'toon_bedrijf' ) ) {
 $met_formulier = $id && function_exists( 'gravity_form' );
 $met_gesprek   = $met_formulier && $aan( 'gesprek' );
 if ( $met_gesprek ) {
-	wp_enqueue_script( 'thema-gesprek' );
+	wp_enqueue_script( 'thema-stappen' );
 }
 
 /* Direct contact, rustig in de zijbalk en als keuze in het gesprek. */
@@ -126,31 +126,26 @@ echo thema_sectie_open( $b, 'contact' );
 			<div class="contactraster<?php echo $met_formulier ? '' : ' contactraster-zonder-formulier'; ?>">
 				<?php if ( $met_formulier ) : ?>
 					<div class="formulier-vak" data-animeer>
-						<?php if ( $aan( 'toon_wissel' ) && ! $met_gesprek ) : /* Het gesprek wijst zelf al naar de offerte. */ ?>
+						<?php if ( $aan( 'toon_wissel' ) && ! $met_gesprek ) : /* Het formulier vraag voor vraag wijst zelf al naar de offerte. */ ?>
 							<div class="formulier-wissel">
 								<p class="formulier-wissel-tekst"><strong><?php echo esc_html( $waarde( 'wissel_kop', 'Alleen voor snelle vragen.' ) ); ?></strong> <?php echo esc_html( $waarde( 'wissel_tekst', 'Wil je een prijs voor een rit? Daar is het offerteformulier voor.' ) ); ?></p>
 								<a class="formulier-wissel-knop" href="<?php echo esc_url( thema_offerte_url() ); ?>"><?php echo esc_html( $waarde( 'wissel_knop', 'Offerte aanvragen' ) ); ?><span aria-hidden="true"><?php echo thema_icoon( 'chevron', 14 ); ?></span></a>
 							</div>
 						<?php endif; ?>
 						<?php if ( $met_gesprek ) : ?>
-							<div class="gesprek" data-gesprek data-offerte-link="<?php echo esc_url( thema_offerte_url() ); ?>" data-teksten="<?php echo esc_attr( wp_json_encode( thema_gesprek_teksten() ) ); ?>" data-antwoorden="<?php echo esc_attr( wp_json_encode( thema_gesprek_antwoorden() ) ); ?>" data-direct="<?php echo esc_attr( wp_json_encode( array_map( fn( $d ) => array( 'soort' => $d['soort'], 'tekst' => $d['label'] . ( 'whatsapp' === $d['soort'] ? '' : ': ' . $d['tekst'] ), 'href' => $d['href'], 'nieuw' => $d['nieuw'] ), $direct ) ) ); ?>" hidden>
-								<div class="gesprek-kop">
-									<span class="gesprek-avatar" aria-hidden="true"><?php echo thema_icoon( 'bus', 22 ); ?></span>
-									<span class="gesprek-afzender">
-										<span class="gesprek-naam"><?php echo esc_html( get_bloginfo( 'name' ) ); ?></span>
-										<span class="gesprek-status"><?php echo esc_html( $waarde( 'gesprek_status', 'Antwoord binnen 1 werkdag' ) ); ?></span>
-									</span>
-									<button type="button" class="gesprek-opnieuw" data-gesprek-opnieuw hidden><?php echo thema_icoon( 'opnieuw', 15, 2.4 ); ?><span><?php echo esc_html( thema_gesprek_teksten()['opnieuw'] ); ?></span></button>
+							<div class="stappen" data-stappen data-offerte-link="<?php echo esc_url( thema_offerte_url() ); ?>" data-teksten="<?php echo esc_attr( wp_json_encode( thema_stappen_teksten() ) ); ?>" data-antwoorden="<?php echo esc_attr( wp_json_encode( thema_gesprek_antwoorden() ) ); ?>" data-direct="<?php echo esc_attr( wp_json_encode( array_map( fn( $d ) => array( 'soort' => $d['soort'], 'icoon' => thema_icoon( $d['icoon'], 20 ), 'label' => $d['label'], 'tekst' => $d['tekst'], 'href' => $d['href'], 'nieuw' => $d['nieuw'] ), $direct ) ) ); ?>" data-pijl="<?php echo esc_attr( thema_icoon( 'chevron', 16, 2.6 ) ); ?>" data-vink="<?php echo esc_attr( thema_icoon( 'vink', 16, 2.6 ) ); ?>" hidden>
+								<div class="stappen-balk" aria-hidden="true"><span class="stappen-voortgang" data-stappen-voortgang></span></div>
+								<div class="stappen-podium" data-stappen-podium aria-live="polite"></div>
+								<div class="stappen-voet">
+									<button type="button" class="stappen-opnieuw" data-stappen-opnieuw hidden><?php echo thema_icoon( 'opnieuw', 14, 2.4 ); ?><span><?php echo esc_html( thema_stappen_teksten()['opnieuw'] ); ?></span></button>
+									<div class="stappen-pijlen">
+										<button type="button" class="stappen-pijl stappen-pijl-terug" aria-label="<?php echo esc_attr( thema_stappen_teksten()['vorige'] ); ?>" data-stappen-terug disabled><?php echo thema_icoon( 'chevron', 16, 2.6 ); ?></button>
+										<button type="button" class="stappen-pijl stappen-pijl-verder" aria-label="<?php echo esc_attr( thema_stappen_teksten()['volgende'] ); ?>" data-stappen-verder disabled><?php echo thema_icoon( 'chevron', 16, 2.6 ); ?></button>
+									</div>
 								</div>
-								<div class="gesprek-log" role="log" aria-live="polite" aria-label="Gesprek" data-gesprek-log></div>
-								<form class="gesprek-invoer" data-gesprek-invoer hidden>
-									<label class="sr-tekst" for="gesprek-antwoord-<?php echo (int) $id; ?>">Je antwoord</label>
-									<textarea id="gesprek-antwoord-<?php echo (int) $id; ?>" rows="1" data-gesprek-veld></textarea>
-									<button class="gesprek-stuur" type="submit" aria-label="Stuur je antwoord"><?php echo thema_icoon( 'chevron', 18 ); ?></button>
-								</form>
 							</div>
 						<?php endif; ?>
-						<div class="gesprek-formulier" data-gesprek-formulier>
+						<div class="stappen-formulier" data-stappen-formulier>
 							<?php gravity_form( $id, false, false, false, null, true, 0, true ); ?>
 						</div>
 					</div>

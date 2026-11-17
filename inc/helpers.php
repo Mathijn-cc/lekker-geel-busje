@@ -257,57 +257,67 @@ function thema_offerte_url( $params = array() ) {
 }
 
 /**
- * Teksten van het contactformulier als gesprek (assets/js/gesprek.js).
- * {naam} wordt de voornaam van de bezoeker. Aanpassen kan ook met het filter 'thema_gesprek_teksten'.
+ * Teksten van het contactformulier, vraag voor vraag (assets/js/stappen.js).
+ * {naam} wordt vervangen door de voornaam, als die al bekend is.
  */
-function thema_gesprek_teksten() {
-	return apply_filters( 'thema_gesprek_teksten', array(
-		'begroeting'     => 'Hoi! Leuk dat je even aanklopt.',
-		'keuzevraag'     => 'Waar kunnen we je mee helpen?',
-		'keuze_prijs'    => 'Ik wil een prijs voor een rit',
-		'keuze_vraag'    => 'Ik heb een snelle vraag',
-		'keuze_direct'   => 'Ik bel, app of mail liever',
-		'direct_uitleg'  => 'Prima! Kies maar hoe je ons het liefst spreekt. Bellen of appen gaat het snelst.',
-		'prijs_uitleg'   => 'Daar hebben we een apart formulier voor. Je vult in wanneer, waarheen en met hoeveel jullie zijn, en binnen 1 werkdag heb je een vaste prijs.',
-		'prijs_knop'     => 'Naar offerte aanvragen',
-		'toch_vraag'     => 'Ik heb toch een snelle vraag',
-		'vraag'          => 'Vertel, wat wil je weten?',
-		'aanvraag_check' => 'Dat klinkt als een aanvraag voor een rit. Via het offerteformulier heb je binnen 1 werkdag een prijs op maat, dat gaat het snelst.',
-		'toch_versturen' => 'Nee, het is echt een vraag',
-		'naam'           => 'Top. Hoe heet je?',
-		'achternaam'     => 'En je achternaam?',
-		'email'          => 'Leuk, {naam}! Op welk e-mailadres kunnen we je antwoorden?',
-		'email_fout'     => 'Hmm, dat lijkt geen e-mailadres. Probeer je het nog een keer?',
-		'telefoon'       => 'Wil je ook je telefoonnummer achterlaten? Handig als bellen sneller is.',
-		'overslaan'      => 'Liever niet',
-		'verplicht'      => 'Dit hebben we wel nodig om je te kunnen helpen.',
-		'klaar'          => 'Helemaal goed. Zal ik je vraag versturen?',
-		'versturen'      => 'Versturen',
-		'aanpassen'      => 'Iets aanpassen',
-		'gelukt'         => 'Verstuurd! We reageren binnen 1 werkdag, meestal sneller.',
-		'fout'           => 'Dat ging niet helemaal goed. Hieronder staat het formulier met je antwoorden, kijk even wat er nog mist.',
-		'plaatshouder'   => 'Typ je antwoord',
-		'antwoord_klaar' => 'Top, dat was mijn vraag',
-		'antwoord_door'  => 'Ik wil het toch even vragen',
-		'afscheid'       => 'Fijn dat we je konden helpen! Tot in de bus.',
-		'nog_een'        => 'Ik heb nog een vraag',
-		'voorkeur'       => 'Hoe wil je het liefst antwoord, {naam}?',
-		'voorkeur_mail'  => 'Per mail',
-		'voorkeur_bel'   => 'Bel me',
-		'voorkeur_app'   => 'App me',
-		'telefoon_nodig' => 'Op welk nummer kunnen we je bereiken?',
-		'telefoon_fout'  => 'Hmm, dat nummer lijkt niet compleet. Probeer je het nog een keer?',
-		'email_ook'      => 'En je e-mailadres? Voor als we je niet meteen te pakken krijgen.',
-		'gevonden'       => 'Ik zie je {soort} al in je bericht staan, die nemen we mee.',
-		'notitie_bel'    => 'Graag terugbellen',
-		'notitie_app'    => 'Graag antwoord via WhatsApp',
-		'opnieuw'        => 'Opnieuw',
+function thema_stappen_teksten() {
+	return apply_filters( 'thema_stappen_teksten', array(
+		'keuze'           => 'Waar kunnen we je mee helpen?',
+		'keuze_uitleg'    => 'We lezen alles zelf en reageren binnen 1 werkdag.',
+		'keuze_prijs'     => 'Ik wil een prijs voor een rit',
+		'keuze_vraag'     => 'Ik heb een vraag',
+		'keuze_direct'    => 'Ik bel of app liever',
+		'prijs'           => 'Daar hebben we een apart formulier voor',
+		'prijs_uitleg'    => 'Je vult in wanneer, waarheen en met hoeveel jullie zijn. Binnen 1 werkdag heb je een vaste prijs.',
+		'prijs_knop'      => 'Naar offerte aanvragen',
+		'toch_vraag'      => 'Ik heb toch een vraag',
+		'direct'          => 'Bel of app ons gerust',
+		'direct_uitleg'   => 'Bellen of appen gaat het snelst. We denken graag met je mee.',
+		'vraag'           => 'Wat wil je weten?',
+		'vraag_uitleg'    => 'Hoe meer je vertelt, hoe beter we kunnen helpen.',
+		'vraag_veld'      => 'Typ hier je vraag...',
+		'faq_kop'         => 'Misschien is dit je antwoord',
+		'faq_klaar'       => 'Dit beantwoordt mijn vraag',
+		'aanvraag_kop'    => 'Wil je een prijs voor een rit?',
+		'aanvraag_tekst'  => 'Via het offerteformulier heb je binnen 1 werkdag een vaste prijs op maat. Dat gaat het snelst.',
+		'naam'            => 'Hoe heet je?',
+		'naam_veld'       => 'Je naam',
+		'achternaam'      => 'En je achternaam, {naam}?',
+		'voorkeur'        => 'Hoe wil je antwoord, {naam}?',
+		'voorkeur_mail'   => 'Per mail',
+		'voorkeur_bel'    => 'Bel me',
+		'voorkeur_app'    => 'App me',
+		'email'           => 'Op welk e-mailadres kunnen we je antwoorden?',
+		'email_ook'       => 'En je e-mailadres?',
+		'email_ook_uitleg' => 'Voor als we je niet meteen te pakken krijgen.',
+		'email_veld'      => 'naam@voorbeeld.nl',
+		'email_fout'      => 'Dat lijkt nog geen e-mailadres.',
+		'telefoon'        => 'Op welk nummer kunnen we je bereiken?',
+		'telefoon_veld'   => '06 12345678',
+		'telefoon_fout'   => 'Dat nummer lijkt nog niet compleet.',
+		'overgenomen'     => 'Overgenomen uit je vraag, klopt dit?',
+		'verplicht'       => 'Dit hebben we nodig om je te kunnen helpen.',
+		'ok'              => 'OK',
+		'versturen'       => 'Verstuur mijn vraag',
+		'enter'           => 'of druk op Enter',
+		'enter_regel'     => 'Shift + Enter voor een nieuwe regel',
+		'bezig'           => 'Even versturen...',
+		'gelukt'          => 'Verstuurd! We reageren binnen 1 werkdag, meestal sneller.',
+		'gelukt_titel'    => 'Je vraag is binnen{naam}!',
+		'faq_bedankt'     => 'Fijn, dan weet je het!',
+		'faq_bedankt_uitleg' => 'Nog een vraag? Begin gerust opnieuw.',
+		'fout'            => 'Dat ging niet helemaal goed. Hieronder staat het formulier met je antwoorden, kijk even wat er nog mist.',
+		'notitie_bel'     => 'Graag terugbellen',
+		'notitie_app'     => 'Graag antwoord via WhatsApp',
+		'opnieuw'         => 'Opnieuw beginnen',
+		'vorige'          => 'Vorige vraag',
+		'volgende'        => 'Volgende vraag',
 	) );
 }
 
 /**
- * Snelle antwoorden in het contactgesprek. Lijkt de vraag op een van deze onderwerpen, dan geeft het
- * gesprek eerst meteen antwoord. De bezoeker kan daarna stoppen of de vraag toch versturen.
+ * Snelle antwoorden in het contactformulier. Lijkt de vraag op een van deze onderwerpen, dan staat het
+ * antwoord meteen onder het tekstveld. De bezoeker kan daarna stoppen of de vraag toch versturen.
  * De antwoorden komen uit de veelgestelde vragen (inc/faq-copy.php), zodat ze overal hetzelfde zijn.
  * Patronen zijn JavaScript-regex zonder slashes, hoofdletters maken niet uit. Eerste treffer wint.
  */
