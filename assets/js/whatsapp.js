@@ -336,7 +336,11 @@
 	var kijk = window.visualViewport;
 	if (kijk) {
 		var pasKijkAan = function () {
-			var toetsenbord = open && aanraak && window.innerHeight - kijk.height > 120;
+			/* Niet op innerHeight vertrouwen: in iOS krimpt die soms mee met het toetsenbord.
+			   Een getypt veld met focus op een aanraakscherm betekent: toetsenbord open. */
+			var actief = document.activeElement;
+			var typt = !!actief && formulier.contains(actief) && /^(TEXTAREA|INPUT)$/.test(actief.tagName);
+			var toetsenbord = open && aanraak && typt;
 			houder.classList.toggle('is-toetsenbord', toetsenbord);
 			if (toetsenbord) {
 				houder.style.setProperty('--kijk-hoogte', kijk.height + 'px');
