@@ -3599,7 +3599,7 @@ section.sectie-reviews div.reviews-kop {
   padding:         0 var(--rand);
   display:         flex;
   justify-content: space-between;
-  align-items:     center;
+  align-items:     flex-end;
   gap:             24px;
   flex-wrap:       wrap;
 }
@@ -3627,7 +3627,7 @@ section.sectie-reviews div.reviews-score span.reviews-score-label {
 }
 /*Reviews -- Lopende kaarten*/
 section.sectie-reviews div.reviews-band-houder {
-  padding: 40px 0;
+  padding: 0 0 40px;
 }
 section.sectie-reviews div.reviews-band-houder div.reviews-band {
   display: flex;
@@ -5225,16 +5225,16 @@ section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustinde
   grid-template-columns: auto auto auto;
   grid-template-areas:   "getal sterren aantal" "getal label aantal";
   align-items:           center;
-  column-gap:            8px;
-  row-gap:               1px;
-  padding:               7px 16px;
-  border-radius:         10px;
+  column-gap:            12px;
+  row-gap:               2px;
+  padding:               12px 28px;
+  border-radius:         12px;
   background:            var(--kleur-creme);
   color:                 var(--kleur-paars);
-  font-size:             12px;
+  font-size:             16px;
   white-space:           nowrap;
-  -webkit-mask:          radial-gradient(circle 6px at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 6px at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
-  mask:                  radial-gradient(circle 6px at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 6px at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
+  -webkit-mask:          radial-gradient(circle 8px at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 8px at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
+  mask:                  radial-gradient(circle 8px at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 8px at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
   filter:                drop-shadow(0 6px 10px rgba(56, 6, 94, .16));
 }
 section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil span.score-tekst {
@@ -5244,7 +5244,7 @@ section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustinde
   grid-area:      getal;
   font-family:    var(--kop-letter);
   font-weight:    var(--kop-gewicht);
-  font-size:      22px;
+  font-size:      38px;
   line-height:    1;
   letter-spacing: -.01em;
   color:          var(--kleur-paars);
@@ -5252,7 +5252,7 @@ section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustinde
 section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil span.sterren {
   grid-area:      sterren;
   color:          var(--kleur-roze);
-  font-size:      10px;
+  font-size:      15px;
   letter-spacing: .1em;
 }
 section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustindex span.score-pil span.score-label {
@@ -5260,7 +5260,7 @@ section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustinde
   font-family: var(--accent-letter);
   font-style:  var(--accent-stijl);
   font-weight: 400;
-  font-size:   12px;
+  font-size:   17px;
   line-height: 1;
 }
 /*Reviews -- Geperforeerde scheidslijn naar het aantal recensies*/
@@ -5269,10 +5269,10 @@ section.sectie-reviews div.reviews-kop div.reviews-score.reviews-score-trustinde
   align-self:     stretch;
   display:        flex;
   align-items:    center;
-  margin-left:    2px;
-  padding-left:   10px;
+  margin-left:    4px;
+  padding-left:   16px;
   border-left:    1px dashed rgba(56, 6, 94, .3);
-  font-size:      10px;
+  font-size:      13px;
   font-weight:    600;
   letter-spacing: .06em;
   text-transform: uppercase;
@@ -6993,6 +6993,13 @@ section.sectie-reviews.reviews-compact div.reviews-band figure.review blockquote
 }
 section.sectie-reviews.reviews-compact div.reviews-trustindex:not(.is-omgezet) {
   min-height: 200px;
+}
+/*Reviews -- Bredere kaarten op mobiel, met een stukje van de volgende kaart in beeld*/
+@media (max-width: 767px) {
+  section.sectie-reviews div.reviews-band figure.review,
+  section.sectie-reviews.reviews-compact div.reviews-band figure.review {
+    width: 84vw;
+  }
 }
 
 /**Blokken -- Fotoslider**/
