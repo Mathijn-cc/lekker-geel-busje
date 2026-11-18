@@ -6930,9 +6930,9 @@ section.sectie-reviews.reviews-compact div.reviews-kop :is(h1, h2, h3).kop-midde
 @media (min-width: 1000px) {
   section.sectie-reviews.reviews-compact {
     display:               grid;
-    grid-template-columns: minmax(320px, 5fr) minmax(0, 7fr);
+    grid-template-columns: minmax(260px, 3.6fr) minmax(0, 8.4fr);
     align-items:           center;
-    gap:                   clamp(32px, 4vw, 72px);
+    gap:                   clamp(24px, 3vw, 48px);
     padding-left:          max(var(--rand), calc((100vw - var(--breedte)) / 2));
   }
   section.sectie-reviews.reviews-compact div.reviews-kop {
@@ -6976,13 +6976,16 @@ section.sectie-reviews.reviews-compact div.reviews-band-houder {
 }
 section.sectie-reviews.reviews-compact div.reviews-band figure.review {
   width:     clamp(260px, 22vw, 320px);
-  padding:   22px;
-  gap:       12px;
+  padding:   28px 24px;
+  gap:       16px;
   transform: none;
 }
 section.sectie-reviews.reviews-compact div.reviews-band figure.review span.review-letter {
-  width:  34px;
-  height: 34px;
+  width:  44px;
+  height: 44px;
+}
+section.sectie-reviews.reviews-compact div.reviews-band figure.review span.sterren {
+  font-size: 17px;
 }
 section.sectie-reviews.reviews-compact div.reviews-band figure.review blockquote.review-tekst {
   font-size:          15px;
