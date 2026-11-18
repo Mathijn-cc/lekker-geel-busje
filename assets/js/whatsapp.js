@@ -331,6 +331,25 @@
 		openVenster();
 	});
 
+	/* Mobiel toetsenbord: het venster vult dan het zichtbare stuk scherm boven het toetsenbord,
+	   ook over het menu heen. visualViewport geeft de echte hoogte en positie van dat stuk. */
+	var kijk = window.visualViewport;
+	if (kijk) {
+		var pasKijkAan = function () {
+			var toetsenbord = open && aanraak && window.innerHeight - kijk.height > 120;
+			houder.classList.toggle('is-toetsenbord', toetsenbord);
+			if (toetsenbord) {
+				houder.style.setProperty('--kijk-hoogte', kijk.height + 'px');
+				houder.style.setProperty('--kijk-boven', kijk.offsetTop + 'px');
+				naarOnder();
+			}
+		};
+		kijk.addEventListener('resize', pasKijkAan);
+		kijk.addEventListener('scroll', pasKijkAan);
+		formulier.addEventListener('focusin', function () { setTimeout(pasKijkAan, 50); setTimeout(pasKijkAan, 400); });
+		formulier.addEventListener('focusout', function () { setTimeout(pasKijkAan, 400); });
+	}
+
 	/* Elke link met data-whatsapp-open (bijv. op de contactpagina) opent dit venster in plaats van wa.me.
 	   In de capture-fase, zodat de klik-buiten-het-venster hieronder het niet meteen weer sluit. */
 	document.addEventListener('click', function (e) {

@@ -10677,6 +10677,41 @@ div.zweefknoppen div.whatsapp-venster form.whatsapp-venster-formulier a.whatsapp
   }
 }
 
+/*Zweefknoppen -- Toetsenbord open op mobiel: venster vult het zichtbare stuk, over het menu heen*/
+div.zweefknoppen.is-toetsenbord {
+  z-index: 300;
+}
+div.zweefknoppen.is-toetsenbord div.whatsapp-venster,
+div.zweefknoppen.met-onderbalk.is-toetsenbord div.whatsapp-venster {
+  position:      fixed;
+  top:           calc(var(--kijk-boven, 0px) + 8px);
+  right:         8px;
+  bottom:        auto;
+  left:          8px;
+  width:         auto;
+  height:        calc(var(--kijk-hoogte, 100dvh) - 16px);
+  min-height:    0;
+  max-height:    none;
+  border-radius: 22px;
+  clip-path:     none;
+  transition:    opacity .15s var(--zacht);
+}
+div.zweefknoppen.is-toetsenbord div.whatsapp-venster div.whatsapp-venster-kop {
+  padding: 10px 10px 10px 14px;
+}
+div.zweefknoppen.is-toetsenbord div.whatsapp-venster div.whatsapp-venster-kop span.whatsapp-avatar {
+  flex:   0 0 34px;
+  width:  34px;
+  height: 34px;
+}
+div.zweefknoppen.is-toetsenbord div.whatsapp-venster div.whatsapp-venster-kop span.whatsapp-venster-status {
+  display: none;
+}
+div.zweefknoppen.is-toetsenbord a.naar-boven,
+div.zweefknoppen.is-toetsenbord div.whatsapp-melding {
+  display: none;
+}
+
 /*Zweefknoppen -- Minder beweging*/
 @media (prefers-reduced-motion: reduce) {
   div.zweefknoppen a.naar-boven,
