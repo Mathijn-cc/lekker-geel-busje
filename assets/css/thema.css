@@ -2384,68 +2384,47 @@ section.sectie-offerte div.offertevak.is-open button.offerte-sluit {
   pointer-events: auto;
   transform:      rotate(0deg) scale(1);
 }
-/*Offerte -- Mobiel: losse velden met een label, datum en aantal naast elkaar*/
+/*Offerte -- Mobiel: dezelfde zin als op desktop, maar elk stukje met zijn veld op een eigen regel*/
 @media (max-width: 699px) {
   section.sectie-offerte div.offertevak form.offertezin {
-    padding: 64px 20px 24px;
-    gap:     22px;
+    padding: 28px 20px 22px;
+    gap:     24px;
   }
   section.sectie-offerte div.offertevak form.offertezin p.offertezin-tekst {
     display:               grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items:           end;
     gap:                   14px 12px;
     margin:                0;
     padding-right:         0;
-    font-family:           var(--tekst-letter);
-    font-size:             16px;
-    line-height:           1.3;
-    letter-spacing:        0;
+    font-size:             calc(24px * var(--kop-schaal));
+    line-height:           1.2;
   }
-  section.sectie-offerte div.offertevak form.offertezin p.offertezin-tekst span.offertezin-woord,
+  section.sectie-offerte div.offertevak form.offertezin p.offertezin-tekst span.offertezin-woord {
+    padding-bottom: 6px;
+    white-space:    nowrap;
+  }
   section.sectie-offerte div.offertevak form.offertezin p.offertezin-tekst span.offertezin-punt {
     display: none;
   }
+  /*Offerte -- Eerste regel laat ruimte voor de sluitknop*/
+  section.sectie-offerte div.offertevak form.offertezin p.offertezin-tekst label:first-of-type {
+    margin-right: 44px;
+  }
   section.sectie-offerte div.offertevak form.offertezin p.offertezin-tekst label {
-    display:        flex;
-    flex-direction: column;
-    gap:            6px;
-    min-width:      0;
-  }
-  section.sectie-offerte div.offertevak form.offertezin p.offertezin-tekst label:nth-of-type(n+3) {
-    grid-column: 1 / -1;
-  }
-  section.sectie-offerte div.offertevak form.offertezin p.offertezin-tekst label span.sr-tekst {
-    position:    static;
-    width:       auto;
-    height:      auto;
-    margin:      0;
-    overflow:    visible;
-    clip:        auto;
-    clip-path:   none;
-    white-space: normal;
-    font-size:   14px;
-    font-weight: 700;
+    display:   block;
+    min-width: 0;
   }
   section.sectie-offerte div.offertevak form.offertezin .zinveld,
   section.sectie-offerte div.offertevak form.offertezin input.zinveld-datum,
   section.sectie-offerte div.offertevak form.offertezin input.zinveld-personen,
   section.sectie-offerte div.offertevak form.offertezin input.zinveld-van,
   section.sectie-offerte div.offertevak form.offertezin input.zinveld-naar {
-    display:       block;
-    width:         100%;
-    min-height:    52px;
-    padding:       12px 14px;
-    border:        var(--lijn-dun) solid rgba(56, 6, 94, .14);
-    border-bottom: var(--lijn-dik) solid var(--kleur-geel);
-    border-radius: 14px;
-    background:    var(--kleur-wit);
-    font-family:   var(--tekst-letter);
-    font-size:     17px;
-    font-weight:   600;
-  }
-  section.sectie-offerte div.offertevak form.offertezin .zinveld:focus {
-    background:          var(--kleur-wit);
-    border-bottom-color: var(--kleur-paars);
+    display:    block;
+    width:      100%;
+    min-height: 44px;
+    padding:    4px .25em;
+    font-size:  .86em;
   }
   section.sectie-offerte div.offertevak form.offertezin div.offertezin-voet button.knop-rond {
     width:           100%;
