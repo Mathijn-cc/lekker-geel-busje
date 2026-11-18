@@ -113,21 +113,23 @@ function thema_extra_velden( $p, $standaard = '', $weergave = array() ) {
 			) );
 			$gedeeld  = array( 'conditional_logic' => array( array( array( 'field' => 'field_' . $p . '_achtergrond', 'operator' => '==', 'value' => 'gedeeld' ) ) ) );
 			$kleuren  = thema_deel_kleuren();
-			$velden[] = thema_veld( $p, 'achtergrond_1', 'Eerste helft', 'button_group', array_merge( $gedeeld, array(
+			$velden[] = thema_veld( $p, 'achtergrond_1', 'Eerste helft', 'select', array_merge( $gedeeld, array(
 				'choices'       => $kleuren,
 				'default_value' => 'paars',
-				'instructions'  => 'Boven of links. De tekstkleur van het blok past zich aan deze kleur aan.',
-				'wrapper'       => array( 'width' => 50, 'class' => 'kleurkeuze' ),
+				'instructions'  => 'Boven of links. De tekst volgt deze kleur.',
+				'wrapper'       => array( 'width' => 33 ),
 			) ) );
-			$velden[] = thema_veld( $p, 'achtergrond_2', 'Tweede helft', 'button_group', array_merge( $gedeeld, array(
+			$velden[] = thema_veld( $p, 'achtergrond_2', 'Tweede helft', 'select', array_merge( $gedeeld, array(
 				'choices'       => $kleuren,
 				'default_value' => 'standaard',
 				'instructions'  => 'Onder of rechts.',
-				'wrapper'       => array( 'width' => 50, 'class' => 'kleurkeuze' ),
+				'wrapper'       => array( 'width' => 33 ),
 			) ) );
 			$velden[] = thema_veld( $p, 'achtergrond_richting', 'Verdeling', 'button_group', array_merge( $gedeeld, array(
-				'choices'       => array( 'boven' => 'Boven en onder', 'links' => 'Links en rechts' ),
+				'choices'       => array( 'boven' => 'Boven / onder', 'links' => 'Links / rechts' ),
 				'default_value' => 'boven',
+				'instructions'  => 'Op mobiel altijd boven en onder.',
+				'wrapper'       => array( 'width' => 34 ),
 			) ) );
 		}
 	}

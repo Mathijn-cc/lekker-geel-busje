@@ -3157,6 +3157,18 @@ a.gelegenheid span.gelegenheid-tekst span.gelegenheid-sub {
   line-height: 1.4;
   opacity:     .92;
 }
+/*Gelegenheden -- Mobiel: schuivende kaarten breder, met een grotere naam*/
+@media (max-width: 699px) {
+  section.sectie-gelegenheden a.gelegenheid.gelegenheid-schuiven {
+    width: min(76vw, 340px);
+  }
+  section.sectie-gelegenheden a.gelegenheid.gelegenheid-schuiven span.gelegenheid-tekst span.gelegenheid-naam {
+    font-size: calc(32px * var(--kop-schaal));
+  }
+  section.sectie-gelegenheden a.gelegenheid.gelegenheid-schuiven span.gelegenheid-tekst span.gelegenheid-sub {
+    font-size: 16px;
+  }
+}
 /*Gelegenheden -- Kleine kaart*/
 a.gelegenheid.gelegenheid-klein {
   border-radius: 24px;
@@ -3628,6 +3640,11 @@ section.sectie-reviews div.reviews-score span.reviews-score-label {
 /*Reviews -- Lopende kaarten*/
 section.sectie-reviews div.reviews-band-houder {
   padding: 0 0 40px;
+}
+@media (max-width: 767px) {
+  section.sectie-reviews div.reviews-band-houder {
+    padding-top: 40px;
+  }
 }
 section.sectie-reviews div.reviews-band-houder div.reviews-band {
   display: flex;
