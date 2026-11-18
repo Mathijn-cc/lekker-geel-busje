@@ -2400,7 +2400,7 @@ section.sectie-offerte div.offertevak.is-open button.offerte-sluit {
     line-height:    1.2;
   }
   section.sectie-offerte div.offertevak form.offertezin p.offertezin-tekst label {
-    margin-bottom: 12px;
+    margin-bottom: 14px;
   }
   section.sectie-offerte div.offertevak form.offertezin p.offertezin-tekst span.offertezin-punt {
     display: none;
@@ -2418,11 +2418,24 @@ section.sectie-offerte div.offertevak.is-open button.offerte-sluit {
   section.sectie-offerte div.offertevak form.offertezin input.zinveld-personen,
   section.sectie-offerte div.offertevak form.offertezin input.zinveld-van,
   section.sectie-offerte div.offertevak form.offertezin input.zinveld-naar {
-    display:    block;
-    width:      100%;
-    min-height: 44px;
-    padding:    4px .25em;
-    font-size:  .86em;
+    display:       block;
+    width:         100%;
+    min-height:    52px;
+    padding:       10px 14px;
+    border:        var(--lijn-dun) solid rgba(56, 6, 94, .16);
+    border-bottom: 4px solid var(--kleur-geel);
+    border-radius: 14px;
+    background:    var(--kleur-wit);
+    box-shadow:    0 6px 16px -12px rgba(38, 4, 63, .35);
+    font-size:     .74em;
+  }
+  section.sectie-offerte div.offertevak form.offertezin .zinveld:focus {
+    background:          var(--kleur-wit);
+    border-color:        var(--kleur-paars);
+    border-bottom-color: var(--kleur-paars);
+  }
+  section.sectie-offerte div.offertevak form.offertezin p.offertezin-tekst span.offertezin-woord {
+    font-size: .8em;
   }
   section.sectie-offerte div.offertevak form.offertezin div.offertezin-voet button.knop-rond {
     width:           100%;
