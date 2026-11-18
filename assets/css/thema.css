@@ -10268,15 +10268,15 @@ div.zweefknoppen span.whatsapp-avatar img {
 div.zweefknoppen div.whatsapp-melding {
   position:   absolute;
   right:      calc(var(--knop-maat) + 14px);
-  bottom:     0;
+  bottom:     var(--cirkel-midden);
   width:      min(290px, calc(100vw - 2 * var(--chat-afstand) - var(--knop-maat) - 14px));
   opacity:    0;
-  transform:  translateX(14px);
+  transform:  translate(14px, 50%);
   transition: opacity .3s var(--zacht), transform .5s var(--veer);
 }
 div.zweefknoppen div.whatsapp-melding.is-zichtbaar {
   opacity:   1;
-  transform: none;
+  transform: translate(0, 50%);
 }
 div.zweefknoppen div.whatsapp-melding[hidden] {
   display: none;
@@ -10287,9 +10287,9 @@ div.zweefknoppen div.whatsapp-melding button.whatsapp-melding-open {
   gap:           12px;
   width:         100%;
   margin:        0;
-  padding:       12px 16px 12px 12px;
+  padding:       12px 22px 12px 12px;
   border:        0;
-  border-radius: 22px 22px 6px 22px;
+  border-radius: 20px 20px 6px 20px;
   background:    var(--kleur-wit);
   color:         var(--kleur-paars);
   box-shadow:    0 18px 40px -18px rgba(38, 4, 63, .5);
@@ -10315,8 +10315,8 @@ div.zweefknoppen div.whatsapp-melding span.whatsapp-melding-tekst {
 }
 div.zweefknoppen div.whatsapp-melding button.whatsapp-melding-weg {
   position:        absolute;
-  top:             -8px;
-  left:            -8px;
+  top:             -9px;
+  right:           -9px;
   display:         flex;
   align-items:     center;
   justify-content: center;
@@ -10728,9 +10728,12 @@ div.zweefknoppen.is-toetsenbord div.whatsapp-melding {
 
 /*Zweefknoppen -- Minder beweging*/
 @media (prefers-reduced-motion: reduce) {
-  div.zweefknoppen a.naar-boven,
-  div.zweefknoppen div.whatsapp-melding {
+  div.zweefknoppen a.naar-boven {
     transform: none;
+  }
+  div.zweefknoppen div.whatsapp-melding,
+  div.zweefknoppen div.whatsapp-melding.is-zichtbaar {
+    transform: translate(0, 50%);
   }
   div.zweefknoppen div.whatsapp-venster,
   div.zweefknoppen div.whatsapp-venster.is-zichtbaar {
