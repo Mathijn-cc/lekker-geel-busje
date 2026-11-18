@@ -69,10 +69,20 @@ function thema_chat_tonen() {
  * Zelf aangepaste teksten blijven staan.
  */
 add_action( 'admin_init', function () {
-	if ( (int) get_option( 'thema_chat_versie' ) >= 3 ) {
+	/* Versie 4: nieuwe tekst voor de naamvraag, alleen als die nog op de oude standaard stond. */
+	if ( (int) get_option( 'thema_chat_versie' ) === 3 ) {
+		update_option( 'thema_chat_versie', 4, false );
+		$opgeslagen = get_option( THEMA_OPTIE, array() );
+		if ( is_array( $opgeslagen ) && isset( $opgeslagen['chat_v_naam'] ) && 'Top! En hoe mag ik je noemen?' === $opgeslagen['chat_v_naam'] ) {
+			$opgeslagen['chat_v_naam'] = 'Top! En wat is je naam?';
+			update_option( THEMA_OPTIE, $opgeslagen );
+		}
 		return;
 	}
-	update_option( 'thema_chat_versie', 3, false );
+	if ( (int) get_option( 'thema_chat_versie' ) >= 4 ) {
+		return;
+	}
+	update_option( 'thema_chat_versie', 4, false );
 	$opgeslagen = get_option( THEMA_OPTIE, array() );
 	if ( ! is_array( $opgeslagen ) || ! $opgeslagen ) {
 		return;

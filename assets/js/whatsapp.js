@@ -305,6 +305,7 @@
 		venster.hidden = false;
 		houder.classList.add('is-open');
 		knop.setAttribute('aria-expanded', 'true');
+		if (typeof pasKijkAan === 'function') { pasKijkAan(); }
 		requestAnimationFrame(function () {
 			requestAnimationFrame(function () { venster.classList.add('is-zichtbaar'); });
 		});
@@ -334,23 +335,24 @@
 	/* Mobiel toetsenbord: het venster vult dan het zichtbare stuk scherm boven het toetsenbord,
 	   ook over het menu heen. visualViewport geeft de echte hoogte en positie van dat stuk. */
 	var kijk = window.visualViewport;
+	var pasKijkAan = null;
 	if (kijk) {
-		var pasKijkAan = function () {
+		pasKijkAan = function () {
 			/* Niet op innerHeight vertrouwen: in iOS krimpt die soms mee met het toetsenbord.
 			   Een getypt veld met focus op een aanraakscherm betekent: toetsenbord open. */
 			var actief = document.activeElement;
 			var typt = !!actief && formulier.contains(actief) && /^(TEXTAREA|INPUT)$/.test(actief.tagName);
 			var toetsenbord = open && aanraak && typt;
 			houder.classList.toggle('is-toetsenbord', toetsenbord);
-			if (toetsenbord) {
-				houder.style.setProperty('--kijk-hoogte', kijk.height + 'px');
-				houder.style.setProperty('--kijk-boven', kijk.offsetTop + 'px');
-				naarOnder();
-			}
+			/* Op mobiel volgt de onderkant van het venster het zichtbare stuk scherm:
+			   toetsenbord open schuift hij omhoog, dicht schuift hij weer naar beneden. */
+			houder.style.setProperty('--kijk-hoogte', kijk.height + 'px');
+			houder.style.setProperty('--kijk-boven', kijk.offsetTop + 'px');
+			if (toetsenbord) { naarOnder(); }
 		};
 		kijk.addEventListener('resize', pasKijkAan);
 		kijk.addEventListener('scroll', pasKijkAan);
-		formulier.addEventListener('focusin', function () { setTimeout(pasKijkAan, 50); setTimeout(pasKijkAan, 400); });
+		formulier.addEventListener('focusin', function () { pasKijkAan(); setTimeout(pasKijkAan, 50); setTimeout(pasKijkAan, 400); });
 		formulier.addEventListener('focusout', function () { setTimeout(pasKijkAan, 400); });
 	}
 

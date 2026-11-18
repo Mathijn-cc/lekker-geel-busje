@@ -88,6 +88,10 @@ function thema_terug_link() {
 	if ( ! $ouder ) {
 		return '';
 	}
+	/* Plaatspagina's (onder Locaties) krijgen ook geen terug-link. */
+	if ( 'locaties' === get_post_field( 'post_name', $ouder ) ) {
+		return '';
+	}
 	return sprintf(
 		'<a class="terugpil" href="%s" data-hero-fade><span aria-hidden="true">←</span> %s</a>',
 		esc_url( get_permalink( $ouder ) ),

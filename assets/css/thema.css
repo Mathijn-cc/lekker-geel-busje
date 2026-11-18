@@ -10680,24 +10680,35 @@ div.zweefknoppen div.whatsapp-venster form.whatsapp-venster-formulier a.whatsapp
   }
 }
 
-/*Zweefknoppen -- Toetsenbord open op mobiel: venster vult het zichtbare stuk, over het menu heen*/
-div.zweefknoppen.is-toetsenbord {
-  z-index: 300;
-}
-div.zweefknoppen.is-toetsenbord div.whatsapp-venster,
-div.zweefknoppen.met-onderbalk.is-toetsenbord div.whatsapp-venster {
-  position:      fixed;
-  top:           calc(var(--kijk-boven, 0px) + 8px);
-  right:         8px;
-  bottom:        auto;
-  left:          8px;
-  width:         auto;
-  height:        calc(var(--kijk-hoogte, 100dvh) - 16px);
-  min-height:    0;
-  max-height:    none;
-  border-radius: 22px;
-  clip-path:     none;
-  transition:    opacity .15s var(--zacht);
+/*Zweefknoppen -- Mobiel: open venster loopt door tot boven, over het menu heen*/
+@media (max-width: 560px) {
+  div.zweefknoppen.is-open {
+    z-index: 300;
+  }
+  div.zweefknoppen div.whatsapp-venster,
+  div.zweefknoppen.met-onderbalk div.whatsapp-venster {
+    position:   fixed;
+    top:        calc(var(--kijk-boven, 0px) + 8px + var(--wp-admin--admin-bar--height, 0px));
+    right:      8px;
+    bottom:     auto;
+    left:       8px;
+    width:      auto;
+    height:     calc(var(--kijk-hoogte, 100dvh) - 16px - var(--wp-admin--admin-bar--height, 0px) - env(safe-area-inset-bottom, 0px));
+    min-height: 0;
+    max-height: none;
+    clip-path:  circle(22px at calc(100% - var(--cirkel-midden)) calc(100% - var(--cirkel-midden)));
+    transition: clip-path .55s var(--duw), opacity .2s var(--zacht) .3s, height .25s var(--zacht);
+  }
+  div.zweefknoppen div.whatsapp-venster.is-zichtbaar {
+    transition: clip-path .6s var(--duw), opacity .15s var(--zacht), height .25s var(--zacht);
+  }
+  div.zweefknoppen.is-toetsenbord div.whatsapp-venster {
+    height: calc(var(--kijk-hoogte, 100dvh) - 16px - var(--wp-admin--admin-bar--height, 0px));
+  }
+  div.zweefknoppen.is-open a.naar-boven,
+  div.zweefknoppen.is-open div.whatsapp-melding {
+    display: none;
+  }
 }
 div.zweefknoppen.is-toetsenbord div.whatsapp-venster div.whatsapp-venster-kop {
   padding: 10px 10px 10px 14px;
