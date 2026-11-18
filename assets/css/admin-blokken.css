@@ -293,6 +293,26 @@
 	background: #1d0a2e;
 }
 
+#acf-group_blokken .kleurkeuze .acf-button-group label:has(input[value="creme"])::before {
+	background: #faf5ee;
+}
+
+#acf-group_blokken .kleurkeuze .acf-button-group label:has(input[value="zand"])::before {
+	background: #f1e9dc;
+}
+
+#acf-group_blokken .kleurkeuze .acf-button-group label:has(input[value="roze"])::before {
+	background: #e0479e;
+}
+
+#acf-group_blokken .kleurkeuze .acf-button-group label:has(input[value="diep"])::before {
+	background: #26043f;
+}
+
+#acf-group_blokken .kleurkeuze .acf-button-group label:has(input[value="gedeeld"])::before {
+	background: linear-gradient(to bottom, #38065e 50%, #faf5ee 50%);
+}
+
 #acf-group_blokken .kleurkeuze.knopkleur .acf-button-group label:has(input[value="wit"])::before {
 	background: #fff;
 }

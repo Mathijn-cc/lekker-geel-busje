@@ -175,6 +175,29 @@ function thema_blok_kop( $html, $niveau ) {
 }
 
 /**
+ * Themakleuren voor de 50/50 achtergrond van een blok.
+ */
+function thema_deel_kleuren() {
+	return array(
+		'standaard' => 'Standaard',
+		'creme'     => 'Crème',
+		'zand'      => 'Zand',
+		'wit'       => 'Wit',
+		'geel'      => 'Geel',
+		'roze'      => 'Roze',
+		'paars'     => 'Paars',
+		'diep'      => 'Donkerpaars',
+	);
+}
+
+/**
+ * CSS-variabele bij een themakleur voor de 50/50 achtergrond.
+ */
+function thema_deel_kleur_var( $naam ) {
+	return 'standaard' === $naam ? 'var(--achtergrond)' : 'var(--kleur-' . $naam . ')';
+}
+
+/**
  * Blokken waarvan de kop (label, kop, intro) boven de inhoud staat en dus ook in het midden kan.
  * Blokken met de kop naast de inhoud (feiten, checklist, aan boord) horen hier niet bij.
  */
@@ -190,8 +213,19 @@ function thema_blok_klassen( $html, $layout, $blok ) {
 	$achtergronden = function_exists( 'thema_blok_achtergronden' ) ? thema_blok_achtergronden() : array();
 	$kleur         = null;
 
+	$stijl = '';
 	if ( isset( $achtergronden[ $layout ] ) ) {
-		$kleur     = in_array( $blok['achtergrond'] ?? '', array( 'standaard', 'geel', 'paars' ), true ) ? $blok['achtergrond'] : $achtergronden[ $layout ];
+		$kleur = in_array( $blok['achtergrond'] ?? '', array( 'standaard', 'geel', 'paars', 'gedeeld' ), true ) ? $blok['achtergrond'] : $achtergronden[ $layout ];
+		if ( 'gedeeld' === $kleur ) {
+			$deel   = thema_deel_kleuren();
+			$een    = isset( $deel[ $blok['achtergrond_1'] ?? '' ] ) ? $blok['achtergrond_1'] : 'paars';
+			$twee   = isset( $deel[ $blok['achtergrond_2'] ?? '' ] ) ? $blok['achtergrond_2'] : 'standaard';
+			$stijl  = '--deel-1:' . thema_deel_kleur_var( $een ) . ';--deel-2:' . thema_deel_kleur_var( $twee ) . ';';
+			$klassen[] = 'achtergrond-gedeeld';
+			$klassen[] = 'gedeeld-' . ( 'links' === ( $blok['achtergrond_richting'] ?? '' ) ? 'links' : 'boven' );
+			/* De tekst volgt de eerste helft: donker geeft lichte tekst. */
+			$kleur = in_array( $een, array( 'paars', 'diep' ), true ) ? 'paars' : ( 'geel' === $een ? 'geel' : 'standaard' );
+		}
 		$klassen[] = 'achtergrond-' . $kleur;
 	}
 	if ( 'midden' === ( $blok['kop_uitlijning'] ?? '' ) && in_array( $layout, thema_blokken_met_kop_uitlijning(), true ) ) {
@@ -207,9 +241,16 @@ function thema_blok_klassen( $html, $layout, $blok ) {
 		return $html;
 	}
 
-	return preg_replace_callback( '/<section\b[^>]*>/', function ( $tag ) use ( $klassen, $kleur ) {
+	return preg_replace_callback( '/<section\b[^>]*>/', function ( $tag ) use ( $klassen, $kleur, $stijl ) {
 		$tag = $tag[0];
 		$tag = preg_replace( '/class="([^"]*)"/', 'class="$1 ' . esc_attr( implode( ' ', $klassen ) ) . '"', $tag, 1 );
+		if ( $stijl ) {
+			if ( preg_match( '/\sstyle="/', $tag ) ) {
+				$tag = preg_replace( '/\sstyle="/', ' style="' . esc_attr( $stijl ), $tag, 1 );
+			} else {
+				$tag = substr( $tag, 0, -1 ) . ' style="' . esc_attr( $stijl ) . '">';
+			}
+		}
 		if ( null !== $kleur ) {
 			$tag = str_replace( ' data-donker', '', $tag );
 			if ( 'paars' === $kleur ) {

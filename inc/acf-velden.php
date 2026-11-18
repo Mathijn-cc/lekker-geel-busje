@@ -106,11 +106,29 @@ function thema_extra_velden( $p, $standaard = '', $weergave = array() ) {
 		}
 		if ( isset( $achtergronden[ $p ] ) ) {
 			$velden[] = thema_veld( $p, 'achtergrond', 'Achtergrond', 'button_group', array(
-				'choices'       => array( 'standaard' => 'Standaard', 'geel' => 'Geel', 'paars' => 'Paars' ),
+				'choices'       => array( 'standaard' => 'Standaard', 'geel' => 'Geel', 'paars' => 'Paars', 'gedeeld' => '50/50' ),
 				'default_value' => $achtergronden[ $p ],
-				'instructions'  => 'Standaard is de achtergrondkleur uit de thema-instellingen.',
+				'instructions'  => 'Standaard is de achtergrondkleur uit de thema-instellingen. 50/50 verdeelt het blok in twee kleuren met een harde overgang.',
 				'wrapper'       => array( 'class' => 'kleurkeuze' ),
 			) );
+			$gedeeld  = array( 'conditional_logic' => array( array( array( 'field' => 'field_' . $p . '_achtergrond', 'operator' => '==', 'value' => 'gedeeld' ) ) ) );
+			$kleuren  = thema_deel_kleuren();
+			$velden[] = thema_veld( $p, 'achtergrond_1', 'Eerste helft', 'button_group', array_merge( $gedeeld, array(
+				'choices'       => $kleuren,
+				'default_value' => 'paars',
+				'instructions'  => 'Boven of links. De tekstkleur van het blok past zich aan deze kleur aan.',
+				'wrapper'       => array( 'width' => 50, 'class' => 'kleurkeuze' ),
+			) ) );
+			$velden[] = thema_veld( $p, 'achtergrond_2', 'Tweede helft', 'button_group', array_merge( $gedeeld, array(
+				'choices'       => $kleuren,
+				'default_value' => 'standaard',
+				'instructions'  => 'Onder of rechts.',
+				'wrapper'       => array( 'width' => 50, 'class' => 'kleurkeuze' ),
+			) ) );
+			$velden[] = thema_veld( $p, 'achtergrond_richting', 'Verdeling', 'button_group', array_merge( $gedeeld, array(
+				'choices'       => array( 'boven' => 'Boven en onder', 'links' => 'Links en rechts' ),
+				'default_value' => 'boven',
+			) ) );
 		}
 	}
 
