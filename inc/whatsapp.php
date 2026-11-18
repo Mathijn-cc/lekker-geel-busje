@@ -211,6 +211,9 @@ function thema_zweefknoppen() {
 	if ( ! $chat ) {
 		$class[] = 'zonder-chat';
 	}
+	if ( $chat && $boven ) {
+		$class[] = 'met-naar-boven';
+	}
 	$naam   = $s['chat_naam'] ?: get_bloginfo( 'name' );
 	$avatar = $chat ? thema_chat_avatar() : '';
 

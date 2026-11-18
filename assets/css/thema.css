@@ -4976,7 +4976,7 @@ section.sectie.achtergrond-paars {
 }
 /*Ruimte -- Boven, in te stellen per blok*/
 section.sectie.ruimte-boven-groot {
-  --schaal-boven: 1.6;
+  --schaal-boven: 2;
 }
 section.sectie.ruimte-boven-klein {
   --schaal-boven: .4;
@@ -4986,13 +4986,30 @@ section.sectie.ruimte-boven-geen {
 }
 /*Ruimte -- Onder, in te stellen per blok*/
 section.sectie.ruimte-onder-groot {
-  --schaal-onder: 1.6;
+  --schaal-onder: 2;
 }
 section.sectie.ruimte-onder-klein {
   --schaal-onder: .4;
 }
 section.sectie.ruimte-onder-geen {
   --schaal-onder: 0;
+}
+/*Ruimte -- Blokken zonder eigen ruimte boven of onder: Meer geeft extra lucht met een marge*/
+section.sectie.sectie-lopende_band.ruimte-boven-groot,
+section.sectie.sectie-slot_cta.ruimte-boven-groot,
+section.sectie.sectie-fotoslider.ruimte-boven-groot {
+  margin-top: clamp(48px, 6vw, 96px);
+}
+section.sectie.sectie-lopende_band.ruimte-onder-groot,
+section.sectie.sectie-slot_cta.ruimte-onder-groot,
+section.sectie.sectie-fotoslider.ruimte-onder-groot {
+  margin-bottom: clamp(48px, 6vw, 96px);
+}
+section.sectie.sectie-gelegenheden.ruimte-boven-groot {
+  --kaart-boven: clamp(80px, 10vw, 160px);
+}
+section.sectie.sectie-gelegenheden.ruimte-onder-groot {
+  --kaart-onder: clamp(80px, 10vw, 160px);
 }
 /*Ruimte -- Gelegenheden is een kaart: de instelling bepaalt de ruimte rond de kaart, de binnenkant blijft gelijk*/
 section.sectie.sectie-gelegenheden.ruimte-boven-klein {
@@ -10202,6 +10219,19 @@ div.zweefknoppen a.naar-boven:hover svg.icoon {
 div.zweefknoppen.zonder-chat a.naar-boven {
   margin-right: 0;
 }
+/*Zweefknoppen -- Met chat: naar boven staat onder het groene rondje, dat rondje verspringt niet*/
+div.zweefknoppen.met-naar-boven {
+  --wa-onder:     60px;
+  padding-bottom: var(--wa-onder);
+}
+div.zweefknoppen.met-naar-boven a.naar-boven {
+  position: absolute;
+  right:    0;
+  bottom:   0;
+}
+div.zweefknoppen.met-naar-boven div.whatsapp-venster {
+  bottom: var(--wa-onder);
+}
 div.zweefknoppen.is-open a.naar-boven.is-zichtbaar {
   opacity:    0;
   visibility: hidden;
@@ -10266,17 +10296,31 @@ div.zweefknoppen span.whatsapp-avatar img {
 
 /*Zweefknoppen -- Berichtje als WhatsApp-melding*/
 div.zweefknoppen div.whatsapp-melding {
-  position:   absolute;
-  right:      calc(var(--knop-maat) + 14px);
-  bottom:     var(--cirkel-midden);
-  width:      min(290px, calc(100vw - 2 * var(--chat-afstand) - var(--knop-maat) - 14px));
-  opacity:    0;
-  transform:  translate(14px, 50%);
-  transition: opacity .3s var(--zacht), transform .5s var(--veer);
+  position:         absolute;
+  right:            calc(var(--knop-maat) + 12px);
+  bottom:           calc(var(--wa-onder, 0px) + var(--cirkel-midden));
+  width:            min(290px, calc(100vw - 2 * var(--chat-afstand) - var(--knop-maat) - 12px));
+  opacity:          0;
+  transform:        translate(24px, 50%) scale(.4);
+  transform-origin: right center;
+  transition:       opacity .25s var(--zacht), transform .55s var(--veer);
 }
 div.zweefknoppen div.whatsapp-melding.is-zichtbaar {
   opacity:   1;
-  transform: translate(0, 50%);
+  transform: translate(0, 50%) scale(1);
+}
+/*Zweefknoppen -- Puntje van het berichtje wijst naar het groene rondje*/
+div.zweefknoppen div.whatsapp-melding::after {
+  content:       "";
+  position:      absolute;
+  top:           50%;
+  right:         -6px;
+  width:         16px;
+  height:        16px;
+  border-radius: 0 3px 0 0;
+  background:    var(--kleur-wit);
+  transform:     translateY(-50%) rotate(45deg);
+  pointer-events: none;
 }
 div.zweefknoppen div.whatsapp-melding[hidden] {
   display: none;
@@ -10289,7 +10333,7 @@ div.zweefknoppen div.whatsapp-melding button.whatsapp-melding-open {
   margin:        0;
   padding:       12px 22px 12px 12px;
   border:        0;
-  border-radius: 20px 20px 6px 20px;
+  border-radius: 20px;
   background:    var(--kleur-wit);
   color:         var(--kleur-paars);
   box-shadow:    0 18px 40px -18px rgba(38, 4, 63, .5);
@@ -10686,7 +10730,8 @@ div.zweefknoppen div.whatsapp-venster form.whatsapp-venster-formulier a.whatsapp
     z-index: 300;
   }
   div.zweefknoppen div.whatsapp-venster,
-  div.zweefknoppen.met-onderbalk div.whatsapp-venster {
+  div.zweefknoppen.met-onderbalk div.whatsapp-venster,
+  div.zweefknoppen.met-naar-boven div.whatsapp-venster {
     position:   fixed;
     top:        calc(var(--kijk-boven, 0px) + 8px + var(--wp-admin--admin-bar--height, 0px));
     right:      8px;
