@@ -155,3 +155,19 @@
 		} );
 	}
 }( window.jQuery ) );
+
+/* Kleurbolletjes zonder tekst: de kleurnaam als tooltip. */
+( function ( $ ) {
+	var zetTitels = function () {
+		$( '.kleurkeuze.alleen-bolletjes .acf-button-group label' ).each( function () {
+			if ( ! this.title ) {
+				this.title = $.trim( $( this ).text() );
+			}
+		} );
+	};
+	$( zetTitels );
+	if ( window.acf ) {
+		window.acf.addAction( 'append', zetTitels );
+		window.acf.addAction( 'show_field', zetTitels );
+	}
+} )( jQuery );

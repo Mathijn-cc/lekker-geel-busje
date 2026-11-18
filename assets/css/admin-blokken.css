@@ -591,3 +591,24 @@
 		grid-template-columns: minmax(0, 1fr);
 	}
 }
+
+/*Kleurkeuze -- Alleen bolletjes, voor de 50/50 achtergrond*/
+#acf-group_blokken .kleurkeuze.alleen-bolletjes .acf-button-group {
+	flex-wrap: wrap;
+	gap:       4px;
+}
+
+#acf-group_blokken .kleurkeuze.alleen-bolletjes .acf-button-group label {
+	gap:       0;
+	padding:   7px;
+	font-size: 0;
+}
+
+#acf-group_blokken .kleurkeuze.alleen-bolletjes .acf-button-group label::before {
+	width:  20px;
+	height: 20px;
+}
+
+#acf-group_blokken .kleurkeuze.alleen-bolletjes .acf-button-group label.selected::before {
+	box-shadow: 0 0 0 2px #fff, 0 0 0 4px #43086e;
+}
