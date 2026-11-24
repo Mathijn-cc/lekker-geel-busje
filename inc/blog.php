@@ -193,6 +193,9 @@ add_action( 'template_redirect', function () {
  * Canonical op het blogoverzicht en de onderwerpen, ook op pagina 2 en verder (WordPress doet dit alleen bij losse pagina's).
  */
 add_action( 'wp_head', function () {
+	if ( function_exists( 'thema_seo_plugin_actief' ) && thema_seo_plugin_actief() ) {
+		return; // Rank Math zet de canonical.
+	}
 	if ( ( is_home() && ! is_front_page() ) || is_category() ) {
 		printf( '<link rel="canonical" href="%s">' . "\n", esc_url( get_pagenum_link( max( 1, (int) get_query_var( 'paged' ) ) ) ) );
 	}

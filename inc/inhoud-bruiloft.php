@@ -110,8 +110,8 @@ function thema_plaats_bruiloft() {
 	$vrijgezel = $vrijgezel ? get_permalink( $vrijgezel ) : home_url( '/gelegenheden/vrijgezellenfeest/' );
 
 	update_field( 'field_gel_ondertitel', 'Van ceremonie naar feest, met al jullie gasten.', $id );
-	update_field( 'field_seo_seo_titel', 'Partybus en gastenvervoer voor je bruiloft | Lekker Geel Busje', $id );
-	update_field( 'field_seo_seo_omschrijving', 'Trouwvervoer voor al jullie gasten: van ceremonie naar feest, daggasten en avondgasten, en na afloop veilig naar huis. Binnen 1 werkdag een vaste prijs.', $id );
+	thema_seo_titel_zetten( 'Partybus en gastenvervoer voor je bruiloft | Lekker Geel Busje', $id );
+	thema_seo_omschrijving_zetten( 'Trouwvervoer voor al jullie gasten: van ceremonie naar feest, daggasten en avondgasten, en na afloop veilig naar huis. Binnen 1 werkdag een vaste prijs.', $id );
 
 	$reviews             = thema_blok_reviews();
 	$reviews['kop']      = 'Zij stapten al in, *dit vonden ze ervan*';

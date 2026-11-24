@@ -55,6 +55,9 @@ function thema_kruimelpad() {
 }
 
 add_action( 'wp_head', function () {
+	if ( function_exists( 'thema_seo_plugin_actief' ) && thema_seo_plugin_actief() ) {
+		return; // Met Rank Math staat het kruimelpad in de schemagraaf van de plugin, zie inc/rank-math.php.
+	}
 	$kruims = thema_kruimelpad();
 	if ( count( $kruims ) < 2 ) {
 		return;

@@ -31,8 +31,8 @@ function thema_blog_opzetten() {
 	update_option( 'posts_per_page', 9 );
 	if ( function_exists( 'update_field' ) ) {
 		update_field( 'field_blogpagina_blog_kop', 'Tips en ideeën voor *jullie feestje*', $blog_id );
-		update_field( 'field_seo_seo_titel', 'Blog: tips en ideeën voor je feestje | Lekker Geel Busje', $blog_id );
-		update_field( 'field_seo_seo_omschrijving', 'Tips, ideeën en checklists voor je vrijgezellenfeest, bedrijfsuitje of dag uit met de groep. Van de sfeerbus met chauffeur en gastvrouwke.', $blog_id );
+		thema_seo_titel_zetten( 'Blog: tips en ideeën voor je feestje | Lekker Geel Busje', $blog_id );
+		thema_seo_omschrijving_zetten( 'Tips, ideeën en checklists voor je vrijgezellenfeest, bedrijfsuitje of dag uit met de groep. Van de sfeerbus met chauffeur en gastvrouwke.', $blog_id );
 		$offerte        = thema_blok_offerte();
 		$offerte['kop'] = 'Plannen klaar? *Wij rijden.*';
 		update_field( 'field_blokken', array( $offerte ), $blog_id );
@@ -99,8 +99,8 @@ function thema_blog_artikel_plaatsen( $a, $categorie, $gelegenheid ) {
 		update_field( 'field_blog_auteur', 'Team Lekker Geel Busje', $id );
 		update_field( 'field_blog_auteur_rol', 'Rijdt groepen door heel Nederland en daarbuiten', $id );
 		update_field( 'field_blog_gelegenheid', $gelegenheid, $id );
-		update_field( 'field_seo_seo_titel', $a['seo_titel'], $id );
-		update_field( 'field_seo_seo_omschrijving', $a['samenvatting'], $id );
+		thema_seo_titel_zetten( $a['seo_titel'], $id );
+		thema_seo_omschrijving_zetten( $a['samenvatting'], $id );
 
 		$faq           = thema_blok_faq();
 		$faq['kop']    = $a['faq_kop'];

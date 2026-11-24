@@ -82,8 +82,8 @@ function thema_plaats_bedrijfsuitje() {
 	$bussen   = $bussen ? get_permalink( $bussen ) : home_url( '/onze-bussen/' );
 
 	update_field( 'field_gel_ondertitel', 'Samen heen en terug, niemand hoeft te rijden.', $id );
-	update_field( 'field_seo_seo_titel', 'Partybus voor je bedrijfsuitje of teamuitje | Lekker Geel Busje', $id );
-	update_field( 'field_seo_seo_omschrijving', 'Bedrijfsuitje of teamuitje met de partybus: ophalen bij kantoor, chauffeur en gastvrouwke aan boord en binnen 1 werkdag een vaste all-in prijs.', $id );
+	thema_seo_titel_zetten( 'Partybus voor je bedrijfsuitje of teamuitje | Lekker Geel Busje', $id );
+	thema_seo_omschrijving_zetten( 'Bedrijfsuitje of teamuitje met de partybus: ophalen bij kantoor, chauffeur en gastvrouwke aan boord en binnen 1 werkdag een vaste all-in prijs.', $id );
 
 	$reviews             = thema_blok_reviews();
 	$reviews['kop']      = 'Zij stapten al in, *dit vonden ze ervan*';

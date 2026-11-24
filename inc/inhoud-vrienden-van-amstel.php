@@ -44,8 +44,8 @@ function thema_plaats_vval_stoelen() {
 	$bussen = $bussen ? get_permalink( $bussen ) : home_url( '/onze-bussen/' );
 	$kies   = thema_link( 'Kies je stoel', '#stoelen' );
 
-	update_field( 'field_seo_seo_titel', 'Bus naar Vrienden van Amstel LIVE 2027: € 25 retour | Lekker Geel Busje', $id );
-	update_field( 'field_seo_seo_omschrijving', 'Met de gele bus naar Vrienden van Amstel LIVE in Ahoy. Instappen in Oisterwijk, Tilburg of Breda, heen en terug voor € 25 per persoon. Reserveer je stoel in een minuut.', $id );
+	thema_seo_titel_zetten( 'Bus naar Vrienden van Amstel LIVE 2027: € 25 retour | Lekker Geel Busje', $id );
+	thema_seo_omschrijving_zetten( 'Met de gele bus naar Vrienden van Amstel LIVE in Ahoy. Instappen in Oisterwijk, Tilburg of Breda, heen en terug voor € 25 per persoon. Reserveer je stoel in een minuut.', $id );
 
 	$reviews                = thema_blok_reviews();
 	$reviews['kop']         = 'Zij zongen al mee *in de bus*';

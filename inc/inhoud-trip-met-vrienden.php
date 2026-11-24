@@ -107,8 +107,8 @@ function thema_plaats_trip() {
 	$bussen   = $bussen ? get_permalink( $bussen ) : home_url( '/onze-bussen/' );
 
 	update_field( 'field_gel_ondertitel', 'Met de hele vriendengroep op pad, het feest begint in de bus.', $id );
-	update_field( 'field_seo_seo_titel', 'Partybus voor een uitje met vrienden | Lekker Geel Busje', $id );
-	update_field( 'field_seo_seo_omschrijving', 'Groepsuitje met vrienden, familie of de club? De partybus haalt iedereen op, rijdt van activiteit naar stad en brengt je thuis. Binnen 1 werkdag een vaste prijs.', $id );
+	thema_seo_titel_zetten( 'Partybus voor een uitje met vrienden | Lekker Geel Busje', $id );
+	thema_seo_omschrijving_zetten( 'Groepsuitje met vrienden, familie of de club? De partybus haalt iedereen op, rijdt van activiteit naar stad en brengt je thuis. Binnen 1 werkdag een vaste prijs.', $id );
 
 	$reviews                = thema_blok_reviews();
 	$reviews['kop']         = 'Zij stapten al in, *dit vonden ze ervan*';

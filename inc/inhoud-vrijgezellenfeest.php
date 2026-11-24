@@ -62,8 +62,8 @@ function thema_plaats_vrijgezellenfeest() {
 	$bussen   = $bussen ? get_permalink( $bussen ) : home_url( '/onze-bussen/' );
 
 	update_field( 'field_gel_ondertitel', 'De laatste rit als vrijgezel, met de hele crew.', $id );
-	update_field( 'field_seo_seo_titel', 'Partybus voor je vrijgezellenfeest | Lekker Geel Busje', $id );
-	update_field( 'field_seo_seo_omschrijving', 'Partybus voor je vrijgezellenfeest, met chauffeur, gastvrouwke, licht en geluid. Met tips, een voorbeelddag en opdrachten voor in de bus.', $id );
+	thema_seo_titel_zetten( 'Partybus voor je vrijgezellenfeest | Lekker Geel Busje', $id );
+	thema_seo_omschrijving_zetten( 'Partybus voor je vrijgezellenfeest, met chauffeur, gastvrouwke, licht en geluid. Met tips, een voorbeelddag en opdrachten voor in de bus.', $id );
 
 	/* Reviews uit Trustindex. */
 	$reviews        = thema_blok_reviews();

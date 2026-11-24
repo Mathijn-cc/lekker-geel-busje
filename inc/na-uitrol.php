@@ -84,6 +84,9 @@ function thema_uitroltaken() {
 		'bedankt-volgorde-v1'     => 'thema_bedankt_volgorde',
 		'bedankt-route-midden-v1' => 'thema_bedankt_route_midden',
 		'bedankt-playlist-v2'     => 'thema_bedankt_playlist_nieuw',
+		'rank-math-instellingen-v1' => 'thema_rank_math_instellen',
+		'rank-math-velden-v1'     => 'thema_rank_math_velden',
+		'redirects-oude-site-v1'  => 'thema_redirects_oude_site',
 	);
 }
 

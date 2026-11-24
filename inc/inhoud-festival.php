@@ -113,8 +113,8 @@ function thema_plaats_festival() {
 	$bussen = $bussen ? get_permalink( $bussen ) : home_url( '/onze-bussen/' );
 
 	update_field( 'field_gel_ondertitel', 'Voor de deur opgehaald, voor de deur terug.', $id );
-	update_field( 'field_seo_seo_titel', 'Festivalbus: met de partybus naar je festival | Lekker Geel Busje', $id );
-	update_field( 'field_seo_seo_omschrijving', 'Met de hele groep naar Paaspop, Intents, Defqon.1 of Zwarte Cross? De festivalbus haalt je op, zet je af bij het terrein en brengt je thuis. Binnen 1 werkdag een vaste prijs.', $id );
+	thema_seo_titel_zetten( 'Festivalbus: met de partybus naar je festival | Lekker Geel Busje', $id );
+	thema_seo_omschrijving_zetten( 'Met de hele groep naar Paaspop, Intents, Defqon.1 of Zwarte Cross? De festivalbus haalt je op, zet je af bij het terrein en brengt je thuis. Binnen 1 werkdag een vaste prijs.', $id );
 
 	$reviews                = thema_blok_reviews();
 	$reviews['kop']         = 'Zij stapten al in, *dit vonden ze ervan*';

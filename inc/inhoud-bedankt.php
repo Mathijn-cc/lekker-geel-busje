@@ -152,8 +152,8 @@ function thema_plaats_bedankt() {
 
 	$id = thema_bedankt_pagina( $slugs['contact'], 'Bedankt voor je vraag' );
 	if ( $id ) {
-		update_field( 'field_seo_seo_titel', 'Bedankt voor je vraag | Lekker Geel Busje', $id );
-		update_field( 'field_seo_seo_omschrijving', 'Je vraag is binnen. Binnen 1 werkdag heb je antwoord van Lekker Geel Busje.', $id );
+		thema_seo_titel_zetten( 'Bedankt voor je vraag | Lekker Geel Busje', $id );
+		thema_seo_omschrijving_zetten( 'Je vraag is binnen. Binnen 1 werkdag heb je antwoord van Lekker Geel Busje.', $id );
 
 		$artikelen = array(
 			'acf_fc_layout' => 'artikelen',
@@ -213,8 +213,8 @@ function thema_plaats_bedankt() {
 
 	$id = thema_bedankt_pagina( $slugs['offerte'], 'Bedankt voor je aanvraag' );
 	if ( $id ) {
-		update_field( 'field_seo_seo_titel', 'Bedankt voor je aanvraag | Lekker Geel Busje', $id );
-		update_field( 'field_seo_seo_omschrijving', 'Je aanvraag is binnen. Binnen 1 werkdag heb je een vaste all-in prijs van Lekker Geel Busje in je mail.', $id );
+		thema_seo_titel_zetten( 'Bedankt voor je aanvraag | Lekker Geel Busje', $id );
+		thema_seo_omschrijving_zetten( 'Je aanvraag is binnen. Binnen 1 werkdag heb je een vaste all-in prijs van Lekker Geel Busje in je mail.', $id );
 
 		$faq           = thema_blok_faq();
 		$faq['kop']    = 'Vragen terwijl *je wacht*';

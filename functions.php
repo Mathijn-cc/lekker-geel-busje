@@ -14,6 +14,7 @@ require THEMA_PAD . '/inc/helpers.php';
 require THEMA_PAD . '/inc/gelegenheden.php';
 require THEMA_PAD . '/inc/kruimels.php';
 require THEMA_PAD . '/inc/zoekmachines.php';
+require THEMA_PAD . '/inc/rank-math.php';
 require THEMA_PAD . '/inc/blog.php';
 require THEMA_PAD . '/inc/menu.php';
 require THEMA_PAD . '/inc/acf-velden.php';
