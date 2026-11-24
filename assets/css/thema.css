@@ -3186,7 +3186,7 @@ section.sectie-werkgebied {
   --boven:  var(--ruimte);
   --onder:  var(--ruimte);
   padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
-  overflow: hidden;
+  overflow: clip;
 }
 section.sectie-werkgebied div.werkgebied-raster {
   max-width:             var(--breedte);
@@ -3201,6 +3201,13 @@ section.sectie-werkgebied div.werkgebied-raster div.werkgebied-tekst {
   flex-direction: column;
   gap:            28px;
   min-width:      0;
+}
+/*Werkgebied -- Tekst plakt naast de kaart*/
+@media (min-width: 1100px) {
+  section.sectie-werkgebied div.werkgebied-raster div.werkgebied-tekst {
+    position: sticky;
+    top:      var(--plak-afstand);
+  }
 }
 /*Werkgebied -- Lopende plaatsen*/
 section.sectie-werkgebied div.werkgebied-tekst div.plaatsticker {
