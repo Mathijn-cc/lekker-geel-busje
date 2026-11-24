@@ -1226,7 +1226,7 @@
 		}, { passive: true } );
 		document.addEventListener( 'mouseover', function ( e ) {
 			var el = e.target.closest ? e.target.closest( 'input,select,textarea,[data-cursor],a,button' ) : null;
-			verborgen = !! ( el && /^(INPUT|SELECT|TEXTAREA)$/.test( el.tagName ) );
+			verborgen = !! ( el && /^(INPUT|SELECT|TEXTAREA)$/.test( el.tagName ) && ! /^(radio|checkbox|submit|button|range)$/.test( el.type ) );
 			if ( ! verborgen ) {
 				if ( isSter ) {
 					if ( ! el ) {
