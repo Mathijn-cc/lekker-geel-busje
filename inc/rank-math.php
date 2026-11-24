@@ -418,12 +418,14 @@ function thema_rank_math_instellen() {
 	}
 
 	/* Logo en standaardfoto voor social media uit de mediabibliotheek. */
-	$logo = (int) ( $s['logo'] ?? 0 );
-	if ( $logo && 'image/svg+xml' !== get_post_mime_type( $logo ) ) {
-		$titels['knowledgegraph_logo']    = wp_get_attachment_image_url( $logo, 'full' );
+	$logo = (int) get_option( 'thema_logo_google', 0 ) ?: (int) ( $s['logo'] ?? 0 );
+	if ( $logo && wp_get_attachment_url( $logo ) ) {
+		/* Bij voorkeur de PNG voor Google (uitroltaak logo-google-v1), anders het logo uit de thema-instellingen, ook als SVG. */
+		$titels['knowledgegraph_logo']    = wp_get_attachment_url( $logo );
 		$titels['knowledgegraph_logo_id'] = $logo;
+		$uit['logo']                      = $titels['knowledgegraph_logo'];
 	} else {
-		$uit['logo'] = 'geen PNG/JPG-logo in de thema-instellingen; Google accepteert geen SVG als logo';
+		$uit['logo'] = 'geen logo gevonden';
 	}
 	$voorkant = (int) get_option( 'page_on_front' );
 	$foto     = $voorkant ? (int) get_post_thumbnail_id( $voorkant ) : 0;
@@ -517,6 +519,39 @@ function thema_rank_math_llms_extra( $s ) {
 		$regels[] = '- Contact: ' . implode( ', ', array_filter( array( $s['telefoon'] ?? '', $s['email'] ?? '' ) ) ) . '.';
 	}
 	return implode( "\n", $regels );
+}
+
+/**
+ * Uitroltaak logo-google-v1: het vierkante PNG-logo van de huidige site in de mediabibliotheek, als logo
+ * voor Google in Rank Math (schema). Het logo in de header blijft het logo uit de thema-instellingen.
+ */
+function thema_logo_google() {
+	$bestaand = (int) get_option( 'thema_logo_google', 0 );
+	if ( $bestaand && wp_get_attachment_url( $bestaand ) ) {
+		return thema_rank_math_instellen();
+	}
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+	require_once ABSPATH . 'wp-admin/includes/media.php';
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+	$bron      = 'https://lekkergeelbusje.nl/wp-content/uploads/2021/08/logo_fc-2-scaled.png';
+	$tijdelijk = download_url( $bron, 60 );
+	if ( is_wp_error( $tijdelijk ) ) {
+		return 'download mislukt: ' . $tijdelijk->get_error_message();
+	}
+	$alt = 'Logo Lekker Geel Busje';
+	$id  = media_handle_sideload( array( 'name' => 'logo-lekker-geel-busje.png', 'tmp_name' => $tijdelijk ), 0, $alt );
+	if ( is_wp_error( $id ) ) {
+		@unlink( $tijdelijk ); // phpcs:ignore
+		return 'opslaan mislukt: ' . $id->get_error_message();
+	}
+	update_post_meta( $id, '_wp_attachment_image_alt', $alt );
+	update_option( 'thema_logo_google', (int) $id, false );
+	$meta = wp_get_attachment_metadata( $id );
+	return array(
+		'logo'     => (int) $id,
+		'formaat'  => ( $meta['width'] ?? '?' ) . 'x' . ( $meta['height'] ?? '?' ),
+		'rankmath' => thema_rank_math_instellen(),
+	);
 }
 
 /**

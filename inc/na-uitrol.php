@@ -88,6 +88,7 @@ function thema_uitroltaken() {
 		'rank-math-velden-v1'     => 'thema_rank_math_velden',
 		'redirects-oude-site-v1'  => 'thema_redirects_oude_site',
 		'redirects-oude-site-v2'  => 'thema_redirects_oude_site',
+		'logo-google-v1'          => 'thema_logo_google',
 	);
 }
 
