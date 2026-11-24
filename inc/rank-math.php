@@ -531,6 +531,7 @@ function thema_redirects_oude_site() {
 	/* Doelen: 'p:' = pagina (pad), 'g:' = gelegenheid (slug), '/' = homepage. */
 	$kaart = array(
 		'contacteer-ons'              => array( 'p:contact' ),
+		'offerte-aanvragen-social-media' => array( 'p:offerte-aanvragen' ), // Bestaande redirect op de huidige site.
 		'offerte-aanvragen'           => array( 'p:offerte-aanvragen' ),
 		'privacyverklaring'           => array( 'p:privacyverklaring' ),
 		'over-ons'                    => array( 'p:over-ons' ),
