@@ -2943,6 +2943,13 @@ section.sectie-gelegenheden {
     border-top-right-radius:    0;
     border-bottom-right-radius: 0;
   }
+  /*Gelegenheden -- Geen marge links: het vastzetten bij schuiven gaf de sectie de volle schermbreedte, zodat hij rechts buiten beeld stak. De ruimte links komt nu uit padding en een clip-path met dezelfde ronde hoeken*/
+  section.sectie-gelegenheden.gelegenheden-schuiven {
+    margin-left:   0;
+    padding-left:  var(--rand-smal);
+    border-radius: 0;
+    clip-path:     inset(0 0 0 var(--rand-smal) round var(--afronding-groot) 0 0 var(--afronding-groot));
+  }
 }
 /*Gelegenheden -- Ruimte boven en onder de kaart, in te stellen met Ruimte boven en Ruimte onder bij het blok*/
 section.sectie-gelegenheden {
