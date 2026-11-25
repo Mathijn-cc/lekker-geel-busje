@@ -7641,7 +7641,7 @@ section.sectie-hero.hero-foto div.pagineervlak div.pagineerbalk {
     padding-top: 44px;
   }
   /*Hero -- Lange woorden zoals vrijgezellenfeest passen binnen de breedte*/
-  section.sectie-hero.hero-foto.hero-compact :is(h1, h2).hero-kop {
+  section.sectie-hero.hero-foto.hero-compact :is(h1, h2, p).hero-kop {
     font-size: min(39px, 9.6vw);
   }
 }
@@ -10854,12 +10854,6 @@ div.zweefknoppen.is-toetsenbord div.whatsapp-melding {
   div.zweefknoppen div.whatsapp-venster form.whatsapp-venster-formulier a.whatsapp-naar-app {
     animation: none;
   }
-}
-
-/**Hero -- Vaste kop voor Google**/
-/*Hero -- De wisselende kop is alleen beeld en loopt gewoon mee in de opmaak*/
-section.sectie-hero .hero-kop span.hero-kop-beeld {
-  display: contents;
 }
 
 /**Uitgelicht -- Banner voor een actie**/

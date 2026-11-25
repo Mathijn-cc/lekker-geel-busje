@@ -317,12 +317,12 @@ function thema_spelling_25nov() {
 }
 
 /* Datumveld van Gravity Forms: de schermlezertekst van de kalenderknop in het Nederlands. */
-add_filter( 'gettext', function ( $vertaling, $tekst, $domein ) {
-	if ( 'gravityforms' === $domein && 'Choose date on calendar' === $tekst ) {
-		return 'Kies een datum in de kalender';
+add_filter( 'gform_field_content', function ( $html, $veld ) {
+	if ( is_admin() || 'date' !== $veld->type ) {
+		return $html;
 	}
-	return $vertaling;
-}, 20, 3 );
+	return str_replace( 'Choose date on calendar', 'kies een datum in de kalender', $html );
+}, 20, 2 );
 
 /* Telefoonvelden buiten de offerte (zoals het contactformulier): cijfertoetsenbord op mobiel. */
 add_filter( 'gform_field_content', function ( $html, $veld ) {

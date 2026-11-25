@@ -24,12 +24,14 @@ $sub = trim( esc_html( $b['sub_1'] ?? '' ) . ' <span class="accent">' . esc_html
  * De kop met wisselende plaats. $pil = kleurvariant van het label.
  */
 $kop = function ( $regels_apart, $pil = 'paars' ) use ( $b, $plaatsen, $eerste, $tag ) {
-	$html = '<' . $tag . ' class="hero-kop" data-plaatsen="' . esc_attr( wp_json_encode( $plaatsen ) ) . '">';
-	/* Vaste H1 voor Google en schermlezers; de wisselende kop is dan alleen beeld. */
+	/* Vaste H1 voor Google en schermlezers; de wisselende kop staat er dan als beeld naast, zonder koptag. */
 	$google = 'h1' === $tag ? trim( (string) ( $b['kop_google'] ?? '' ) ) : '';
+	$html   = '';
 	if ( '' !== $google ) {
-		$html .= '<span class="screen-reader-text">' . esc_html( $google ) . '</span><span class="hero-kop-beeld" aria-hidden="true">';
+		$html .= '<h1 class="screen-reader-text">' . esc_html( $google ) . '</h1>';
+		$tag   = 'p';
 	}
+	$html .= '<' . $tag . ' class="hero-kop' . ( '' !== $google ? ' hero-kop-beeld' : '' ) . '" data-plaatsen="' . esc_attr( wp_json_encode( $plaatsen ) ) . '"' . ( '' !== $google ? ' aria-hidden="true"' : '' ) . '>';
 	/* Lege regels worden overgeslagen, zodat er geen gat in de kop valt. */
 	foreach ( array( 'kop_1', 'kop_2' ) as $regel ) {
 		if ( '' !== trim( (string) ( $b[ $regel ] ?? '' ) ) ) {
@@ -42,9 +44,6 @@ $kop = function ( $regels_apart, $pil = 'paars' ) use ( $b, $plaatsen, $eerste, 
 	}
 	if ( $eerste ) {
 		$html .= ' <span class="plaatspil"><span class="plaatslabel plaatslabel-' . esc_attr( $pil ) . '" data-pop-word><span data-plaats>' . esc_html( $eerste ) . '?</span></span></span>';
-	}
-	if ( '' !== $google ) {
-		$html .= '</span>';
 	}
 	return $html . '</' . $tag . '>';
 };
