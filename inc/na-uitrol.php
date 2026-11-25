@@ -100,6 +100,8 @@ function thema_uitroltaken() {
 		'plaatsnamen-gelegenheden-v1' => 'thema_plaatsnamen_gelegenheden',
 		'footer-locaties-v2'      => 'thema_footer_locaties',
 		'hub-links-weg-v1'        => 'thema_hub_links_weg',
+		'breda-v1'                => 'thema_plaats_breda',
+		'locaties-hub-v1'         => 'thema_plaats_locaties_hub',
 	);
 }
 

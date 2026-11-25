@@ -45,8 +45,34 @@ function thema_commons_beeld( $bestand, $naam, $alt ) {
 	if ( $al ) {
 		return (int) $al[0];
 	}
+	$titel = $bestand;
+	if ( 0 === strpos( $bestand, 'zoek:' ) ) {
+		/* Eerste liggende foto van minstens 1600 px breed bij deze zoekterm. */
+		$z = wp_remote_get( add_query_arg( array(
+			'action' => 'query', 'format' => 'json', 'generator' => 'search', 'gsrnamespace' => 6, 'gsrlimit' => 12,
+			'gsrsearch' => substr( $bestand, 5 ) . ' filetype:bitmap', 'prop' => 'imageinfo', 'iiprop' => 'size',
+		), 'https://commons.wikimedia.org/w/api.php' ), array( 'timeout' => 20, 'user-agent' => 'LekkerGeelBusje/1.0 (staging; info@lekkergeelbusje.nl)' ) );
+		$zd    = is_wp_error( $z ) ? array() : json_decode( wp_remote_retrieve_body( $z ), true );
+		$titel = '';
+		$paginas = (array) ( $zd['query']['pages'] ?? array() );
+		uasort( $paginas, fn( $x, $y ) => ( $x['index'] ?? 0 ) <=> ( $y['index'] ?? 0 ) );
+		foreach ( $paginas as $kand ) {
+			$ii0 = $kand['imageinfo'][0] ?? array();
+			if ( ( $ii0['width'] ?? 0 ) >= 1600 && ( $ii0['width'] ?? 0 ) > ( $ii0['height'] ?? 0 ) ) {
+				$titel = $kand['title'];
+				break;
+			}
+		}
+		if ( ! $titel ) {
+			return 0;
+		}
+		$al = get_posts( array( 'post_type' => 'attachment', 'post_status' => 'inherit', 'posts_per_page' => 1, 'fields' => 'ids', 'meta_key' => 'thema_commons_bron', 'meta_value' => $titel ) );
+		if ( $al ) {
+			return (int) $al[0];
+		}
+	}
 	$api = add_query_arg( array(
-		'action' => 'query', 'format' => 'json', 'titles' => $bestand, 'prop' => 'imageinfo',
+		'action' => 'query', 'format' => 'json', 'titles' => $titel, 'prop' => 'imageinfo',
 		'iiprop' => 'url|extmetadata', 'iiurlwidth' => 2560, 'iiextmetadatafilter' => 'Artist|LicenseShortName|LicenseUrl',
 	), 'https://commons.wikimedia.org/w/api.php' );
 	$r   = wp_remote_get( $api, array( 'timeout' => 20, 'user-agent' => 'LekkerGeelBusje/1.0 (staging; info@lekkergeelbusje.nl)' ) );
@@ -72,14 +98,14 @@ function thema_commons_beeld( $bestand, $naam, $alt ) {
 	$maker   = trim( wp_strip_all_tags( $ii['extmetadata']['Artist']['value'] ?? '' ) ) ?: 'Onbekend';
 	$licentie = $ii['extmetadata']['LicenseShortName']['value'] ?? '';
 	$lic_url = $ii['extmetadata']['LicenseUrl']['value'] ?? '';
-	$pagina  = $ii['descriptionurl'] ?? 'https://commons.wikimedia.org/wiki/' . rawurlencode( str_replace( ' ', '_', $bestand ) );
+	$pagina  = $ii['descriptionurl'] ?? 'https://commons.wikimedia.org/wiki/' . rawurlencode( str_replace( ' ', '_', $titel ) );
 	$credit  = 'Foto: <a href="' . esc_url( $pagina ) . '" target="_blank" rel="noopener">' . esc_html( $maker ) . '</a> via Wikimedia Commons';
 	if ( $licentie ) {
 		$credit .= ', ' . ( $lic_url ? '<a href="' . esc_url( $lic_url ) . '" target="_blank" rel="noopener">' . esc_html( $licentie ) . '</a>' : esc_html( $licentie ) );
 	}
 	wp_update_post( array( 'ID' => $id, 'post_excerpt' => $credit, 'post_title' => $alt ) );
 	update_post_meta( $id, '_wp_attachment_image_alt', $alt );
-	update_post_meta( $id, 'thema_commons_bron', $bestand );
+	update_post_meta( $id, 'thema_commons_bron', $titel );
 	return (int) $id;
 }
 
@@ -175,6 +201,12 @@ function thema_locatie_pagina( $c ) {
 			'items' => $c['vrijgezel']['items'],
 			'noot' => $c['vrijgezel']['noot'],
 			'achtergrond' => 'paars', 'anker' => 'vrijgezellenfeest',
+		) );
+	}
+	if ( ! empty( $c['bedrijf'] ) ) {
+		$blokken[] = $blok( array(
+			'acf_fc_layout' => 'opdrachten', 'eyebrow' => 'Bedrijfsuitje', 'kop' => $c['bedrijf']['kop'], 'intro' => $c['bedrijf']['intro'],
+			'items' => $c['bedrijf']['items'], 'noot' => $c['bedrijf']['noot'], 'anker' => 'bedrijfsuitje',
 		) );
 	}
 	$blokken[] = $blok( array( 'acf_fc_layout' => 'lopende_band', 'items' => implode( "\n", $c['band'] ), 'knop' => '', 'variant' => 'subtiel', 'tekstkleur' => 'kleurrijk', 'beweging' => 'scroll', 'rijen' => '1', 'schuin' => '-2', 'knop_vorm' => 'standaard', 'knop_kleur' => 'geel' ) );

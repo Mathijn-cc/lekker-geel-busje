@@ -283,7 +283,7 @@ function thema_footer_locaties() {
 		return 'geen menufunctie';
 	}
 	$items = array();
-	foreach ( array( 'tilburg' => 'Tilburg', 'den-bosch' => 'Den Bosch', 'rotterdam' => 'Rotterdam', 'amsterdam' => 'Amsterdam', 'maastricht' => 'Maastricht' ) as $slug => $naam ) {
+	foreach ( array( 'breda' => 'Breda', 'tilburg' => 'Tilburg', 'den-bosch' => 'Den Bosch', 'rotterdam' => 'Rotterdam', 'amsterdam' => 'Amsterdam', 'maastricht' => 'Maastricht' ) as $slug => $naam ) {
 		$p = get_page_by_path( 'locaties/' . $slug );
 		if ( $p && 'publish' === $p->post_status ) {
 			$items[] = array( 'post' => (int) $p->ID, 'titel' => $naam );
@@ -475,4 +475,189 @@ function thema_hub_links_weg() {
 		$uit[ $slug ] = $teller;
 	}
 	return $uit;
+}
+
+function thema_locatie_breda() {
+	return array(
+		'plaats' => 'Breda', 'slug' => 'breda', 'volgorde' => 1,
+		'seo_titel' => 'Partybus huren Breda | Vrijgezellenfeest en bedrijfsuitje | Lekker Geel Busje',
+		'seo_omschrijving' => 'Partybus, feestbus of discobus huren in Breda? Voor je vrijgezellenfeest, bedrijfsuitje of teamuitje: varen over de singels, karten en de Havermarkt. Binnen 1 werkdag een prijs.',
+		'hero_fotos' => array( 'gele-sfeerbus-in-de-avond-op-het-plein', 'feest-met-armen-omhoog-in-de-bus', 'gasten-lachen-aan-tafel-in-sfeerbus' ),
+		'hero_wissel' => array( 'voor een vrijgezellenfeest', 'voor een bedrijfsuitje', 'naar de Havermarkt', 'voor een tocht over de singels' ),
+		'intro_kop' => 'Op pad naar *Breda*',
+		'intro' => "Een partybus huren in Breda of naar Breda? Onze feestbus haalt je groep op waar je wilt, ook in Breda zelf. Breda is de stad van de Grote Markt, de Havermarkt en de singels rond het centrum: gezellig, Bourgondisch en precies groot genoeg voor een dag uit met de groep. Het feest begint al onderweg in de sfeerbus, met jullie muziek, koude drankjes, de chauffeur en het gastvrouwke.\n\nOf het nu een vrijgezellenfeest, een bedrijfsuitje of een teamuitje is: wij zetten jullie af bij je eerste stop, rijden mee naar de volgende en brengen iedereen op het afgesproken tijdstip weer veilig thuis.",
+		'route' => array(
+			array( 'tijd' => '13:00', 'icoon' => 'huis', 'titel' => 'Ophalen', 'tekst' => 'We halen je op in je eigen woonplaats, ook op meerdere opstapplekken. In de bus wordt er met een eerste drankje geproost.' ),
+			array( 'tijd' => '14:00', 'icoon' => 'bus', 'titel' => 'Actie', 'tekst' => 'Karten bij BattleKart, bowlen of lasergamen bij Vier Hoog, of ontsnappen uit de Koepelgevangenis.' ),
+			array( 'tijd' => '16:30', 'icoon' => 'glas', 'titel' => 'Over de singels', 'tekst' => 'Met een sloep door de singels van Breda, of zelf cocktails shaken in een workshop.' ),
+			array( 'tijd' => '18:30', 'icoon' => 'bestek', 'titel' => 'Eten op de Grote Markt', 'tekst' => 'Samen aan tafel met uitzicht op de Grote Kerk, bijvoorbeeld bij Mr. Moos of De Boterhal.' ),
+			array( 'tijd' => '21:00', 'icoon' => 'muziek', 'titel' => 'Havermarkt', 'tekst' => 'Door naar de kroegen van de Havermarkt. De bus komt op een afgesproken tijd terug.' ),
+			array( 'tijd' => '01:00', 'icoon' => 'maan', 'titel' => 'Thuisbrengen', 'tekst' => 'Iedereen veilig en tegelijk naar huis, met de laatste meezinger in de bus.' ),
+		),
+		'tips_kop' => 'Wat te doen in *Breda*',
+		'tips_intro' => 'Wat te doen in Breda met een groep? Uitjes die goed werken voor een vrijgezellenfeest, een bedrijfsuitje of een dag met vrienden.',
+		'vrijgezel' => array(
+			'kop' => 'Vrijgezellenfeest in *Breda*',
+			'intro' => 'Een vrijgezellenfeest in Breda, voor vrouwen of voor mannen. Een paar ideeën om de dag mee te vullen.',
+			'items' => array(
+				array( 'soort' => 'Voor vrouwen', 'titel' => 'Cocktails shaken', 'tekst' => 'Een cocktailworkshop waar je in twee uur je lievelingscocktails leert maken, en daarna proosten op de Havermarkt.' ),
+				array( 'soort' => 'Voor vrouwen', 'titel' => 'Varen over de singels', 'tekst' => 'Met een sloep door de singels van Breda, met muziek en een drankje aan boord.' ),
+				array( 'soort' => 'Voor mannen', 'titel' => 'Racen en ontsnappen', 'tekst' => 'Karten bij BattleKart en daarna ontsnappen uit de oude Koepelgevangenis bij Prison Escape.' ),
+				array( 'soort' => 'Samen', 'titel' => 'Boulen en borrelen', 'tekst' => 'Jeu de boules, simracen en eten bij The Boules Club, en de avond afsluiten in de kroeg.' ),
+			),
+			'noot' => 'Wij rijden, jullie feesten: de bus haalt iedereen op en brengt iedereen samen weer thuis.',
+		),
+		'bedrijf' => array(
+			'kop' => 'Bedrijfsuitje of teamuitje in *Breda*',
+			'intro' => 'Een bedrijfsuitje, personeelsuitje of teamuitje in Breda. Iedereen komt tegelijk aan en niemand hoeft te rijden.',
+			'items' => array(
+				array( 'soort' => 'Teambuilding', 'titel' => 'Samen ontsnappen', 'tekst' => 'Escape rooms in de Koepelgevangenis of bij Vier Hoog. Samenwerken onder tijdsdruk, met een borrel na afloop.' ),
+				array( 'soort' => 'Competitie', 'titel' => 'Tegen elkaar racen', 'tekst' => 'Karten met power-ups bij BattleKart, of bowlen en lasergamen bij Vier Hoog. Met een prijsuitreiking voor de winnaar.' ),
+				array( 'soort' => 'Ontspannen', 'titel' => 'Varen en dineren', 'tekst' => 'Een rondvaart over de singels en daarna samen eten op de Grote Markt.' ),
+				array( 'soort' => 'Groot gezelschap', 'titel' => 'Meerdere bussen', 'tekst' => 'Meer dan 88 collega\'s? Dan rijden er meerdere bussen tegelijk. Een factuur op bedrijfsnaam kan.' ),
+			),
+			'noot' => 'Binnen 1 werkdag een vaste all-in prijs, zodat het vervoer meteen in de begroting staat.',
+		),
+		'tips' => array(
+			array( 'titel' => 'Varen over de singels', 'soort' => 'Op het water', 'foto' => array( 'commons', 'zoek:Breda singel boot', 'breda-singels-varen', 'Varen over de singels in Breda' ), 'reserve' => 'gele-sfeerbus-in-de-avond-op-het-plein', 'tekst' => 'Ontdek Breda vanaf het water in een sloep. Laat je rondvaren door een schipper of huur zelf een bootje, met een drankje aan boord.', 'info' => 'Vertrek vanaf de Haven', 'link' => array( array( 'https://www.bootjevarenbreda.nl/', 'aren' ), array( 'https://bootjevarenbreda.nl/', 'aren' ), array( 'https://www.rondvaartbreda.nl/', 'ondvaart' ) ), 'linktekst' => 'Bekijk de boten' ),
+			array( 'titel' => 'BattleKart Breda', 'soort' => 'Karten', 'foto' => array(), 'reserve' => 'feest-met-blauw-licht-in-de-sfeerbus', 'tekst' => 'Karten als in een videogame, met power-ups op de baan. Een uitje dat werkt voor teambuilding en voor een fanatiek vrijgezellenfeest.', 'info' => 'Indoor', 'link' => array( array( 'https://www.battlekart.com/nl/breda', 'reda' ), array( 'https://www.battlekart.com/breda', 'reda' ), array( 'https://battlekart.nl/breda', 'reda' ) ), 'linktekst' => 'Bekijk BattleKart' ),
+			array( 'titel' => 'The Boules Club', 'soort' => 'Boulen en borrel', 'foto' => array(), 'reserve' => 'gasten-delen-shotjes-uit-in-de-bus', 'tekst' => 'Jeu de boules, simracen en meer spellen op 800 vierkante meter, met eten en drinken erbij. Voor een avond uit of een bedrijfsuitje.', 'info' => 'Groepsactiviteiten', 'link' => array( array( 'https://www.theboulesclub.nl/breda', 'reda' ), array( 'https://theboulesclub.nl/breda/', 'reda' ), array( 'https://www.theboulesclub.nl/', 'oules' ) ), 'linktekst' => 'Bekijk The Boules Club' ),
+			array( 'titel' => 'Vier Hoog', 'soort' => 'Bowlen en lasergamen', 'foto' => array(), 'reserve' => 'discolicht-en-feest-in-de-sfeerbus', 'tekst' => 'Bowlen, lasergamen, shuffleboarden en escape rooms op een trendy locatie, met ruimte voor een borrel en een goede maaltijd.', 'info' => 'Alles onder één dak', 'link' => array( array( 'https://www.vierhoog.nl/', 'oog' ), array( 'https://vierhoog.nl/', 'oog' ), array( 'https://www.vierhoogbreda.nl/', 'oog' ) ), 'linktekst' => 'Bekijk Vier Hoog' ),
+			array( 'titel' => 'Prison Escape', 'soort' => 'Escape', 'foto' => array( 'commons', 'zoek:Koepelgevangenis Breda', 'breda-koepelgevangenis', 'De Koepelgevangenis in Breda' ), 'reserve' => 'tropisch-themafeest-in-de-sfeerbus', 'tekst' => 'Ontsnap met je groep uit de oude Koepelgevangenis van Breda. Een spannend uitje voor vrienden en collega\'s.', 'info' => 'Koepelgevangenis', 'link' => array( array( 'https://www.prisonescape.nl/', 'scape' ), array( 'https://prisonescape.nl/', 'scape' ) ), 'linktekst' => 'Bekijk Prison Escape' ),
+			array( 'titel' => 'Cocktailworkshop', 'soort' => 'Workshop', 'foto' => array(), 'reserve' => 'drankjes-halen-aan-de-bar-in-de-bus', 'tekst' => 'Leer in twee uur tijd je lievelingscocktails shaken bij CoCo The Cocktail Company. Leuk voor een vriendinnenuitje of vrijgezellenfeest.', 'info' => 'Ca. 2 uur', 'link' => array( array( 'https://www.cocococktailcompany.nl/', 'ocktail' ), array( 'https://cocococktailcompany.nl/', 'ocktail' ), array( 'https://www.thecocktailcompany.nl/', 'ocktail' ) ), 'linktekst' => 'Bekijk de workshop' ),
+			array( 'titel' => 'Citygame of kroegentocht', 'soort' => 'Spel in de stad', 'foto' => array( 'commons', 'zoek:Grote Markt Breda', 'breda-grote-markt', 'De Grote Markt in Breda met de Grote Kerk' ), 'reserve' => 'vriendengroep-aan-tafel-in-sfeerbus', 'tekst' => 'Een speurtocht door de stad langs de leukste plekjes, met grappige opdrachten in de kroegen onderweg.', 'info' => 'Start wanneer het jullie uitkomt', 'link' => array( array( 'https://www.citygame.com/nl/breda', 'reda' ), array( 'https://www.escapetours.nl/breda', 'reda' ) ), 'linktekst' => 'Bekijk de citygame' ),
+			array( 'titel' => 'VR World Breda', 'soort' => 'Virtual reality', 'foto' => array(), 'reserve' => 'meezingen-met-microfoon-in-sfeerbus', 'tekst' => 'Zet een VR-bril op en ontsnap samen uit spannende virtuele escape rooms. Weer eens iets anders dan een gewoon uitje.', 'info' => 'VR escape rooms', 'link' => array( array( 'https://www.vrworld.nl/breda', 'reda' ), array( 'https://vrworld.nl/breda/', 'reda' ), array( 'https://www.vrworldbreda.nl/', 'VR' ) ), 'linktekst' => 'Bekijk VR World' ),
+			array( 'titel' => 'Concert in Mezz', 'soort' => 'Poppodium', 'foto' => array(), 'reserve' => 'feest-met-armen-omhoog-in-de-bus', 'tekst' => 'Het poppodium van Breda, van grote namen tot clubnachten. Wij zetten je vlak bij de deur af en halen je na de laatste toegift weer op.', 'info' => 'Keizerstraat', 'link' => array( array( 'https://www.mezz.nl/', 'ezz' ), array( 'https://mezz.nl/', 'ezz' ) ), 'linktekst' => 'Bekijk het programma' ),
+		),
+		'band' => array( 'Grote Markt', 'Havermarkt', 'Singels', 'Koepelgevangenis', 'BattleKart', 'Mezz', 'Haven' ),
+		'gebieden' => array(
+			array(
+				'eyebrow' => 'Eten en borrelen', 'kop' => 'De *Grote Markt*',
+				'tekst' => "Het hart van Breda, met de Grote Kerk als decor en terrassen die het hele plein vullen. Hier vind je met de groep makkelijk een plek om te eten, en het blijft er tot laat gezellig.\n\nReserveer met een grote groep op tijd, zeker in het weekend.",
+				'plekken' => array(
+					array( 'naam' => 'Mr. Moos Bar & Bistro', 'soort' => 'Bistro', 'tekst' => 'Levendig, energiek en vaak vol. Een fijne plek om met de groep te eten voordat de avond begint.', 'adres' => 'Grote Markt 40', 'link' => array( array( 'https://www.mrmoos.nl/', 'Moos' ), array( 'https://mrmoos.nl/', 'Moos' ) ) ),
+					array( 'naam' => 'De Boterhal', 'soort' => 'Brouwerij en restaurant', 'tekst' => 'Eigen bier van de tap in een oud pand aan de markt. Beneden zie je de brouwerij en zit een kleine bar voor een feestje.', 'adres' => 'Grote Markt 19', 'link' => array( array( 'https://www.deboterhal.nl/', 'oterhal' ), array( 'https://deboterhal.nl/', 'oterhal' ) ) ),
+					array( 'naam' => '\'t Hart van Breda', 'soort' => 'Café en restaurant', 'tekst' => 'Een groot café midden op de markt, van lunch tot borrel. Handig met een grote groep.', 'adres' => 'Grote Markt 4', 'link' => array( array( 'https://www.thartvanbreda.nl/', 'reda' ), array( 'https://thartvanbreda.nl/', 'reda' ) ) ),
+				),
+			),
+			array(
+				'eyebrow' => 'Stappen', 'kop' => 'De *Havermarkt*',
+				'tekst' => "Achter de Grote Kerk ligt de Havermarkt, een plein vol kroegen en terrassen. Hier eindigt een dagje Breda vaak: eerst een speciaalbier, later nog even dansen.\n\nHandig met een groep: alles ligt op loopafstand van elkaar. Wij zetten jullie in de buurt af en spreken vooraf een vaste ophaalplek af.",
+				'plekken' => array(
+					array( 'naam' => 'Café Bruxelles', 'soort' => 'Café', 'tekst' => 'Sfeervol en warm ingericht, met veel Belgische bieren en goede muziek. Tot laat open in het weekend.', 'adres' => 'Havermarkt 5', 'link' => array( array( 'https://www.cafebruxelles.nl/', 'ruxelles' ), array( 'https://cafebruxelles.nl/', 'ruxelles' ) ) ),
+					array( 'naam' => 'Suikerkist', 'soort' => 'Café en restaurant', 'tekst' => 'Een groot terras, veel gins om zelf te mixen en een gevarieerde borrelkaart. Fijn met vrienden.', 'adres' => 'Havermarkt 2', 'link' => array( array( 'https://www.suikerkist.nl/', 'uikerkist' ), array( 'https://suikerkist.nl/', 'uikerkist' ) ) ),
+					array( 'naam' => 'Café Corenmaet', 'soort' => 'Café en restaurant', 'tekst' => 'Ruime tafels, royale gerechten en een terras op het plein. Een goede eerste stop voor de groep.', 'adres' => 'Havermarkt 1', 'link' => array( array( 'https://www.corenmaet.nl/', 'orenmaet' ), array( 'https://corenmaet.nl/', 'orenmaet' ) ) ),
+				),
+			),
+		),
+		'faq' => array_merge(
+			array(
+				array( 'Kunnen jullie ons ook in Breda ophalen?', 'Ja. Of je nu uit Breda vertrekt of naar Breda toe gaat: we halen je groep op waar je wilt en rijden de hele dag mee. Zo huur je een partybus in Breda voor een vrijgezellenfeest, bedrijfsuitje of verjaardag.' ),
+				array( 'Waar zetten jullie ons af in Breda?', 'Zo dicht mogelijk bij je eerste stop. Rond de Grote Markt en de Havermarkt is het centrum grotendeels autoluw, dus daar spreken we vooraf een plek af op een paar minuten lopen. Daar halen we jullie ook weer op.' ),
+				array( 'Is Breda geschikt voor een vrijgezellenfeest?', 'Heel geschikt. Een cocktailworkshop, varen over de singels, karten of een escape in de Koepelgevangenis, en de avond afsluiten op de Havermarkt. Wij zorgen dat iedereen er samen komt en samen weer thuiskomt.' ),
+				array( 'Regelen jullie ook vervoer voor een bedrijfsuitje of teamuitje in Breda?', 'Ja. We rijden het hele team, van kantoor naar de activiteit, door naar het diner en weer terug. Meer dan 88 personen? Dan rijden er meerdere bussen. Een factuur op bedrijfsnaam kan.' ),
+			),
+			thema_locatie_vaste_vragen( 'Breda' )
+		),
+	);
+}
+
+/**
+ * Uitroltaak breda-v1: de plaatspagina Breda, Breda in de footer en als link in de gelegenheden.
+ */
+function thema_plaats_breda() {
+	if ( function_exists( 'set_time_limit' ) ) {
+		set_time_limit( 0 );
+	}
+	$uit          = array( 'pagina' => thema_locatie_pagina( thema_locatie_breda() ) );
+	$uit['footer'] = thema_footer_locaties();
+	foreach ( array(
+		'vrijgezellenfeest' => array( 'ook naar Breda, Eindhoven', 'ook naar ' . thema_plaats_anker( 'breda', 'Breda' ) . ', Eindhoven' ),
+		'bedrijfsuitje'     => array( 'van Eindhoven tot Breda,', 'van Eindhoven tot ' . thema_plaats_anker( 'breda', 'Breda' ) . ',' ),
+	) as $slug => $vervang ) {
+		$post = get_page_by_path( $slug, OBJECT, 'gelegenheid' );
+		if ( ! $post ) {
+			continue;
+		}
+		$blokken = get_field( 'field_blokken', $post->ID, false );
+		$n       = 0;
+		foreach ( (array) $blokken as $i => $b ) {
+			foreach ( $b as $k => $w ) {
+				if ( is_string( $w ) && false !== strpos( $w, $vervang[0] ) ) {
+					$blokken[ $i ][ $k ] = str_replace( $vervang[0], $vervang[1], $w );
+					$n++;
+				}
+			}
+		}
+		if ( $n ) {
+			update_field( 'field_blokken', $blokken, $post->ID );
+		}
+		$uit[ $slug ] = $n;
+	}
+	return $uit;
+}
+
+/**
+ * Uitroltaak locaties-hub-v1: de overzichtspagina /locaties/ opnieuw: geen Oisterwijk, geen "volgen binnenkort",
+ * wel de plaatspagina's als kaarten en duidelijk dat de bus overal heen rijdt.
+ */
+function thema_plaats_locaties_hub() {
+	$hub = get_page_by_path( 'locaties' );
+	if ( ! $hub || ! function_exists( 'update_field' ) ) {
+		return 'geen hub';
+	}
+	$id      = (int) $hub->ID;
+	$offerte = home_url( '/offerte-aanvragen/' );
+	$std     = array(
+		'achtergrond' => 'standaard', 'achtergrond_1' => 'paars', 'achtergrond_2' => 'standaard', 'achtergrond_richting' => 'boven',
+		'ruimte_boven' => 'normaal', 'ruimte_onder' => 'normaal', 'kopniveau' => 'auto', 'anker' => '',
+	);
+	$steden = array(
+		'breda'      => array( 'Breda', 'Vrijgezellenfeest en bedrijfsuitje', 'breda-grote-markt', 'Varen over de singels, karten, een escape in de Koepelgevangenis en stappen op de Havermarkt.' ),
+		'tilburg'    => array( 'Tilburg', 'Proeven en stappen', 'gele-sfeerbus-bij-paleis-raadhuis-tilburg', 'Schrobbelèr en La Trappe proeven, een concert in 013 en borrelen aan de Piushaven.' ),
+		'den-bosch'  => array( 'Den Bosch', 'Bourgondisch uitje', 'den-bosch-binnendieze-uilenburg', 'Varen over de Binnendieze, speciaalbier op de Tramkade en eten op de Korte Putstraat.' ),
+		'rotterdam'  => array( 'Rotterdam', 'Karaoke en actie', 'sfeerbus-rotterdam-erasmusbrug', 'Karaoke in een eigen kamer, abseilen van de Euromast en de Witte de Withstraat.' ),
+		'amsterdam'  => array( 'Amsterdam', 'Grachten en shows', 'amsterdam-grachten-boten', 'Een borrelboot door de grachten, karaoke in een ballenbak en een dinnershow.' ),
+		'maastricht' => array( 'Maastricht', 'Weekendje buitenland', 'maastricht-maas-sint-servaasbrug', 'Een rooftopbar, een sloep op de Maas, de grotten en een bierproeverij in Wyck.' ),
+	);
+	$kaarten = array();
+	foreach ( $steden as $slug => $s ) {
+		$p = get_page_by_path( 'locaties/' . $slug );
+		if ( ! $p ) {
+			continue;
+		}
+		$kaarten[] = array(
+			'titel' => 'Partybus naar ' . $s[0], 'soort' => $s[1], 'beeld' => thema_beeld_op_naam( $s[2] ), 'tijdelijk' => false,
+			'tekst' => $s[3], 'info' => '', 'link' => get_permalink( $p ), 'linktekst' => 'Bekijk ' . $s[0],
+		);
+	}
+	$blokken = array(
+		array(
+			'acf_fc_layout' => 'hero', 'kop_1' => 'Partybus huren', 'kop_2' => 'waar je ook heen wilt', 'plaatsen' => '',
+			'sub_1' => 'Jouw feest begint', 'sub_2' => 'al in de bus!', 'knop' => thema_link( 'Vraag je prijs aan', $offerte ), 'knop_tonen' => 1, 'toon_score' => 1,
+			'stijl' => 'collage', 'fotos' => array_values( array_filter( array( thema_beeld_op_naam( 'sfeerbus-rotterdam-erasmusbrug' ), thema_beeld_op_naam( 'feest-met-armen-omhoog-in-de-bus' ), thema_beeld_op_naam( 'gele-sfeerbus-bij-paleis-raadhuis-tilburg' ) ) ) ),
+			'bento_klein' => 'Chauffeur en gastvrouwke', 'bento_groot' => 'Tot 88 personen', 'vorm' => 'auto', 'hoogte' => 'compact',
+			'knop_vorm' => 'standaard', 'knop_kleur' => 'geel', 'ruimte_onder' => 'groot', 'kopniveau' => 'auto', 'anker' => 'top',
+		),
+		array_merge( $std, array(
+			'acf_fc_layout' => 'aan_boord', 'eyebrow' => 'Bestemmingen', 'kop' => 'Wij rijden *overal* heen',
+			'tekst' => "Met de partybus naar een stad, een festival, een feestlocatie of over de grens: we rijden door heel Nederland en daarbuiten. Jullie kiezen de bestemming, wij zorgen dat de hele groep er samen komt en samen weer thuiskomt.\n\nHieronder vind je steden waar groepen graag naartoe gaan, met tips voor activiteiten, eten en uitgaan. Staat jouw bestemming er niet tussen? Geen probleem, vraag gewoon een prijs aan.",
+			'plaatsing' => 'boven', 'anker' => 'bestemmingen',
+		) ),
+		array_merge( $std, array(
+			'acf_fc_layout' => 'tips', 'eyebrow' => 'Inspiratie', 'kop' => 'Populaire *bestemmingen*',
+			'intro' => 'Per stad de leukste uitjes, een voorbeeldroute en plekken om te eten en te stappen.',
+			'items' => $kaarten, 'kolommen' => '3', 'kop_uitlijning' => 'links',
+		) ),
+		array_merge( $std, array( 'acf_fc_layout' => 'gelegenheden', 'kop' => "Wat is jouw reden\n*voor een feestje?*", 'weergave' => 'schuiven', 'keuze' => '', 'achtergrond' => 'paars', 'anker' => 'gelegenheden' ) ),
+		array_merge( $std, array( 'acf_fc_layout' => 'reviews', 'kop' => 'Deze feestgangers<br>*reden al mee*', 'weergave' => 'compact', 'achtergrond' => 'geel', 'anker' => 'reviews' ) ),
+		array_merge( $std, thema_blok_offerte(), array( 'kop' => 'Waar gaat jullie *feestje* naartoe?', 'achtergrond' => 'geel', 'anker' => 'offerte' ) ),
+	);
+	update_field( 'field_blokken', $blokken, $id );
+	wp_update_post( array( 'ID' => $id, 'post_title' => 'Bestemmingen' ) );
+	if ( function_exists( 'thema_seo_titel_zetten' ) ) {
+		thema_seo_titel_zetten( 'Partybus huren naar elke bestemming | Lekker Geel Busje', $id );
+		thema_seo_omschrijving_zetten( 'Partybus huren naar Breda, Tilburg, Den Bosch, Rotterdam, Amsterdam, Maastricht of waar je ook heen wilt. Tips per stad en binnen 1 werkdag een vaste prijs.', $id );
+	}
+	return array( 'id' => $id, 'kaarten' => count( $kaarten ) );
 }

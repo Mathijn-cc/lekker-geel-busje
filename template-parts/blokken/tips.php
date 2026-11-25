@@ -30,7 +30,8 @@ echo thema_sectie_open( $b, 'tips', 'tips-' . $kolommen );
 						<?php if ( ! empty( $t['tekst'] ) ) : ?><p class="tip-omschrijving"><?php echo esc_html( $t['tekst'] ); ?></p><?php endif; ?>
 						<?php if ( ! empty( $t['info'] ) ) : ?><p class="tip-info"><?php echo esc_html( $t['info'] ); ?></p><?php endif; ?>
 						<?php if ( ! empty( $t['link'] ) ) : ?>
-							<a class="tip-link" href="<?php echo esc_url( $t['link'] ); ?>" target="_blank" rel="noopener"><?php echo esc_html( $t['linktekst'] ?: 'Bekijk website' ); ?><span class="screen-reader-text"> van <?php echo esc_html( $t['titel'] ); ?></span> <?php echo thema_icoon( 'extern', 15, 2.4 ); ?></a>
+							<?php $extern = wp_parse_url( $t['link'], PHP_URL_HOST ) && wp_parse_url( $t['link'], PHP_URL_HOST ) !== wp_parse_url( home_url(), PHP_URL_HOST ); ?>
+							<a class="tip-link" href="<?php echo esc_url( $t['link'] ); ?>"<?php echo $extern ? ' target="_blank" rel="noopener"' : ''; ?>><?php echo esc_html( $t['linktekst'] ?: 'Bekijk website' ); ?><?php if ( $extern ) : ?><span class="screen-reader-text"> van <?php echo esc_html( $t['titel'] ); ?></span> <?php echo thema_icoon( 'extern', 15, 2.4 ); ?><?php else : ?> <?php echo thema_icoon( 'chevron', 15, 2.4 ); ?><?php endif; ?></a>
 						<?php endif; ?>
 					</div>
 				</article>
