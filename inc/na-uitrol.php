@@ -103,6 +103,7 @@ function thema_uitroltaken() {
 		'breda-v1'                => 'thema_plaats_breda',
 		'locaties-hub-v1'         => 'thema_plaats_locaties_hub',
 		'breda-cocktail-link-v1'  => 'thema_breda_cocktail_link',
+		'foto-kandidaten-v1'      => 'thema_foto_kandidaten',
 	);
 }
 

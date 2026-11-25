@@ -32,6 +32,7 @@ require THEMA_PAD . '/inc/stoelverkoop.php';
 require THEMA_PAD . '/inc/inhoud-vrienden-van-amstel.php';
 require THEMA_PAD . '/inc/inhoud-locaties.php';
 require THEMA_PAD . '/inc/inhoud-locaties-steden.php';
+require THEMA_PAD . '/inc/inhoud-fotos-vrij.php';
 require THEMA_PAD . '/inc/na-uitrol.php';
 require THEMA_PAD . '/inc/offerteformulier.php';
 require THEMA_PAD . '/inc/adreszoeker.php';
