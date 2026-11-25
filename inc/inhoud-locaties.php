@@ -186,7 +186,7 @@ function thema_locatie_pagina( $c ) {
 		'vorm' => 'auto', 'hoogte' => 'compact', 'knop_vorm' => 'standaard', 'knop_kleur' => 'geel', 'ruimte_onder' => 'groot', 'kopniveau' => 'auto', 'anker' => 'top',
 	);
 	$blokken[] = $blok( array( 'acf_fc_layout' => 'aan_boord', 'eyebrow' => $c['plaats'] . ' als bestemming', 'kop' => $c['intro_kop'], 'tekst' => $c['intro'], 'plaatsing' => 'boven', 'anker' => 'bussen' ) );
-	$blokken[] = $blok( array( 'acf_fc_layout' => 'lopende_band', 'items' => "Geen gedoe met treintijden.\nGeen BOB nodig.\nNiemand die eerder weg moet.", 'knop' => '', 'variant' => 'paars', 'tekstkleur' => 'kleurrijk', 'beweging' => 'vanzelf', 'rijen' => '1', 'schuin' => '0', 'knop_vorm' => 'standaard', 'knop_kleur' => 'geel', 'ruimte_boven' => 'groot' ) );
+	$blokken[] = $blok( array( 'acf_fc_layout' => 'lopende_band', 'items' => "Geen gedoe met treintijden.\nGeen Bob nodig.\nNiemand die eerder weg moet.", 'knop' => '', 'variant' => 'paars', 'tekstkleur' => 'kleurrijk', 'beweging' => 'vanzelf', 'rijen' => '1', 'schuin' => '0', 'knop_vorm' => 'standaard', 'knop_kleur' => 'geel', 'ruimte_boven' => 'groot' ) );
 	$blokken[] = $blok( array(
 		'acf_fc_layout' => 'route', 'eyebrow' => 'Zo kan het', 'kop' => 'Een dagje ' . $c['plaats'] . ' *met de bus*',
 		'intro' => 'Zo ziet een rit naar ' . $c['plaats'] . ' er bijvoorbeeld uit. Jullie bepalen de route, wij zorgen dat iedereen er komt.',

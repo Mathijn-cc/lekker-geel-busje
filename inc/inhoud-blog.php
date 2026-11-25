@@ -170,7 +170,7 @@ function thema_blog_eerste_artikelen() {
 
 <h2>6. Regel het vervoer in één keer</h2>
 <p>Met een groep van tien, twintig of veertig mensen van de ene naar de andere plek gaan is gedoe. Wie rijdt, wie neemt de trein, waar parkeer je en wie raakt onderweg kwijt? Met een eigen bus blijft de groep bij elkaar en hoeft niemand de Bob te zijn.</p>
-<p>Kies je voor een <a href="{$landing}">partybus voor je vrijgezellenfeest</a>, dan wordt de rit zelf onderdeel van het feest. In onze sfeerbus zitten professionele verlichting, lasers, rook en een goede geluidsinstallatie, en het gastvrouwke zorgt voor de drankjes. Je krijgt binnen 1 werkdag een vaste all-in prijs, zodat je die meteen in het budget kunt zetten.</p>
+<p>Kies je voor een <a href="{$landing}">partybus voor je vrijgezellenfeest</a>, dan wordt de rit zelf onderdeel van het feest. In onze sfeerbus zitten professionele verlichting, lasers, rook, microfoons en een goede geluidsinstallatie, en het gastvrouwke zorgt voor de drankjes. Je krijgt binnen 1 werkdag een vaste all-in prijs, zodat je die meteen in het budget kunt zetten.</p>
 
 <h2>7. Zorg voor sfeer: dresscode, playlist en opdrachten</h2>
 <p>Kleine dingen maken het verschil. Een dresscode of thema, zoals iedereen in dezelfde kleur of een sjerp voor de vrijgezel, ziet er op elke foto feestelijk uit. Een gezamenlijke playlist met de favorieten van de vrijgezel zet meteen de toon. En met een paar <a href="{$opdrachten}">opdrachten voor in de bus</a> vliegt de tijd tussen twee stops voorbij.</p>
@@ -353,8 +353,8 @@ function thema_blog_artikel_ideeen() {
 	$opdrachten = home_url( '/blog/spelletjes-opdrachten-vrijgezellenfeest-bus/' );
 	return array(
 		'slug'         => 'vrijgezellenfeest-ideeen',
-		'titel'        => 'Vrijgezellenfeest ideeën: 20 leuke activiteiten voor de groep',
-		'seo_titel'    => 'Vrijgezellenfeest ideeën: 20 activiteiten | Lekker Geel Busje',
+		'titel'        => 'Vrijgezellenfeestideeën: 20 leuke activiteiten voor de groep',
+		'seo_titel'    => 'Vrijgezellenfeestideeën: 20 activiteiten | Lekker Geel Busje',
 		'samenvatting' => 'Op zoek naar ideeën voor het vrijgezellenfeest? Twintig activiteiten voor elke vrijgezel, van actief en creatief tot proeven, ontspannen en feesten.',
 		'beeld'        => 'groepsselfie-met-lichtstaven-in-partybus',
 		'beeld_oud'    => 'selfie.jpg',
@@ -514,7 +514,7 @@ function thema_blog_artikel_opdrachten() {
 <li><strong>Neem een tas mee</strong> met kaartjes, pennen, de bingokaarten en eventueel kleine prijsjes.</li>
 <li><strong>Plan per rit één of twee opdrachten,</strong> dan blijft er ook tijd om gewoon te kletsen en te zingen.</li>
 </ul>
-<p>Zoek je ideeën voor de rest van de dag? Bekijk onze <a href="{$ideeen}">vrijgezellenfeest ideeën</a>, en vink met de <a href="{$lijst}">checklist</a> af wat je al geregeld hebt.</p>
+<p>Zoek je ideeën voor de rest van de dag? Bekijk onze <a href="{$ideeen}">vrijgezellenfeestideeën</a>, en vink met de <a href="{$lijst}">checklist</a> af wat je al geregeld hebt.</p>
 HTML,
 	);
 }

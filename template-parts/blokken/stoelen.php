@@ -162,7 +162,7 @@ echo thema_sectie_open( $b, 'stoelen' );
 						$minima = array_unique( array_filter( array_column( $ritten, 'minimum' ) ) );
 						if ( 1 === count( $minima ) ) :
 							?>
-							<p class="stoelen-stap-intro"><?php echo esc_html( 'De busrit gaat door vanaf ' . reset( $minima ) . ' verkochte stoelen.' ); ?></p>
+							<p class="stoelen-stap-intro"><?php echo esc_html( 'De bus rijdt vanaf ' . reset( $minima ) . ' verkochte stoelen. Met een vinkje rijdt de bus die avond zeker; bij "Nog 8" zijn er nog 8 stoelen nodig.' ); ?></p>
 						<?php endif; ?>
 						<?php echo $foutje( 'rit' ); // phpcs:ignore ?>
 						<div class="stoelen-keuzes stoelen-ritten">
@@ -175,12 +175,29 @@ echo thema_sectie_open( $b, 'stoelen' );
 									$staat = 'Uitverkocht';
 								} elseif ( $dicht ) {
 									$staat = 'Aanmelden gesloten';
+								} elseif ( $gaat && $krap ) {
+									$staat = 'Rijdt zeker, ' . ( 1 === $rit['vrij'] ? 'nog 1 stoel vrij' : 'nog ' . $rit['vrij'] . ' stoelen vrij' );
 								} elseif ( $krap ) {
 									$staat = 1 === $rit['vrij'] ? 'Laatste stoel!' : 'Nog ' . $rit['vrij'] . ' stoelen';
 								} elseif ( $gaat ) {
 									$staat = 'Rijdt zeker';
+								} elseif ( $rit['minimum'] ) {
+									$nodig = $rit['minimum'] - $rit['bezet'];
+									$staat = 'Nog ' . $nodig . ( 1 === $nodig ? ' stoel' : ' stoelen' ) . ' nodig voordat de bus rijdt';
 								} else {
 									$staat = '';
+								}
+								/* Kort label op de tegel: Rijdt (met vink), Nog x vrij, of Nog x nodig. */
+								if ( $dicht ) {
+									$label = 'vol' === $rit['status'] ? 'Vol' : 'Dicht';
+								} elseif ( $gaat ) {
+									$label = $krap ? $rit['vrij'] . ' vrij' : 'Rijdt';
+								} elseif ( $krap ) {
+									$label = 'Nog ' . $rit['vrij'];
+								} elseif ( $rit['minimum'] ) {
+									$label = 'Nog ' . ( $rit['minimum'] - $rit['bezet'] );
+								} else {
+									$label = '';
 								}
 								$klassen = 'stoelen-keuze stoelen-rit' . ( $dicht ? ' is-dicht' : '' ) . ( $krap ? ' is-krap' : '' );
 								?>
@@ -192,8 +209,9 @@ echo thema_sectie_open( $b, 'stoelen' );
 										<span class="stoelen-rit-maand"><?php echo esc_html( thema_stoelen_datum( $rit['datum'], 'M' ) ); ?></span>
 									</span>
 									<span class="sr-tekst"><?php echo esc_html( ucfirst( thema_stoelen_datum( $rit['datum'], 'l j F Y' ) ) . ( $rit['label'] ? ', ' . $rit['label'] : '' ) . ( $staat ? ', ' . $staat : '' ) ); ?></span>
-									<?php if ( $staat ) : ?>
-										<span class="stoelen-rit-staat<?php echo $gaat && ! $dicht && ! $krap ? ' is-zeker' : ''; ?>" aria-hidden="true"><?php echo $gaat && ! $dicht && ! $krap ? thema_icoon( 'vink', 10, 3 ) : ''; ?><?php echo esc_html( $krap && ! $dicht ? 'Nog ' . $rit['vrij'] : ( 'Rijdt zeker' === $staat ? 'Zeker' : ( 'Aanmelden gesloten' === $staat ? 'Dicht' : ( 'Uitverkocht' === $staat ? 'Vol' : $staat ) ) ) ); ?></span>
+									<?php if ( '' !== $label ) : ?>
+										<?php $zeker = $gaat && ! $dicht; ?>
+										<span class="stoelen-rit-staat<?php echo $zeker ? ' is-zeker' : ( ! $dicht && ! $krap ? ' is-nodig' : '' ); ?>" aria-hidden="true"><?php echo $zeker ? thema_icoon( 'vink', 10, 3 ) : ''; ?><?php echo esc_html( $label ); ?></span>
 									<?php endif; ?>
 								</label>
 							<?php endforeach; ?>

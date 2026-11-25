@@ -451,8 +451,8 @@ HTML,
 		/* 4. Ideeën. */
 		array(
 			'slug'         => 'bruiloft-ideeen',
-			'titel'        => 'Bruiloft ideeën: 20 tips voor een persoonlijke trouwdag',
-			'seo_titel'    => 'Bruiloft ideeën: 20 tips voor jullie trouwdag | Lekker Geel Busje',
+			'titel'        => 'Bruiloftideeën: 20 tips voor een persoonlijke trouwdag',
+			'seo_titel'    => 'Bruiloftideeën: 20 tips voor jullie trouwdag | Lekker Geel Busje',
 			'samenvatting' => 'Twintig ideeën om jullie bruiloft persoonlijk te maken, van de ceremonie en het diner tot het feest, spelletjes voor de gasten en een zorgeloze thuisreis.',
 			'beeld'        => 'feest-met-microfoons-en-bloemenkransen',
 			'kort'         => "Persoonlijke details maken meer indruk dan een groot budget.\nBetrek de gasten met een spel of opdracht tijdens het diner of het feest.\nRegel de thuisreis, dan kan iedereen tot het laatste nummer blijven.",

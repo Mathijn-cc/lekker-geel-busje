@@ -50,6 +50,8 @@
 		var data = { event: gebeurtenis, whatsapp_pagina: g.pagina || window.location.pathname };
 		if (extra) { Object.keys(extra).forEach(function (k) { data[k] = extra[k]; }); }
 		window.dataLayer.push(data);
+		/* Ook naar Inzichten in WordPress (assets/js/inzichten.js), als dat script er is. */
+		if (window.lgbInzicht) { window.lgbInzicht('chat', gebeurtenis, (extra && extra.whatsapp_keuze) || ''); }
 	}
 
 	function bewaar(sleutel) {

@@ -40,6 +40,8 @@ require THEMA_PAD . '/inc/faq-copy.php';
 require THEMA_PAD . '/inc/fotoselectie.php';
 require THEMA_PAD . '/inc/whatsapp.php';
 require THEMA_PAD . '/inc/formulier-nl.php';
+require THEMA_PAD . '/inc/onderhoud-25nov.php';
+require THEMA_PAD . '/inc/inzichten.php';
 
 /**
  * Basis thema-ondersteuning.

@@ -104,6 +104,14 @@ function thema_uitroltaken() {
 		'locaties-hub-v1'         => 'thema_plaats_locaties_hub',
 		'breda-cocktail-link-v1'  => 'thema_breda_cocktail_link',
 		'foto-kandidaten-v1'      => 'thema_foto_kandidaten',
+		'juridisch-live-v1'       => 'thema_juridisch_van_live',
+		'home-h1-v1'              => 'thema_home_h1_google',
+		'muziek-25nov-v1'         => 'thema_muziek_25nov',
+		'spelling-25nov-v1'       => 'thema_spelling_25nov',
+		'seo-25nov-v1'            => 'thema_seo_25nov',
+		'faq-stops-v1'            => 'thema_faq_stops_herstellen',
+		'vval-agenda-link-v4'     => 'thema_vval_agenda_link_direct',
+		'home-vval-banner-v1'     => 'thema_home_vval_banner',
 	);
 }
 

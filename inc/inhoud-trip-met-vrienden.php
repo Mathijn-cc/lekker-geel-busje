@@ -9,7 +9,7 @@
  * - Artikelen: uitje met vrienden 320 + uitjes met vrienden 320 + leuke dingen om te doen met vrienden 390 + wat te doen
  *   met vrienden 320 (6 tot 22), kroegentocht 590 (8) + pubcrawl 320 (23), vriendinnenuitje 320 (5) + dagje uit
  *   vriendinnen 320 (13) + meiden uitje 260 (12), mannenuitje 210 (6), vriendenweekend 390 (5) + weekendje weg met
- *   vrienden 260 (9), familiedag 880 (21) + familieuitje 320 (15) + familiedag ideeen 320 (28).
+ *   vrienden 260 (9), familiedag 880 (21) + familie-uitje 320 (15) + familiedag ideeen 320 (28).
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -159,7 +159,7 @@ function thema_plaats_trip() {
 			'eyebrow'       => 'Voor de regelaar',
 			'kop'           => 'Jij hebt het plan, *wij de bus.*',
 			'tekst_1'       => 'In elke vriendengroep is er één die het regelt. Ben jij dat? Dan weet je hoe lastig het is om met een grote groep op pad te gaan: wie rijdt er, waar parkeer je, en hoe krijg je iedereen tegelijk op de juiste plek? Met Lekker Geel Busje regel je het vervoer in één keer. We halen de groep op, rijden van activiteit naar restaurant en de stad in, en brengen iedereen na afloop weer thuis.',
-			'tekst_2'       => 'En de rit zelf is meteen een feest. In de bus zitten professionele verlichting, lasers, rook en een goede geluidsinstallatie, allemaal inbegrepen. Drankjes bestel je bij het gastvrouwke, de chauffeur houdt zijn aandacht bij de weg. Niemand hoeft de Bob te zijn en de hele groep blijft bij elkaar.',
+			'tekst_2'       => 'En de rit zelf is meteen een feest. In de bus zitten professionele verlichting, lasers, rook, microfoons en een goede geluidsinstallatie, allemaal inbegrepen. Drankjes bestel je bij het gastvrouwke, de chauffeur houdt zijn aandacht bij de weg. Niemand hoeft de Bob te zijn en de hele groep blijft bij elkaar.',
 			'knop'          => thema_link( 'Bekijk onze bussen', $bussen ),
 			'beelden'       => array_values( array_filter( array( $b['gasten-stappen-in-lekker-geel-busje'], $b['meezingen-met-microfoon-in-sfeerbus'], $b['drankjes-halen-aan-de-bar-in-de-bus'] ) ) ),
 			'achtergrond'   => 'standaard',
@@ -376,7 +376,7 @@ HTML,
 			'slug'         => 'familiedag-organiseren',
 			'titel'        => 'Familiedag organiseren: ideeën voor jong en oud',
 			'seo_titel'    => 'Familiedag organiseren: ideeën | Lekker Geel Busje',
-			'samenvatting' => 'Een familiedag of familieuitje organiseren? Ideeën waar opa, oma en de kleinkinderen allemaal plezier aan hebben, plus tips voor de planning en het vervoer.',
+			'samenvatting' => 'Een familiedag of familie-uitje organiseren? Ideeën waar opa, oma en de kleinkinderen allemaal plezier aan hebben, plus tips voor de planning en het vervoer.',
 			'beeld'        => 'gasten-lachen-aan-tafel-in-sfeerbus',
 			'kort'         => "Kies een activiteit die voor alle leeftijden werkt, of plan iets voor elke groep.\nHoud de dag rustig: één activiteit, samen eten en genoeg tijd om bij te praten.\nMet vervoer voor de hele familie kan ook wie niet meer zelf rijdt mee.",
 			'faq_kop'      => 'Vragen over de *familiedag*',

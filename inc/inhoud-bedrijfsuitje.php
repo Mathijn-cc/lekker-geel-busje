@@ -98,9 +98,9 @@ function thema_plaats_bedrijfsuitje() {
 	$extra = array(
 		array( 'Kunnen we de bus ook boeken voor een personeelsfeest of kerstborrel?', 'Zeker. Een teamuitje, personeelsfeest, kerstborrel, jubileum of het afscheid van een collega: de bus rijdt voor elk moment waarop je met collega\'s op pad gaat. Vertel wat jullie plan is, dan denken we mee over de route.' ),
 		array( 'Waar rijden jullie naartoe?', 'Overal waar jullie uitje is. We rijden door heel Nederland en daarbuiten, dus kies gerust de activiteit, het restaurant of de stad die bij jullie team past.' ),
-		array( 'Kunnen we op factuur op bedrijfsnaam betalen?', 'Ja. Je krijgt de factuur op naam van het bedrijf, met de vaste all-in prijs uit de offerte. Zet de bedrijfsgegevens in je aanvraag, dan regelen we het meteen goed.' ),
+		array( 'Kunnen we een factuur op bedrijfsnaam krijgen?', 'Ja. Je krijgt de factuur op naam van het bedrijf, met de vaste all-in prijs uit de offerte. Zet de bedrijfsgegevens in je aanvraag, dan regelen we het meteen goed.' ),
 		array( 'Vanaf hoeveel personen is de bus geschikt?', 'De bus komt het best tot zijn recht vanaf zo\'n 35 personen. Met minder mensen kan het ook, alleen worden de kosten per persoon dan wat hoger. Elke bus heeft minstens 39 zitplaatsen, in onze verlengde bus gaan tot 88 personen mee en voor grotere groepen rijden er meerdere bussen. Met een kleinere groep? Vraag het gerust, dan denken we mee.' ),
-		array( 'Bepalen we zelf de sfeer in de bus?', 'Ja. Sluit jullie eigen playlist aan, zet het licht vol aan of houd het juist rustig op de heenweg. Het gastvrouwke en de chauffeur stemmen het met jullie af.' ),
+		array( 'Bepalen we zelf de sfeer in de bus?', 'Ja. Sluit via bluetooth jullie eigen playlist aan, zet het licht vol aan of houd het juist rustig op de heenweg. Het gastvrouwke en de chauffeur stemmen het met jullie af.' ),
 	);
 	$vragen        = function_exists( 'thema_faq_rijen' ) ? thema_faq_rijen( array_merge( $eigen, $lijst, $extra ) ) : array();
 	$faq           = thema_blok_faq();
@@ -234,8 +234,8 @@ function thema_bedrijfsuitje_artikelen() {
 		/* 1. Ideeën. */
 		array(
 			'slug'         => 'bedrijfsuitje-ideeen',
-			'titel'        => 'Bedrijfsuitje ideeën: 25 originele uitjes voor elk team',
-			'seo_titel'    => 'Bedrijfsuitje ideeën: 25 originele uitjes | Lekker Geel Busje',
+			'titel'        => 'Bedrijfsuitje-ideeën: 25 originele uitjes voor elk team',
+			'seo_titel'    => 'Bedrijfsuitje-ideeën: 25 originele uitjes | Lekker Geel Busje',
 			'samenvatting' => 'Op zoek naar een origineel bedrijfsuitje of teamuitje? 25 ideeën in vijf richtingen, van actief en culinair tot creatief, feestelijk en net even anders.',
 			'beeld'        => 'handen-in-de-lucht-in-de-gele-bus',
 			'kort'         => "Kies een uitje waar iedereen aan mee kan doen, niet alleen de sportievelingen.\nCombineer één activiteit met samen eten en een borrel.\nRegel vervoer voor de hele groep, dan begint het uitje al bij vertrek.",

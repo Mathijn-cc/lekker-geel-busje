@@ -6,8 +6,8 @@
  *
  * Zoekwoorden (SE Ranking, NL, 17 nov 2026):
  * - Pagina: festivalbus 140 (34), bus naar festival 140 (33), vervoer zwarte cross 90 (6), partybus defqon 50 (6).
- * - Artikelen: festival paklijst 480 + paklijst festival 260 + festival checklist 140 (6 tot 7), gehoorbescherming
- *   festival 390 (20), festival kleding 660 (12), hardstyle festivals 360 (11), festivals brabant 590 (20).
+ * - Artikelen: festivalpaklijst 480 + paklijst festival 260 + festival checklist 140 (6 tot 7), gehoorbescherming
+ *   festival 390 (20), festivalkleding 660 (12), hardstylefestivals 360 (11), festivals brabant 590 (20).
  *
  * Festivaldata 2027 gecheckt op 17 nov 2026 (festivalinfo.nl, festivalfans.nl en andere festivalsites).
  */
@@ -80,7 +80,7 @@ function thema_festival_agenda_items() {
 		array( 'titel' => 'Intents Festival', 'plek' => 'Oisterwijk', 'start' => '20270604', 'eind' => '20270606', 'datum_tekst' => '', 'tekst' => 'Hardstyle en hardcore bij ons om de hoek: Intents is in onze eigen woonplaats.', 'link' => $link( 'https://www.intentsfestival.nl' ) ),
 		array( 'titel' => 'Defqon.1', 'plek' => 'Biddinghuizen', 'start' => '20270624', 'eind' => '20270627', 'datum_tekst' => '', 'tekst' => 'Vier dagen hardstyle op de Holy Grounds. We brengen je groep tot aan het terrein.', 'link' => $link( 'https://www.defqon1.com' ) ),
 		array( 'titel' => 'Zwarte Cross', 'plek' => 'Lichtenvoorde', 'start' => '20270715', 'eind' => '20270718', 'datum_tekst' => '', 'tekst' => 'Muziek, motorcross en complete waanzin in de Achterhoek. Een lange rit, dus een feestrit.', 'link' => $link( 'https://www.zwartecross.nl' ) ),
-		array( 'titel' => 'Decibel outdoor', 'plek' => 'Hilvarenbeek', 'start' => '20270827', 'eind' => '20270829', 'datum_tekst' => 'Eind augustus 2027', 'tekst' => 'Het hardstyle-feest waarmee de zomer eindigt, op een kwartiertje van onze bussen.', 'link' => $link( 'https://www.decibeloutdoor.com' ) ),
+		array( 'titel' => 'Decibel Outdoor', 'plek' => 'Hilvarenbeek', 'start' => '20270827', 'eind' => '20270829', 'datum_tekst' => 'Eind augustus 2027', 'tekst' => 'Het hardstyle-feest waarmee de zomer eindigt, op een kwartiertje van onze bussen.', 'link' => $link( 'https://www.decibeloutdoor.com' ) ),
 	);
 }
 
@@ -163,8 +163,8 @@ function thema_plaats_festival() {
 			'acf_fc_layout' => 'over_ons',
 			'eyebrow'       => 'Festivalbus',
 			'kop'           => 'Het festival begint *in de bus.*',
-			'tekst_1'       => 'Met een groep naar een festival is pas leuk als iedereen er tegelijk is. Geen gedoe met treinen die vol zitten, shuttles waar je uren op wacht of een parkeerplaats op een halfuur lopen. Met de festivalbus van Lekker Geel Busje halen we de hele groep op, zetten we jullie zo dicht mogelijk bij de ingang af en staan we na afloop op een afgesproken plek klaar.',
-			'tekst_2'       => 'En de rit erheen is meteen de warming-up. Professionele verlichting, lasers, rook en een geluidsinstallatie die er staat, allemaal inbegrepen. Zet jullie eigen playlist op, bestel een drankje bij het gastvrouwke en kom aan in de stemming. Na afloop hoeft niemand nog te rijden.',
+			'tekst_1'       => 'Met een groep naar een festival gaan is pas leuk als iedereen er tegelijk is. Geen gedoe met treinen die vol zitten, shuttles waar je uren op wacht of een parkeerplaats op een halfuur lopen. Met de festivalbus van Lekker Geel Busje halen we de hele groep op, zetten we jullie zo dicht mogelijk bij de ingang af en staan we na afloop op een afgesproken plek klaar.',
+			'tekst_2'       => 'En de rit erheen is meteen de warming-up. Professionele verlichting, lasers, rook, microfoons en een geluidsinstallatie die er staat, allemaal inbegrepen. Zet jullie eigen playlist op, bestel een drankje bij het gastvrouwke en kom aan in de stemming. Na afloop hoeft niemand nog te rijden.',
 			'knop'          => thema_link( 'Bekijk onze bussen', $bussen ),
 			'beelden'       => array_values( array_filter( array( $b['gasten-delen-shotjes-uit-in-de-bus'], $b['feest-met-armen-omhoog-in-de-bus'], $b['discolicht-en-feest-in-de-sfeerbus'] ) ) ),
 			'achtergrond'   => 'standaard',
@@ -246,9 +246,9 @@ function thema_festival_artikelen() {
 		/* 1. Paklijst. */
 		array(
 			'slug'         => 'festival-paklijst',
-			'titel'        => 'Festival paklijst: wat neem je mee naar een festival?',
-			'seo_titel'    => 'Festival paklijst: wat neem je mee? | Lekker Geel Busje',
-			'samenvatting' => 'De complete festival paklijst voor een dagfestival en een meerdaags festival met camping. Met een checklist om af te vinken, zodat je niets vergeet.',
+			'titel'        => 'Festivalpaklijst: wat neem je mee naar een festival?',
+			'seo_titel'    => 'Festivalpaklijst: wat neem je mee? | Lekker Geel Busje',
+			'samenvatting' => 'De complete festivalpaklijst voor een dagfestival en een meerdaags festival met camping. Met een checklist om af te vinken, zodat je niets vergeet.',
 			'beeld'        => 'selfie-met-lichtstaven-in-de-bus',
 			'kort'         => "Voor een dagfestival: ticket, legitimatie, oordoppen, een powerbank en een regenjas.\nGa je kamperen? Neem dan ook een tent, slaapzak en iets warms voor de nacht mee.\nCheck altijd de huisregels van het festival: niet alles mag mee naar binnen.",
 			'faq_kop'      => 'Vragen over de *paklijst*',
@@ -284,7 +284,7 @@ function thema_festival_artikelen() {
 				),
 			),
 			'tekst'        => <<<HTML
-<p>Niks zo vervelend als halverwege de dag ontdekken dat je telefoon leeg is of dat je oordoppen nog thuis op tafel liggen. Met deze festival paklijst neem je precies mee wat je nodig hebt, voor een dagfestival en voor een meerdaags festival met camping. Onderaan staat de lijst om zelf af te vinken.</p>
+<p>Niks zo vervelend als halverwege de dag ontdekken dat je telefoon leeg is of dat je oordoppen nog thuis op tafel liggen. Met deze festivalpaklijst neem je precies mee wat je nodig hebt, voor een dagfestival en voor een meerdaags festival met camping. Onderaan staat de lijst om zelf af te vinken.</p>
 
 <h2>Altijd mee</h2>
 <ul>
@@ -327,36 +327,36 @@ function thema_festival_artikelen() {
 HTML,
 		),
 
-		/* 2. Hardstyle festivals. */
+		/* 2. Hardstylefestivals. */
 		array(
 			'slug'         => 'hardstyle-festivals',
-			'titel'        => 'Hardstyle festivals in Nederland: de grootste op een rij',
-			'seo_titel'    => 'Hardstyle festivals in Nederland | Lekker Geel Busje',
-			'samenvatting' => 'De bekendste hardstyle en hardcore festivals in Nederland en net over de grens, van Defqon.1 en Intents tot Decibel outdoor en Qlimax. Plus tips om er met de groep te komen.',
+			'titel'        => 'Hardstylefestivals in Nederland: de grootste op een rij',
+			'seo_titel'    => 'Hardstylefestivals in Nederland | Lekker Geel Busje',
+			'samenvatting' => 'De bekendste hardstyle- en hardcorefestivals in Nederland en net over de grens, van Defqon.1 en Intents tot Decibel Outdoor en Qlimax. Plus tips om er met de groep te komen.',
 			'beeld'        => 'feest-met-blauw-licht-in-de-sfeerbus',
-			'kort'         => "De grote hardstyle festivals zijn in de zomer, met Qlimax als hoogtepunt binnen in het najaar.\nTickets gaan vaak maanden van tevoren in de verkoop en zijn snel weg.\nRegel het vervoer voor de groep op tijd, zeker bij festivals buiten de Randstad.",
-			'faq_kop'      => 'Vragen over *hardstyle festivals*',
+			'kort'         => "De grote hardstylefestivals zijn in de zomer, met Qlimax als hoogtepunt binnen in het najaar.\nTickets gaan vaak maanden van tevoren in de verkoop en zijn snel weg.\nRegel het vervoer voor de groep op tijd, zeker bij festivals buiten de Randstad.",
+			'faq_kop'      => 'Vragen over *hardstylefestivals*',
 			'offerte_kop'  => 'Hardstyle met de groep? *Wij rijden.*',
 			'vragen'       => array(
-				array( 'Wat is het grootste hardstyle festival van Nederland?', 'Defqon.1 is het bekendste en grootste hardstyle festival van Nederland. Het vindt elk jaar in juni plaats in Biddinghuizen, met meerdere dagen en podia.' ),
-				array( 'Wanneer zijn de hardstyle festivals?', 'De meeste buitenfestivals vallen tussen juni en eind augustus. In het najaar en de winter zijn er grote binnenevenementen, zoals Qlimax.' ),
-				array( 'Hoe kom je met een groep naar een hardstyle festival?', 'Met een eigen bus rijdt de hele groep samen, word je dicht bij de ingang afgezet en sta je na afloop niet in de rij voor een shuttle. Vraag op tijd een prijs aan, de festivalweekenden zitten snel vol.' ),
+				array( 'Wat is het grootste hardstylefestival van Nederland?', 'Defqon.1 is het bekendste en grootste hardstylefestival van Nederland. Het vindt elk jaar in juni plaats in Biddinghuizen, met meerdere dagen en podia.' ),
+				array( 'Wanneer zijn de hardstylefestivals?', 'De meeste buitenfestivals vallen tussen juni en eind augustus. In het najaar en de winter zijn er grote binnenevenementen, zoals Qlimax.' ),
+				array( 'Hoe kom je met een groep naar een hardstylefestival?', 'Met een eigen bus rijdt de hele groep samen, word je dicht bij de ingang afgezet en sta je na afloop niet in de rij voor een shuttle. Vraag op tijd een prijs aan, de festivalweekenden zitten snel vol.' ),
 			),
 			'blokken'      => array(),
 			'tekst'        => <<<HTML
-<p>Nederland is het land van de hardstyle. Elk jaar komen tienduizenden mensen van over de hele wereld naar onze festivals voor de harde beats, de vuurshows en de eindshows. Hier vind je de bekendste hardstyle en hardcore festivals op een rij, met tips om er met de groep te komen.</p>
+<p>Nederland is het land van de hardstyle. Elk jaar komen tienduizenden mensen van over de hele wereld naar onze festivals voor de harde beats, de vuurshows en de eindshows. Hier vind je de bekendste hardstyle- en hardcorefestivals op een rij, met tips om er met de groep te komen.</p>
 
 <h2>Defqon.1</h2>
-<p>Het grootste hardstyle festival van Nederland, elk jaar in juni op het festivalterrein in Biddinghuizen. Meerdere dagen, tientallen podia en een eindshow waar mensen een jaar naar uitkijken. De 2027-editie staat gepland voor 24 tot en met 27 juni.</p>
+<p>Het grootste hardstylefestival van Nederland, elk jaar in juni op het festivalterrein in Biddinghuizen. Meerdere dagen, tientallen podia en een eindshow waar mensen een jaar naar uitkijken. De 2027-editie staat gepland voor 24 tot en met 27 juni.</p>
 
 <h2>Intents Festival</h2>
 <p>Intents in Oisterwijk is bekend om zijn enorme podia en producties, met de nadruk op de hardere stijlen. Het festival is meestal rond het Pinksterweekend, in 2027 van 4 tot en met 6 juni. Voor ons is het een feest om de hoek: onze bussen staan in Oisterwijk.</p>
 
-<h2>Decibel outdoor</h2>
+<h2>Decibel Outdoor</h2>
 <p>De Loudest City on Earth in Hilvarenbeek sluit eind augustus de hardstyle-zomer af. Drie dagen harde muziek, met een grote camping erbij.</p>
 
 <h2>Dominator</h2>
-<p>Het hardcore festival in de zomer, aan het water in Brabant. Bekend om de Dominator-thema's en een publiek dat van uptempo en hardcore houdt.</p>
+<p>Het hardcorefestival in de zomer, aan het water in Brabant. Bekend om de Dominator-thema's en een publiek dat van uptempo en hardcore houdt.</p>
 
 <h2>Harmony of Hardcore</h2>
 <p>Een buitenfestival in Brabant voor de liefhebbers van hardcore en hardstyle, met een sfeer die meer clubavond dan massafestival is.</p>
@@ -367,11 +367,11 @@ HTML,
 <h2>Reverze</h2>
 <p>Net over de grens in Antwerpen, en het eerste grote hardstyle-evenement van het jaar. Ook hier rijden we je groep graag naartoe.</p>
 
-<h2>Met de groep naar een hardstyle festival</h2>
+<h2>Met de groep naar een hardstylefestival</h2>
 <ul>
 <li><strong>Koop je tickets op tijd.</strong> De grote festivals zijn vaak in een paar uur uitverkocht.</li>
 <li><strong>Spreek een vaste plek af</strong> waar je elkaar terugvindt, want het bereik op een vol terrein is vaak slecht.</li>
-<li><strong>Neem oordoppen mee</strong> en drink genoeg water. Lees ook onze <a href="{$paklijst}">festival paklijst</a>.</li>
+<li><strong>Neem oordoppen mee</strong> en drink genoeg water. Lees ook onze <a href="{$paklijst}">festivalpaklijst</a>.</li>
 <li><strong>Regel het vervoer samen.</strong> Met de <a href="{$landing}">festivalbus</a> rijdt de hele groep tegelijk, zet de bus jullie dicht bij de ingang af en staat hij na afloop klaar. Geen rij voor de shuttle, geen lange wandeling naar de parkeerplaats.</li>
 </ul>
 <p>Festivaldata kunnen veranderen. Check altijd de officiële site van het festival voordat je plannen maakt. Op zoek naar festivals dichter bij huis? Lees dan <a href="{$brabant}">festivals in Brabant</a>.</p>
@@ -381,16 +381,16 @@ HTML,
 		/* 3. Festivals in Brabant. */
 		array(
 			'slug'         => 'festivals-brabant',
-			'titel'        => 'Festivals in Brabant: van Paaspop tot Decibel outdoor',
+			'titel'        => 'Festivals in Brabant: van Paaspop tot Decibel Outdoor',
 			'seo_titel'    => 'Festivals in Brabant: de leukste op een rij | Lekker Geel Busje',
-			'samenvatting' => 'De leukste festivals in Brabant door het jaar heen, van Paaspop en Breda Jazz tot Intents en Decibel outdoor. Met tips om er met de groep naartoe te gaan.',
+			'samenvatting' => 'De leukste festivals in Brabant door het jaar heen, van Paaspop en Breda Jazz tot Intents en Decibel Outdoor. Met tips om er met de groep naartoe te gaan.',
 			'beeld'        => 'handen-in-de-lucht-in-de-gele-bus',
-			'kort'         => "Het Brabantse festivaljaar begint met Paaspop en eindigt met Decibel outdoor eind augustus.\nVan hardstyle tot jazz: er is voor elke groep een festival.\nWe rijden er vanuit Oisterwijk naartoe, en ook naar alles daarbuiten.",
+			'kort'         => "Het Brabantse festivaljaar begint met Paaspop en eindigt met Decibel Outdoor eind augustus.\nVan hardstyle tot jazz: er is voor elke groep een festival.\nWe rijden er vanuit Oisterwijk naartoe, en ook naar alles daarbuiten.",
 			'faq_kop'      => 'Vragen over *festivals in Brabant*',
 			'offerte_kop'  => 'Festival gekozen? *Wij rijden.*',
 			'vragen'       => array(
 				array( 'Wat is het grootste festival van Brabant?', 'Paaspop in Schijndel is een van de bekendste en gezelligste festivals van Brabant, elk jaar in het paasweekend. In 2027 viert het festival zijn 50ste editie.' ),
-				array( 'Welke festivals zijn er in Brabant in de zomer?', 'Onder meer Intents in Oisterwijk, Awakenings Festival en Decibel outdoor in Hilvarenbeek en Dominator. Daarnaast zijn er stadsfestivals zoals Breda Jazz en Jazz in Duketown.' ),
+				array( 'Welke festivals zijn er in Brabant in de zomer?', 'Onder meer Intents in Oisterwijk, Awakenings Festival en Decibel Outdoor in Hilvarenbeek en Dominator. Daarnaast zijn er stadsfestivals zoals Breda Jazz en Jazz in Duketown.' ),
 				array( 'Hoe kom je met een groep naar een festival in Brabant?', 'Met een eigen bus haal je de hele groep op, ook op meerdere opstapplekken, en word je dicht bij het terrein afgezet. Na afloop staat de bus op een afgesproken plek klaar.' ),
 			),
 			'blokken'      => array(),
@@ -413,29 +413,29 @@ HTML,
 <p>Een van de grootste technofestivals ter wereld, elke zomer in Hilvarenbeek.</p>
 
 <h2>Dominator</h2>
-<p>Het hardcore festival aan het water, in de zomer in Brabant.</p>
+<p>Het hardcorefestival aan het water, in de zomer in Brabant.</p>
 
-<h2>Decibel outdoor</h2>
+<h2>Decibel Outdoor</h2>
 <p>De Loudest City on Earth in Hilvarenbeek sluit eind augustus de festivalzomer af. Drie dagen hardstyle en hardcore.</p>
 
 <h2>GLOW</h2>
 <p>Geen muziekfestival, wel een feest: in november verandert Eindhoven een week lang in een lichtkunstroute. Een mooi avondje uit met de groep.</p>
 
 <h2>Met de groep naar een Brabants festival</h2>
-<p>Onze bussen staan in Oisterwijk, dus de meeste Brabantse festivals liggen voor ons om de hoek. Met de <a href="{$landing}">festivalbus</a> halen we de hele groep op, zetten we jullie dicht bij het terrein af en brengen we iedereen na afloop thuis. Pak je spullen met onze <a href="{$paklijst}">festival paklijst</a>, en houd je van hardere muziek, lees dan ook <a href="{$hard}">hardstyle festivals in Nederland</a>.</p>
+<p>Onze bussen staan in Oisterwijk, dus de meeste Brabantse festivals liggen voor ons om de hoek. Met de <a href="{$landing}">festivalbus</a> halen we de hele groep op, zetten we jullie dicht bij het terrein af en brengen we iedereen na afloop thuis. Pak je spullen met onze <a href="{$paklijst}">festivalpaklijst</a>, en houd je van hardere muziek, lees dan ook <a href="{$hard}">hardstylefestivals in Nederland</a>.</p>
 <p>Festivaldata kunnen veranderen. Check altijd de officiële site van het festival voordat je plannen maakt.</p>
 HTML,
 		),
 
-		/* 4. Festival kleding. */
+		/* 4. Festivalkleding. */
 		array(
 			'slug'         => 'festival-kleding',
-			'titel'        => 'Festival kleding: wat trek je aan naar een festival?',
-			'seo_titel'    => 'Festival kleding: wat trek je aan? | Lekker Geel Busje',
-			'samenvatting' => 'Wat trek je aan naar een festival? Tips voor festival kleding bij zon, regen en kou, de juiste schoenen en een groepsoutfit waarmee je elkaar terugvindt.',
+			'titel'        => 'Festivalkleding: wat trek je aan naar een festival?',
+			'seo_titel'    => 'Festivalkleding: wat trek je aan? | Lekker Geel Busje',
+			'samenvatting' => 'Wat trek je aan naar een festival? Tips voor festivalkleding bij zon, regen en kou, de juiste schoenen en een groepsoutfit waarmee je elkaar terugvindt.',
 			'beeld'        => 'tropisch-themafeest-in-de-sfeerbus',
 			'kort'         => "Kleed je in laagjes: warm overdag, fris in de avond.\nKies schoenen waar je de hele dag op kunt staan en die vies mogen worden.\nEen groepsoutfit of dezelfde kleur maakt het makkelijk om elkaar terug te vinden.",
-			'faq_kop'      => 'Vragen over *festival kleding*',
+			'faq_kop'      => 'Vragen over *festivalkleding*',
 			'offerte_kop'  => 'Outfit klaar? *Wij rijden.*',
 			'vragen'       => array(
 				array( 'Wat trek je aan naar een festival?', 'Kleding in laagjes waar je je de hele dag prettig in voelt, schoenen die tegen een stootje kunnen en iets tegen de regen. Voeg een opvallend item toe, dan ben je ook op de foto\'s goed te zien.' ),
@@ -444,7 +444,7 @@ HTML,
 			),
 			'blokken'      => array(),
 			'tekst'        => <<<HTML
-<p>Je ticket is binnen, de groepsapp ontploft, en dan de grote vraag: wat trek je aan? Festival kleding moet er goed uitzien, maar vooral een hele dag staan, dansen en wisselend weer overleven. Met deze tips zit je goed, wat het weer ook doet.</p>
+<p>Je ticket is binnen, de groepsapp ontploft, en dan de grote vraag: wat trek je aan? Festivalkleding moet er goed uitzien, maar vooral een hele dag staan, dansen en wisselend weer overleven. Met deze tips zit je goed, wat het weer ook doet.</p>
 
 <h2>Kleed je in laagjes</h2>
 <p>Overdag in de zon is het warm, 's avonds kan het flink afkoelen. Begin met een luchtig shirt, neem een vest of overshirt mee en knoop een trui om je middel. Zo trek je aan of uit wat je nodig hebt.</p>
@@ -477,7 +477,7 @@ HTML,
 <li><strong>Kleding met zakken die dicht kunnen,</strong> tegen zakkenrollers.</li>
 <li><strong>Laat dure sieraden thuis.</strong></li>
 </ul>
-<p>Wat er verder in je tas moet, lees je in onze <a href="{$paklijst}">festival paklijst</a>. En de outfit van de hele groep komt het best tot zijn recht in de <a href="{$landing}">festivalbus</a>, met licht, lasers en jullie eigen playlist op weg naar het terrein.</p>
+<p>Wat er verder in je tas moet, lees je in onze <a href="{$paklijst}">festivalpaklijst</a>. En de outfit van de hele groep komt het best tot zijn recht in de <a href="{$landing}">festivalbus</a>, met licht, lasers en jullie eigen playlist op weg naar het terrein.</p>
 HTML,
 		),
 	);

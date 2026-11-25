@@ -17,7 +17,7 @@ function thema_faq_vragen() {
 		'eigen-drank' => array( 'Mogen we eigen drank meenemen?', 'Nee, eigen drank is niet toegestaan. Drinken in de bus mag wel: je bestelt je drankjes bij ons gastvrouwke, uit een koeling vol koude drank.' ),
 		'buiten'      => array( 'Rijden jullie ook buiten Brabant?', 'Zeker. Vanuit Oisterwijk rijden we door heel Brabant en ver daarbuiten. Zelfs een rit naar Oostenrijk was geen brug te ver.' ),
 		'later'       => array( 'Wat als we later terug willen?', 'We spreken vooraf een tijd af voor de terugrit. Is het feest dan nog lang niet klaar? Overleg het met de chauffeur, dan kijken we samen wat kan.' ),
-		'muziek'      => array( 'Kunnen we onze eigen muziek draaien?', 'Natuurlijk. Sluit je eigen playlist aan op het geluidssysteem en de bus is jullie dansvloer. Liever een DJ Booth? Regelen we.' ),
+		'muziek'      => array( 'Kunnen we onze eigen muziek draaien?', 'Natuurlijk. Via bluetooth sluit je je eigen playlist aan op het geluidssysteem en de bus is jullie dansvloer. Microfoons liggen klaar. Eigen draaitafels meenemen? Geen probleem.' ),
 		'schade'      => array( 'Wat gebeurt er bij schade?', 'Dat hopen we natuurlijk niet. Gaat er toch iets mis, dan lees je in de huisregels en de algemene voorwaarden precies hoe we dat samen oplossen.' ),
 		'roken'       => array( 'Mag er gerookt worden in de bus?', 'Nee, in de bus mag je niet roken. Alleen de rookmachine mag dat.' ),
 		'huisregels'  => array( 'Zijn er huisregels?', 'Een paar, en ze zijn simpel: niet roken, geen eigen drank en respect voor de bus en de crew. Zo blijft het voor iedereen geelzellig.' ),
@@ -39,18 +39,20 @@ function thema_faq_per_pagina() {
 
 		'onze-bussen'        => array(
 			array( 'Hoeveel mensen kunnen er mee?', 'Tot 88 personen in één bus. Elke bus heeft minstens 39 zitplaatsen en onze verlengde bus heeft er 53, plus 35 staanplaatsen. Vertel hoeveel jullie zijn, dan kiezen wij de bus die past.' ),
-			array( 'Zijn licht en geluid inbegrepen?', 'Altijd. Geluidssysteem, feestverlichting, lasers en rookmachine gaan standaard mee. Daar betaal je geen cent extra voor.' ),
+			array( 'Zijn licht en geluid inbegrepen?', 'Altijd. Geluidssysteem met bluetooth, microfoons, feestverlichting, lasers en rookmachine gaan standaard mee. Daar betaal je geen cent extra voor.' ),
 			array( 'Hoe zit het met de veiligheid?', 'Goed geregeld. Onze bussen krijgen het onderhoud dat nodig is voor alle veiligheidseisen. Het gastvrouwke houdt een oogje op de groep, zodat de chauffeur zijn aandacht bij de weg kan houden. Zo blijft het feest voor iedereen leuk.' ),
 			array( 'Wie rijdt er met ons mee?', 'Een chauffeur en een gastvrouwke van ons eigen team. We hebben allemaal geleerd dat je niet bij vreemden instapt. Daarom stelt de chauffeur zich vooraf aan je voor.' ),
 			'eigen-drank',
 			'roken',
 			'muziek',
+			array( 'Is er een microfoon in de bus?', 'Ja. In elke bus liggen microfoons klaar, voor meezingen, een speech of een quiz onderweg. Ze zitten gewoon in de prijs.' ),
+			array( 'Mogen we eigen draaitafels meenemen?', 'Geen probleem. Zelf hebben we geen draaitafels aan boord, maar je eigen set sluit je zo aan op het geluidssysteem. Zet het even in je aanvraag, dan houden we er rekening mee.' ),
 		),
 
 		'over-ons'           => array(
 			array( 'Is een rit met Lekker Geel Busje veilig?', 'Ja. Onze bussen krijgen het onderhoud dat nodig is voor alle veiligheidseisen en er zijn voldoende zitplaatsen. De chauffeur houdt zijn ogen op de weg, het gastvrouwke op de groep. Zo blijft het feest voor iedereen leuk.' ),
 			array( 'Zijn de bussen van jullie zelf?', 'Ja. Je stapt altijd in een van onze eigen gele bussen, met onze eigen chauffeurs en gastvrouwkes. Geen ingehuurde touringcar, wel volle bak geelzelligheid.' ),
-			array( 'Zitten licht, lasers en rook bij de prijs in?', 'Ja. Professionele verlichting, lasers, rookmachine en een stevige geluidsinstallatie zitten altijd in de prijs. Sfeer kost bij ons niets extra.' ),
+			array( 'Zitten licht, lasers en rook bij de prijs in?', 'Ja. Professionele verlichting, lasers, rookmachine, microfoons en een stevige geluidsinstallatie met bluetooth zitten altijd in de prijs. Sfeer kost bij ons niets extra.' ),
 			array( 'Wat doet het gastvrouwke?', 'Het gastvrouwke rijdt bij elke rit mee. Ze schenkt de drankjes uit de koeling, let op de veiligheid en heeft op elke vraag een antwoord. Zo kan de chauffeur zich op de weg richten en jij op het feest.' ),
 			array( 'Wat bedoelen jullie met een sfeerbus?', 'Een partybus waarin de sfeer voorop staat. Licht, geluid en drankjes zijn er volop, maar het verschil maken de mensen: een chauffeur die zich vooraf voorstelt, een gastvrouwke aan boord en een groep met iets te vieren. Busje in, sfeertje aan.' ),
 			array( 'Rijden jullie ook naar het buitenland?', 'Ja. Vanuit Brabant rijden we door heel Nederland en over de grens. Vertel waar jullie heen willen, dan krijg je een vaste prijs.' ),
@@ -98,7 +100,7 @@ function thema_faq_per_pagina() {
 		'gelegenheid/vrijgezellenfeest' => array(
 			array( 'Kunnen we op de vrijgezellendag meerdere stops maken?', 'Zeker. Een activiteit overdag, eten en daarna de stad in? Zet de stops in je aanvraag, dan maken wij er één feestrit van. De bus wacht of komt op een afgesproken tijd terug.' ),
 			'drinken',
-			array( 'Kunnen we onze eigen muziek draaien?', 'Natuurlijk. Sluit de playlist van de vrijgezel aan op het geluidssysteem, of juist die van de vrienden. Liever een DJ Booth? Regelen we.' ),
+			array( 'Kunnen we onze eigen muziek draaien?', 'Natuurlijk. Via bluetooth sluit je de playlist van de vrijgezel aan, of juist die van de vrienden. Microfoons liggen klaar en eigen draaitafels meenemen is geen probleem.' ),
 			'later',
 			array( 'Hoe ver van tevoren moeten we boeken?', 'Vrijgezellenfeesten vallen vaak op vrijdag of zaterdag, en die zitten snel vol. Weet je de datum? Vraag dan meteen je offerte aan.' ),
 			array( 'Zijn er huisregels?', 'Een paar simpele: niet roken, geen eigen drank en respect voor de bus en de crew. Zo blijft de laatste rit als vrijgezel voor iedereen een feest.' ),

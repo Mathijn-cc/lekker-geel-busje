@@ -70,10 +70,10 @@ function thema_ontwerp_teksten() {
 	return array(
 		'voordelen'    => array(
 			array( 'Voldoende zitplaatsen', 'stoel', 'zitplaatsen.jpg', 'Elke bus in het wagenpark heeft er minstens 39. Groot genoeg voor een compleet gezelschap, klein genoeg om gezellig te blijven.' ),
-			array( 'Tot 88 personen', 'groep', 'groep-in-bus.jpg', 'Onze verlengde bus telt zelfs 53 zitplaatsen plus 35 staanplaatsen. Daarmee gaat een heel bedrijf of een hele vriendengroep in een keer mee.' ),
-			array( 'Geluid en sfeerverlichting', 'speaker', 'feest-disco.jpg', 'Een top geluidssysteem, feestverlichting en een koeling met koude drank aan boord. DJ Booth nodig? Regelen we!' ),
+			array( 'Tot 88 personen', 'groep', 'groep-in-bus.jpg', 'Onze verlengde bus telt zelfs 53 zitplaatsen plus 35 staanplaatsen. Daarmee gaat een heel bedrijf of een hele vriendengroep in één keer mee.' ),
+			array( 'Geluid en sfeerverlichting', 'speaker', 'feest-disco.jpg', 'Een top geluidssysteem met bluetooth, microfoons, feestverlichting en een koeling met koude drank aan boord. Eigen draaitafels meenemen? Geen probleem.' ),
 			array( 'Chauffeur en gastvrouwke', 'bus', 'gastheer.jpg', 'Bij elke rit rijdt er iemand mee voor de bediening, de veiligheid en je vragen.' ),
-			array( 'Wij zijn de BOB', 'feest', 'dansen.jpg', 'Iedereen mag meedoen, niemand hoeft te rijden. Heen en terug, op een vooraf afgesproken tijdstip.' ),
+			array( 'Wij zijn de Bob', 'feest', 'dansen.jpg', 'Iedereen mag meedoen, niemand hoeft te rijden. Heen en terug, op een vooraf afgesproken tijdstip.' ),
 			array( 'Veilig en streng gekeurd', 'schild', 'bus-plein.jpg', 'Omgebouwde OV-bussen die altijd goed onderhouden zijn en streng gekeurd worden.' ),
 		),
 		'reviews'      => array(
@@ -88,9 +88,9 @@ function thema_ontwerp_teksten() {
 		'vragen'       => array(
 			array( 'Hoe ver van tevoren moet ik boeken?', 'Hoe eerder, hoe beter. Vrijdagen, zaterdagen en het festivalseizoen zijn snel vol.' ),
 			array( 'Mag je drinken in de bus?', 'Ja, drinken in de bus mag. Je bestelt je drankjes bij ons gastvrouwke, uit een koeling vol koude drank. Eigen drank meenemen is niet toegestaan.' ),
-			array( 'Rijden jullie ook buiten Brabant?', 'Zeker. Vanuit Oisterwijk rijden we heel Brabant en ver daarbuiten, tot in Oostenrijk aan toe.' ),
+			array( 'Rijden jullie ook buiten Brabant?', 'Zeker. Vanuit Oisterwijk rijden we door heel Brabant en ver daarbuiten, tot in Oostenrijk aan toe.' ),
 			array( 'Wat als we later terug willen?', 'We rijden terug op een vooraf afgesproken tijdstip. Wil je later? Overleg het met de chauffeur, dan kijken we wat kan.' ),
-			array( 'Kan ik eigen muziek meenemen?', 'Ja, sluit je eigen muziek aan op het geluidssysteem. DJ Booth nodig? Regelen we!' ),
+			array( 'Kan ik eigen muziek meenemen?', 'Ja, via bluetooth sluit je je eigen muziek aan op het geluidssysteem. Microfoons liggen klaar. Eigen draaitafels meenemen? Geen probleem.' ),
 			array( 'Wat gebeurt er bij schade?', 'Dat staat duidelijk in onze huisregels en algemene voorwaarden.' ),
 		),
 		'gelegenheden' => array(
@@ -347,7 +347,7 @@ function thema_plaats_voorbeeldinhoud() {
 			'acf_fc_layout' => 'werkgebied',
 			'kop'           => 'We komen *overal!*',
 			'legenda'       => 'Thuisbasis Oisterwijk',
-			'tekst'         => 'Vanuit Oisterwijk rijden we heel Brabant en ver daarbuiten. Soms een ritje om de hoek. Soms helemaal naar Oostenrijk. Wij draaien onze bus er niet voor om!',
+			'tekst'         => 'Vanuit Oisterwijk rijden we door heel Brabant en ver daarbuiten. Soms een ritje om de hoek. Soms helemaal naar Oostenrijk. Wij draaien onze bus er niet voor om!',
 			'steden'        => "Oisterwijk | Thuis\nUtrecht | 55 min\nRotterdam | 1 uur\nAmsterdam | 1 u 15\nMaastricht | 1 u 15\nGroningen | 2 u 45\nAntwerpen | 1 uur\nBrussel | 1 u 30\nDüsseldorf | 1 u 45\nKeulen | 2 uur\nOostenrijk | Ja, ook!",
 			'anker'         => 'locaties',
 		),
@@ -365,7 +365,7 @@ function thema_plaats_voorbeeldinhoud() {
 			'tekst'            => 'Geen tarievenlijst, omdat elke rit anders is. Wel volledige openheid over wat meetelt, wat er altijd bij zit en hoe snel je het weet.',
 			'factoren_label'   => 'Je prijs hangt af van',
 			'inbegrepen_label' => 'Inbegrepen',
-			'factoren'         => "Grootte van groep\nAfstand en rijtijd\nDag en seizoen\nWachttijd en extra’s",
+			'factoren'         => "Grootte van de groep\nAfstand en rijtijd\nDag en seizoen\nWachttijd en extra’s",
 			'inbegrepen'       => "Chauffeur\nGastheer/vrouw\nBrandstof\nBtw",
 			'uitkomst'         => 'Eén vaste all-in prijs, binnen 1 werkdag',
 			'stijl'            => 'standaard',
@@ -483,7 +483,7 @@ function thema_plaats_bussenpagina() {
 		array( 'Wie rijdt er met ons mee?', 'Een chauffeur en een gastvrouwke. De chauffeur stelt zich vooraf aan je voor, zodat je weet met wie je op pad gaat.' ),
 		array( 'Mogen we eigen drank meenemen?', 'Nee, eigen drank is niet toegestaan. Drinken in de bus mag wel: je bestelt je drankjes bij ons gastvrouwke, uit een koeling vol koude drank.' ),
 		array( 'Mag er gerookt worden in de bus?', 'Nee, in de bus wordt niet gerookt. Zo blijft het voor iedereen gezellig.' ),
-		array( 'Kunnen we onze eigen muziek draaien?', 'Ja, sluit je eigen muziek aan op het geluidssysteem. DJ Booth nodig? Regelen we!' ),
+		array( 'Kunnen we onze eigen muziek draaien?', 'Ja, via bluetooth sluit je je eigen muziek aan op het geluidssysteem. Microfoons liggen klaar. Eigen draaitafels meenemen? Geen probleem.' ),
 	);
 	$faq           = thema_blok_faq();
 	$faq['kop']    = 'Vragen over *de bussen*';
@@ -549,7 +549,7 @@ function thema_plaats_bussenpagina() {
 			'tekst'            => 'Welke bus je ook boekt, je krijgt een vaste all-in prijs. Wat meetelt is je groep, de afstand, de dag en de wachttijd.',
 			'factoren_label'   => 'Je prijs hangt af van',
 			'inbegrepen_label' => 'Inbegrepen',
-			'factoren'         => "Grootte van groep\nAfstand en rijtijd\nDag en seizoen\nWachttijd en extra’s",
+			'factoren'         => "Grootte van de groep\nAfstand en rijtijd\nDag en seizoen\nWachttijd en extra’s",
 			'inbegrepen'       => "Chauffeur\nGastheer/vrouw\nLicht en geluid\nBrandstof\nBtw",
 			'uitkomst'         => 'Eén vaste all-in prijs, binnen 1 werkdag',
 			'stijl'            => 'standaard',

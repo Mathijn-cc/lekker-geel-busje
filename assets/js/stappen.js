@@ -247,6 +247,7 @@
 		this.podium.appendChild(stap);
 
 		this.zetVoortgang(id);
+		if (window.lgbInzichtStap) { window.lgbInzichtStap(id); }
 		this.terugKnop.disabled = !this.geschiedenis.length || id === 'bedankt' || id === 'bezig';
 		this.verderKnop.disabled = !this.ok;
 		this.opnieuwKnop.hidden = !this.geschiedenis.length || id === 'bedankt' || id === 'bezig' || id === 'faq-bedankt';

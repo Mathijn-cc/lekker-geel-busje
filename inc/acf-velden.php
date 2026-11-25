@@ -179,6 +179,7 @@ function thema_layouts() {
 		thema_tab( $p, 'Inhoud' ),
 		thema_veld( $p, 'kop_1', 'Kop regel 1', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'Partybus' ) ) ),
 		thema_veld( $p, 'kop_2', 'Kop regel 2', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'huren in', 'instructions' => 'Leeg laten mag: dan valt de regel weg.' ) ) ),
+		thema_veld( $p, 'kop_google', 'Kop voor Google', 'text', array( 'instructions' => 'Optioneel. De vaste H1 die Google en schermlezers lezen, bijv. Partybus huren in Brabant. De wisselende kop blijft zichtbaar.' ) ),
 		thema_veld( $p, 'plaatsen', 'Wisselende plaatsen', 'textarea', array( 'rows' => 4, 'instructions' => 'Eén per regel. Ze wisselen elkaar af in het gele label. Leeg laten voor een vaste kop.' ) ),
 		thema_veld( $p, 'sub_1', 'Subkop', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'Jouw feest begint' ) ) ),
 		thema_veld( $p, 'sub_2', 'Subkop schuin', 'text', array_merge( thema_breed( 50 ), array( 'default_value' => 'in de bus!' ) ) ),
@@ -763,6 +764,21 @@ function thema_layouts() {
 		thema_veld( $p, 'ontvanger', 'Meldingen naar', 'email', array_merge( thema_breed( 50 ), array( 'instructions' => 'Leeg: het e-mailadres uit de thema-instellingen.' ) ) ),
 		thema_veld( $p, 'leeg', 'Tekst zonder open ritten', 'text', thema_breed( 50 ) ),
 	), thema_extra_velden( $p, 'stoelen' ) ) );
+
+	// Uitgelicht (banner voor een actie, zoals de bus naar Vrienden van Amstel LIVE).
+	$p   = 'uitgelicht';
+	$l[] = thema_layout( $p, 'Uitgelicht (banner)', array_merge( array(
+		thema_tab( $p, 'Inhoud' ),
+		thema_veld( $p, 'eyebrow', 'Label', 'text', thema_breed( 50 ) ),
+		thema_veld( $p, 'kop', 'Kop', 'text', array_merge( thema_breed( 50 ), array( 'instructions' => THEMA_ACCENT_UITLEG ) ) ),
+		thema_veld( $p, 'tekst', 'Tekst', 'textarea', array( 'rows' => 3 ) ),
+		thema_veld( $p, 'punten', 'Punten', 'textarea', array_merge( thema_breed( 50 ), array( 'rows' => 4, 'instructions' => 'Eén per regel, met een vinkje ervoor.' ) ) ),
+		thema_veld( $p, 'knop', 'Knop', 'link', thema_breed( 50 ) ),
+		thema_veld( $p, 'beeld', 'Foto', 'image', array_merge( thema_breed( 50 ), array( 'return_format' => 'id', 'preview_size' => 'medium' ) ) ),
+		thema_veld( $p, 'sticker_klein', 'Sticker klein', 'text', array_merge( thema_breed( 25 ), array( 'instructions' => 'Bijv. vanaf' ) ) ),
+		thema_veld( $p, 'sticker_groot', 'Sticker groot', 'text', array_merge( thema_breed( 25 ), array( 'instructions' => 'Bijv. € 25. Leeg: geen sticker.' ) ) ),
+		thema_veld( $p, 'tonen_tot', 'Tonen tot en met', 'date_picker', array_merge( thema_breed( 50 ), array( 'display_format' => 'j F Y', 'return_format' => 'Ymd', 'first_day' => 1, 'instructions' => 'Daarna verdwijnt de banner vanzelf. Leeg: altijd tonen.' ) ) ),
+	), thema_extra_velden( $p ) ) );
 
 	return $l;
 }

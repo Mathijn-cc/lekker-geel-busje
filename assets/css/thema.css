@@ -10855,3 +10855,169 @@ div.zweefknoppen.is-toetsenbord div.whatsapp-melding {
     animation: none;
   }
 }
+
+/**Hero -- Vaste kop voor Google**/
+/*Hero -- De wisselende kop is alleen beeld en loopt gewoon mee in de opmaak*/
+section.sectie-hero .hero-kop span.hero-kop-beeld {
+  display: contents;
+}
+
+/**Uitgelicht -- Banner voor een actie**/
+/*Uitgelicht -- Kaart: paars vlak met tekst links en foto rechts*/
+section.sectie-uitgelicht div.uitgelicht-kaart {
+  position:              relative;
+  display:               grid;
+  grid-template-columns: minmax(0, 1fr);
+  overflow:              hidden;
+  border-radius:         var(--afronding-groot);
+  background:            var(--kleur-paars);
+  color:                 var(--kleur-creme);
+  box-shadow:            0 30px 60px -36px rgba(38, 4, 63, .6);
+}
+@media (min-width: 900px) {
+  section.sectie-uitgelicht div.uitgelicht-kaart.met-beeld {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+  }
+}
+/*Uitgelicht -- Tekst*/
+section.sectie-uitgelicht div.uitgelicht-kaart div.uitgelicht-tekst {
+  display:        flex;
+  flex-direction: column;
+  align-items:    flex-start;
+  gap:            18px;
+  padding:        clamp(32px, 5vw, 64px) clamp(24px, 5vw, 64px);
+}
+section.sectie-uitgelicht div.uitgelicht-kaart div.uitgelicht-tekst span.eyebrow {
+  --eyebrow-hoek: var(--kleur-geel);
+}
+section.sectie-uitgelicht div.uitgelicht-kaart div.uitgelicht-tekst :is(h2, h3).kop {
+  margin: 0;
+  color:  var(--kleur-creme);
+}
+section.sectie-uitgelicht div.uitgelicht-kaart div.uitgelicht-tekst :is(h2, h3).kop span.accent {
+  color: var(--kleur-geel);
+}
+section.sectie-uitgelicht div.uitgelicht-kaart div.uitgelicht-tekst p.uitgelicht-intro {
+  max-width: 46ch;
+  margin:    0;
+  font-size: clamp(17px, 1.4vw, 19px);
+  opacity:   .9;
+}
+/*Uitgelicht -- Punten met een gele vink*/
+section.sectie-uitgelicht div.uitgelicht-kaart div.uitgelicht-tekst ul.uitgelicht-punten {
+  display:        flex;
+  flex-direction: column;
+  gap:            10px;
+  margin:         0;
+  padding:        0;
+  list-style:     none;
+  font-weight:    700;
+}
+section.sectie-uitgelicht div.uitgelicht-kaart div.uitgelicht-tekst ul.uitgelicht-punten li {
+  display:     flex;
+  align-items: center;
+  gap:         10px;
+}
+section.sectie-uitgelicht div.uitgelicht-kaart div.uitgelicht-tekst ul.uitgelicht-punten li span.uitgelicht-vink {
+  flex:            none;
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  width:           24px;
+  height:          24px;
+  border-radius:   50%;
+  background:      var(--kleur-geel);
+  color:           var(--kleur-paars);
+}
+section.sectie-uitgelicht div.uitgelicht-kaart div.uitgelicht-tekst div.knop-houder {
+  margin-top: 6px;
+}
+/*Uitgelicht -- Foto vult de rechterkant, op mobiel een brede strook bovenaan*/
+section.sectie-uitgelicht div.uitgelicht-kaart div.uitgelicht-beeld {
+  position:   relative;
+  order:      -1;
+  min-height: 220px;
+}
+@media (min-width: 900px) {
+  section.sectie-uitgelicht div.uitgelicht-kaart div.uitgelicht-beeld {
+    order:      0;
+    min-height: 100%;
+  }
+}
+section.sectie-uitgelicht div.uitgelicht-kaart div.uitgelicht-beeld img {
+  position:   absolute;
+  inset:      0;
+  width:      100%;
+  height:     100%;
+  object-fit: cover;
+}
+/*Uitgelicht -- Ronde gele sticker met de prijs, iets gedraaid*/
+section.sectie-uitgelicht div.uitgelicht-kaart div.uitgelicht-beeld span.uitgelicht-sticker {
+  position:        absolute;
+  right:           clamp(16px, 3vw, 32px);
+  bottom:          clamp(16px, 3vw, 32px);
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  width:           clamp(96px, 10vw, 124px);
+  height:          clamp(96px, 10vw, 124px);
+  border-radius:   50%;
+  background:      var(--kleur-geel);
+  color:           var(--kleur-paars);
+  box-shadow:      0 14px 30px -12px rgba(38, 4, 63, .55);
+  transform:       rotate(-10deg);
+  line-height:     1;
+  text-align:      center;
+}
+section.sectie-uitgelicht div.uitgelicht-kaart div.uitgelicht-beeld span.uitgelicht-sticker span {
+  font-family: var(--accent-letter);
+  font-style:  var(--accent-stijl);
+  font-size:   clamp(16px, 1.6vw, 20px);
+}
+section.sectie-uitgelicht div.uitgelicht-kaart div.uitgelicht-beeld span.uitgelicht-sticker strong {
+  margin-top:  2px;
+  font-family: var(--kop-letter);
+  font-weight: var(--kop-gewicht);
+  font-size:   clamp(24px, 2.6vw, 32px);
+  white-space: nowrap;
+}
+
+/**Zweefknoppen -- Mobiel zonder overlap**/
+@media (max-width: 899px) {
+  /*Zweefknoppen -- Kleiner rondje en geen naar-boven-knop: die viel over tekst en knoppen*/
+  div.zweefknoppen {
+    --knop-maat:     52px;
+    --cirkel-midden: 26px;
+  }
+  div.zweefknoppen a.naar-boven {
+    display: none;
+  }
+  /*Zweefknoppen -- Met de onderbalk staat WhatsApp rechts op dezelfde regel in plaats van erboven*/
+  div.zweefknoppen.met-onderbalk {
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  }
+  div.onderbalk {
+    left:      16px;
+    transform: translate(0, calc(100% + 30px));
+  }
+  div.onderbalk.is-zichtbaar {
+    transform: translate(0, 0);
+  }
+  /*Hero -- Paginering laat rechts ruimte vrij voor de WhatsApp-knop*/
+  section.sectie-hero.hero-foto div.pagineervlak {
+    padding-right: calc(var(--rand) + 60px);
+  }
+}
+
+/**Stoelen -- Stand per avond**/
+/*Stoelen -- Nog niet genoeg stoelen: rustig label met hoeveel er nog nodig zijn*/
+section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-rit span.stoelen-rit-staat.is-nodig {
+  background: rgba(56, 6, 94, .08);
+  color:      var(--kleur-paars);
+}
+/*Stoelen -- Rijdt en bijna vol: paars met vink, roze rand*/
+section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-rit.is-krap span.stoelen-rit-staat.is-zeker {
+  background: var(--kleur-roze);
+  color:      var(--kleur-wit);
+}

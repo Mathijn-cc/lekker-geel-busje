@@ -409,12 +409,12 @@ function thema_gesprek_antwoorden() {
 			'antwoord' => $antwoord( 'later', 'We spreken vooraf een tijd af voor de terugrit. Overleg het met de chauffeur, dan kijken we samen wat kan.' ),
 		),
 		array(
-			'patroon'  => 'muziek|playlist|spotify|\\bdj\\b|aux|bluetooth|eigen nummers',
-			'antwoord' => $antwoord( 'muziek', 'Natuurlijk. Sluit je eigen playlist aan op het geluidssysteem.' ),
+			'patroon'  => 'muziek|playlist|spotify|\\bdj\\b|aux|bluetooth|eigen nummers|draaitafel|microfoon|karaoke',
+			'antwoord' => $antwoord( 'muziek', 'Natuurlijk. Via bluetooth sluit je je eigen playlist aan. Microfoons liggen klaar en eigen draaitafels meenemen is geen probleem.' ),
 		),
 		array(
 			'patroon'  => 'licht|laser|rookmachine|verlichting|geluidsinstallatie|inbegrepen|extra kosten',
-			'antwoord' => 'Professionele verlichting, lasers, rookmachine en een stevige geluidsinstallatie zitten altijd in de prijs. Sfeer kost bij ons niets extra.',
+			'antwoord' => 'Professionele verlichting, lasers, rookmachine, microfoons en een stevige geluidsinstallatie met bluetooth zitten altijd in de prijs. Sfeer kost bij ons niets extra.',
 		),
 		array(
 			'patroon'  => 'tussenstop|meerdere stops|stops? (maken|onderweg)|meerdere (plekken|adressen|locaties)',
