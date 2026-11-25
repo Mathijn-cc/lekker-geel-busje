@@ -964,6 +964,9 @@ function thema_inzicht_stijl() {
 		.inzichten .inzicht-eigen { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 		.inzichten .inzicht-eigen label { display: flex; align-items: center; gap: 6px; }
 		.inzichten .inzicht-periode-label { flex-basis: 100%; margin: 0; color: #555; }
+		.inzichten .inzicht-periodekiezer .inzicht-periode { align-items: center; }
+		.inzichten select.inzicht-meer { min-height: 30px; }
+		.inzichten select.inzicht-meer.is-gekozen { border-color: #2271b1; box-shadow: 0 0 0 1px #2271b1; font-weight: 600; }
 		.inzichten .inzicht-grafiek-kaart { margin: 16px 0 8px; max-width: 1200px; }
 		.inzichten .inzicht-legenda { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 4px 0 10px; font-size: 13px; }
 		.inzichten .inzicht-legenda span { display: inline-flex; align-items: center; gap: 6px; }
@@ -1066,9 +1069,21 @@ function thema_inzicht_periodekiezer( $formulier = '' ) {
 	?>
 	<div class="inzicht-periodekiezer">
 		<div class="inzicht-periode">
-			<?php foreach ( thema_inzicht_periodes() as $sleutel => $label ) : ?>
-				<a class="button<?php echo (string) $sleutel === $p['sleutel'] ? ' button-primary' : ''; ?>" href="<?php echo esc_url( add_query_arg( array_merge( $extra, array( 'periode' => $sleutel ) ), $basis ) ); ?>"><?php echo esc_html( $label ); ?></a>
+			<?php
+			/* De drie meest gebruikte periodes als knop, de rest in een keuzelijst. */
+			$knoppen = array( '7', '30', '90' );
+			foreach ( $knoppen as $sleutel ) :
+				?>
+				<a class="button<?php echo $sleutel === $p['sleutel'] ? ' button-primary' : ''; ?>" href="<?php echo esc_url( add_query_arg( array_merge( $extra, array( 'periode' => $sleutel ) ), $basis ) ); ?>"><?php echo esc_html( thema_inzicht_periodes()[ $sleutel ] ); ?></a>
 			<?php endforeach; ?>
+			<?php $in_lijst = ! in_array( $p['sleutel'], $knoppen, true ) && 'eigen' !== $p['sleutel']; ?>
+			<select class="inzicht-meer<?php echo $in_lijst ? ' is-gekozen' : ''; ?>" aria-label="Andere periode" onchange="if(this.value){window.location.href=this.value;}">
+				<option value=""><?php echo esc_html( $in_lijst ? $p['label'] : 'Andere periode' ); ?></option>
+				<?php foreach ( thema_inzicht_periodes() as $sleutel => $label ) : ?>
+					<?php if ( in_array( (string) $sleutel, $knoppen, true ) ) { continue; } ?>
+					<option value="<?php echo esc_url( add_query_arg( array_merge( $extra, array( 'periode' => $sleutel ) ), $basis ) ); ?>"<?php selected( (string) $sleutel, $p['sleutel'] ); ?>><?php echo esc_html( $label ); ?></option>
+				<?php endforeach; ?>
+			</select>
 		</div>
 		<form class="inzicht-eigen" method="get" action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>">
 			<input type="hidden" name="page" value="thema-inzichten">
