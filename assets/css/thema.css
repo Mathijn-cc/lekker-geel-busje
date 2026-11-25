@@ -11010,6 +11010,25 @@ section.sectie-uitgelicht div.uitgelicht-kaart div.uitgelicht-beeld span.uitgeli
   }
 }
 
+/**Hero -- Mobiel paginering en kop op home**/
+@media (max-width: 699px) {
+  /*Paginering -- Vlak groeit mee met de stippen, zodat niets links uit het gele vlak valt*/
+  /*Paginering -- Rechts minder ruimte: de WhatsApp-knop staat bij openen onder de hero, zo blijft de score links vrij*/
+  section.sectie-hero.hero-foto:not(.hero-kaart) div.pagineervlak {
+    width:         auto;
+    padding-left:  36px;
+    padding-right: calc(var(--rand) + 16px);
+  }
+  /*Paginering -- Teller weg op mobiel, de stippen zeggen genoeg*/
+  section.sectie-hero.hero-foto div.pagineervlak span.pagineerteller {
+    display: none;
+  }
+  /*Kop -- Op de homepage rustiger en kleiner*/
+  body.home section.sectie-hero.hero-foto .hero-kop {
+    font-size: min(calc(56px * var(--kop-schaal)), calc(14.5vw - 2px));
+  }
+}
+
 /**Stoelen -- Stand per avond**/
 /*Stoelen -- Nog niet genoeg stoelen: rustig label met hoeveel er nog nodig zijn*/
 section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-rit span.stoelen-rit-staat.is-nodig {
