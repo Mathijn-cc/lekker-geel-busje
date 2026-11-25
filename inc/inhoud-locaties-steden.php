@@ -524,7 +524,7 @@ function thema_locatie_breda() {
 			array( 'titel' => 'The Boules Club', 'soort' => 'Boulen en borrel', 'foto' => array(), 'reserve' => 'gasten-delen-shotjes-uit-in-de-bus', 'tekst' => 'Jeu de boules, simracen en meer spellen op 800 vierkante meter, met eten en drinken erbij. Voor een avond uit of een bedrijfsuitje.', 'info' => 'Groepsactiviteiten', 'link' => array( array( 'https://www.theboulesclub.nl/breda', 'reda' ), array( 'https://theboulesclub.nl/breda/', 'reda' ), array( 'https://www.theboulesclub.nl/', 'oules' ) ), 'linktekst' => 'Bekijk The Boules Club' ),
 			array( 'titel' => 'Vier Hoog', 'soort' => 'Bowlen en lasergamen', 'foto' => array(), 'reserve' => 'discolicht-en-feest-in-de-sfeerbus', 'tekst' => 'Bowlen, lasergamen, shuffleboarden en escape rooms op een trendy locatie, met ruimte voor een borrel en een goede maaltijd.', 'info' => 'Alles onder één dak', 'link' => array( array( 'https://www.vierhoog.nl/', 'oog' ), array( 'https://vierhoog.nl/', 'oog' ), array( 'https://www.vierhoogbreda.nl/', 'oog' ) ), 'linktekst' => 'Bekijk Vier Hoog' ),
 			array( 'titel' => 'Prison Escape', 'soort' => 'Escape', 'foto' => array( 'commons', 'zoek:Koepelgevangenis Breda', 'breda-koepelgevangenis', 'De Koepelgevangenis in Breda' ), 'reserve' => 'tropisch-themafeest-in-de-sfeerbus', 'tekst' => 'Ontsnap met je groep uit de oude Koepelgevangenis van Breda. Een spannend uitje voor vrienden en collega\'s.', 'info' => 'Koepelgevangenis', 'link' => array( array( 'https://www.prisonescape.nl/', 'scape' ), array( 'https://prisonescape.nl/', 'scape' ) ), 'linktekst' => 'Bekijk Prison Escape' ),
-			array( 'titel' => 'Cocktailworkshop', 'soort' => 'Workshop', 'foto' => array(), 'reserve' => 'drankjes-halen-aan-de-bar-in-de-bus', 'tekst' => 'Leer in twee uur tijd je lievelingscocktails shaken bij CoCo The Cocktail Company. Leuk voor een vriendinnenuitje of vrijgezellenfeest.', 'info' => 'Ca. 2 uur', 'link' => array( array( 'https://www.cocococktailcompany.nl/', 'ocktail' ), array( 'https://cocococktailcompany.nl/', 'ocktail' ), array( 'https://www.thecocktailcompany.nl/', 'ocktail' ) ), 'linktekst' => 'Bekijk de workshop' ),
+			array( 'titel' => 'Cocktailworkshop', 'soort' => 'Workshop', 'foto' => array(), 'reserve' => 'drankjes-halen-aan-de-bar-in-de-bus', 'tekst' => 'Leer in twee uur tijd je lievelingscocktails shaken bij CoCo The Cocktail Company. Leuk voor een vriendinnenuitje of vrijgezellenfeest.', 'info' => 'Ca. 2 uur', 'link' => array( array( 'https://www.cocococktailcompany.nl/', 'Breda' ), array( 'https://cocococktailcompany.nl/', 'Breda' ) ), 'linktekst' => 'Bekijk de workshop' ),
 			array( 'titel' => 'Citygame of kroegentocht', 'soort' => 'Spel in de stad', 'foto' => array( 'commons', 'zoek:Grote Markt Breda', 'breda-grote-markt', 'De Grote Markt in Breda met de Grote Kerk' ), 'reserve' => 'vriendengroep-aan-tafel-in-sfeerbus', 'tekst' => 'Een speurtocht door de stad langs de leukste plekjes, met grappige opdrachten in de kroegen onderweg.', 'info' => 'Start wanneer het jullie uitkomt', 'link' => array( array( 'https://www.citygame.com/nl/breda', 'reda' ), array( 'https://www.escapetours.nl/breda', 'reda' ) ), 'linktekst' => 'Bekijk de citygame' ),
 			array( 'titel' => 'VR World Breda', 'soort' => 'Virtual reality', 'foto' => array(), 'reserve' => 'meezingen-met-microfoon-in-sfeerbus', 'tekst' => 'Zet een VR-bril op en ontsnap samen uit spannende virtuele escape rooms. Weer eens iets anders dan een gewoon uitje.', 'info' => 'VR escape rooms', 'link' => array( array( 'https://www.vrworld.nl/breda', 'reda' ), array( 'https://vrworld.nl/breda/', 'reda' ), array( 'https://www.vrworldbreda.nl/', 'VR' ) ), 'linktekst' => 'Bekijk VR World' ),
 			array( 'titel' => 'Concert in Mezz', 'soort' => 'Poppodium', 'foto' => array(), 'reserve' => 'feest-met-armen-omhoog-in-de-bus', 'tekst' => 'Het poppodium van Breda, van grote namen tot clubnachten. Wij zetten je vlak bij de deur af en halen je na de laatste toegift weer op.', 'info' => 'Keizerstraat', 'link' => array( array( 'https://www.mezz.nl/', 'ezz' ), array( 'https://mezz.nl/', 'ezz' ) ), 'linktekst' => 'Bekijk het programma' ),
@@ -660,4 +660,37 @@ function thema_plaats_locaties_hub() {
 		thema_seo_omschrijving_zetten( 'Partybus huren naar Breda, Tilburg, Den Bosch, Rotterdam, Amsterdam, Maastricht of waar je ook heen wilt. Tips per stad en binnen 1 werkdag een vaste prijs.', $id );
 	}
 	return array( 'id' => $id, 'kaarten' => count( $kaarten ) );
+}
+
+/**
+ * Uitroltaak breda-cocktail-link-v1: de link bij de cocktailworkshop weghalen; het gevonden domein
+ * is niet zeker van CoCo The Cocktail Company in Breda.
+ */
+function thema_breda_cocktail_link() {
+	$p = get_page_by_path( 'locaties/breda' );
+	if ( ! $p ) {
+		return 'geen breda';
+	}
+	$blokken = get_field( 'field_blokken', $p->ID, false );
+	$n       = 0;
+	foreach ( (array) $blokken as $i => $b ) {
+		foreach ( $b as $k => $w ) {
+			if ( is_array( $w ) ) {
+				foreach ( $w as $j => $rij ) {
+					if ( is_array( $rij ) && in_array( 'Cocktailworkshop', $rij, true ) ) {
+						foreach ( $rij as $veld => $waarde ) {
+							if ( is_string( $waarde ) && false !== strpos( $waarde, 'thecocktailcompany.nl' ) ) {
+								$blokken[ $i ][ $k ][ $j ][ $veld ] = '';
+								$n++;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	if ( $n ) {
+		update_field( 'field_blokken', $blokken, $p->ID );
+	}
+	return $n;
 }
