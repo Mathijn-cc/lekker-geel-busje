@@ -113,7 +113,7 @@ add_action( 'rest_api_init', function () {
 			}
 			$pad = thema_inzicht_pad( (string) ( $data['p'] ?? '' ) );
 			foreach ( array_slice( $data['e'], 0, 25 ) as $meting ) {
-				if ( ! is_array( $meting ) || ! in_array( $meting[0] ?? '', array( 'formulier', 'stap', 'chat', 'link', 'contact' ), true ) ) {
+				if ( ! is_array( $meting ) || ! in_array( $meting[0] ?? '', array( 'formulier', 'veld', 'stap', 'chat', 'link', 'contact' ), true ) ) {
 					continue;
 				}
 				thema_inzicht_tel( $meting[0], (string) ( $meting[1] ?? '' ), (string) ( $meting[2] ?? '' ), $pad );
@@ -145,6 +145,7 @@ add_action( 'gform_post_paging', function ( $form, $van, $naar ) {
 add_action( 'gform_after_submission', function ( $entry, $form ) {
 	if ( thema_inzicht_meetellen() ) {
 		thema_inzicht_tel( 'formulier', 'gf:' . $form['id'], 'verstuurd', (string) ( $entry['source_url'] ?? '' ) );
+		thema_inzicht_tel( 'formulier', 'gf:' . $form['id'], 'apparaat:verstuurd:' . thema_inzicht_apparaat(), (string) ( $entry['source_url'] ?? '' ) );
 	}
 }, 10, 2 );
 
@@ -155,6 +156,7 @@ add_filter( 'gform_validation', function ( $uitkomst ) {
 	foreach ( (array) ( $uitkomst['form']['fields'] ?? array() ) as $veld ) {
 		if ( ! empty( $veld->failed_validation ) ) {
 			thema_inzicht_tel( 'formulier', 'gf:' . $uitkomst['form']['id'], 'fout:' . wp_strip_all_tags( (string) $veld->label ) );
+			thema_inzicht_tel( 'veld', 'gf:' . $uitkomst['form']['id'], max( 1, (int) $veld->pageNumber ) . '|' . thema_inzicht_veldlabel( $veld->label ) . '|fout' );
 		}
 	}
 	return $uitkomst;
@@ -164,6 +166,7 @@ add_filter( 'gform_validation', function ( $uitkomst ) {
 add_action( 'added_post_meta', function ( $meta_id, $post_id, $sleutel ) {
 	if ( '_stoel_aantal' === $sleutel && thema_inzicht_meetellen() ) {
 		thema_inzicht_tel( 'formulier', 'stoelen', 'verstuurd' );
+		thema_inzicht_tel( 'formulier', 'stoelen', 'apparaat:verstuurd:' . thema_inzicht_apparaat() );
 	}
 }, 10, 3 );
 
@@ -173,8 +176,24 @@ add_action( 'setted_transient', function ( $naam, $waarde ) {
 	}
 	foreach ( array_keys( (array) $waarde['fouten'] ) as $veld ) {
 		thema_inzicht_tel( 'formulier', 'stoelen', 'fout:' . $veld );
+		$namen = array( 'rit' => 'Kies je avond', 'opstap' => 'Waar stap je in?', 'aantal' => 'Hoeveel stoelen?', 'naam' => 'Je naam', 'telefoon' => 'Mobiel nummer', 'email' => 'E-mailadres', 'akkoord' => 'Akkoord met de huisregels' );
+		thema_inzicht_tel( 'veld', 'stoelen', '1|' . ( $namen[ $veld ] ?? $veld ) . '|fout' );
 	}
 }, 10, 2 );
+
+/**
+ * Mobiel of desktop, voor tellingen op de server.
+ */
+function thema_inzicht_apparaat() {
+	return wp_is_mobile() ? 'mobiel' : 'desktop';
+}
+
+/**
+ * Label van een veld zoals het in de browser wordt gemeten: zonder opmaak, zonder | en maximaal 70 tekens.
+ */
+function thema_inzicht_veldlabel( $label ) {
+	return mb_substr( trim( preg_replace( '/\s+/u', ' ', str_replace( '|', '/', wp_strip_all_tags( (string) $label ) ) ) ), 0, 70 );
+}
 
 /* Opruimen: één keer per dag, alles ouder dan 13 maanden. */
 add_action( 'init', function () {
@@ -278,6 +297,11 @@ function thema_inzicht_pagina() {
 	$dagen = (int) ( $_GET['dagen'] ?? 30 ); // phpcs:ignore
 	$dagen = in_array( $dagen, array( 7, 30, 90, 365 ), true ) ? $dagen : 30;
 	$van   = wp_date( 'Y-m-d', strtotime( '-' . ( $dagen - 1 ) . ' days' ) );
+	$detail = sanitize_text_field( wp_unslash( $_GET['formulier'] ?? '' ) ); // phpcs:ignore
+	if ( preg_match( '/^(gf:\d+|stoelen|offertezin|contact)$/', $detail ) ) {
+		thema_inzicht_detail( $detail, $van, $dagen );
+		return;
+	}
 
 	/* Formulieren per naam. */
 	$form = array();
@@ -399,6 +423,7 @@ function thema_inzicht_pagina() {
 							<?php endforeach; ?>
 						</tbody></table>
 					<?php endif; ?>
+					<a class="inzicht-details" href="<?php echo esc_url( add_query_arg( array( 'dagen' => $dagen, 'formulier' => $naam ), $adres ) ); ?>">Bekijk per stap en per vraag &rarr;</a>
 				</div>
 			<?php endforeach; ?>
 
@@ -408,7 +433,7 @@ function thema_inzicht_pagina() {
 					'keuze' => 'Eerste vraag geladen', 'vraag' => 'Vraag typen', 'prijs' => 'Koos: prijs (naar offerte)', 'direct' => 'Koos: bellen of appen',
 					'naam' => 'Naam', 'email' => 'E-mailadres', 'telefoon' => 'Telefoonnummer', 'bezig' => 'Versturen', 'bedankt' => 'Verstuurd', 'faq-bedankt' => 'Antwoord gevonden in de veelgestelde vragen',
 				);
-				$gewoon  = array_filter( $stappen, fn( $k ) => 0 !== strpos( $k, 'afgehaakt:' ), ARRAY_FILTER_USE_KEY );
+				$gewoon  = array_filter( $stappen, fn( $k ) => false === strpos( $k, ':' ), ARRAY_FILTER_USE_KEY );
 				$afhaken = array_filter( $stappen, fn( $k ) => 0 === strpos( $k, 'afgehaakt:' ), ARRAY_FILTER_USE_KEY );
 				$max     = max( 1, max( $gewoon ?: array( 1 ) ) );
 				?>
@@ -431,6 +456,7 @@ function thema_inzicht_pagina() {
 							<tr><td><?php echo esc_html( $namen[ $id ] ?? $id ); ?></td><td class="inzicht-getal"><?php echo (int) $aantal; ?></td><td><?php echo thema_inzicht_balk( $aantal, $max ); // phpcs:ignore ?></td></tr>
 						<?php endforeach; ?>
 					</tbody></table>
+					<a class="inzicht-details" href="<?php echo esc_url( add_query_arg( array( 'dagen' => $dagen, 'formulier' => 'contact' ), $adres ) ); ?>">Bekijk per stap &rarr;</a>
 					<?php if ( $contact_fouten ) : ?>
 						<h4>Foutmeldingen per veld</h4>
 						<table class="widefat striped"><tbody>
@@ -543,6 +569,342 @@ function thema_inzicht_pagina() {
 			<?php endif; ?>
 		</p>
 	</div>
+	<?php
+	thema_inzicht_stijl();
+}
+
+/* --------------------------------------------------------------------------
+ * Verdieping per formulier
+ * ----------------------------------------------------------------------- */
+
+/**
+ * Tellingen van één formulier (of het contactformulier vraag voor vraag) in de periode.
+ */
+function thema_inzicht_formulier_data( $soort, $naam, $van ) {
+	global $wpdb;
+	$tabel = thema_inzicht_tabel();
+	$uit   = array( 'detail' => array(), 'veld' => array(), 'dag' => array(), 'pagina' => array() );
+	foreach ( $wpdb->get_results( $wpdb->prepare( "SELECT detail, SUM(aantal) AS n FROM {$tabel} WHERE soort = %s AND naam = %s AND dag >= %s GROUP BY detail", $soort, $naam, $van ) ) as $r ) { // phpcs:ignore
+		$uit['detail'][ $r->detail ] = (int) $r->n;
+	}
+	foreach ( $wpdb->get_results( $wpdb->prepare( "SELECT detail, SUM(aantal) AS n FROM {$tabel} WHERE soort = 'veld' AND naam = %s AND dag >= %s GROUP BY detail", $naam, $van ) ) as $r ) { // phpcs:ignore
+		$delen = explode( '|', $r->detail );
+		if ( 3 !== count( $delen ) ) {
+			continue;
+		}
+		list( $stap, $label, $actie ) = $delen;
+		$uit['veld'][ (int) $stap ][ $label ][ $actie ] = (int) $r->n;
+	}
+	foreach ( $wpdb->get_results( $wpdb->prepare( "SELECT dag, detail, SUM(aantal) AS n FROM {$tabel} WHERE soort = %s AND naam = %s AND dag >= %s GROUP BY dag, detail", $soort, $naam, $van ) ) as $r ) { // phpcs:ignore
+		$uit['dag'][ $r->dag ][ $r->detail ] = (int) $r->n;
+	}
+	foreach ( $wpdb->get_results( $wpdb->prepare( "SELECT pagina, detail, SUM(aantal) AS n FROM {$tabel} WHERE soort = %s AND naam = %s AND dag >= %s GROUP BY pagina, detail", $soort, $naam, $van ) ) as $r ) { // phpcs:ignore
+		$uit['pagina'][ $r->pagina ][ $r->detail ] = (int) $r->n;
+	}
+	return $uit;
+}
+
+/**
+ * Velden van een Gravity Forms-formulier in volgorde, per pagina: array( pagina => array( label, ... ) ).
+ */
+function thema_inzicht_gf_velden( $form_id ) {
+	$uit = array();
+	if ( ! class_exists( 'GFAPI' ) ) {
+		return $uit;
+	}
+	$form = GFAPI::get_form( (int) $form_id );
+	foreach ( (array) ( $form['fields'] ?? array() ) as $veld ) {
+		if ( in_array( $veld->type, array( 'hidden', 'html', 'page', 'section', 'captcha', 'honeypot' ), true ) || 'hidden' === ( $veld->visibility ?? '' ) || '' === trim( (string) $veld->label ) ) {
+			continue;
+		}
+		$uit[ max( 1, (int) $veld->pageNumber ) ][] = thema_inzicht_veldlabel( $veld->label );
+	}
+	return $uit;
+}
+
+/**
+ * Middelste invultijd uit de tijdklassen ("3 1 tot 2 min" => 12).
+ */
+function thema_inzicht_mediaan_duur( $detail ) {
+	$klassen = array();
+	foreach ( $detail as $sleutel => $n ) {
+		if ( 0 === strpos( $sleutel, 'duur:' ) ) {
+			$klassen[ substr( $sleutel, 5 ) ] = $n;
+		}
+	}
+	if ( ! $klassen ) {
+		return array( '', array() );
+	}
+	ksort( $klassen );
+	$helft = array_sum( $klassen ) / 2;
+	$teller = 0;
+	$mediaan = '';
+	foreach ( $klassen as $klasse => $n ) {
+		$teller += $n;
+		if ( $teller >= $helft ) {
+			$mediaan = $klasse;
+			break;
+		}
+	}
+	$schoon = array();
+	foreach ( $klassen as $klasse => $n ) {
+		$schoon[ preg_replace( '/^\d+\s/', '', $klasse ) ] = $n;
+	}
+	return array( preg_replace( '/^\d+\s/', '', $mediaan ), $schoon );
+}
+
+function thema_inzicht_kpi( $label, $waarde, $sub = '' ) {
+	return '<div class="inzicht-kpi"><span>' . esc_html( $label ) . '</span><strong>' . esc_html( $waarde ) . '</strong>' . ( $sub ? '<em>' . esc_html( $sub ) . '</em>' : '' ) . '</div>';
+}
+
+/**
+ * De verdieping. $naam: gf:3, stoelen, offertezin of contact.
+ */
+function thema_inzicht_detail( $naam, $van, $dagen ) {
+	$contact_gf = thema_inzicht_contactformulier();
+	$is_contact = 'contact' === $naam;
+	$d          = thema_inzicht_formulier_data( $is_contact ? 'stap' : 'formulier', $is_contact ? 'contact' : $naam, $van );
+	$x          = $d['detail'];
+	$terug      = admin_url( 'admin.php?page=thema-inzichten&dagen=' . $dagen );
+
+	if ( $is_contact ) {
+		$gf    = thema_inzicht_formulier_data( 'formulier', 'gf:' . $contact_gf, $van );
+		$titel = 'Contactformulier vraag voor vraag';
+		$gezien     = (int) ( $x['keuze'] ?? 0 );
+		$gestart    = (int) array_sum( array_filter( $x, fn( $k ) => 0 === strpos( $k, 'apparaat:gestart:' ), ARRAY_FILTER_USE_KEY ) );
+		$verstuurd  = (int) ( $gf['detail']['verstuurd'] ?? 0 );
+		$afgehaakt  = (int) array_sum( array_filter( $x, fn( $k ) => 0 === strpos( $k, 'afgehaakt:' ), ARRAY_FILTER_USE_KEY ) );
+		$fouten     = array_filter( $gf['detail'], fn( $k ) => 0 === strpos( $k, 'fout:' ), ARRAY_FILTER_USE_KEY );
+		$apparaat_bron = $x + array_filter( $gf['detail'], fn( $k ) => 0 === strpos( $k, 'apparaat:verstuurd:' ), ARRAY_FILTER_USE_KEY );
+	} else {
+		$titel      = thema_inzicht_formuliernaam( $naam );
+		$gezien     = (int) ( $x['gezien'] ?? 0 );
+		$gestart    = (int) ( $x['gestart'] ?? 0 );
+		$verstuurd  = (int) ( $x['verstuurd'] ?? ( 'offertezin' === $naam ? ( $x['verzonden'] ?? 0 ) : 0 ) );
+		$afgehaakt  = (int) array_sum( array_filter( $x, fn( $k ) => 0 === strpos( $k, 'afhaakstap:' ), ARRAY_FILTER_USE_KEY ) );
+		$fouten     = array_filter( $x, fn( $k ) => 0 === strpos( $k, 'fout:' ), ARRAY_FILTER_USE_KEY );
+		$apparaat_bron = $x;
+	}
+	list( $mediaan, $duur ) = thema_inzicht_mediaan_duur( $x );
+	?>
+	<div class="wrap inzichten">
+		<p><a href="<?php echo esc_url( $terug ); ?>">&larr; Terug naar Inzichten</a></p>
+		<h1><?php echo esc_html( $titel ); ?></h1>
+		<p class="inzicht-periode">
+			<?php foreach ( array( 7 => '7 dagen', 30 => '30 dagen', 90 => '90 dagen', 365 => 'Jaar' ) as $dd => $label ) : ?>
+				<a class="button<?php echo $dd === $dagen ? ' button-primary' : ''; ?>" href="<?php echo esc_url( add_query_arg( array( 'dagen' => $dd, 'formulier' => $naam ), admin_url( 'admin.php?page=thema-inzichten' ) ) ); ?>"><?php echo esc_html( $label ); ?></a>
+			<?php endforeach; ?>
+		</p>
+
+		<div class="inzicht-kpis">
+			<?php
+			echo thema_inzicht_kpi( $is_contact ? 'Eerste vraag geladen' : 'Gezien', (string) $gezien ); // phpcs:ignore
+			echo thema_inzicht_kpi( 'Begonnen', (string) $gestart, thema_inzicht_procent( $gestart, $gezien ) . ' van wie het zag' ); // phpcs:ignore
+			echo thema_inzicht_kpi( 'Verstuurd', (string) $verstuurd, thema_inzicht_procent( $verstuurd, $gestart ) . ' van wie begon' ); // phpcs:ignore
+			echo thema_inzicht_kpi( 'Afgehaakt', (string) $afgehaakt, thema_inzicht_procent( $afgehaakt, $gestart ) . ' van wie begon' ); // phpcs:ignore
+			echo thema_inzicht_kpi( 'Foutmeldingen', (string) array_sum( $fouten ), $verstuurd ? round( array_sum( $fouten ) / max( 1, $verstuurd ), 1 ) . ' per verzending' : '' ); // phpcs:ignore
+			echo thema_inzicht_kpi( 'Invultijd (mediaan)', $mediaan ?: 'n.v.t.' ); // phpcs:ignore
+			?>
+		</div>
+
+		<?php
+		/* ---------- Stappen ---------- */
+		if ( $is_contact ) {
+			$route = array(
+				'keuze' => 'Eerste vraag: waarmee kunnen we helpen?', 'vraag' => 'Vraag typen', 'prijs' => 'Koos: een prijs (naar offerte)', 'direct' => 'Koos: bellen of appen',
+				'naam' => 'Naam', 'email' => 'E-mailadres', 'telefoon' => 'Telefoonnummer', 'bezig' => 'Versturen', 'bedankt' => 'Verstuurd', 'faq-bedankt' => 'Antwoord gevonden in de veelgestelde vragen',
+			);
+			$rijen = array();
+			foreach ( $route as $id => $label ) {
+				$rijen[] = array( $label, (int) ( $x[ $id ] ?? 0 ), (int) ( $x[ 'afgehaakt:' . $id ] ?? 0 ) );
+			}
+			foreach ( $x as $id => $n ) {
+				if ( false === strpos( $id, ':' ) && ! isset( $route[ $id ] ) ) {
+					$rijen[] = array( $id, $n, (int) ( $x[ 'afgehaakt:' . $id ] ?? 0 ) );
+				}
+			}
+			$max = max( 1, max( array_column( $rijen, 1 ) ) );
+			?>
+			<h2>Per stap</h2>
+			<p class="inzicht-uitleg">Hoe vaak elke vraag in beeld kwam, en hoe vaak iemand bij die vraag de pagina verliet zonder te versturen.</p>
+			<table class="widefat striped inzicht-tabel">
+				<thead><tr><th>Stap</th><th class="inzicht-getal">Bereikt</th><th></th><th class="inzicht-getal">Afgehaakt hier</th><th class="inzicht-getal">% afgehaakt</th></tr></thead>
+				<tbody>
+					<?php foreach ( $rijen as $r ) : ?>
+						<tr class="<?php echo $r[1] && $r[2] / max( 1, $r[1] ) >= .25 ? 'inzicht-let-op' : ''; ?>"><td><?php echo esc_html( $r[0] ); ?></td><td class="inzicht-getal"><?php echo (int) $r[1]; ?></td><td><?php echo thema_inzicht_balk( $r[1], $max ); // phpcs:ignore ?></td><td class="inzicht-getal"><?php echo (int) $r[2]; ?></td><td class="inzicht-getal"><?php echo esc_html( $r[1] ? thema_inzicht_procent( $r[2], $r[1] ) : '' ); ?></td></tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+			<?php
+		} else {
+			$paginas = 0 === strpos( $naam, 'gf:' ) ? thema_inzicht_gf_velden( (int) substr( $naam, 3 ) ) : array();
+			$stappen = max( 1, count( $paginas ), ...array_map( 'intval', array_keys( $d['veld'] ?: array( 1 => 1 ) ) ) );
+			if ( $stappen > 1 ) :
+				$rijen = array();
+				for ( $i = 1; $i <= $stappen; $i++ ) {
+					$bereikt = 1 === $i ? $gestart : (int) ( $x[ 'pagina:' . $i ] ?? 0 );
+					$rijen[] = array( 'Stap ' . $i, $bereikt, (int) ( $x[ 'afhaakstap:' . $i ] ?? 0 ), (int) ( $x[ 'terug:' . $i ] ?? 0 ) );
+				}
+				$rijen[] = array( 'Verstuurd', $verstuurd, 0, 0 );
+				$max     = max( 1, max( array_column( $rijen, 1 ) ) );
+				?>
+				<h2>Per stap</h2>
+				<p class="inzicht-uitleg">Hoeveel mensen elke stap bereikten, hoeveel er in die stap afhaakten en hoe vaak iemand vanuit die stap terugging.</p>
+				<table class="widefat striped inzicht-tabel">
+					<thead><tr><th>Stap</th><th class="inzicht-getal">Bereikt</th><th></th><th class="inzicht-getal">Van vorige</th><th class="inzicht-getal">Afgehaakt in stap</th><th class="inzicht-getal">Terug geklikt</th></tr></thead>
+					<tbody>
+						<?php foreach ( $rijen as $i => $r ) : ?>
+							<?php $vorig = $i ? $rijen[ $i - 1 ][1] : 0; ?>
+							<tr class="<?php echo $vorig && ( $vorig - $r[1] ) / $vorig >= .3 ? 'inzicht-let-op' : ''; ?>"><td><?php echo esc_html( $r[0] ); ?></td><td class="inzicht-getal"><?php echo (int) $r[1]; ?></td><td><?php echo thema_inzicht_balk( $r[1], $max ); // phpcs:ignore ?></td><td class="inzicht-getal"><?php echo esc_html( $i ? thema_inzicht_procent( $r[1], $vorig ) : '' ); ?></td><td class="inzicht-getal"><?php echo (int) $r[2]; ?></td><td class="inzicht-getal"><?php echo (int) $r[3]; ?></td></tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			<?php endif; ?>
+
+			<h2>Per vraag</h2>
+			<p class="inzicht-uitleg"><strong>Bereikt</strong>: deel van wie begon dat bij deze vraag kwam. <strong>Ingevuld</strong>: deel van wie de vraag aanraakte dat er iets invulde. <strong>Afgehaakt hier</strong>: de laatste vraag die iemand aanraakte voordat hij de pagina verliet zonder te versturen. Rood gemarkeerd: opvallend veel uitval of foutmeldingen.</p>
+			<?php
+			/* Volgorde: velden uit het formulier, aangevuld met wat gemeten is maar (nog) niet in het formulier staat. */
+			$volgorde = $paginas;
+			foreach ( $d['veld'] as $stap => $velden ) {
+				foreach ( array_keys( $velden ) as $label ) {
+					if ( ! in_array( $label, $volgorde[ $stap ] ?? array(), true ) ) {
+						$volgorde[ $stap ][] = $label;
+					}
+				}
+			}
+			ksort( $volgorde );
+			if ( ! $volgorde ) {
+				echo '<p>Nog geen metingen per vraag in deze periode.</p>';
+			}
+			foreach ( $volgorde as $stap => $labels ) :
+				?>
+				<?php if ( count( $volgorde ) > 1 ) : ?><h3>Stap <?php echo (int) $stap; ?></h3><?php endif; ?>
+				<table class="widefat striped inzicht-tabel">
+					<thead><tr><th>Vraag</th><th class="inzicht-getal">Aangeraakt</th><th class="inzicht-getal">Bereikt</th><th></th><th class="inzicht-getal">Ingevuld</th><th class="inzicht-getal">Foutmeldingen</th><th class="inzicht-getal">Afgehaakt hier</th></tr></thead>
+					<tbody>
+						<?php foreach ( $labels as $label ) : ?>
+							<?php
+							$v      = $d['veld'][ $stap ][ $label ] ?? array();
+							$aan    = (int) ( $v['aangeraakt'] ?? 0 );
+							$in     = (int) ( $v['ingevuld'] ?? 0 );
+							$fout   = (int) ( $v['fout'] ?? 0 );
+							$weg    = (int) ( $v['afgehaakt'] ?? 0 );
+							$let_op = ( $aan && $weg / $aan >= .15 ) || ( $verstuurd && $fout / $verstuurd >= .2 );
+							?>
+							<tr class="<?php echo $let_op ? 'inzicht-let-op' : ''; ?>">
+								<td><?php echo esc_html( $label ); ?></td>
+								<td class="inzicht-getal"><?php echo (int) $aan; ?></td>
+								<td class="inzicht-getal"><?php echo esc_html( thema_inzicht_procent( $aan, $gestart ) ); ?></td>
+								<td><?php echo thema_inzicht_balk( $aan, max( 1, $gestart ) ); // phpcs:ignore ?></td>
+								<td class="inzicht-getal"><?php echo esc_html( $aan ? thema_inzicht_procent( $in, $aan ) : '' ); ?></td>
+								<td class="inzicht-getal"><?php echo (int) $fout; ?></td>
+								<td class="inzicht-getal"><?php echo (int) $weg; ?><?php echo $aan && $weg ? ' <span class="inzicht-klein">(' . esc_html( thema_inzicht_procent( $weg, $aan ) ) . ')</span>' : ''; ?></td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			<?php endforeach; ?>
+			<?php
+		}
+		?>
+
+		<div class="inzicht-raster">
+			<div class="inzicht-kaart">
+				<h3>Mobiel en desktop</h3>
+				<table class="widefat striped"><thead><tr><th></th><th class="inzicht-getal">Begonnen</th><th class="inzicht-getal">Afgehaakt</th><th class="inzicht-getal">Verstuurd</th><th class="inzicht-getal">Conversie</th></tr></thead><tbody>
+					<?php foreach ( array( 'mobiel' => 'Mobiel', 'desktop' => 'Desktop' ) as $a => $label ) : ?>
+						<?php
+						$b = (int) ( $apparaat_bron[ 'apparaat:gestart:' . $a ] ?? 0 );
+						$w = (int) ( $apparaat_bron[ 'apparaat:afgehaakt:' . $a ] ?? 0 );
+						$v = (int) ( $apparaat_bron[ 'apparaat:verstuurd:' . $a ] ?? 0 );
+						?>
+						<tr><td><?php echo esc_html( $label ); ?></td><td class="inzicht-getal"><?php echo $b; ?></td><td class="inzicht-getal"><?php echo $w; ?></td><td class="inzicht-getal"><?php echo $v; ?></td><td class="inzicht-getal"><?php echo esc_html( thema_inzicht_procent( $v, $b ) ); ?></td></tr>
+					<?php endforeach; ?>
+				</tbody></table>
+			</div>
+			<div class="inzicht-kaart">
+				<h3>Invultijd</h3>
+				<?php if ( $duur ) : ?>
+					<?php $max = max( $duur ); ?>
+					<table class="widefat striped"><tbody>
+						<?php foreach ( $duur as $klasse => $n ) : ?>
+							<tr><td><?php echo esc_html( $klasse ); ?></td><td class="inzicht-getal"><?php echo (int) $n; ?></td><td><?php echo thema_inzicht_balk( $n, $max ); // phpcs:ignore ?></td></tr>
+						<?php endforeach; ?>
+					</tbody></table>
+				<?php else : ?>
+					<p>Nog geen invultijden gemeten.</p>
+				<?php endif; ?>
+			</div>
+			<div class="inzicht-kaart">
+				<h3>Foutmeldingen per veld</h3>
+				<?php if ( $fouten ) : ?>
+					<?php arsort( $fouten ); ?>
+					<table class="widefat striped"><tbody>
+						<?php foreach ( $fouten as $k => $n ) : ?>
+							<tr><td><?php echo esc_html( substr( $k, 5 ) ); ?></td><td class="inzicht-getal"><?php echo (int) $n; ?></td></tr>
+						<?php endforeach; ?>
+					</tbody></table>
+				<?php else : ?>
+					<p>Geen foutmeldingen in deze periode.</p>
+				<?php endif; ?>
+			</div>
+		</div>
+
+		<?php
+		$pag = $is_contact ? $gf['pagina'] : $d['pagina'];
+		if ( ! $is_contact ) :
+			$pag = array_filter( $pag, fn( $r ) => ( $r['gezien'] ?? 0 ) || ( $r['gestart'] ?? 0 ) || ( $r['verstuurd'] ?? 0 ) );
+			uasort( $pag, fn( $a, $b ) => ( $b['gestart'] ?? 0 ) <=> ( $a['gestart'] ?? 0 ) );
+			?>
+			<h2>Per pagina</h2>
+			<p class="inzicht-uitleg">Waar het formulier stond toen mensen het zagen, begonnen of verstuurden.</p>
+			<?php if ( $pag ) : ?>
+				<table class="widefat striped inzicht-tabel"><thead><tr><th>Pagina</th><th class="inzicht-getal">Gezien</th><th class="inzicht-getal">Begonnen</th><th class="inzicht-getal">Verstuurd</th><th class="inzicht-getal">Conversie</th></tr></thead><tbody>
+					<?php foreach ( $pag as $pad => $r ) : ?>
+						<tr><td><a href="<?php echo esc_url( home_url( $pad ) ); ?>" target="_blank"><?php echo esc_html( $pad ); ?></a></td><td class="inzicht-getal"><?php echo (int) ( $r['gezien'] ?? 0 ); ?></td><td class="inzicht-getal"><?php echo (int) ( $r['gestart'] ?? 0 ); ?></td><td class="inzicht-getal"><?php echo (int) ( $r['verstuurd'] ?? 0 ); ?></td><td class="inzicht-getal"><?php echo esc_html( thema_inzicht_procent( (int) ( $r['verstuurd'] ?? 0 ), (int) ( $r['gestart'] ?? 0 ) ) ); ?></td></tr>
+					<?php endforeach; ?>
+				</tbody></table>
+			<?php else : ?>
+				<p>Nog geen metingen per pagina.</p>
+			<?php endif; ?>
+		<?php endif; ?>
+
+		<h2>Per dag</h2>
+		<?php
+		$dagdata = $d['dag'];
+		if ( $is_contact ) {
+			foreach ( $gf['dag'] as $dag => $r ) {
+				$dagdata[ $dag ]['verstuurd'] = $r['verstuurd'] ?? 0;
+			}
+		}
+		krsort( $dagdata );
+		$max = 1;
+		foreach ( $dagdata as $r ) {
+			$max = max( $max, (int) ( $r['gezien'] ?? $r['keuze'] ?? 0 ), (int) ( $r['gestart'] ?? 0 ) );
+		}
+		?>
+		<?php if ( $dagdata ) : ?>
+			<table class="widefat striped inzicht-tabel"><thead><tr><th>Dag</th><th class="inzicht-getal"><?php echo $is_contact ? 'Geladen' : 'Gezien'; ?></th><th class="inzicht-getal">Begonnen</th><th class="inzicht-getal">Verstuurd</th><th></th></tr></thead><tbody>
+				<?php foreach ( $dagdata as $dag => $r ) : ?>
+					<?php
+					$z = (int) ( $is_contact ? ( $r['keuze'] ?? 0 ) : ( $r['gezien'] ?? 0 ) );
+					$g = (int) ( $is_contact ? array_sum( array_filter( $r, fn( $k ) => 0 === strpos( $k, 'apparaat:gestart:' ), ARRAY_FILTER_USE_KEY ) ) : ( $r['gestart'] ?? 0 ) );
+					$v = (int) ( $r['verstuurd'] ?? 0 );
+					?>
+					<tr><td><?php echo esc_html( wp_date( 'D j M', strtotime( $dag ) ) ); ?></td><td class="inzicht-getal"><?php echo $z; ?></td><td class="inzicht-getal"><?php echo $g; ?></td><td class="inzicht-getal"><?php echo $v; ?></td><td><?php echo thema_inzicht_balk( $g, $max ); // phpcs:ignore ?></td></tr>
+				<?php endforeach; ?>
+			</tbody></table>
+		<?php else : ?>
+			<p>Nog geen metingen in deze periode.</p>
+		<?php endif; ?>
+	</div>
+	<?php
+	thema_inzicht_stijl();
+}
+
+function thema_inzicht_stijl() {
+	?>
 	<style>
 		.inzichten .inzicht-uitleg { max-width: 760px; font-size: 14px; }
 		.inzichten .inzicht-periode { display: flex; gap: 6px; margin: 16px 0 8px; }
@@ -558,6 +920,17 @@ function thema_inzicht_pagina() {
 		.inzichten .inzicht-balk { display: block; width: 120px; height: 8px; border-radius: 4px; background: #f1e9dc; overflow: hidden; }
 		.inzichten .inzicht-balk span { display: block; height: 100%; background: #ffaf00; }
 		@media (max-width: 1100px) { .inzichten .inzicht-raster-breed { grid-template-columns: minmax(0, 1fr); } }
+		.inzichten .inzicht-kpis { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; margin: 16px 0 8px; }
+		.inzichten .inzicht-kpi { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border-radius: 12px; background: #fff; box-shadow: inset 0 0 0 1px #e6e0d6; }
+		.inzichten .inzicht-kpi span { color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+		.inzichten .inzicht-kpi strong { color: #38065e; font-size: 26px; line-height: 1.1; }
+		.inzichten .inzicht-kpi em { color: #666; font-style: normal; font-size: 12px; }
+		.inzichten .inzicht-tabel { max-width: 1100px; }
+		.inzichten tr.inzicht-let-op td { background: #fdecee; }
+		.inzichten tr.inzicht-let-op td:first-child { box-shadow: inset 3px 0 0 #e0479e; font-weight: 600; }
+		.inzichten .inzicht-klein { color: #777; font-weight: 400; }
+		.inzichten .inzicht-details { display: inline-block; margin-top: 12px; font-weight: 600; }
+		.inzichten h3 + .inzicht-tabel { margin-top: 6px; }
 	</style>
 	<?php
 }
