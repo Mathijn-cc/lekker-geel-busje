@@ -20,6 +20,7 @@
 
 	function start(form) {
 		var prijs  = parseFloat(form.getAttribute('data-prijs')) || 0;
+		var een    = form.getAttribute('data-een') === '1';
 		var max    = parseInt(form.getAttribute('data-max'), 10) || 10;
 		var ritten = lees(form, 'data-ritten');
 		var opstap = lees(form, 'data-opstap');
@@ -73,9 +74,12 @@
 			}
 
 			toon('rit').textContent    = rit ? rit.tekst : 'Nog kiezen';
-			toon('opstap').textContent = opstap[gekozen('opstap')] || 'Nog kiezen';
-			toon('aantal').textContent = aantal + ' x ' + euro(prijs);
-			toon('totaal').textContent = euro(aantal * prijs);
+			var plek      = opstap[gekozen('opstap')];
+			var stoelprijs = plek ? plek.prijs : prijs;
+			toon('opstap').textContent = plek ? plek.tekst : 'Nog kiezen';
+			toon('aantal').textContent = aantal + ' x ' + (plek || een ? '' : 'vanaf ') + euro(stoelprijs);
+			toon('totaal').textContent = euro(aantal * stoelprijs);
+			toon('stoelprijs').textContent = 'x ' + (plek || een ? '' : 'vanaf ') + euro(stoelprijs) + ' per stoel, heen en terug';
 			toon('knop').textContent   = 'Reserveer ' + (aantal === 1 ? 'je stoel' : aantal + ' stoelen');
 
 			form.classList.toggle('is-compleet', !!(gekozen('rit') && gekozen('opstap')));

@@ -9790,6 +9790,38 @@ section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-p
   opacity:   .65;
 }
 
+/*Stoelen -- Prijs per opstapplek*/
+section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-plek span.stoelen-plek-prijs {
+  flex:           none;
+  min-width:      86px;
+  padding:        8px 12px;
+  border-radius:  14px;
+  background:     var(--kleur-geel);
+  font-family:    var(--kop-letter);
+  font-weight:    var(--kop-gewicht);
+  font-size:      20px;
+  letter-spacing: -.02em;
+  text-align:     center;
+  white-space:    nowrap;
+}
+@media (max-width: 640px) {
+  section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-plek {
+    gap:     10px;
+    padding: 12px;
+  }
+  section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-plek span.stoelen-plek-icoon {
+    display: none;
+  }
+  section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-plek span.stoelen-plek-prijs {
+    min-width: 0;
+    padding:   6px 9px;
+    font-size: 17px;
+  }
+  section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-plek span.stoelen-plek-tijden span.stoelen-plek-heen {
+    font-size: 17px;
+  }
+}
+
 /*Stoelen -- Aantal*/
 section.sectie-stoelen form.stoelen-formulier div.stoelen-aantal {
   display:     flex;

@@ -3,6 +3,7 @@
  * Stoelverkoop: losse stoelen verkopen voor een vaste rit (try-out Vrienden van Amstel LIVE, november 2026).
  *
  * - Het blok Stoelen (template-parts/blokken/stoelen.php) bevat de ritten, opstapplekken en de prijs.
+ *   Elke opstapplek kan een eigen prijs hebben (verder weg is duurder); leeg = de standaardprijs van het blok.
  * - Een aanmelding wordt een stoelboeking (eigen berichttype, niet openbaar) met status
  *   Nieuw, Tikkie verstuurd, Betaald of Geannuleerd. Geannuleerde stoelen komen weer vrij.
  * - Betalen gaat buiten de site om: Lekker Geel Busje stuurt per aanmelding een Tikkie.
@@ -115,6 +116,7 @@ function thema_stoelen_normaliseer( $blok, $pagina ) {
 	}
 	ksort( $ritten );
 
+	$basis  = max( 0, (float) ( $blok['prijs'] ?? 25 ) );
 	$opstap = array();
 	foreach ( (array) ( $blok['opstapplekken'] ?? array() ) as $plek ) {
 		$plaats = trim( (string) ( $plek['plaats'] ?? '' ) );
@@ -127,14 +129,18 @@ function thema_stoelen_normaliseer( $blok, $pagina ) {
 			'plek'    => trim( (string) ( $plek['plek'] ?? '' ) ),
 			'heen'    => trim( (string) ( $plek['heen'] ?? '' ) ),
 			'terug'   => trim( (string) ( $plek['terug'] ?? '' ) ),
+			'prijs'   => ( isset( $plek['prijs'] ) && '' !== $plek['prijs'] && (float) $plek['prijs'] > 0 ) ? (float) $plek['prijs'] : $basis,
 		);
 	}
+	$prijzen = $opstap ? array_column( $opstap, 'prijs' ) : array( $basis );
 
 	return array(
 		'pagina'     => (int) $pagina,
 		'evenement'  => trim( (string) ( $blok['evenement'] ?? '' ) ) ?: get_the_title( $pagina ),
 		'bestemming' => trim( (string) ( $blok['bestemming'] ?? '' ) ),
-		'prijs'      => max( 0, (float) ( $blok['prijs'] ?? 25 ) ),
+		'prijs'      => $basis,
+		'vanaf'      => min( $prijzen ),
+		'een_prijs'  => 1 === count( array_unique( $prijzen ) ),
 		'max'        => max( 1, (int) ( $blok['max_per_boeking'] ?? 10 ) ),
 		'krap'       => max( 0, (int) ( $blok['krap_vanaf'] ?? 15 ) ),
 		'ritten'     => $ritten,
@@ -249,7 +255,7 @@ function thema_stoelen_aanmelden() {
 	}
 
 	$opstap = $config['opstap'][ $waarden['opstap'] ];
-	$bedrag = $waarden['aantal'] * $config['prijs'];
+	$bedrag = $waarden['aantal'] * $opstap['prijs'];
 	$code   = strtoupper( wp_generate_password( 6, false ) );
 	$titel  = sprintf(
 		'%s, %d %s, %s, %s',
@@ -275,7 +281,7 @@ function thema_stoelen_aanmelden() {
 		'_stoel_opstap'       => $waarden['opstap'],
 		'_stoel_opstap_naam'  => $opstap['plaats'],
 		'_stoel_aantal'       => $waarden['aantal'],
-		'_stoel_prijs'        => $config['prijs'],
+		'_stoel_prijs'        => $opstap['prijs'],
 		'_stoel_bedrag'       => $bedrag,
 		'_stoel_naam'         => $waarden['naam'],
 		'_stoel_email'        => $waarden['email'],
@@ -314,7 +320,7 @@ function thema_stoelen_mails( $id, $config, $rit, $opstap ) {
 		'Avond:        ' . ucfirst( $avond ),
 		'Instappen:    ' . $opstap['plaats'] . ( $opstap['heen'] ? ', vertrek ' . $opstap['heen'] : '' ),
 		$opstap['plek'] ? 'Opstapplek:   ' . $opstap['plek'] : null,
-		'Stoelen:      ' . $aantal . ' x ' . thema_stoelen_euro( $config['prijs'] ) . ' = ' . $bedrag,
+		'Stoelen:      ' . $aantal . ' x ' . thema_stoelen_euro( $m( 'prijs' ) ) . ' = ' . $bedrag,
 		'Je code:      ' . $m( 'code' ),
 		'',
 		'Zo gaat het verder:',

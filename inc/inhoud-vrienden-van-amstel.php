@@ -4,6 +4,9 @@
  * in de bus naar De Vrienden van Amstel LIVE 2027 in Rotterdam Ahoy. Opstappen in Oisterwijk, Tilburg en Breda,
  * € 25 per persoon heen en terug, betalen vooraf via Tikkie. Uitroltaken vval-stoelen-v1 en vval-agenda-link-v1.
  *
+ * 25 nov 2026 (vval-stoelen-v2, vval-agenda-link-v2): route van Den Bosch naar Breda met een prijs per opstapplek,
+ * Den Bosch € 37,50 tot Breda € 25. De ritten die al op de pagina staan blijven staan.
+ *
  * Concertdata 2027 (gecheckt 17 nov 2026): 14 tot en met 18, 20 tot en met 25 en 27 tot en met 29 januari 2027.
  * Voor de try-out staan de vier weekendavonden open (vr 15, za 16, vr 22, za 23 januari). Ritten, tijden,
  * opstapplekken en aantallen past Lekker Geel Busje zelf aan in het blok Stoelen op de pagina.
@@ -44,8 +47,32 @@ function thema_plaats_vval_stoelen() {
 	$bussen = $bussen ? get_permalink( $bussen ) : home_url( '/onze-bussen/' );
 	$kies   = thema_link( 'Kies je stoel', '#stoelen' );
 
-	thema_seo_titel_zetten( 'Bus naar Vrienden van Amstel LIVE 2027: € 25 retour | Lekker Geel Busje', $id );
-	thema_seo_omschrijving_zetten( 'Met de gele bus naar Vrienden van Amstel LIVE in Ahoy. Instappen in Oisterwijk, Tilburg of Breda, heen en terug voor € 25 per persoon. Reserveer je stoel in een minuut.', $id );
+	/* Ritten en aantallen die al op de pagina staan (en mogelijk zijn aangepast) blijven staan. */
+	$huidig = array();
+	foreach ( (array) get_field( 'blokken', $id ) as $blok ) {
+		if ( 'stoelen' === ( $blok['acf_fc_layout'] ?? '' ) ) {
+			$huidig = $blok;
+			break;
+		}
+	}
+	$ritten = array();
+	foreach ( (array) ( $huidig['ritten'] ?? array() ) as $rit ) {
+		$ritten[] = array(
+			'datum'   => preg_replace( '/\D/', '', (string) ( $rit['datum'] ?? '' ) ),
+			'label'   => (string) ( $rit['label'] ?? '' ),
+			'stoelen' => (int) ( $rit['stoelen'] ?? 39 ),
+			'minimum' => (int) ( $rit['minimum'] ?? 20 ),
+			'status'  => (string) ( $rit['status'] ?? 'open' ),
+		);
+	}
+	if ( ! $ritten ) {
+		foreach ( array( '20270115', '20270116', '20270122', '20270123' ) as $datum ) {
+			$ritten[] = array( 'datum' => $datum, 'label' => '', 'stoelen' => 39, 'minimum' => 20, 'status' => 'open' );
+		}
+	}
+
+	thema_seo_titel_zetten( 'Bus naar Vrienden van Amstel LIVE 2027, vanaf € 25 retour | Lekker Geel Busje', $id );
+	thema_seo_omschrijving_zetten( 'Met de gele bus naar Vrienden van Amstel LIVE in Ahoy. Instappen in Den Bosch, Helvoirt, Haaren, Oisterwijk, Tilburg of Breda, heen en terug vanaf € 25. Reserveer je stoel in een minuut.', $id );
 
 	$reviews                = thema_blok_reviews();
 	$reviews['kop']         = 'Zij zongen al mee *in de bus*';
@@ -56,11 +83,12 @@ function thema_plaats_vval_stoelen() {
 	$faq['kop']    = 'Vragen over de *bus naar Ahoy*';
 	$faq['tekst']  = 'Staat je vraag er niet tussen? Bel of app ons gerust.';
 	$faq['vragen'] = thema_faq_rijen( array(
-		array( 'Zit mijn concertkaartje bij de prijs?', 'Nee. De € 25 is voor je stoel in de bus, heen en terug. Je kaartje voor Vrienden van Amstel LIVE koop je zelf via de officiële kaartverkoop.' ),
+		array( 'Wat kost een stoel in de bus?', 'Dat hangt af van waar je instapt: hoe dichter bij Rotterdam, hoe lager de prijs. Den Bosch € 37,50, Helvoirt € 35, Haaren € 32,50, Oisterwijk € 30, Tilburg € 27,50 en Breda € 25. Altijd per persoon, heen en terug.' ),
+		array( 'Zit mijn concertkaartje bij de prijs?', 'Nee. De prijs is voor je stoel in de bus, heen en terug. Je kaartje voor Vrienden van Amstel LIVE koop je zelf via de officiële kaartverkoop.' ),
 		array( 'Hoe betaal ik mijn stoel?', 'Na je aanmelding krijg je binnen 1 werkdag een Tikkie op je mobiele nummer. Betaal je die binnen 2 dagen, dan staat je stoel vast. Je hebt geen account nodig.' ),
 		array( 'Kan ik meteen voor mijn vrienden boeken?', 'Ja, tot 10 stoelen per aanmelding. Je krijgt één Tikkie voor het hele bedrag. De namen van je vrienden mag je ook later doorgeven.' ),
-		array( 'Hoe laat vertrekt de bus en hoe laat zijn we terug?', 'De bus vertrekt rond 17:00 in Oisterwijk, 17:20 in Tilburg en 17:55 in Breda. Na afloop rijden we rond 00:15 terug vanaf Ahoy: rond 00:55 ben je in Breda, 01:25 in Tilburg en 01:45 in Oisterwijk. De precieze tijden krijg je een week van tevoren.' ),
-		array( 'Waar stap ik precies in?', 'In Oisterwijk, Tilburg en Breda stopt de bus op een vaste opstapplek. De precieze plek krijg je bij je bevestiging, zodat je weet waar je moet zijn.' ),
+		array( 'Hoe laat vertrekt de bus en hoe laat zijn we terug?', 'De bus vertrekt rond 16:35 bij station Den Bosch en rijdt via Helvoirt (16:50), Haaren (16:57), Oisterwijk (17:07) en Tilburg (17:25) naar Breda (17:55). Na afloop rijden we rond 00:15 terug vanaf Ahoy: rond 00:55 ben je in Breda, 01:25 in Tilburg, 01:40 in Oisterwijk, 01:48 in Haaren, 01:55 in Helvoirt en 02:10 in Den Bosch. De precieze tijden krijg je een week van tevoren.' ),
+		array( 'Waar stap ik precies in?', 'Den Bosch bij het station, Helvoirt bij het busstation, Haaren bij het gemeentehuis, Oisterwijk bij het station, Tilburg bij Stappegoor en Breda bij het station aan de Belcrumzijde. Je terugrit eindigt op dezelfde plek.' ),
 		array( 'Mag je drinken in de bus?', 'Ja, dat mag. Eigen drank meenemen mag niet: je bestelt je drankjes bij het gastvrouwke.' ),
 		array( 'Wat als mijn avond niet doorgaat?', 'Een avond rijdt zeker zodra er genoeg stoelen gereserveerd zijn; dat zie je bij de avond staan. Gaat een rit toch niet door, dan hoor je dat op tijd van ons en krijg je je geld terug.' ),
 		array( 'Ik kan toch niet, wat nu?', 'Geef je stoel door aan een vriend of vriendin en laat ons de nieuwe naam weten. Dan zit er niemand alleen en is je stoel niet verloren.' ),
@@ -80,7 +108,7 @@ function thema_plaats_vval_stoelen() {
 			'kop_2'         => 'van Amstel LIVE',
 			'plaatsen'      => '',
 			'sub_1'         => 'Heen en terug',
-			'sub_2'         => 'voor € 25.',
+			'sub_2'         => 'vanaf € 25.',
 			'knop'          => $kies,
 			'knop_tonen'    => 1,
 			'toon_score'    => 1,
@@ -95,25 +123,23 @@ function thema_plaats_vval_stoelen() {
 			'eyebrow'         => 'Stoel reserveren',
 			'kop'             => 'Pak je stoel *in de gele bus*',
 			'intro'           => 'Kaartjes voor de grootste kroeg van Nederland binnen? Dan regelen wij de rit. Kies je avond, je opstapplek en met hoeveel je gaat. Je bent in een minuut klaar.',
-			'punten'          => "Heen en terug voor € 25 per persoon\nInstappen in Oisterwijk, Tilburg of Breda\nBetalen via Tikkie, geen account nodig",
+			'punten'          => "Heen en terug vanaf € 25 per persoon\nZes opstapplekken, van Den Bosch tot Breda\nBetalen via Tikkie, geen account nodig",
 			'evenement'       => 'Vrienden van Amstel LIVE 2027',
 			'bestemming'      => 'Rotterdam Ahoy',
 			'prijs'           => 25,
 			'max_per_boeking' => 10,
 			'krap_vanaf'      => 15,
-			'sluit_dagen'     => 2,
-			'ritten'          => array(
-				array( 'datum' => '20270115', 'label' => '', 'stoelen' => 39, 'minimum' => 20, 'status' => 'open' ),
-				array( 'datum' => '20270116', 'label' => '', 'stoelen' => 39, 'minimum' => 20, 'status' => 'open' ),
-				array( 'datum' => '20270122', 'label' => '', 'stoelen' => 39, 'minimum' => 20, 'status' => 'open' ),
-				array( 'datum' => '20270123', 'label' => '', 'stoelen' => 39, 'minimum' => 20, 'status' => 'open' ),
-			),
+			'sluit_dagen'     => isset( $huidig['sluit_dagen'] ) && '' !== $huidig['sluit_dagen'] ? (int) $huidig['sluit_dagen'] : 2,
+			'ritten'          => $ritten,
 			'opstapplekken'   => array(
-				array( 'plaats' => 'Oisterwijk', 'plek' => 'Precieze plek volgt bij je bevestiging', 'heen' => '17:00', 'terug' => '01:45' ),
-				array( 'plaats' => 'Tilburg', 'plek' => 'Precieze plek volgt bij je bevestiging', 'heen' => '17:20', 'terug' => '01:25' ),
-				array( 'plaats' => 'Breda', 'plek' => 'Precieze plek volgt bij je bevestiging', 'heen' => '17:55', 'terug' => '00:55' ),
+				array( 'plaats' => 'Den Bosch', 'plek' => 'Station \'s-Hertogenbosch', 'heen' => '16:35', 'terug' => '02:10', 'prijs' => 37.5 ),
+				array( 'plaats' => 'Helvoirt', 'plek' => 'Busstation', 'heen' => '16:50', 'terug' => '01:55', 'prijs' => 35 ),
+				array( 'plaats' => 'Haaren', 'plek' => 'Gemeentehuis', 'heen' => '16:57', 'terug' => '01:48', 'prijs' => 32.5 ),
+				array( 'plaats' => 'Oisterwijk', 'plek' => 'Station Oisterwijk', 'heen' => '17:07', 'terug' => '01:40', 'prijs' => 30 ),
+				array( 'plaats' => 'Tilburg', 'plek' => 'Stappegoor', 'heen' => '17:25', 'terug' => '01:25', 'prijs' => 27.5 ),
+				array( 'plaats' => 'Breda', 'plek' => 'Station Breda, Belcrumzijde', 'heen' => '17:55', 'terug' => '00:55', 'prijs' => 25 ),
 			),
-			'terugreis'       => 'Na afloop staat de bus rond 00:15 klaar bij Ahoy en rijden we in omgekeerde volgorde terug. Alle tijden zijn richttijden.',
+			'terugreis'       => 'Hoe dichter bij Rotterdam je instapt, hoe lager de prijs. Na afloop staat de bus rond 00:15 klaar bij Ahoy en rijden we de route in omgekeerde volgorde terug, naar de plek waar je bent ingestapt. Alle tijden zijn richttijden.',
 			'akkoord'         => 'Iedereen in mijn groep is 18 jaar of ouder, heeft een eigen concertkaartje en gaat akkoord met de <a href="' . esc_url( $regels ) . '" target="_blank">huisregels</a>.',
 			'betaalnoot'      => 'Nu nog niets betalen. Je krijgt binnen 1 werkdag een Tikkie, na betaling staat je stoel vast.',
 			'na_aanmelden'    => "Binnen 1 werkdag krijg je een Tikkie op je mobiele nummer.\nBetaal de Tikkie binnen 2 dagen, dan staat je stoel vast.\nEen week voor het concert krijg je de precieze opstapplek en tijd.\nOp de avond zelf: wees 10 minuten voor vertrek bij de bus, met je concertkaartje op je telefoon.",
@@ -139,12 +165,12 @@ function thema_plaats_vval_stoelen() {
 			'kop'           => 'Zo ziet je avond *eruit*',
 			'intro'         => 'Van instappen tot thuis, zonder dat jij op de klok hoeft te letten.',
 			'stappen'       => array(
-				array( 'tijd' => '17:00', 'icoon' => 'bus', 'titel' => 'Instappen', 'tekst' => 'Eerst in Oisterwijk, daarna Tilburg (17:20) en Breda (17:55). Zoek de gele bus, die mis je niet.' ),
+				array( 'tijd' => '16:35', 'icoon' => 'bus', 'titel' => 'Instappen', 'tekst' => 'De bus start bij station Den Bosch en rijdt via Helvoirt, Haaren, Oisterwijk en Tilburg naar Breda (17:55). Zoek de gele bus, die mis je niet.' ),
 				array( 'tijd' => 'Onderweg', 'icoon' => 'muziek', 'titel' => 'Inzingen', 'tekst' => 'Licht aan, meezingers op en een drankje van het gastvrouwke. Zo kom je al in de stemming aan.' ),
 				array( 'tijd' => '18:45', 'icoon' => 'route', 'titel' => 'Aankomst bij Ahoy', 'tekst' => 'We zetten je zo dicht mogelijk bij de ingang af en vertellen meteen waar de bus straks weer staat.' ),
 				array( 'tijd' => 'Concert', 'icoon' => 'feest', 'titel' => 'De grootste kroeg van Nederland', 'tekst' => 'Jij zingt de hele avond mee. Wij wachten op je.' ),
 				array( 'tijd' => '00:15', 'icoon' => 'glas', 'titel' => 'Terug naar de bus', 'tekst' => 'Op de afgesproken plek staat de bus klaar. Geen rij voor de trein, geen zoektocht naar de auto.' ),
-				array( 'tijd' => 'Daarna', 'icoon' => 'huis', 'titel' => 'Weer thuis', 'tekst' => 'Rond 00:55 in Breda, 01:25 in Tilburg en 01:45 in Oisterwijk. Met de verhalen van de avond.' ),
+				array( 'tijd' => 'Daarna', 'icoon' => 'huis', 'titel' => 'Weer thuis', 'tekst' => 'Rond 00:55 in Breda, 01:25 in Tilburg, 01:40 in Oisterwijk, 01:48 in Haaren, 01:55 in Helvoirt en 02:10 in Den Bosch. Met de verhalen van de avond.' ),
 			),
 			'slot'          => '<p>Alle tijden zijn richttijden. De precieze tijden en opstapplek krijg je een week van tevoren.</p>',
 			'knop'          => $kies,
@@ -197,8 +223,8 @@ function thema_vval_agenda_link() {
 			if ( false === stripos( (string) ( $item['titel'] ?? '' ), 'Vrienden van Amstel' ) ) {
 				continue;
 			}
-			update_sub_field( array( 'blokken', $i + 1, 'items', $j + 1, 'link' ), array( 'title' => 'Stoel in de bus voor € 25', 'url' => get_permalink( $pagina ), 'target' => '' ), $festival->ID );
-			update_sub_field( array( 'blokken', $i + 1, 'items', $j + 1, 'tekst' ), 'De grootste kroeg van Nederland, met meezingers van begin tot eind. Pak een losse stoel in de bus vanaf Oisterwijk, Tilburg of Breda.', $festival->ID );
+			update_sub_field( array( 'blokken', $i + 1, 'items', $j + 1, 'link' ), array( 'title' => 'Stoel in de bus vanaf € 25', 'url' => get_permalink( $pagina ), 'target' => '' ), $festival->ID );
+			update_sub_field( array( 'blokken', $i + 1, 'items', $j + 1, 'tekst' ), 'De grootste kroeg van Nederland, met meezingers van begin tot eind. Pak een losse stoel in de bus vanaf Den Bosch, Helvoirt, Haaren, Oisterwijk, Tilburg of Breda.', $festival->ID );
 			$gezet++;
 		}
 	}

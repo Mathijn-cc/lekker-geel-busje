@@ -24,7 +24,6 @@ $terug   = $fout ? get_transient( 'thema_stoelen_' . $fout ) : null;
 $waarden = is_array( $terug ) ? (array) $terug['waarden'] : array();
 $fouten  = is_array( $terug ) ? (array) $terug['fouten'] : ( 'opslaan' === $fout ? array( 'algemeen' => 'Er ging iets mis bij het opslaan. Probeer het nog eens of bel ons even.' ) : array() );
 
-$prijs   = $config['prijs'];
 $ritten  = $config['ritten'];
 $opstap  = $config['opstap'];
 $open    = array_filter( $ritten, fn( $r ) => 'open' === $r['status'] );
@@ -131,11 +130,16 @@ echo thema_sectie_open( $b, 'stoelen' );
 			}
 			$js_opstap = array();
 			foreach ( $opstap as $sleutel => $plek ) {
-				$js_opstap[ $sleutel ] = trim( $plek['plaats'] . ( $plek['heen'] ? ', ' . $plek['heen'] : '' ) );
+				$js_opstap[ $sleutel ] = array(
+					'tekst' => trim( $plek['plaats'] . ( $plek['heen'] ? ', ' . $plek['heen'] : '' ) ),
+					'prijs' => $plek['prijs'],
+				);
 			}
+			$stoelprijs = isset( $opstap[ $gekozen['opstap'] ] ) ? $opstap[ $gekozen['opstap'] ]['prijs'] : $config['vanaf'];
 			?>
 			<form class="stoelen-formulier" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" data-stoelen
-				data-prijs="<?php echo esc_attr( $prijs ); ?>"
+				data-prijs="<?php echo esc_attr( $config['vanaf'] ); ?>"
+				data-een="<?php echo $config['een_prijs'] ? '1' : '0'; ?>"
 				data-max="<?php echo (int) $config['max']; ?>"
 				data-ritten="<?php echo esc_attr( wp_json_encode( $js_ritten ) ); ?>"
 				data-opstap="<?php echo esc_attr( wp_json_encode( $js_opstap ) ); ?>">
@@ -204,11 +208,12 @@ echo thema_sectie_open( $b, 'stoelen' );
 										<span class="stoelen-keuze-titel"><?php echo esc_html( $plek['plaats'] ); ?></span>
 										<?php if ( $plek['plek'] ) : ?><span class="stoelen-keuze-sub"><?php echo esc_html( $plek['plek'] ); ?></span><?php endif; ?>
 									</span>
-									<?php if ( $plek['heen'] || $plek['terug'] ) : ?>
-										<span class="stoelen-plek-tijden">
-											<?php if ( $plek['heen'] ) : ?><span><span class="sr-tekst">Vertrek </span><?php echo thema_icoon( 'klok', 13 ); ?><?php echo esc_html( $plek['heen'] ); ?></span><?php endif; ?>
-											<?php if ( $plek['terug'] ) : ?><span class="stoelen-plek-terug"><?php echo esc_html( 'terug ' . $plek['terug'] ); ?></span><?php endif; ?>
-										</span>
+									<span class="stoelen-plek-tijden">
+										<?php if ( $plek['heen'] ) : ?><span class="stoelen-plek-heen"><span class="sr-tekst">Vertrek </span><?php echo thema_icoon( 'klok', 13 ); ?><?php echo esc_html( $plek['heen'] ); ?></span><?php endif; ?>
+										<?php if ( $plek['terug'] ) : ?><span class="stoelen-plek-terug"><?php echo esc_html( 'terug ' . $plek['terug'] ); ?></span><?php endif; ?>
+									</span>
+									<?php if ( ! $config['een_prijs'] ) : ?>
+										<span class="stoelen-plek-prijs"><span class="sr-tekst">Prijs per stoel </span><?php echo esc_html( thema_stoelen_euro( $plek['prijs'] ) ); ?></span>
 									<?php endif; ?>
 								</label>
 							<?php endforeach; ?>
@@ -224,7 +229,7 @@ echo thema_sectie_open( $b, 'stoelen' );
 							<label class="sr-tekst" for="stoelen-aantal">Aantal stoelen</label>
 							<input id="stoelen-aantal" type="number" name="aantal" min="1" max="<?php echo (int) $config['max']; ?>" step="1" inputmode="numeric" value="<?php echo (int) $gekozen['aantal']; ?>" required data-stoelen-aantal<?php echo $kenmerk( 'aantal' ); // phpcs:ignore ?>>
 							<button type="button" class="stoelen-plus" data-stoelen-plus aria-label="Een stoel meer" hidden>+</button>
-							<span class="stoelen-aantal-prijs"><?php echo esc_html( 'x ' . thema_stoelen_euro( $prijs ) . ' per stoel, heen en terug' ); ?></span>
+							<span class="stoelen-aantal-prijs" data-stoelen-toon="stoelprijs"><?php echo esc_html( ( $config['een_prijs'] || isset( $opstap[ $gekozen['opstap'] ] ) ? 'x ' : 'x vanaf ' ) . thema_stoelen_euro( $stoelprijs ) . ' per stoel, heen en terug' ); ?></span>
 						</div>
 						<p class="stoelen-uitleg" data-stoelen-aantal-uitleg><?php echo esc_html( 'Maximaal ' . $config['max'] . ' stoelen per aanmelding. Met een grotere groep? Huur dan de hele bus.' ); ?></p>
 					</fieldset>
@@ -271,11 +276,11 @@ echo thema_sectie_open( $b, 'stoelen' );
 						</div>
 						<dl class="stoelen-ticket-regels">
 							<div><dt>Avond</dt><dd data-stoelen-toon="rit"><?php echo esc_html( $js_ritten[ $gekozen['rit'] ]['tekst'] ?? 'Nog kiezen' ); ?></dd></div>
-							<div><dt>Instappen</dt><dd data-stoelen-toon="opstap"><?php echo esc_html( $js_opstap[ $gekozen['opstap'] ] ?? 'Nog kiezen' ); ?></dd></div>
-							<div><dt>Stoelen</dt><dd data-stoelen-toon="aantal"><?php echo esc_html( $gekozen['aantal'] . ' x ' . thema_stoelen_euro( $prijs ) ); ?></dd></div>
+							<div><dt>Instappen</dt><dd data-stoelen-toon="opstap"><?php echo esc_html( $js_opstap[ $gekozen['opstap'] ]['tekst'] ?? 'Nog kiezen' ); ?></dd></div>
+							<div><dt>Stoelen</dt><dd data-stoelen-toon="aantal"><?php echo esc_html( $gekozen['aantal'] . ' x ' . thema_stoelen_euro( $stoelprijs ) ); ?></dd></div>
 						</dl>
 						<div class="stoelen-ticket-onder">
-							<div class="stoelen-ticket-totaal" aria-live="polite"><span>Totaal, heen en terug</span><strong data-stoelen-toon="totaal"><?php echo esc_html( thema_stoelen_euro( $gekozen['aantal'] * $prijs ) ); ?></strong></div>
+							<div class="stoelen-ticket-totaal" aria-live="polite"><span>Totaal, heen en terug</span><strong data-stoelen-toon="totaal"><?php echo esc_html( thema_stoelen_euro( $gekozen['aantal'] * $stoelprijs ) ); ?></strong></div>
 						</div>
 						<button type="submit" class="stoelen-verstuur">
 							<span data-stoelen-toon="knop"><?php echo esc_html( 'Reserveer ' . ( 1 === $gekozen['aantal'] ? 'je stoel' : 'je stoelen' ) ); ?></span>
