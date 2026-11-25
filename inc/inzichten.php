@@ -278,9 +278,10 @@ function thema_inzicht_formuliernaam( $naam ) {
 function thema_inzicht_cijfers( $soort, $van, $groep = 'naam, detail' ) {
 	global $wpdb;
 	return $wpdb->get_results( $wpdb->prepare(
-		"SELECT {$groep}, SUM(aantal) AS aantal FROM " . thema_inzicht_tabel() . " WHERE soort = %s AND dag >= %s GROUP BY {$groep} ORDER BY aantal DESC", // phpcs:ignore
+		"SELECT {$groep}, SUM(aantal) AS aantal FROM " . thema_inzicht_tabel() . " WHERE soort = %s AND dag BETWEEN %s AND %s GROUP BY {$groep} ORDER BY aantal DESC", // phpcs:ignore
 		$soort,
-		$van
+		$van,
+		thema_inzicht_periode()['tot']
 	) );
 }
 
@@ -294,9 +295,9 @@ function thema_inzicht_procent( $deel, $geheel ) {
 }
 
 function thema_inzicht_pagina() {
-	$dagen = (int) ( $_GET['dagen'] ?? 30 ); // phpcs:ignore
-	$dagen = in_array( $dagen, array( 7, 30, 90, 365 ), true ) ? $dagen : 30;
-	$van   = wp_date( 'Y-m-d', strtotime( '-' . ( $dagen - 1 ) . ' days' ) );
+	$periode = thema_inzicht_periode();
+	$van     = $periode['van'];
+	$dagen   = $periode['args'];
 	$detail = sanitize_text_field( wp_unslash( $_GET['formulier'] ?? '' ) ); // phpcs:ignore
 	if ( preg_match( '/^(gf:\d+|stoelen|offertezin|contact)$/', $detail ) ) {
 		thema_inzicht_detail( $detail, $van, $dagen );
@@ -346,11 +347,8 @@ function thema_inzicht_pagina() {
 	<div class="wrap inzichten">
 		<h1>Inzichten</h1>
 		<p class="inzicht-uitleg">Hoe vaak mensen formulieren invullen, waar ze afhaken, wat ze in de WhatsApp-chat doen en welke externe links ze aanklikken. Alleen tellingen per dag: geen cookies, geen persoonsgegevens. Ingelogde gebruikers tellen niet mee.</p>
-		<p class="inzicht-periode">
-			<?php foreach ( array( 7 => '7 dagen', 30 => '30 dagen', 90 => '90 dagen', 365 => 'Jaar' ) as $d => $label ) : ?>
-				<a class="button<?php echo $d === $dagen ? ' button-primary' : ''; ?>" href="<?php echo esc_url( add_query_arg( 'dagen', $d, $adres ) ); ?>"><?php echo esc_html( $label ); ?></a>
-			<?php endforeach; ?>
-		</p>
+		<?php thema_inzicht_periodekiezer(); ?>
+		<?php thema_inzicht_overzicht_grafiek(); ?>
 
 		<?php if ( thema_inzicht_testmodus() ) : ?>
 			<div class="notice notice-warning inline"><p><strong>Testmodus staat aan</strong> tot <?php echo esc_html( wp_date( 'H:i', (int) get_transient( 'thema_inzicht_test' ) ) ); ?>: je eigen bezoeken tellen mee. Wis de cijfers na het testen.</p></div>
@@ -423,7 +421,7 @@ function thema_inzicht_pagina() {
 							<?php endforeach; ?>
 						</tbody></table>
 					<?php endif; ?>
-					<a class="inzicht-details" href="<?php echo esc_url( add_query_arg( array( 'dagen' => $dagen, 'formulier' => $naam ), $adres ) ); ?>">Bekijk per stap en per vraag &rarr;</a>
+					<a class="inzicht-details" href="<?php echo esc_url( add_query_arg( array_merge( $dagen, array( 'formulier' => $naam ) ), $adres ) ); ?>">Bekijk per stap en per vraag &rarr;</a>
 				</div>
 			<?php endforeach; ?>
 
@@ -456,7 +454,7 @@ function thema_inzicht_pagina() {
 							<tr><td><?php echo esc_html( $namen[ $id ] ?? $id ); ?></td><td class="inzicht-getal"><?php echo (int) $aantal; ?></td><td><?php echo thema_inzicht_balk( $aantal, $max ); // phpcs:ignore ?></td></tr>
 						<?php endforeach; ?>
 					</tbody></table>
-					<a class="inzicht-details" href="<?php echo esc_url( add_query_arg( array( 'dagen' => $dagen, 'formulier' => 'contact' ), $adres ) ); ?>">Bekijk per stap &rarr;</a>
+					<a class="inzicht-details" href="<?php echo esc_url( add_query_arg( array_merge( $dagen, array( 'formulier' => 'contact' ) ), $adres ) ); ?>">Bekijk per stap &rarr;</a>
 					<?php if ( $contact_fouten ) : ?>
 						<h4>Foutmeldingen per veld</h4>
 						<table class="widefat striped"><tbody>
@@ -584,10 +582,10 @@ function thema_inzicht_formulier_data( $soort, $naam, $van ) {
 	global $wpdb;
 	$tabel = thema_inzicht_tabel();
 	$uit   = array( 'detail' => array(), 'veld' => array(), 'dag' => array(), 'pagina' => array() );
-	foreach ( $wpdb->get_results( $wpdb->prepare( "SELECT detail, SUM(aantal) AS n FROM {$tabel} WHERE soort = %s AND naam = %s AND dag >= %s GROUP BY detail", $soort, $naam, $van ) ) as $r ) { // phpcs:ignore
+	foreach ( $wpdb->get_results( $wpdb->prepare( "SELECT detail, SUM(aantal) AS n FROM {$tabel} WHERE soort = %s AND naam = %s AND dag BETWEEN %s AND %s GROUP BY detail", $soort, $naam, $van, thema_inzicht_periode()['tot'] ) ) as $r ) { // phpcs:ignore
 		$uit['detail'][ $r->detail ] = (int) $r->n;
 	}
-	foreach ( $wpdb->get_results( $wpdb->prepare( "SELECT detail, SUM(aantal) AS n FROM {$tabel} WHERE soort = 'veld' AND naam = %s AND dag >= %s GROUP BY detail", $naam, $van ) ) as $r ) { // phpcs:ignore
+	foreach ( $wpdb->get_results( $wpdb->prepare( "SELECT detail, SUM(aantal) AS n FROM {$tabel} WHERE soort = 'veld' AND naam = %s AND dag BETWEEN %s AND %s GROUP BY detail", $naam, $van, thema_inzicht_periode()['tot'] ) ) as $r ) { // phpcs:ignore
 		$delen = explode( '|', $r->detail );
 		if ( 3 !== count( $delen ) ) {
 			continue;
@@ -595,10 +593,10 @@ function thema_inzicht_formulier_data( $soort, $naam, $van ) {
 		list( $stap, $label, $actie ) = $delen;
 		$uit['veld'][ (int) $stap ][ $label ][ $actie ] = (int) $r->n;
 	}
-	foreach ( $wpdb->get_results( $wpdb->prepare( "SELECT dag, detail, SUM(aantal) AS n FROM {$tabel} WHERE soort = %s AND naam = %s AND dag >= %s GROUP BY dag, detail", $soort, $naam, $van ) ) as $r ) { // phpcs:ignore
+	foreach ( $wpdb->get_results( $wpdb->prepare( "SELECT dag, detail, SUM(aantal) AS n FROM {$tabel} WHERE soort = %s AND naam = %s AND dag BETWEEN %s AND %s GROUP BY dag, detail", $soort, $naam, $van, thema_inzicht_periode()['tot'] ) ) as $r ) { // phpcs:ignore
 		$uit['dag'][ $r->dag ][ $r->detail ] = (int) $r->n;
 	}
-	foreach ( $wpdb->get_results( $wpdb->prepare( "SELECT pagina, detail, SUM(aantal) AS n FROM {$tabel} WHERE soort = %s AND naam = %s AND dag >= %s GROUP BY pagina, detail", $soort, $naam, $van ) ) as $r ) { // phpcs:ignore
+	foreach ( $wpdb->get_results( $wpdb->prepare( "SELECT pagina, detail, SUM(aantal) AS n FROM {$tabel} WHERE soort = %s AND naam = %s AND dag BETWEEN %s AND %s GROUP BY pagina, detail", $soort, $naam, $van, thema_inzicht_periode()['tot'] ) ) as $r ) { // phpcs:ignore
 		$uit['pagina'][ $r->pagina ][ $r->detail ] = (int) $r->n;
 	}
 	return $uit;
@@ -665,7 +663,7 @@ function thema_inzicht_detail( $naam, $van, $dagen ) {
 	$is_contact = 'contact' === $naam;
 	$d          = thema_inzicht_formulier_data( $is_contact ? 'stap' : 'formulier', $is_contact ? 'contact' : $naam, $van );
 	$x          = $d['detail'];
-	$terug      = admin_url( 'admin.php?page=thema-inzichten&dagen=' . $dagen );
+	$terug      = add_query_arg( $dagen, admin_url( 'admin.php?page=thema-inzichten' ) );
 
 	if ( $is_contact ) {
 		$gf    = thema_inzicht_formulier_data( 'formulier', 'gf:' . $contact_gf, $van );
@@ -690,11 +688,7 @@ function thema_inzicht_detail( $naam, $van, $dagen ) {
 	<div class="wrap inzichten">
 		<p><a href="<?php echo esc_url( $terug ); ?>">&larr; Terug naar Inzichten</a></p>
 		<h1><?php echo esc_html( $titel ); ?></h1>
-		<p class="inzicht-periode">
-			<?php foreach ( array( 7 => '7 dagen', 30 => '30 dagen', 90 => '90 dagen', 365 => 'Jaar' ) as $dd => $label ) : ?>
-				<a class="button<?php echo $dd === $dagen ? ' button-primary' : ''; ?>" href="<?php echo esc_url( add_query_arg( array( 'dagen' => $dd, 'formulier' => $naam ), admin_url( 'admin.php?page=thema-inzichten' ) ) ); ?>"><?php echo esc_html( $label ); ?></a>
-			<?php endforeach; ?>
-		</p>
+		<?php thema_inzicht_periodekiezer( $naam ); ?>
 
 		<div class="inzicht-kpis">
 			<?php
@@ -708,6 +702,40 @@ function thema_inzicht_detail( $naam, $van, $dagen ) {
 		</div>
 
 		<?php
+		/* ---------- Grafiek per dag ---------- */
+		$reeks = array( 'Gezien' => array(), 'Begonnen' => array(), 'Verstuurd' => array(), 'Afgehaakt' => array(), 'Vragen ingevuld' => array() );
+		foreach ( $d['dag'] as $dag => $r ) {
+			foreach ( $r as $k => $n ) {
+				if ( $is_contact ) {
+					$tak = 'keuze' === $k ? 'Gezien' : ( 0 === strpos( $k, 'apparaat:gestart:' ) ? 'Begonnen' : ( 0 === strpos( $k, 'afgehaakt:' ) ? 'Afgehaakt' : null ) );
+				} else {
+					$tak = 'gezien' === $k ? 'Gezien' : ( 'gestart' === $k ? 'Begonnen' : ( 'verstuurd' === $k ? 'Verstuurd' : ( 0 === strpos( $k, 'afhaakstap:' ) ? 'Afgehaakt' : null ) ) );
+				}
+				if ( $tak ) {
+					$reeks[ $tak ][ $dag ] = ( $reeks[ $tak ][ $dag ] ?? 0 ) + $n;
+				}
+			}
+		}
+		if ( $is_contact ) {
+			foreach ( $gf['dag'] as $dag => $r ) {
+				$reeks['Verstuurd'][ $dag ] = (int) ( $r['verstuurd'] ?? 0 );
+			}
+			unset( $reeks['Vragen ingevuld'] );
+		} else {
+			global $wpdb;
+			$per = thema_inzicht_periode();
+			foreach ( $wpdb->get_results( $wpdb->prepare( 'SELECT dag, SUM(aantal) AS n FROM ' . thema_inzicht_tabel() . " WHERE soort = 'veld' AND naam = %s AND detail LIKE %s AND dag BETWEEN %s AND %s GROUP BY dag", $naam, '%|ingevuld', $per['van'], $per['tot'] ) ) as $r ) { // phpcs:ignore
+				$reeks['Vragen ingevuld'][ $r->dag ] = (int) $r->n;
+			}
+		}
+		$kleuren = thema_inzicht_kleuren();
+		$lijnen  = array();
+		foreach ( $reeks as $label => $data ) {
+			$lijnen[ $label ] = array( 'kleur' => $kleuren[ $label ], 'data' => $data );
+		}
+		$per = thema_inzicht_periode();
+		echo thema_inzicht_lijngrafiek( $lijnen, $per['van'], $per['tot'], 'Verloop' ); // phpcs:ignore
+
 		/* ---------- Stappen ---------- */
 		if ( $is_contact ) {
 			$route = array(
@@ -931,6 +959,264 @@ function thema_inzicht_stijl() {
 		.inzichten .inzicht-klein { color: #777; font-weight: 400; }
 		.inzichten .inzicht-details { display: inline-block; margin-top: 12px; font-weight: 600; }
 		.inzichten h3 + .inzicht-tabel { margin-top: 6px; }
+		.inzichten .inzicht-periodekiezer { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin: 16px 0 6px; }
+		.inzichten .inzicht-periodekiezer .inzicht-periode { flex-wrap: wrap; margin: 0; }
+		.inzichten .inzicht-eigen { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+		.inzichten .inzicht-eigen label { display: flex; align-items: center; gap: 6px; }
+		.inzichten .inzicht-periode-label { flex-basis: 100%; margin: 0; color: #555; }
+		.inzichten .inzicht-grafiek-kaart { margin: 16px 0 8px; max-width: 1200px; }
+		.inzichten .inzicht-legenda { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 4px 0 10px; font-size: 13px; }
+		.inzichten .inzicht-legenda span { display: inline-flex; align-items: center; gap: 6px; }
+		.inzichten .inzicht-legenda i { display: inline-block; width: 14px; height: 4px; border-radius: 2px; }
+		.inzichten svg.inzicht-grafiek { display: block; width: 100%; height: auto; overflow: visible; }
+		.inzichten svg.inzicht-grafiek line.raster { stroke: #eee6da; stroke-width: 1; }
+		.inzichten svg.inzicht-grafiek text { fill: #777; font-size: 12px; }
+		.inzichten svg.inzicht-grafiek circle { cursor: default; }
 	</style>
 	<?php
+}
+
+/* --------------------------------------------------------------------------
+ * Periode en grafieken
+ * ----------------------------------------------------------------------- */
+
+/**
+ * Gekozen periode uit de adresbalk: een vaste keuze (periode=30, maand, ...) of een eigen van/tot.
+ * Geeft van, tot (Y-m-d), de sleutel, een leesbaar label en de parameters voor links.
+ */
+function thema_inzicht_periode() {
+	static $uit = null;
+	if ( null !== $uit ) {
+		return $uit;
+	}
+	$vandaag = wp_date( 'Y-m-d' );
+	$keuze   = sanitize_key( wp_unslash( $_GET['periode'] ?? ( $_GET['dagen'] ?? '30' ) ) ); // phpcs:ignore
+	$van_in  = sanitize_text_field( wp_unslash( $_GET['van'] ?? '' ) ); // phpcs:ignore
+	$tot_in  = sanitize_text_field( wp_unslash( $_GET['tot'] ?? '' ) ); // phpcs:ignore
+	$geldig  = fn( $d ) => preg_match( '/^\d{4}-\d{2}-\d{2}$/', $d ) && strtotime( $d );
+
+	if ( 'eigen' === $keuze && $geldig( $van_in ) && $geldig( $tot_in ) ) {
+		$van = min( $van_in, $tot_in );
+		$tot = min( max( $van_in, $tot_in ), $vandaag );
+		$uit = array( 'van' => $van, 'tot' => $tot, 'sleutel' => 'eigen', 'label' => wp_date( 'j M Y', strtotime( $van ) ) . ' t/m ' . wp_date( 'j M Y', strtotime( $tot ) ), 'args' => array( 'periode' => 'eigen', 'van' => $van, 'tot' => $tot ) );
+		return $uit;
+	}
+	$vast = thema_inzicht_periodes();
+	if ( ! isset( $vast[ $keuze ] ) ) {
+		$keuze = '30';
+	}
+	switch ( $keuze ) {
+		case 'vandaag':
+			$van = $vandaag;
+			$tot = $vandaag;
+			break;
+		case 'gisteren':
+			$van = wp_date( 'Y-m-d', strtotime( '-1 day' ) );
+			$tot = $van;
+			break;
+		case 'maand':
+			$van = wp_date( 'Y-m-01' );
+			$tot = $vandaag;
+			break;
+		case 'vorige-maand':
+			$van = wp_date( 'Y-m-01', strtotime( 'first day of last month' ) );
+			$tot = wp_date( 'Y-m-t', strtotime( 'first day of last month' ) );
+			break;
+		case 'jaar':
+			$van = wp_date( 'Y-01-01' );
+			$tot = $vandaag;
+			break;
+		case 'alles':
+			global $wpdb;
+			$van = (string) ( $wpdb->get_var( 'SELECT MIN(dag) FROM ' . thema_inzicht_tabel() ) ?: $vandaag ); // phpcs:ignore
+			$tot = $vandaag;
+			break;
+		default:
+			$van = wp_date( 'Y-m-d', strtotime( '-' . ( (int) $keuze - 1 ) . ' days' ) );
+			$tot = $vandaag;
+	}
+	$uit = array( 'van' => $van, 'tot' => $tot, 'sleutel' => $keuze, 'label' => $vast[ $keuze ], 'args' => array( 'periode' => $keuze ) );
+	return $uit;
+}
+
+function thema_inzicht_periodes() {
+	return array(
+		'vandaag'      => 'Vandaag',
+		'gisteren'     => 'Gisteren',
+		'7'            => '7 dagen',
+		'14'           => '14 dagen',
+		'30'           => '30 dagen',
+		'90'           => '90 dagen',
+		'180'          => '6 maanden',
+		'365'          => '12 maanden',
+		'maand'        => 'Deze maand',
+		'vorige-maand' => 'Vorige maand',
+		'jaar'         => 'Dit jaar',
+		'alles'        => 'Alles',
+	);
+}
+
+/**
+ * Knoppen voor de vaste periodes en een eigen van/tot.
+ */
+function thema_inzicht_periodekiezer( $formulier = '' ) {
+	$p     = thema_inzicht_periode();
+	$basis = admin_url( 'admin.php?page=thema-inzichten' );
+	$extra = $formulier ? array( 'formulier' => $formulier ) : array();
+	?>
+	<div class="inzicht-periodekiezer">
+		<div class="inzicht-periode">
+			<?php foreach ( thema_inzicht_periodes() as $sleutel => $label ) : ?>
+				<a class="button<?php echo (string) $sleutel === $p['sleutel'] ? ' button-primary' : ''; ?>" href="<?php echo esc_url( add_query_arg( array_merge( $extra, array( 'periode' => $sleutel ) ), $basis ) ); ?>"><?php echo esc_html( $label ); ?></a>
+			<?php endforeach; ?>
+		</div>
+		<form class="inzicht-eigen" method="get" action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>">
+			<input type="hidden" name="page" value="thema-inzichten">
+			<input type="hidden" name="periode" value="eigen">
+			<?php if ( $formulier ) : ?><input type="hidden" name="formulier" value="<?php echo esc_attr( $formulier ); ?>"><?php endif; ?>
+			<label>Van <input type="date" name="van" value="<?php echo esc_attr( $p['van'] ); ?>" max="<?php echo esc_attr( wp_date( 'Y-m-d' ) ); ?>"></label>
+			<label>t/m <input type="date" name="tot" value="<?php echo esc_attr( $p['tot'] ); ?>" max="<?php echo esc_attr( wp_date( 'Y-m-d' ) ); ?>"></label>
+			<button class="button<?php echo 'eigen' === $p['sleutel'] ? ' button-primary' : ''; ?>" type="submit">Eigen periode</button>
+		</form>
+		<p class="inzicht-periode-label">Periode: <strong><?php echo esc_html( $p['label'] ); ?></strong> (<?php echo esc_html( wp_date( 'j M Y', strtotime( $p['van'] ) ) . ' t/m ' . wp_date( 'j M Y', strtotime( $p['tot'] ) ) ); ?>)</p>
+	</div>
+	<?php
+}
+
+/**
+ * Lijngrafiek als SVG, zonder bibliotheek.
+ * $reeksen: array( label => array( 'kleur' => '#hex', 'data' => array( 'Y-m-d' => aantal ) ) ).
+ * Bij lange periodes per week (vanaf 92 dagen) of per maand (vanaf 400 dagen).
+ */
+function thema_inzicht_lijngrafiek( $reeksen, $van, $tot, $titel = '' ) {
+	$begin  = new DateTimeImmutable( $van );
+	$einde  = new DateTimeImmutable( $tot );
+	$aantal = (int) $begin->diff( $einde )->days + 1;
+	$stap   = $aantal >= 400 ? 'maand' : ( $aantal >= 92 ? 'week' : 'dag' );
+
+	/* Emmers op de x-as. */
+	$emmers = array();
+	for ( $d = $begin; $d <= $einde; $d = $d->modify( '+1 day' ) ) {
+		$sleutel = 'maand' === $stap ? $d->format( 'Y-m' ) : ( 'week' === $stap ? $d->format( 'o-\WW' ) : $d->format( 'Y-m-d' ) );
+		if ( ! isset( $emmers[ $sleutel ] ) ) {
+			$emmers[ $sleutel ] = 'maand' === $stap ? wp_date( 'M Y', $d->getTimestamp() ) : ( 'week' === $stap ? 'wk ' . $d->format( 'W' ) : wp_date( 'j M', $d->getTimestamp() ) );
+		}
+	}
+	$lijnen = array();
+	$max    = 1;
+	foreach ( $reeksen as $label => $reeks ) {
+		$waarden = array_fill_keys( array_keys( $emmers ), 0 );
+		foreach ( (array) $reeks['data'] as $dag => $n ) {
+			$t = strtotime( $dag );
+			if ( ! $t ) {
+				continue;
+			}
+			$sleutel = 'maand' === $stap ? gmdate( 'Y-m', $t ) : ( 'week' === $stap ? gmdate( 'o-\WW', $t ) : gmdate( 'Y-m-d', $t ) );
+			if ( isset( $waarden[ $sleutel ] ) ) {
+				$waarden[ $sleutel ] += (int) $n;
+			}
+		}
+		$max             = max( $max, max( $waarden ?: array( 0 ) ) );
+		$lijnen[ $label ] = array( 'kleur' => $reeks['kleur'], 'waarden' => $waarden );
+	}
+
+	/* Mooie bovengrens en vier rasterlijnen. */
+	$orde  = pow( 10, floor( log10( max( 1, $max ) ) ) );
+	$boven = max( 4, ceil( $max / $orde ) * $orde );
+	if ( $boven / 4 !== floor( $boven / 4 ) ) {
+		$boven = ceil( $boven / 4 ) * 4;
+	}
+	$b    = 1000;
+	$h    = 280;
+	$l    = 44;
+	$r    = 16;
+	$o    = 30;
+	$t    = 14;
+	$n    = count( $emmers );
+	$x    = fn( $i ) => $l + ( $n > 1 ? $i * ( $b - $l - $r ) / ( $n - 1 ) : ( $b - $l - $r ) / 2 );
+	$y    = fn( $v ) => $t + ( $h - $t - $o ) * ( 1 - $v / $boven );
+	$elke = max( 1, (int) ceil( $n / 10 ) );
+	$svg  = '<svg class="inzicht-grafiek" viewBox="0 0 ' . $b . ' ' . $h . '" role="img" aria-label="' . esc_attr( $titel ?: 'Lijngrafiek' ) . '">';
+	for ( $i = 0; $i <= 4; $i++ ) {
+		$waarde = $boven * $i / 4;
+		$svg   .= '<line x1="' . $l . '" x2="' . ( $b - $r ) . '" y1="' . round( $y( $waarde ), 1 ) . '" y2="' . round( $y( $waarde ), 1 ) . '" class="raster"/>';
+		$svg   .= '<text x="' . ( $l - 8 ) . '" y="' . round( $y( $waarde ) + 4, 1 ) . '" text-anchor="end">' . esc_html( number_format_i18n( $waarde ) ) . '</text>';
+	}
+	$i = 0;
+	foreach ( $emmers as $label ) {
+		if ( 0 === $i % $elke || $i === $n - 1 ) {
+			$svg .= '<text x="' . round( $x( $i ), 1 ) . '" y="' . ( $h - 8 ) . '" text-anchor="middle">' . esc_html( $label ) . '</text>';
+		}
+		$i++;
+	}
+	foreach ( $lijnen as $naam => $lijn ) {
+		$punten = array();
+		$i      = 0;
+		foreach ( $lijn['waarden'] as $waarde ) {
+			$punten[] = round( $x( $i ), 1 ) . ',' . round( $y( $waarde ), 1 );
+			$i++;
+		}
+		$svg .= '<polyline points="' . implode( ' ', $punten ) . '" fill="none" stroke="' . esc_attr( $lijn['kleur'] ) . '" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
+		$i    = 0;
+		$labels = array_values( $emmers );
+		foreach ( $lijn['waarden'] as $waarde ) {
+			$svg .= '<circle cx="' . round( $x( $i ), 1 ) . '" cy="' . round( $y( $waarde ), 1 ) . '" r="' . ( $n > 60 ? 2 : 3.5 ) . '" fill="' . esc_attr( $lijn['kleur'] ) . '"><title>' . esc_html( $labels[ $i ] . ': ' . $waarde . ' ' . mb_strtolower( $naam ) ) . '</title></circle>';
+			$i++;
+		}
+	}
+	$svg .= '</svg>';
+
+	$legenda = '';
+	foreach ( $lijnen as $naam => $lijn ) {
+		$legenda .= '<span><i style="background:' . esc_attr( $lijn['kleur'] ) . '"></i>' . esc_html( $naam ) . ' <strong>' . (int) array_sum( $lijn['waarden'] ) . '</strong></span>';
+	}
+	$per = array( 'dag' => 'per dag', 'week' => 'per week', 'maand' => 'per maand' )[ $stap ];
+	return '<div class="inzicht-kaart inzicht-grafiek-kaart">' . ( $titel ? '<h3>' . esc_html( $titel ) . ' <span class="inzicht-klein">' . esc_html( $per ) . '</span></h3>' : '' ) . '<div class="inzicht-legenda">' . $legenda . '</div>' . $svg . '</div>';
+}
+
+/**
+ * Kleuren van de lijnen, gelijk voor elke grafiek.
+ */
+function thema_inzicht_kleuren() {
+	return array( 'Gezien' => '#b9a6cf', 'Begonnen' => '#ffaf00', 'Verstuurd' => '#1d9a5b', 'Afgehaakt' => '#e0479e', 'Vragen ingevuld' => '#38065e' );
+}
+
+/**
+ * Grafiek bovenaan het overzicht: alle formulieren samen.
+ */
+function thema_inzicht_overzicht_grafiek() {
+	global $wpdb;
+	$p     = thema_inzicht_periode();
+	$tabel = thema_inzicht_tabel();
+	$rijen = $wpdb->get_results( $wpdb->prepare( "SELECT dag, soort, detail, SUM(aantal) AS n FROM {$tabel} WHERE soort IN ('formulier','stap') AND dag BETWEEN %s AND %s GROUP BY dag, soort, detail", $p['van'], $p['tot'] ) ); // phpcs:ignore
+	$data  = array( 'Gezien' => array(), 'Begonnen' => array(), 'Verstuurd' => array(), 'Afgehaakt' => array() );
+	foreach ( $rijen as $r ) {
+		$tak = null;
+		if ( 'formulier' === $r->soort ) {
+			if ( 'gezien' === $r->detail ) {
+				$tak = 'Gezien';
+			} elseif ( 'gestart' === $r->detail ) {
+				$tak = 'Begonnen';
+			} elseif ( 'verstuurd' === $r->detail ) {
+				$tak = 'Verstuurd';
+			} elseif ( 0 === strpos( $r->detail, 'afhaakstap:' ) ) {
+				$tak = 'Afgehaakt';
+			}
+		} elseif ( 0 === strpos( $r->detail, 'apparaat:gestart:' ) ) {
+			$tak = 'Begonnen';
+		} elseif ( 0 === strpos( $r->detail, 'afgehaakt:' ) ) {
+			$tak = 'Afgehaakt';
+		} elseif ( 'keuze' === $r->detail ) {
+			$tak = 'Gezien';
+		}
+		if ( $tak ) {
+			$data[ $tak ][ $r->dag ] = ( $data[ $tak ][ $r->dag ] ?? 0 ) + (int) $r->n;
+		}
+	}
+	$kleuren = thema_inzicht_kleuren();
+	$reeksen = array();
+	foreach ( $data as $label => $reeks ) {
+		$reeksen[ $label ] = array( 'kleur' => $kleuren[ $label ], 'data' => $reeks );
+	}
+	echo thema_inzicht_lijngrafiek( $reeksen, $p['van'], $p['tot'], 'Alle formulieren' ); // phpcs:ignore
 }
