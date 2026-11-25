@@ -99,6 +99,11 @@
 		/* Het contactformulier vraag voor vraag meet zijn eigen stappen; het verborgen formulier niet dubbel tellen. */
 		if (form.closest('[data-stappen-formulier]')) { return; }
 		var staat = { form: form, naam: naam, stap: Math.max(1, paginaVan(form, 'source')), gestart: false, laatste: '', weg: false, aangeraakt: {}, ingevuld: {} };
+		/* Op stap 2 of verder is iemand al begonnen: weggaan zonder iets aan te raken is dan ook afhaken. */
+		if (staat.stap > 1 && bewaard('gestart_' + naam)) {
+			staat.gestart = true;
+			staat.laatste = 'nog niets aangeraakt in deze stap';
+		}
 		formulieren.push(staat);
 
 		if ('IntersectionObserver' in window) {
