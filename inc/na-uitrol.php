@@ -114,6 +114,7 @@ function thema_uitroltaken() {
 		'home-vval-banner-v1'     => 'thema_home_vval_banner',
 		'foto-kandidaten-v2'      => 'thema_foto_kandidaten',
 		'vrije-fotos-v1'          => 'thema_vrije_fotos_plaatsen',
+		'foto-kandidaten-shaker-v1' => 'thema_foto_kandidaten_shaker',
 	);
 }
 

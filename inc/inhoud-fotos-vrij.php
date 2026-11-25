@@ -39,12 +39,12 @@ function thema_vrije_foto_zoektermen() {
  * Uitroltaak foto-kandidaten-v1: per zoekterm vijf kandidaten als kleine voorbeeldfoto in uploads/kandidaten,
  * met maker en licentie in het log. Plaatst niets op pagina's.
  */
-function thema_foto_kandidaten() {
+function thema_foto_kandidaten( $termen = null ) {
 	$map = wp_upload_dir();
 	$dir = trailingslashit( $map['basedir'] ) . 'kandidaten';
 	wp_mkdir_p( $dir );
 	$uit = array();
-	foreach ( thema_vrije_foto_zoektermen() as $sleutel => $q ) {
+	foreach ( ( $termen ?: thema_vrije_foto_zoektermen() ) as $sleutel => $q ) {
 		$r = wp_remote_get( add_query_arg( array(
 			'q' => $q, 'license_type' => 'commercial,modification', 'page_size' => 20, 'mature' => 'false',
 		), 'https://api.openverse.org/v1/images/' ), array( 'timeout' => 25, 'user-agent' => 'LekkerGeelBusje/1.0 (staging; info@lekkergeelbusje.nl)' ) );
@@ -212,4 +212,11 @@ function thema_vrije_fotos_plaatsen() {
 	}
 	update_option( 'thema_vrije_fotos', $koppeling, false );
 	return $uit;
+}
+
+/**
+ * Uitroltaak foto-kandidaten-shaker-v1: kandidaten voor de cocktailworkshop in Breda.
+ */
+function thema_foto_kandidaten_shaker() {
+	return thema_foto_kandidaten( array( 'shaker' => 'cocktail shaker', 'shaker-bar' => 'bartender shaker' ) );
 }
