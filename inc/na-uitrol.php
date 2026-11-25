@@ -95,6 +95,7 @@ function thema_uitroltaken() {
 		'logo-google-v1'          => 'thema_logo_google',
 		'locaties-v1'             => 'thema_plaats_locaties',
 		'footer-locaties-v1'      => 'thema_footer_locaties',
+		'locaties-v2'             => 'thema_plaats_locaties',
 	);
 }
 

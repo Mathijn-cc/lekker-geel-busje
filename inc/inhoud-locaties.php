@@ -154,7 +154,7 @@ function thema_locatie_pagina( $c ) {
 
 	$blokken   = array();
 	$blokken[] = array(
-		'acf_fc_layout' => 'hero', 'kop_1' => 'Partybus', 'kop_2' => 'naar ' . $c['plaats'], 'plaatsen' => implode( "\n", $c['hero_wissel'] ),
+		'acf_fc_layout' => 'hero', 'kop_1' => 'Partybus huren', 'kop_2' => 'naar ' . $c['plaats'], 'plaatsen' => implode( "\n", $c['hero_wissel'] ),
 		'sub_1' => 'Jouw feest begint', 'sub_2' => 'al in de bus!', 'knop' => $plan, 'knop_tonen' => 1, 'toon_score' => 1,
 		'stijl' => 'collage', 'fotos' => $fotos, 'bento_klein' => 'Chauffeur en gastvrouwke', 'bento_groot' => 'Tot 88 personen',
 		'vorm' => 'auto', 'hoogte' => 'compact', 'knop_vorm' => 'standaard', 'knop_kleur' => 'geel', 'ruimte_onder' => 'groot', 'kopniveau' => 'auto', 'anker' => 'top',
@@ -168,7 +168,15 @@ function thema_locatie_pagina( $c ) {
 		'slot' => '<p>Vier je een <a href="' . esc_url( home_url( '/gelegenheden/vrijgezellenfeest/' ) ) . '">vrijgezellenfeest</a> of een <a href="' . esc_url( home_url( '/gelegenheden/bedrijfsuitje/' ) ) . '">bedrijfsuitje</a> in ' . esc_html( $c['plaats'] ) . '? Dan denken we graag mee over de route. Bekijk ook <a href="' . esc_url( home_url( '/bussen/' ) ) . '">onze bussen</a>: in de grootste passen tot 88 personen.</p>',
 		'knop' => thema_link( 'Plan je route', $offerte_url ), 'kop_uitlijning' => 'midden',
 	) );
-	$blokken[] = $blok( array( 'acf_fc_layout' => 'tips', 'eyebrow' => 'Activiteiten', 'kop' => 'Wat te doen in *' . $c['plaats'] . '*', 'intro' => $c['tips_intro'], 'items' => $tips, 'kolommen' => '3', 'kop_uitlijning' => 'links' ) );
+	$blokken[] = $blok( array( 'acf_fc_layout' => 'tips', 'eyebrow' => 'Activiteiten', 'kop' => $c['tips_kop'], 'intro' => $c['tips_intro'], 'items' => $tips, 'kolommen' => '3', 'kop_uitlijning' => 'links' ) );
+	if ( ! empty( $c['vrijgezel'] ) ) {
+		$blokken[] = $blok( array(
+			'acf_fc_layout' => 'opdrachten', 'eyebrow' => 'Vrijgezellenfeest', 'kop' => $c['vrijgezel']['kop'], 'intro' => $c['vrijgezel']['intro'],
+			'items' => $c['vrijgezel']['items'],
+			'noot' => $c['vrijgezel']['noot'],
+			'achtergrond' => 'paars', 'anker' => 'vrijgezellenfeest',
+		) );
+	}
 	$blokken[] = $blok( array( 'acf_fc_layout' => 'lopende_band', 'items' => implode( "\n", $c['band'] ), 'knop' => '', 'variant' => 'subtiel', 'tekstkleur' => 'kleurrijk', 'beweging' => 'scroll', 'rijen' => '1', 'schuin' => '-2', 'knop_vorm' => 'standaard', 'knop_kleur' => 'geel' ) );
 	foreach ( $c['gebieden'] as $g ) {
 		$plekken = array();
