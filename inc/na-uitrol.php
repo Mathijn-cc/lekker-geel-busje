@@ -117,6 +117,7 @@ function thema_uitroltaken() {
 		'foto-kandidaten-shaker-v1' => 'thema_foto_kandidaten_shaker',
 		'vrije-fotos-v2'          => 'thema_vrije_fotos_plaatsen',
 		'foto-kandidaten-sloep-v1' => 'thema_foto_kandidaten_sloep',
+		'foto-kandidaten-sloep-v2' => 'thema_foto_kandidaten_sloep2',
 	);
 }
 

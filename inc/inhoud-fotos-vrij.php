@@ -228,3 +228,16 @@ function thema_foto_kandidaten_shaker() {
 function thema_foto_kandidaten_sloep() {
 	return thema_foto_kandidaten( array( 'sloep-vrienden' => 'friends boat canal', 'sloep-feest' => 'boat party friends', 'sloep-elektrisch' => 'electric boat canal people', 'sloep-nl' => 'sloep' ) );
 }
+
+/**
+ * Uitroltaak foto-kandidaten-sloep-v2: tweede ronde voor varen met vrienden.
+ */
+function thema_foto_kandidaten_sloep2() {
+	return thema_foto_kandidaten( array(
+		'boot-vrienden'  => 'friends on a boat drinks',
+		'boot-gracht'    => 'Utrecht canal boat people',
+		'boot-zomer'     => 'boating friends summer',
+		'boot-amsterdam' => 'Amsterdam canal small boat people',
+		'boot-groep'     => 'group of people small motor boat river',
+	) );
+}
