@@ -113,6 +113,7 @@ function thema_uitroltaken() {
 		'vval-agenda-link-v4'     => 'thema_vval_agenda_link_direct',
 		'home-vval-banner-v1'     => 'thema_home_vval_banner',
 		'foto-kandidaten-v2'      => 'thema_foto_kandidaten',
+		'vrije-fotos-v1'          => 'thema_vrije_fotos_plaatsen',
 	);
 }
 

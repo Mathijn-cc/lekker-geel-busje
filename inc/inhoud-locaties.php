@@ -118,6 +118,10 @@ function thema_locatie_tip( $t ) {
 	if ( 'commons' === ( $t['foto'][0] ?? '' ) ) {
 		$beeld = thema_commons_beeld( $t['foto'][1], $t['foto'][2], $t['foto'][3] );
 	}
+	if ( ! $beeld && ! empty( $t['plaats_slug'] ) ) {
+		$vrij  = (array) get_option( 'thema_vrije_fotos', array() );
+		$beeld = (int) ( $vrij[ $t['plaats_slug'] . '|' . $t['titel'] ] ?? 0 );
+	}
 	if ( ! $beeld && ! empty( $t['reserve'] ) ) {
 		$beeld     = thema_beeld_op_naam( $t['reserve'] );
 		$tijdelijk = true;
@@ -172,7 +176,7 @@ function thema_locatie_pagina( $c ) {
 		return array_merge( $standaard, $velden );
 	};
 	$fotos = array_values( array_filter( array_map( 'thema_beeld_op_naam', $c['hero_fotos'] ) ) );
-	$tips  = array_map( 'thema_locatie_tip', $c['tips'] );
+	$tips  = array_map( 'thema_locatie_tip', array_map( fn( $t ) => array_merge( $t, array( 'plaats_slug' => $c['slug'] ) ), $c['tips'] ) );
 	$links = array();
 	foreach ( $tips as $t ) {
 		$links[ $t['titel'] ] = $t['link'];
