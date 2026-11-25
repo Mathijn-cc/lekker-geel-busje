@@ -299,3 +299,152 @@ function thema_footer_locaties() {
 	set_theme_mod( 'nav_menu_locations', $plekken );
 	return array( 'menu' => $id, 'items' => wp_list_pluck( $items, 'titel' ) );
 }
+
+/**
+ * Link naar een plaatspagina met eigen ankertekst; zonder pagina alleen de tekst.
+ */
+function thema_plaats_anker( $slug, $tekst ) {
+	$p = get_page_by_path( 'locaties/' . $slug );
+	return $p ? '<a href="' . esc_url( get_permalink( $p ) ) . '">' . esc_html( $tekst ) . '</a>' : esc_html( $tekst );
+}
+
+/**
+ * Uitroltaak plaatsnamen-gelegenheden-v1: in de route van elke gelegenheidspagina de plaatsen die samen
+ * met die gelegenheid het meest gezocht worden, als lopende tekst met links naar de plaatspagina's.
+ * Alleen als de oorspronkelijke zin er nog staat; een eigen aanpassing in WordPress blijft staan.
+ */
+function thema_plaatsnamen_gelegenheden() {
+	if ( ! function_exists( 'get_field' ) ) {
+		return 'geen acf';
+	}
+	$a   = 'thema_plaats_anker';
+	$hub = '<a href="' . esc_url( home_url( '/locaties/' ) ) . '">bestemmingen</a>';
+	$vrijgezel = get_page_by_path( 'vrijgezellenfeest', OBJECT, 'gelegenheid' );
+	$vrijgezel = $vrijgezel ? get_permalink( $vrijgezel ) : home_url( '/gelegenheden/vrijgezellenfeest/' );
+	$nieuw = array(
+		'vrijgezellenfeest' => array(
+			'oud'  => 'Nog op zoek naar een bestemming?',
+			'slot' => '<p>Nog op zoek naar een bestemming? Een ' . $a( 'rotterdam', 'vrijgezellenfeest in Rotterdam' ) . ' met karaoke en een show, een ' . $a( 'amsterdam', 'vrijgezellenfeest in Amsterdam' ) . ' op een borrelboot, of Bourgondisch in ' . $a( 'den-bosch', 'Den Bosch' ) . ' en ' . $a( 'tilburg', 'Tilburg' ) . '. Bij onze ' . $hub . ' vind je ideeën voor de dag. We rijden door heel Nederland, ook naar Breda, Eindhoven en ' . $a( 'maastricht', 'Maastricht' ) . '.</p>',
+		),
+		'bedrijfsuitje' => array(
+			'oud'  => 'Nog op zoek naar een bestemming?',
+			'slot' => '<p>Nog op zoek naar een bestemming? Een ' . $a( 'den-bosch', 'bedrijfsuitje in Den Bosch' ) . ' over de Binnendieze, een ' . $a( 'tilburg', 'bedrijfsuitje in Tilburg' ) . ' met een proeverij of een personeelsuitje in ' . $a( 'rotterdam', 'Rotterdam' ) . '. Bij onze ' . $hub . ' vind je ideeën voor de dag. We rijden door heel Brabant, van Eindhoven tot Breda, en door de rest van Nederland.</p>',
+		),
+		'trip-met-vrienden' => array(
+			'oud'  => 'Nog op zoek naar een bestemming?',
+			'slot' => '<p>Nog op zoek naar een bestemming? Een groepsuitje in ' . $a( 'den-bosch', 'Den Bosch' ) . ', ' . $a( 'rotterdam', 'Rotterdam' ) . ' of ' . $a( 'amsterdam', 'Amsterdam' ) . ', of de leukste ' . $a( 'tilburg', 'uitjes in Tilburg' ) . ' en ' . $a( 'maastricht', 'Maastricht' ) . '. Bij onze ' . $hub . ' vind je ideeën voor een dag uit met de groep. We rijden door heel Nederland en daarbuiten.</p>',
+		),
+		'bruiloft' => array(
+			'oud'  => 'Organiseer je eerst nog het',
+			'slot' => '<p>Organiseer je eerst nog het <a href="' . esc_url( $vrijgezel ) . '">vrijgezellenfeest</a>? Ook dan rijden we graag. Trouwen jullie in Amsterdam, of ligt jullie trouwlocatie in Den Bosch of Tilburg? Het maakt niet uit: we rijden door heel Nederland en daarbuiten.</p>',
+		),
+		'festival' => array(
+			'oud'  => 'ook naar meerdaagse festivals',
+			'slot' => '<p>We rijden door heel Nederland en daarbuiten, ook naar meerdaagse festivals. Van een festival in ' . $a( 'tilburg', 'Tilburg' ) . ' of ' . $a( 'den-bosch', 'Den Bosch' ) . ' tot de grote festivals rond Amsterdam en Rotterdam: wij halen je groep op en brengen iedereen weer thuis.</p>',
+		),
+	);
+	$uit = array();
+	foreach ( $nieuw as $slug => $n ) {
+		$post = get_page_by_path( $slug, OBJECT, 'gelegenheid' );
+		if ( ! $post ) {
+			$uit[ $slug ] = 'geen pagina';
+			continue;
+		}
+		$blokken = get_field( 'field_blokken', $post->ID, false );
+		$gedaan  = 'zin niet gevonden';
+		foreach ( (array) $blokken as $i => $b ) {
+			if ( 'route' !== ( $b['acf_fc_layout'] ?? '' ) ) {
+				continue;
+			}
+			foreach ( $b as $sleutel => $waarde ) {
+				if ( is_string( $waarde ) && false !== strpos( $waarde, $n['oud'] ) && false === strpos( $waarde, '/locaties/' . 'tilburg' ) ) {
+					$blokken[ $i ][ $sleutel ] = $n['slot'];
+					$gedaan                    = 'bijgewerkt';
+				}
+			}
+		}
+		if ( 'bijgewerkt' === $gedaan ) {
+			update_field( 'field_blokken', $blokken, $post->ID );
+		}
+		$uit[ $slug ] = $gedaan;
+	}
+	return $uit;
+}
+
+/**
+ * Uitroltaak tilburg-seo-v1: Tilburg (handmatig opgebouwd) bijwerken zoals de andere plaatsen,
+ * met gerichte vervangingen zodat de rest van de pagina blijft zoals hij is.
+ */
+function thema_tilburg_seo() {
+	$p = get_page_by_path( 'locaties/tilburg' );
+	if ( ! $p || ! function_exists( 'get_field' ) ) {
+		return 'geen tilburg';
+	}
+	$id      = (int) $p->ID;
+	$blokken = get_field( 'blokken', $id );
+	$uit     = array();
+	$nieuw   = array();
+	foreach ( (array) $blokken as $b ) {
+		$soort = $b['acf_fc_layout'] ?? '';
+		if ( 'hero' === $soort ) {
+			$b['kop_1'] = 'Partybus huren';
+			$b['kop_2'] = 'naar Tilburg';
+			if ( is_array( $b['fotos'] ?? null ) ) {
+				$b['fotos'] = array_map( fn( $f ) => is_array( $f ) ? (int) $f['ID'] : (int) $f, $b['fotos'] );
+			}
+			$uit[] = 'hero';
+		}
+		if ( 'aan_boord' === $soort && false === strpos( $b['tekst'], 'partybus' ) ) {
+			$b['tekst'] = 'Een partybus, feestbus of discobus huren naar Tilburg? ' . $b['tekst'];
+			$uit[]      = 'intro';
+		}
+		if ( 'tips' === $soort ) {
+			$b['kop']   = 'Uitjes in *Tilburg*';
+			$b['intro'] = 'De leukste uitjes in Tilburg voor een groep. Combineer er een of twee met eten en stappen, dan is je dag compleet.';
+			foreach ( $b['items'] as $k => $t ) {
+				$b['items'][ $k ]['beeld'] = is_array( $t['beeld'] ) ? (int) $t['beeld']['ID'] : (int) $t['beeld'];
+			}
+			$uit[] = 'tips';
+		}
+		if ( 'faq' === $soort ) {
+			foreach ( $b['vragen'] as $k => $v ) {
+				$a = str_replace( array( ' Onze bussen staan in Oisterwijk, dus Tilburg ligt voor ons om de hoek.', 'Binnen 2 werkdagen' ), array( '', 'Binnen 1 werkdag' ), $v['antwoord'] );
+				$b['vragen'][ $k ]['antwoord'] = $a;
+			}
+			$vragen = wp_list_pluck( $b['vragen'], 'vraag' );
+			if ( ! in_array( 'Kunnen jullie ons ook in Tilburg ophalen?', $vragen, true ) ) {
+				array_splice( $b['vragen'], 1, 0, array(
+					array( 'vraag' => 'Kunnen jullie ons ook in Tilburg ophalen?', 'antwoord' => 'Ja. Of je nu uit Tilburg vertrekt of naar Tilburg toe gaat: we halen je groep op waar je wilt en rijden de hele dag mee. Zo huur je een partybus in Tilburg voor een vrijgezellenfeest, verjaardag of groepsuitje.' ),
+					array( 'vraag' => 'Is Tilburg geschikt voor een bedrijfsuitje of personeelsuitje?', 'antwoord' => 'Heel geschikt. Een rondleiding bij Schrobbelèr of La Trappe, karten bij De Voltage en daarna eten aan de Piushaven. Wij rijden de hele groep, zodat iedereen tegelijk aankomt en niemand achter het stuur hoeft. Een factuur op bedrijfsnaam kan.' ),
+				) );
+			}
+			$uit[] = 'faq';
+		}
+		if ( 'offerte' === $soort && ! empty( $b['zekerheden'] ) ) {
+			$b['zekerheden'] = str_replace( 'Binnen 2 werkdagen', 'Binnen 1 werkdag', $b['zekerheden'] );
+		}
+		$nieuw[] = $b;
+		if ( 'tips' === $soort ) {
+			$nieuw[] = array(
+				'acf_fc_layout' => 'opdrachten', 'eyebrow' => 'Met de groep', 'kop' => 'Vrijgezellenfeest of bedrijfsuitje in *Tilburg*',
+				'intro' => 'Een vrijgezellenfeest in Tilburg, een bedrijfsuitje of gewoon een groepsuitje met vrienden. Een paar ideeën om de dag mee te vullen.',
+				'items' => array(
+					array( 'soort' => 'Voor vrouwen', 'titel' => 'Proeven en borrelen', 'tekst' => 'Een Schrobbelèr-proeverij, daarna borrelen aan de Piushaven en de avond afsluiten op de Korte Heuvel.' ),
+					array( 'soort' => 'Voor mannen', 'titel' => 'Racen en spellen', 'tekst' => 'Karten en lasergamen bij De Voltage, darten en Crazy Pool bij The Madhouse, en daarna een trappist bij La Trappe.' ),
+					array( 'soort' => 'Bedrijfsuitje', 'titel' => 'Samen iets beleven', 'tekst' => 'Prison Island bij NondeJeu of een rondleiding met proeverij, en daarna samen eten. Wij rijden het hele team.' ),
+					array( 'soort' => 'Groepsuitje', 'titel' => 'Concert in 013', 'tekst' => 'Met de hele groep naar een concert of clubnacht. Wij zetten je bij de deur af en halen je na de laatste toegift weer op.' ),
+				),
+				'noot' => 'Wij rijden, jullie feesten: de bus haalt iedereen op en brengt iedereen samen weer thuis.',
+				'achtergrond' => 'paars', 'achtergrond_1' => 'paars', 'achtergrond_2' => 'standaard', 'achtergrond_richting' => 'boven',
+				'ruimte_boven' => 'normaal', 'ruimte_onder' => 'normaal', 'kopniveau' => 'auto', 'anker' => 'met-de-groep',
+			);
+			$uit[] = 'blok groep';
+		}
+	}
+	update_field( 'field_blokken', $nieuw, $id );
+	if ( function_exists( 'thema_seo_titel_zetten' ) ) {
+		thema_seo_titel_zetten( 'Partybus huren Tilburg | Uitjes in Tilburg met de groep | Lekker Geel Busje', $id );
+		thema_seo_omschrijving_zetten( 'Partybus, feestbus of discobus huren in Tilburg? Uitjes voor je vrijgezellenfeest of bedrijfsuitje: Schrobbelèr, 013 en de Piushaven. Binnen 1 werkdag een prijs.', $id );
+	}
+	return $uit;
+}
