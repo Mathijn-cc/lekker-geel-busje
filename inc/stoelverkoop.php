@@ -330,7 +330,7 @@ function thema_stoelen_mails( $id, $config, $rit, $opstap ) {
 	}
 	$regels = array_merge( $regels, array(
 		'',
-		'Let op: je ticket voor het concert zelf regel je apart, de stoel in de bus is alleen het vervoer.',
+		'Let op: je ticket voor het concert zelf regel je apart, de stoel in de bus is alleen het vervoer. Een betaalde stoel kun je niet annuleren, wel doorgeven aan iemand anders.',
 		'',
 		'Vragen? Bel ' . thema_instellingen( 'telefoon' ) . ' of beantwoord deze mail.',
 		'',
@@ -345,8 +345,20 @@ function thema_stoelen_mails( $id, $config, $rit, $opstap ) {
 		array( 'Reply-To: ' . $site . ' <' . $config['ontvanger'] . '>' )
 	);
 
+	/* Tikkies gaan pas de deur uit als de avond het minimum heeft gehaald. */
+	$bezet_na = thema_stoelen_bezet( $config['pagina'], $rit['sleutel'] );
+	$minimum  = (int) $rit['minimum'];
+	if ( ! $minimum || $rit['bezet'] >= $minimum ) {
+		$actie = 'Deze avond rijdt al: stuur deze boeker een Tikkie van ' . $bedrag . '.';
+	} elseif ( $bezet_na >= $minimum ) {
+		$actie = 'Deze avond heeft nu het minimum van ' . $minimum . ' stoelen gehaald en rijdt. Stuur alle boekers van deze avond een Tikkie (zie Stoelverkoop, filter op de avond, status Nieuw).';
+	} else {
+		$actie = 'Nog geen Tikkie sturen: deze avond staat op ' . $bezet_na . ' van de ' . $minimum . ' stoelen die nodig zijn.';
+	}
+
 	$intern = array(
-		'Nieuwe aanmelding voor ' . $config['evenement'] . '. Stuur een Tikkie van ' . $bedrag . '.',
+		'Nieuwe aanmelding voor ' . $config['evenement'] . '.',
+		$actie,
 		'',
 		'Naam:         ' . $m( 'naam' ),
 		'Mobiel:       ' . $m( 'telefoon' ),
@@ -358,7 +370,7 @@ function thema_stoelen_mails( $id, $config, $rit, $opstap ) {
 		'Code:         ' . $m( 'code' ),
 		$m( 'meereizigers' ) ? "Meereizigers:\n" . $m( 'meereizigers' ) : null,
 		'',
-		'Nu bezet op deze avond: ' . thema_stoelen_bezet( $config['pagina'], $rit['sleutel'] ) . ' van ' . $rit['stoelen'] . '.',
+		'Nu bezet op deze avond: ' . $bezet_na . ' van ' . $rit['stoelen'] . '.',
 		'',
 		'Bekijken en status bijwerken: ' . admin_url( 'post.php?post=' . (int) $id . '&action=edit' ),
 	);

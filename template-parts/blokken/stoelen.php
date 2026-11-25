@@ -171,6 +171,8 @@ echo thema_sectie_open( $b, 'stoelen' );
 									$staat = 'Aanmelden gesloten';
 								} elseif ( $krap ) {
 									$staat = 1 === $rit['vrij'] ? 'Laatste stoel!' : 'Nog ' . $rit['vrij'] . ' stoelen';
+								} elseif ( $rit['minimum'] && ! $gaat ) {
+									$staat = 'Rijdt vanaf ' . $rit['minimum'] . ' stoelen';
 								} else {
 									$staat = 'Stoelen vrij';
 								}
