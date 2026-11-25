@@ -256,3 +256,29 @@ function thema_plaats_locaties() {
 	}
 	return $uit;
 }
+
+/**
+ * Uitroltaak footer-locaties-v1: het footermenu Populaire locaties wijst naar de echte plaatspagina's,
+ * met de overzichtspagina als laatste. Plaatsen zonder pagina staan er niet meer in.
+ */
+function thema_footer_locaties() {
+	if ( ! function_exists( 'thema_vul_menu' ) ) {
+		return 'geen menufunctie';
+	}
+	$items = array();
+	foreach ( array( 'tilburg' => 'Tilburg', 'den-bosch' => 'Den Bosch', 'rotterdam' => 'Rotterdam', 'amsterdam' => 'Amsterdam', 'maastricht' => 'Maastricht' ) as $slug => $naam ) {
+		$p = get_page_by_path( 'locaties/' . $slug );
+		if ( $p && 'publish' === $p->post_status ) {
+			$items[] = array( 'post' => (int) $p->ID, 'titel' => $naam );
+		}
+	}
+	$hub = get_page_by_path( 'locaties' );
+	if ( $hub ) {
+		$items[] = array( 'post' => (int) $hub->ID, 'titel' => 'Alle locaties' );
+	}
+	$id                      = thema_vul_menu( 'Populaire locaties', $items );
+	$plekken                 = get_theme_mod( 'nav_menu_locations', array() );
+	$plekken['footer_3']     = $id;
+	set_theme_mod( 'nav_menu_locations', $plekken );
+	return array( 'menu' => $id, 'items' => wp_list_pluck( $items, 'titel' ) );
+}

@@ -94,6 +94,7 @@ function thema_uitroltaken() {
 		'redirects-oude-site-v2'  => 'thema_redirects_oude_site',
 		'logo-google-v1'          => 'thema_logo_google',
 		'locaties-v1'             => 'thema_plaats_locaties',
+		'footer-locaties-v1'      => 'thema_footer_locaties',
 	);
 }
 
