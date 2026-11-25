@@ -125,6 +125,7 @@ function thema_vrije_foto_keuze() {
 		array( 'tilburg', 'The Madhouse', '3e17819e-98ff-493d-803c-fa156674dcaf', 'poolbiljart-bar', 'Een pooltafel met ballen in een bar' ),
 		array( 'tilburg', 'De Voltage', 'e3865aaf-2676-43d7-ba41-3d00f6e91450', 'karten-indoor-baan', 'Karts op een indoor baan' ),
 		array( 'tilburg', 'NondeJeu', '88fdb24a-62bc-4e41-857c-9e39bdb884fa', 'spelkamer-uitdaging', 'Een sfeervolle spelkamer vol aanwijzingen' ),
+		array( 'breda', 'Cocktailworkshop', '15da2aab-1aff-4f48-a2f8-45dbd101db9b', 'cocktail-uit-de-shaker', 'Een cocktail wordt uit de shaker in twee glazen geschonken' ),
 	);
 }
 
@@ -219,4 +220,11 @@ function thema_vrije_fotos_plaatsen() {
  */
 function thema_foto_kandidaten_shaker() {
 	return thema_foto_kandidaten( array( 'shaker' => 'cocktail shaker', 'shaker-bar' => 'bartender shaker' ) );
+}
+
+/**
+ * Uitroltaak foto-kandidaten-sloep-v1: kandidaten voor varen met vrienden op een sloep.
+ */
+function thema_foto_kandidaten_sloep() {
+	return thema_foto_kandidaten( array( 'sloep-vrienden' => 'friends boat canal', 'sloep-feest' => 'boat party friends', 'sloep-elektrisch' => 'electric boat canal people', 'sloep-nl' => 'sloep' ) );
 }
