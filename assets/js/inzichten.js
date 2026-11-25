@@ -143,7 +143,16 @@
 		form.addEventListener('change', check);
 		form.addEventListener('focusout', check);
 
-		form.addEventListener('submit', function () {
+		/* Gravity Forms verstuurt Verder, Vorige en Verstuur vaak via script, zonder submit-gebeurtenis.
+		   Daarom ook de klik op die knoppen; de onclick van de knop heeft het doel dan al gezet. */
+		form.addEventListener('click', function (e) {
+			if (e.target.closest && e.target.closest('.gform_next_button, .gform_previous_button, .gform_button, button[type="submit"], input[type="submit"]')) {
+				setTimeout(verzend, 0);
+			}
+		});
+		form.addEventListener('submit', verzend);
+		function verzend() {
+			if (staat.weg) { return; }
 			staat.weg = true;
 			var doel = paginaVan(form, 'target');
 			var bron = staat.stap;
@@ -158,7 +167,9 @@
 				tel('formulier', naam, 'terug:' + bron);
 			}
 			stuur();
-		});
+			/* Blijft de pagina staan (fout in een veld bij AJAX), dan telt een vertrek later weer als afhaken. */
+			setTimeout(function () { if (document.body.contains(form)) { staat.weg = false; } }, 20000);
+		}
 	}
 
 	function zoekFormulieren() {
