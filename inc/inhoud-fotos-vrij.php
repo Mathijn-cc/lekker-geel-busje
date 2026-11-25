@@ -46,25 +46,49 @@ function thema_foto_kandidaten() {
 	$uit = array();
 	foreach ( thema_vrije_foto_zoektermen() as $sleutel => $q ) {
 		$r = wp_remote_get( add_query_arg( array(
-			'q' => $q, 'license_type' => 'commercial,modification', 'page_size' => 20, 'mature' => 'false', 'aspect_ratio' => 'wide,square',
+			'q' => $q, 'license_type' => 'commercial,modification', 'page_size' => 20, 'mature' => 'false',
 		), 'https://api.openverse.org/v1/images/' ), array( 'timeout' => 25, 'user-agent' => 'LekkerGeelBusje/1.0 (staging; info@lekkergeelbusje.nl)' ) );
 		$d = is_wp_error( $r ) ? array() : json_decode( wp_remote_retrieve_body( $r ), true );
-		$n = 0;
+		$n     = 0;
+		$fouten = array();
 		foreach ( (array) ( $d['results'] ?? array() ) as $res ) {
-			if ( $n >= 5 || ( $res['width'] ?? 0 ) < 1200 ) {
+			if ( $n >= 5 ) {
+				break;
+			}
+			if ( ! empty( $res['width'] ) && $res['width'] < 1000 ) {
+				$fouten[] = 'klein';
 				continue;
 			}
-			$thumb = $res['thumbnail'] ?? '';
-			$t     = $thumb ? wp_remote_get( $thumb, array( 'timeout' => 25 ) ) : null;
-			if ( ! $t || is_wp_error( $t ) || 200 !== (int) wp_remote_retrieve_response_code( $t ) ) {
+			$bestand = $dir . '/' . $sleutel . '-' . $n . '.jpg';
+			$ok      = false;
+			foreach ( array( $res['thumbnail'] ?? '', $res['url'] ?? '' ) as $bron ) {
+				if ( ! $bron ) {
+					continue;
+				}
+				$t = wp_remote_get( $bron, array( 'timeout' => 30, 'user-agent' => 'LekkerGeelBusje/1.0 (staging; info@lekkergeelbusje.nl)' ) );
+				if ( is_wp_error( $t ) || 200 !== (int) wp_remote_retrieve_response_code( $t ) ) {
+					$fouten[] = is_wp_error( $t ) ? 'fout' : wp_remote_retrieve_response_code( $t );
+					continue;
+				}
+				file_put_contents( $bestand, wp_remote_retrieve_body( $t ) );
+				$ed = wp_get_image_editor( $bestand );
+				if ( is_wp_error( $ed ) ) {
+					$fouten[] = 'geen beeld';
+					continue;
+				}
+				$ed->resize( 600, 600, false );
+				$ed->save( $bestand, 'image/jpeg' );
+				$ok = true;
+				break;
+			}
+			if ( ! $ok ) {
 				continue;
 			}
-			file_put_contents( $dir . '/' . $sleutel . '-' . $n . '.jpg', wp_remote_retrieve_body( $t ) );
 			$uit[ $sleutel ][ $n ] = array( $res['id'], $res['source'] ?? '', $res['license'] . ' ' . $res['license_version'], mb_substr( (string) ( $res['creator'] ?? '' ), 0, 40 ), mb_substr( (string) ( $res['title'] ?? '' ), 0, 60 ), $res['width'] . 'x' . $res['height'] );
 			$n++;
 		}
 		if ( ! $n ) {
-			$uit[ $sleutel ] = 'geen: ' . ( is_wp_error( $r ) ? $r->get_error_message() : wp_remote_retrieve_response_code( $r ) );
+			$uit[ $sleutel ] = 'geen: ' . ( is_wp_error( $r ) ? $r->get_error_message() : wp_remote_retrieve_response_code( $r ) ) . ' resultaten ' . count( (array) ( $d['results'] ?? array() ) ) . ' ' . implode( ',', array_slice( $fouten, 0, 6 ) ) . ' ' . substr( wp_remote_retrieve_body( $r ), 0, 120 );
 		}
 		sleep( 2 );
 	}

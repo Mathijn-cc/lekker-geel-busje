@@ -112,6 +112,7 @@ function thema_uitroltaken() {
 		'faq-stops-v1'            => 'thema_faq_stops_herstellen',
 		'vval-agenda-link-v4'     => 'thema_vval_agenda_link_direct',
 		'home-vval-banner-v1'     => 'thema_home_vval_banner',
+		'foto-kandidaten-v2'      => 'thema_foto_kandidaten',
 	);
 }
 
