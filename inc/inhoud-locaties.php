@@ -5,121 +5,193 @@
 
 defined( 'ABSPATH' ) || exit;
 
+/* --------------------------------------------------------------------------
+ * Bouwen van de plaatspagina's.
+ * ----------------------------------------------------------------------- */
+
 /**
- * Uitroltaak tilburg-uitlezen-v1: de blokken van Tilburg als voorbeeld in het uitrollog (leest alleen).
+ * Eerste werkende link uit een lijst. Een kandidaat is een url of array( url, woord ): dan moet
+ * het woord ook in de pagina staan. Zo komt er nooit een dode of verkeerde link op de pagina.
  */
-function thema_tilburg_uitlezen() {
-	$p = get_page_by_path( 'locaties/tilburg' );
-	if ( ! $p || ! function_exists( 'get_field' ) ) {
-		return 'geen tilburg';
-	}
-	$kort = function ( $w ) use ( &$kort ) {
-		if ( is_array( $w ) ) {
-			if ( isset( $w['ID'], $w['url'], $w['mime_type'] ) ) {
-				return 'beeld:' . $w['ID'] . ':' . basename( $w['url'] );
-			}
-			return array_map( $kort, $w );
+function thema_locatie_link( $kandidaten ) {
+	foreach ( (array) $kandidaten as $k ) {
+		$url   = is_array( $k ) ? $k[0] : $k;
+		$woord = is_array( $k ) ? $k[1] : '';
+		$r     = wp_remote_get( $url, array( 'timeout' => 12, 'redirection' => 5, 'user-agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/537.36 Chrome/124 Safari/537.36' ) );
+		if ( is_wp_error( $r ) || 200 !== (int) wp_remote_retrieve_response_code( $r ) ) {
+			continue;
 		}
-		return $w;
-	};
+		if ( $woord && false === stripos( wp_remote_retrieve_body( $r ), $woord ) ) {
+			continue;
+		}
+		return $url;
+	}
+	return '';
+}
+
+/**
+ * Foto van Wikimedia Commons in de mediabibliotheek, met naamsvermelding in het bijschrift.
+ * Staat hij er al (zelfde bronbestand), dan wordt die gebruikt.
+ */
+function thema_commons_beeld( $bestand, $naam, $alt ) {
+	$al = get_posts( array(
+		'post_type'      => 'attachment',
+		'post_status'    => 'inherit',
+		'posts_per_page' => 1,
+		'fields'         => 'ids',
+		'meta_key'       => 'thema_commons_bron',
+		'meta_value'     => $bestand,
+	) );
+	if ( $al ) {
+		return (int) $al[0];
+	}
+	$api = add_query_arg( array(
+		'action' => 'query', 'format' => 'json', 'titles' => $bestand, 'prop' => 'imageinfo',
+		'iiprop' => 'url|extmetadata', 'iiurlwidth' => 2560, 'iiextmetadatafilter' => 'Artist|LicenseShortName|LicenseUrl',
+	), 'https://commons.wikimedia.org/w/api.php' );
+	$r   = wp_remote_get( $api, array( 'timeout' => 20, 'user-agent' => 'LekkerGeelBusje/1.0 (staging; info@lekkergeelbusje.nl)' ) );
+	$d   = is_wp_error( $r ) ? array() : json_decode( wp_remote_retrieve_body( $r ), true );
+	$p   = ! empty( $d['query']['pages'] ) ? reset( $d['query']['pages'] ) : array();
+	$ii  = $p['imageinfo'][0] ?? array();
+	$url = $ii['thumburl'] ?? ( $ii['url'] ?? '' );
+	if ( ! $url ) {
+		return 0;
+	}
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+	require_once ABSPATH . 'wp-admin/includes/media.php';
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+	$tmp = download_url( $url, 60 );
+	if ( is_wp_error( $tmp ) ) {
+		return 0;
+	}
+	$id = media_handle_sideload( array( 'name' => $naam . '.jpg', 'tmp_name' => $tmp ), 0, $alt );
+	if ( is_wp_error( $id ) ) {
+		@unlink( $tmp ); // phpcs:ignore
+		return 0;
+	}
+	$maker   = trim( wp_strip_all_tags( $ii['extmetadata']['Artist']['value'] ?? '' ) ) ?: 'Onbekend';
+	$licentie = $ii['extmetadata']['LicenseShortName']['value'] ?? '';
+	$lic_url = $ii['extmetadata']['LicenseUrl']['value'] ?? '';
+	$pagina  = $ii['descriptionurl'] ?? 'https://commons.wikimedia.org/wiki/' . rawurlencode( str_replace( ' ', '_', $bestand ) );
+	$credit  = 'Foto: <a href="' . esc_url( $pagina ) . '" target="_blank" rel="noopener">' . esc_html( $maker ) . '</a> via Wikimedia Commons';
+	if ( $licentie ) {
+		$credit .= ', ' . ( $lic_url ? '<a href="' . esc_url( $lic_url ) . '" target="_blank" rel="noopener">' . esc_html( $licentie ) . '</a>' : esc_html( $licentie ) );
+	}
+	wp_update_post( array( 'ID' => $id, 'post_excerpt' => $credit, 'post_title' => $alt ) );
+	update_post_meta( $id, '_wp_attachment_image_alt', $alt );
+	update_post_meta( $id, 'thema_commons_bron', $bestand );
+	return (int) $id;
+}
+
+/**
+ * Een tip (kaart). $foto is array( 'commons', bestand, naam, alt ) of array( 'eigen', bestandsnaam ).
+ */
+function thema_locatie_tip( $t ) {
+	$beeld     = 0;
+	$tijdelijk = false;
+	if ( 'commons' === ( $t['foto'][0] ?? '' ) ) {
+		$beeld = thema_commons_beeld( $t['foto'][1], $t['foto'][2], $t['foto'][3] );
+	}
+	if ( ! $beeld && ! empty( $t['reserve'] ) ) {
+		$beeld     = thema_beeld_op_naam( $t['reserve'] );
+		$tijdelijk = true;
+	}
 	return array(
-		'id'      => $p->ID,
-		'ouder'   => $p->post_parent,
-		'sjabloon'=> get_page_template_slug( $p->ID ),
-		'titel'   => $p->post_title,
-		'seo'     => array( get_post_meta( $p->ID, 'rank_math_title', true ), get_post_meta( $p->ID, 'rank_math_description', true ) ),
-		'blokken' => $kort( get_field( 'blokken', $p->ID ) ),
+		'titel'     => $t['titel'],
+		'soort'     => $t['soort'],
+		'beeld'     => $beeld,
+		'tijdelijk' => $tijdelijk,
+		'tekst'     => $t['tekst'],
+		'info'      => $t['info'] ?? '',
+		'link'      => thema_locatie_link( $t['link'] ?? array() ),
+		'linktekst' => $t['linktekst'] ?? 'Bekijk website',
 	);
 }
 
 /**
- * Uitroltaak locaties-controle-v1: kandidaat-links nalopen (status en paginatitel) en per onderwerp
- * foto's op Wikimedia Commons zoeken. Leest alleen, de uitkomst staat in het uitrollog.
+ * Pagina onder /locaties/ aanmaken of bijwerken met de opbouw van Tilburg.
  */
-function thema_locaties_controle() {
-	$links = array(
-		'bold' => array( 'https://boldrooftopbar.nl/', 'https://www.boldrooftopbar.nl/', 'https://www.thesocialhub.co/nl/maastricht/bold-rooftopbar/', 'https://www.visitmaastricht.com/nl/locaties/bold-rooftopbar' ),
-		'msloep' => array( 'https://www.maastrichtsloep.nl/', 'https://maastrichtsloep.nl/', 'https://www.stiphout.nl/sloepverhuur' ),
-		'mcitygame' => array( 'https://www.citygame.com/nl/maastricht', 'https://www.citygame.com/', 'https://www.escapetours.com/maastricht', 'https://www.qula.nl/pubtrail/maastricht' ),
-		'stadsbrouwerij' => array( 'https://www.stadsbrouwerijmaastricht.nl/', 'https://stadsbrouwerijmaastricht.nl/' ),
-		'bosch' => array( 'https://www.brouwerijbosch.nl/', 'https://brouwerijbosch.nl/' ),
-		'underground' => array( 'https://www.maastrichtunderground.nl/', 'https://www.exploremaastricht.nl/maastricht-underground', 'https://www.exploremaastricht.nl/' ),
-		'solex' => array( 'https://www.cyclecenter.nl/', 'https://www.solextoer.nl/', 'https://www.solexmaastricht.nl/' ),
-		'nola' => array( 'https://www.barnola.nl/', 'https://barnola.nl/', 'https://www.barnolamaastricht.nl/', 'https://www.nolamaastricht.nl/' ),
-		'somewhere' => array( 'https://www.somewhereinthemiddle.nl/', 'https://somewhereinthemiddle.nl/', 'https://www.somewhereinthemiddle.com/' ),
-		'mrsmith' => array( 'https://www.mrsmithmaastricht.com/', 'https://mrsmithmaastricht.com/' ),
-		'mooieboules' => array( 'https://www.mooieboules.nl/rotterdam', 'https://mooieboules.nl/rotterdam/', 'https://www.mooieboules.nl/' ),
-		'dikkemic' => array( 'https://www.dikkemic.nl/', 'https://dikkemic.nl/' ),
-		'duke' => array( 'https://www.dukeoftokyo.com/rotterdam', 'https://dukeoftokyo.com/rotterdam/', 'https://www.dukeoftokyo.com/' ),
-		'madamchen' => array( 'https://www.madamchen.nl/', 'https://madamchen.nl/', 'https://www.madamchen.com/' ),
-		'splash' => array( 'https://www.splashtours.nl/', 'https://splashtours.nl/' ),
-		'bonton' => array( 'https://www.bontonrotterdam.nl/', 'https://www.bonton.club/rotterdam', 'https://www.bontonclub.nl/', 'https://bonton.nl/' ),
-		'botanero' => array( 'https://www.botanero.nl/', 'https://botanero.nl/' ),
-		'ox' => array( 'https://www.oxrotterdam.nl/', 'https://oxrotterdam.nl/', 'https://www.ox-rotterdam.nl/' ),
-		'racesquare' => array( 'https://www.racesquare.nl/', 'https://racesquare.nl/', 'https://www.racesquare.com/' ),
-		'axe' => array( 'https://www.realaxethrowing.nl/', 'https://realaxethrowing.com/', 'https://www.realaxethrowing.com/rotterdam' ),
-		'euromast' => array( 'https://www.euromast.nl/abseilen/', 'https://euromast.nl/nl/abseilen', 'https://www.euromast.nl/' ),
-		'lasergame' => array( 'https://www.lasergamerotterdam.nl/', 'https://lasergamerotterdam.nl/', 'https://www.lasergame-rotterdam.nl/' ),
-		'aloha' => array( 'https://www.aloha.nl/', 'https://aloha.nl/', 'https://www.aloha-amsterdam.nl/' ),
-		'catacombs' => array( 'https://www.amsterdamcatacombs.com/', 'https://amsterdamcatacombs.com/', 'https://www.amsterdamcatacombs.nl/' ),
-		'upsidedown' => array( 'https://www.theupsidedownamsterdam.com/', 'https://upsidedownamsterdam.com/', 'https://www.upsidedown.amsterdam/', 'https://theupsidedown.amsterdam/' ),
-		'upevents' => array( 'https://www.upevents.nl/', 'https://upevents.nl/', 'https://www.upevents.nl/amsterdam' ),
-		'vr' => array( 'https://www.vrexperience.nl/', 'https://www.vrxp.nl/', 'https://www.thevrcave.nl/', 'https://www.vrbar.nl/' ),
-		'coqtales' => array( 'https://www.coqtales.nl/', 'https://coqtales.nl/', 'https://www.coqtales.com/', 'https://www.coqtalesamsterdam.nl/' ),
-		'flagship' => array( 'https://www.flagshipamsterdam.com/', 'https://flagshipamsterdam.com/' ),
-		'mokumboot' => array( 'https://www.mokumboot.nl/', 'https://mokumboot.nl/' ),
-		'axeeffect' => array( 'https://www.theaxeeffect.nl/', 'https://theaxeeffect.nl/', 'https://www.axeeffect.nl/', 'https://www.theaxeeffect.com/' ),
-		'allout' => array( 'https://www.theallout.com/', 'https://theallout.com/activities/ballaoke' ),
-		'weemoed' => array( 'https://www.paleisvanweemoed.nl/', 'https://paleisvanweemoed.nl/', 'https://www.paleisvanweemoed.com/' ),
-		'tacos' => array( 'https://www.tacosandtequila.nl/', 'https://www.tacosentequila.nl/', 'https://tacosandtequila.amsterdam/', 'https://www.tacosandtequila.com/' ),
-		'calleocho' => array( 'https://www.calleocho.nl/', 'https://calleocho.nl/', 'https://www.calleochoamsterdam.nl/' ),
-		'secretbar' => array( 'https://secretbar.nl/', 'https://www.secretbar.nl/' ),
-		'gerrit' => array( 'https://www.zoetelievegerrit.nl/', 'https://zoetelievegerrit.nl/', 'https://www.dezoetelievegerrit.nl/' ),
-		'zelfvaren' => array( 'https://www.zelfvaren.nl/', 'https://zelfvaren.nl/', 'https://www.zelfvarendenbosch.nl/' ),
-		'madhousedb' => array( 'https://www.themadhousedenbosch.nl/', 'https://www.themadhouse.nl/den-bosch', 'https://www.themadhouse.nl/' ),
-		'excape' => array( 'https://www.excapexperience.nl/', 'https://www.excape.nl/', 'https://excapexperience.nl/', 'https://www.escapexperience.nl/' ),
-		'tramkade' => array( 'https://www.bierbrouwerijdetramkade.nl/', 'https://www.stadsbrouwerijdenbosch.nl/', 'https://www.werkwarenhuis.nl/', 'https://www.tramkade.nl/', 'https://www.kaaihallen.nl/' ),
-		'dewit' => array( 'https://www.jongensvandewit.nl/', 'https://jongensvandewit.nl/' ),
-		'boozybingo' => array( 'https://www.boozybingo.nl/', 'https://boozybingo.nl/', 'https://www.boozybingoevents.nl/', 'https://boozybingoevents.nl/' ),
-		'brabanthallen' => array( 'https://www.brabanthallen.nl/agenda', 'https://www.brabanthallen.nl/' ),
-		'opkikkertje' => array( 'https://www.opkikkertje.nl/', 'https://opkikkertje.nl/', 'https://www.topkikkertje.nl/', 'https://www.cafehetopkikkertje.nl/' ),
-		'barrique' => array( 'https://www.barrique.nl/', 'https://www.barriquedenbosch.nl/', 'https://barrique-denbosch.nl/', 'https://www.barrique-wijnen.nl/' ),
-		'berghem' => array( 'https://www.circuitparkberghem.nl/', 'https://circuitparkberghem.nl/' ),
-	);
-	$uit = array( 'links' => array(), 'fotos' => array() );
-	foreach ( $links as $sleutel => $lijst ) {
-		foreach ( $lijst as $url ) {
-			$r = wp_remote_get( $url, array( 'timeout' => 12, 'redirection' => 5, 'user-agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/537.36 Chrome/124 Safari/537.36' ) );
-			if ( is_wp_error( $r ) ) {
-				$uit['links'][ $sleutel ][] = $url . ' => fout';
-				continue;
-			}
-			$code  = wp_remote_retrieve_response_code( $r );
-			$titel = preg_match( '#<title[^>]*>(.*?)</title>#is', wp_remote_retrieve_body( $r ), $m ) ? trim( html_entity_decode( wp_strip_all_tags( $m[1] ) ) ) : '';
-			$uit['links'][ $sleutel ][] = $url . ' => ' . $code . ' ' . mb_substr( $titel, 0, 70 );
-			if ( 200 === (int) $code ) {
-				break;
-			}
-		}
+function thema_locatie_pagina( $c ) {
+	if ( ! function_exists( 'update_field' ) ) {
+		return 'geen acf';
 	}
-	$zoek = array(
-		'Vrijthof Maastricht', 'Maas Maastricht Sint Servaasbrug', 'Stadsbrouwerij Maastricht', 'Brouwerij Bosch Maastricht', 'Sint-Pietersberg grotten', 'Solex',
-		'Platielstraat Maastricht', 'Onze Lieve Vrouweplein Maastricht', 'Wyck Maastricht Rechtstraat', 'Sphinxkwartier Maastricht', 'Markt Maastricht',
-		'Witte de Withstraat Rotterdam', 'Euromast', 'Splashtours Rotterdam', 'Erasmusbrug', 'Markthal Rotterdam', 'Oude Haven Rotterdam', 'Parkhaven Rotterdam', 'Hofplein Rotterdam fontein', 'Jeu de boules',
-		'Leidseplein', 'Rembrandtplein', 'Amsterdam canal boat', 'De Pijp Amsterdam', 'Amsterdam grachten nacht', 'Karaoke',
-		'Binnendieze', 'Tramkade silo', 'Korte Putstraat', 'Markt s-Hertogenbosch', 'Sint-Janskathedraal s-Hertogenbosch', 'Brabanthallen', 'Uilenburg s-Hertogenbosch', 'Kerkstraat s-Hertogenbosch',
-	);
-	foreach ( $zoek as $q ) {
-		$api = add_query_arg( array(
-			'action' => 'query', 'format' => 'json', 'generator' => 'search', 'gsrnamespace' => 6, 'gsrlimit' => 6, 'gsrsearch' => $q . ' filetype:bitmap',
-			'prop' => 'imageinfo', 'iiprop' => 'size|extmetadata', 'iiextmetadatafilter' => 'LicenseShortName|Artist',
-		), 'https://commons.wikimedia.org/w/api.php' );
-		$r = wp_remote_get( $api, array( 'timeout' => 15, 'user-agent' => 'LekkerGeelBusje/1.0 (staging; info@lekkergeelbusje.nl)' ) );
-		$d = is_wp_error( $r ) ? array() : json_decode( wp_remote_retrieve_body( $r ), true );
-		foreach ( (array) ( $d['query']['pages'] ?? array() ) as $p ) {
-			$ii = $p['imageinfo'][0] ?? array();
-			$uit['fotos'][ $q ][] = $p['title'] . ' | ' . ( $ii['width'] ?? 0 ) . 'x' . ( $ii['height'] ?? 0 ) . ' | ' . ( $ii['extmetadata']['LicenseShortName']['value'] ?? '' );
-		}
+	$hub = get_page_by_path( 'locaties' );
+	if ( ! $hub ) {
+		return 'geen hub';
 	}
-	return $uit;
+	$titel = 'Met de partybus naar ' . $c['plaats'];
+	$post  = get_page_by_path( 'locaties/' . $c['slug'] );
+	$id    = $post ? (int) $post->ID : (int) wp_insert_post( array(
+		'post_type'   => 'page',
+		'post_status' => 'publish',
+		'post_title'  => $titel,
+		'post_name'   => $c['slug'],
+		'post_parent' => (int) $hub->ID,
+		'menu_order'  => $c['volgorde'] ?? 0,
+	) );
+	if ( ! $id ) {
+		return 'niet aangemaakt';
+	}
+	if ( function_exists( 'thema_seo_titel_zetten' ) ) {
+		thema_seo_titel_zetten( $c['seo_titel'], $id );
+		thema_seo_omschrijving_zetten( $c['seo_omschrijving'], $id );
+	}
+	$offerte_url = home_url( '/offerte-aanvragen/' );
+	$plan        = thema_link( 'Plan je dagje ' . $c['plaats'], $offerte_url );
+	$standaard   = array(
+		'achtergrond' => 'standaard', 'achtergrond_1' => 'paars', 'achtergrond_2' => 'standaard', 'achtergrond_richting' => 'boven',
+		'ruimte_boven' => 'normaal', 'ruimte_onder' => 'normaal', 'kopniveau' => 'auto', 'anker' => '',
+	);
+	$blok = function ( $velden ) use ( $standaard ) {
+		return array_merge( $standaard, $velden );
+	};
+	$fotos = array_values( array_filter( array_map( 'thema_beeld_op_naam', $c['hero_fotos'] ) ) );
+	$tips  = array_map( 'thema_locatie_tip', $c['tips'] );
+	$links = array();
+	foreach ( $tips as $t ) {
+		$links[ $t['titel'] ] = $t['link'];
+	}
+
+	$blokken   = array();
+	$blokken[] = array(
+		'acf_fc_layout' => 'hero', 'kop_1' => 'Partybus', 'kop_2' => 'naar ' . $c['plaats'], 'plaatsen' => implode( "\n", $c['hero_wissel'] ),
+		'sub_1' => 'Jouw feest begint', 'sub_2' => 'al in de bus!', 'knop' => $plan, 'knop_tonen' => 1, 'toon_score' => 1,
+		'stijl' => 'collage', 'fotos' => $fotos, 'bento_klein' => 'Chauffeur en gastvrouwke', 'bento_groot' => 'Tot 88 personen',
+		'vorm' => 'auto', 'hoogte' => 'compact', 'knop_vorm' => 'standaard', 'knop_kleur' => 'geel', 'ruimte_onder' => 'groot', 'kopniveau' => 'auto', 'anker' => 'top',
+	);
+	$blokken[] = $blok( array( 'acf_fc_layout' => 'aan_boord', 'eyebrow' => $c['plaats'] . ' als bestemming', 'kop' => $c['intro_kop'], 'tekst' => $c['intro'], 'plaatsing' => 'boven', 'anker' => 'bussen' ) );
+	$blokken[] = $blok( array( 'acf_fc_layout' => 'lopende_band', 'items' => "Geen gedoe met treintijden.\nGeen BOB nodig.\nNiemand die eerder weg moet.", 'knop' => '', 'variant' => 'paars', 'tekstkleur' => 'kleurrijk', 'beweging' => 'vanzelf', 'rijen' => '1', 'schuin' => '0', 'knop_vorm' => 'standaard', 'knop_kleur' => 'geel', 'ruimte_boven' => 'groot' ) );
+	$blokken[] = $blok( array(
+		'acf_fc_layout' => 'route', 'eyebrow' => 'Zo kan het', 'kop' => 'Een dagje ' . $c['plaats'] . ' *met de bus*',
+		'intro' => 'Zo ziet een rit naar ' . $c['plaats'] . ' er bijvoorbeeld uit. Jullie bepalen de route, wij zorgen dat iedereen er komt.',
+		'stappen' => $c['route'],
+		'slot' => '<p>Vier je een <a href="' . esc_url( home_url( '/gelegenheden/vrijgezellenfeest/' ) ) . '">vrijgezellenfeest</a> of een <a href="' . esc_url( home_url( '/gelegenheden/bedrijfsuitje/' ) ) . '">bedrijfsuitje</a> in ' . esc_html( $c['plaats'] ) . '? Dan denken we graag mee over de route. Bekijk ook <a href="' . esc_url( home_url( '/bussen/' ) ) . '">onze bussen</a>: in de grootste passen tot 88 personen.</p>',
+		'knop' => thema_link( 'Plan je route', $offerte_url ), 'kop_uitlijning' => 'midden',
+	) );
+	$blokken[] = $blok( array( 'acf_fc_layout' => 'tips', 'eyebrow' => 'Activiteiten', 'kop' => 'Wat te doen in *' . $c['plaats'] . '*', 'intro' => $c['tips_intro'], 'items' => $tips, 'kolommen' => '3', 'kop_uitlijning' => 'links' ) );
+	$blokken[] = $blok( array( 'acf_fc_layout' => 'lopende_band', 'items' => implode( "\n", $c['band'] ), 'knop' => '', 'variant' => 'subtiel', 'tekstkleur' => 'kleurrijk', 'beweging' => 'scroll', 'rijen' => '1', 'schuin' => '-2', 'knop_vorm' => 'standaard', 'knop_kleur' => 'geel' ) );
+	foreach ( $c['gebieden'] as $g ) {
+		$plekken = array();
+		foreach ( $g['plekken'] as $p ) {
+			$plekken[] = array( 'naam' => $p['naam'], 'soort' => $p['soort'], 'tekst' => $p['tekst'], 'adres' => $p['adres'] ?? '', 'link' => thema_locatie_link( $p['link'] ?? array() ) );
+		}
+		$blokken[] = $blok( array( 'acf_fc_layout' => 'gebied', 'eyebrow' => $g['eyebrow'], 'kop' => $g['kop'], 'tekst' => $g['tekst'], 'plekken' => $plekken ) );
+	}
+	$blokken[] = $blok( array( 'acf_fc_layout' => 'gelegenheden', 'kop' => "Wat vier jij\n*in " . $c['plaats'] . '?*', 'weergave' => 'schuiven', 'keuze' => '', 'achtergrond' => 'paars', 'anker' => 'gelegenheden' ) );
+	$blokken[] = $blok( array( 'acf_fc_layout' => 'reviews', 'kop' => 'Deze feestgangers<br>*reden al mee*', 'weergave' => 'compact', 'achtergrond' => 'geel', 'anker' => 'reviews' ) );
+	$blokken[] = $blok( array(
+		'acf_fc_layout' => 'faq', 'kop' => 'Vragen over *' . $c['plaats'] . '*', 'knop' => '',
+		'tekst' => 'Staat je vraag er niet tussen? Bel ons gerust, we denken graag met je mee.',
+		'vragen' => array_map( fn( $v ) => array( 'vraag' => $v[0], 'antwoord' => $v[1] ), $c['faq'] ),
+		'schema' => 1, 'knop_vorm' => 'standaard', 'knop_kleur' => 'geel', 'anker' => 'faq',
+	) );
+	$offerte = array_merge( $standaard, thema_blok_offerte() );
+	$offerte['kop']         = 'Met je groep *naar ' . $c['plaats'] . '?*';
+	$offerte['naar_waarde'] = $c['plaats'];
+	$offerte['achtergrond'] = 'geel';
+	$offerte['anker']       = 'offerte';
+	$blokken[] = $offerte;
+
+	update_field( 'field_blokken', $blokken, $id );
+	return array( 'id' => $id, 'url' => get_permalink( $id ), 'fotos' => count( $fotos ), 'links' => $links );
 }
