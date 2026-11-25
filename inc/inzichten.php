@@ -79,11 +79,18 @@ function thema_inzicht_pad( $url = '' ) {
  * Tellen we dit verzoek mee? Niet voor ingelogde gebruikers en niet voor bots die zich melden.
  */
 function thema_inzicht_meetellen() {
-	if ( is_user_logged_in() ) {
+	if ( is_user_logged_in() && ! thema_inzicht_testmodus() ) {
 		return false;
 	}
 	$agent = strtolower( (string) ( $_SERVER['HTTP_USER_AGENT'] ?? '' ) ); // phpcs:ignore
 	return '' !== $agent && ! preg_match( '/bot|crawl|spider|slurp|lighthouse|headless|preview/', $agent );
+}
+
+/**
+ * Testmodus: twee uur lang tellen ook ingelogde gebruikers mee, om alles zelf na te lopen.
+ */
+function thema_inzicht_testmodus() {
+	return (int) get_transient( 'thema_inzicht_test' ) > time();
 }
 
 /* --------------------------------------------------------------------------
@@ -117,7 +124,7 @@ add_action( 'rest_api_init', function () {
 } );
 
 add_action( 'wp_enqueue_scripts', function () {
-	if ( is_user_logged_in() ) {
+	if ( is_user_logged_in() && ! thema_inzicht_testmodus() ) {
 		return;
 	}
 	wp_enqueue_script( 'thema-inzichten', THEMA_URL . '/assets/js/inzichten.js', array(), THEMA_VERSIE, array( 'in_footer' => true, 'strategy' => 'defer' ) );
@@ -184,6 +191,49 @@ add_action( 'thema_inzicht_opruimen', function () {
  * Overzicht in WordPress
  * ----------------------------------------------------------------------- */
 
+add_action( 'admin_post_thema_inzicht_test', function () {
+	check_admin_referer( 'thema_inzicht_test' );
+	if ( ! current_user_can( 'edit_pages' ) ) {
+		wp_die( 'Dat mag niet.' );
+	}
+	if ( thema_inzicht_testmodus() ) {
+		delete_transient( 'thema_inzicht_test' );
+	} else {
+		set_transient( 'thema_inzicht_test', time() + 2 * HOUR_IN_SECONDS, 2 * HOUR_IN_SECONDS );
+	}
+	wp_safe_redirect( admin_url( 'admin.php?page=thema-inzichten' ) );
+	exit;
+} );
+
+add_action( 'admin_post_thema_inzicht_wissen', function () {
+	check_admin_referer( 'thema_inzicht_wissen' );
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( 'Dat mag niet.' );
+	}
+	global $wpdb;
+	$wpdb->query( 'TRUNCATE TABLE ' . thema_inzicht_tabel() ); // phpcs:ignore
+	wp_safe_redirect( admin_url( 'admin.php?page=thema-inzichten&gewist=1' ) );
+	exit;
+} );
+
+/**
+ * Het Gravity Forms-formulier achter het contactformulier vraag voor vraag (blok Formulier op de pagina Contact).
+ */
+function thema_inzicht_contactformulier() {
+	$pagina = get_page_by_path( 'contact' );
+	if ( ! $pagina || ! function_exists( 'get_field' ) ) {
+		return 0;
+	}
+	foreach ( (array) get_field( 'blokken', $pagina->ID, false ) as $blok ) {
+		foreach ( (array) $blok as $sleutel => $waarde ) {
+			if ( preg_match( '/formulier$/', (string) $sleutel ) && is_numeric( $waarde ) ) {
+				return (int) $waarde;
+			}
+		}
+	}
+	return 0;
+}
+
 add_action( 'admin_menu', function () {
 	add_menu_page( 'Inzichten', 'Inzichten', 'edit_pages', 'thema-inzichten', 'thema_inzicht_pagina', 'dashicons-chart-bar', 3 );
 } );
@@ -192,6 +242,9 @@ add_action( 'admin_menu', function () {
  * Leesbare naam van een formulier.
  */
 function thema_inzicht_formuliernaam( $naam ) {
+	if ( function_exists( 'thema_offerte_velden' ) && 'gf:' . thema_offerte_velden()['formulier'] === $naam ) {
+		return 'Offerteformulier';
+	}
 	if ( 0 === strpos( $naam, 'gf:' ) && class_exists( 'GFAPI' ) ) {
 		$form = GFAPI::get_form( (int) substr( $naam, 3 ) );
 		return $form ? $form['title'] : $naam;
@@ -231,6 +284,27 @@ function thema_inzicht_pagina() {
 	foreach ( thema_inzicht_cijfers( 'formulier', $van ) as $r ) {
 		$form[ $r->naam ][ $r->detail ] = (int) $r->aantal;
 	}
+	/* Elk formulier altijd tonen, ook zonder metingen. Het contactformulier staat in een eigen kaart. */
+	$contact_gf = thema_inzicht_contactformulier();
+	$basis      = array();
+	if ( class_exists( 'GFAPI' ) ) {
+		foreach ( GFAPI::get_forms() as $f ) {
+			if ( (int) $f['id'] !== $contact_gf ) {
+				$basis[ 'gf:' . $f['id'] ] = array();
+			}
+		}
+	}
+	$basis['stoelen'] = array();
+	$contact_verstuurd = (int) ( $form[ 'gf:' . $contact_gf ]['verstuurd'] ?? 0 );
+	$contact_fouten    = array();
+	foreach ( (array) ( $form[ 'gf:' . $contact_gf ] ?? array() ) as $sleutel => $aantal ) {
+		if ( 0 === strpos( $sleutel, 'fout:' ) ) {
+			$contact_fouten[ substr( $sleutel, 5 ) ] = $aantal;
+		}
+	}
+	unset( $form[ 'gf:' . $contact_gf ] );
+	$form = array_merge( $basis, $form );
+
 	$stappen = array();
 	foreach ( thema_inzicht_cijfers( 'stap', $van ) as $r ) {
 		$stappen[ $r->detail ] = (int) $r->aantal;
@@ -254,10 +328,14 @@ function thema_inzicht_pagina() {
 			<?php endforeach; ?>
 		</p>
 
-		<h2>Formulieren</h2>
-		<?php if ( ! $form ) : ?>
-			<p>Nog geen metingen in deze periode.</p>
+		<?php if ( thema_inzicht_testmodus() ) : ?>
+			<div class="notice notice-warning inline"><p><strong>Testmodus staat aan</strong> tot <?php echo esc_html( wp_date( 'H:i', (int) get_transient( 'thema_inzicht_test' ) ) ); ?>: je eigen bezoeken tellen mee. Wis de cijfers na het testen.</p></div>
 		<?php endif; ?>
+		<?php if ( ! empty( $_GET['gewist'] ) ) : // phpcs:ignore ?>
+			<div class="notice notice-success inline"><p>Alle cijfers zijn gewist.</p></div>
+		<?php endif; ?>
+
+		<h2>Formulieren</h2>
 		<div class="inzicht-raster">
 			<?php foreach ( $form as $naam => $d ) : ?>
 				<?php
@@ -324,7 +402,7 @@ function thema_inzicht_pagina() {
 				</div>
 			<?php endforeach; ?>
 
-			<?php if ( $stappen ) : ?>
+			<?php if ( $contact_gf || $stappen ) : ?>
 				<?php
 				$namen = array(
 					'keuze' => 'Eerste vraag geladen', 'vraag' => 'Vraag typen', 'prijs' => 'Koos: prijs (naar offerte)', 'direct' => 'Koos: bellen of appen',
@@ -336,12 +414,31 @@ function thema_inzicht_pagina() {
 				?>
 				<div class="inzicht-kaart">
 					<h3>Contactformulier vraag voor vraag</h3>
-					<p class="inzicht-kern">Hoe vaak elke stap is bereikt.</p>
+					<?php
+					$begin = 0;
+					foreach ( $gewoon as $id => $aantal ) {
+						if ( ! in_array( $id, array( 'keuze', 'bezig', 'bedankt', 'faq-bedankt' ), true ) ) {
+							$begin = max( $begin, $aantal );
+						}
+					}
+					?>
+					<p class="inzicht-kern"><strong><?php echo esc_html( thema_inzicht_procent( $contact_verstuurd, $begin ) ); ?></strong> van wie begint, verstuurt (<?php echo (int) $contact_verstuurd; ?> verstuurd)</p>
+					<?php if ( ! $gewoon ) : ?>
+						<p>Nog geen metingen in deze periode.</p>
+					<?php endif; ?>
 					<table class="widefat striped"><tbody>
 						<?php foreach ( $gewoon as $id => $aantal ) : ?>
 							<tr><td><?php echo esc_html( $namen[ $id ] ?? $id ); ?></td><td class="inzicht-getal"><?php echo (int) $aantal; ?></td><td><?php echo thema_inzicht_balk( $aantal, $max ); // phpcs:ignore ?></td></tr>
 						<?php endforeach; ?>
 					</tbody></table>
+					<?php if ( $contact_fouten ) : ?>
+						<h4>Foutmeldingen per veld</h4>
+						<table class="widefat striped"><tbody>
+							<?php foreach ( $contact_fouten as $label => $aantal ) : ?>
+								<tr><td><?php echo esc_html( $label ); ?></td><td class="inzicht-getal"><?php echo (int) $aantal; ?></td></tr>
+							<?php endforeach; ?>
+						</tbody></table>
+					<?php endif; ?>
 					<?php if ( $afhaken ) : ?>
 						<h4>Afgehaakt bij</h4>
 						<table class="widefat striped"><tbody>
@@ -436,6 +533,15 @@ function thema_inzicht_pagina() {
 				</div>
 			<?php endif; ?>
 		</div>
+
+		<h2>Testen</h2>
+		<p class="inzicht-uitleg">Normaal tellen ingelogde gebruikers niet mee. Zet de testmodus aan om alles zelf na te lopen (twee uur, daarna gaat hij vanzelf uit), en wis de cijfers voordat de site live gaat.</p>
+		<p class="inzicht-periode">
+			<a class="button" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=thema_inzicht_test' ), 'thema_inzicht_test' ) ); ?>"><?php echo esc_html( thema_inzicht_testmodus() ? 'Testmodus uitzetten' : 'Testmodus aanzetten (2 uur)' ); ?></a>
+			<?php if ( current_user_can( 'manage_options' ) ) : ?>
+				<a class="button" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=thema_inzicht_wissen' ), 'thema_inzicht_wissen' ) ); ?>" onclick="return window.confirm('Alle cijfers wissen? Dit kan niet ongedaan worden.');">Alle cijfers wissen</a>
+			<?php endif; ?>
+		</p>
 	</div>
 	<style>
 		.inzichten .inzicht-uitleg { max-width: 760px; font-size: 14px; }
