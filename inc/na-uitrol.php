@@ -118,6 +118,7 @@ function thema_uitroltaken() {
 		'vrije-fotos-v2'          => 'thema_vrije_fotos_plaatsen',
 		'foto-kandidaten-sloep-v1' => 'thema_foto_kandidaten_sloep',
 		'foto-kandidaten-sloep-v2' => 'thema_foto_kandidaten_sloep2',
+		'home-vval-banner-plek-v1' => 'thema_home_vval_banner_verplaatsen',
 	);
 }
 

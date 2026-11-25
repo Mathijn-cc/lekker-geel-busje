@@ -683,3 +683,43 @@ function thema_home_vval_banner() {
 	clean_post_cache( $home );
 	return array( 'plek' => 1, 'foto' => $beeld );
 }
+
+/**
+ * Uitroltaak home-vval-banner-plek-v1: de banner staat niet meer direct onder de hero,
+ * maar onder het blok Over ons (Busje in, sfeertje aan!).
+ */
+function thema_home_vval_banner_verplaatsen() {
+	if ( ! function_exists( 'get_field' ) ) {
+		return 'geen ACF';
+	}
+	$home = (int) get_option( 'page_on_front' );
+	if ( ! $home ) {
+		return 'geen homepage';
+	}
+	$rijen  = array_values( (array) get_field( 'blokken', $home, false ) );
+	$banner = null;
+	foreach ( $rijen as $i => $rij ) {
+		if ( 'uitgelicht' === ( $rij['acf_fc_layout'] ?? '' ) ) {
+			$banner = $rij;
+			array_splice( $rijen, $i, 1 );
+			break;
+		}
+	}
+	if ( ! $banner ) {
+		return 'geen banner';
+	}
+	$plek = null;
+	foreach ( $rijen as $i => $rij ) {
+		if ( 'over_ons' === ( $rij['acf_fc_layout'] ?? '' ) ) {
+			$plek = $i + 1;
+			break;
+		}
+	}
+	if ( null === $plek ) {
+		return 'geen blok Over ons';
+	}
+	array_splice( $rijen, $plek, 0, array( $banner ) );
+	update_field( 'field_blokken', $rijen, $home );
+	clean_post_cache( $home );
+	return array( 'plek' => $plek );
+}

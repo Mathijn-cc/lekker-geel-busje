@@ -10857,6 +10857,12 @@ div.zweefknoppen.is-toetsenbord div.whatsapp-melding {
 }
 
 /**Uitgelicht -- Banner voor een actie**/
+/*Uitgelicht -- Sectie: eigen ruimte boven, onder en aan de zijkant, net als de andere blokken*/
+section.sectie-uitgelicht {
+  --boven:  var(--ruimte);
+  --onder:  var(--ruimte);
+  padding:  calc(var(--boven) * var(--schaal-boven, 1)) var(--rand) calc(var(--onder) * var(--schaal-onder, 1));
+}
 /*Uitgelicht -- Kaart: paars vlak met tekst links en foto rechts*/
 section.sectie-uitgelicht div.uitgelicht-kaart {
   position:              relative;
