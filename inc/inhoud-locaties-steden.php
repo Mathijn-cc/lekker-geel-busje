@@ -276,7 +276,7 @@ function thema_plaats_locaties() {
 
 /**
  * Uitroltaak footer-locaties-v1: het footermenu Populaire locaties wijst naar de echte plaatspagina's,
- * met de overzichtspagina als laatste. Plaatsen zonder pagina staan er niet meer in.
+ * zonder de overzichtspagina (die suggereert dat dit alle plaatsen zijn). Plaatsen zonder pagina staan er niet in.
  */
 function thema_footer_locaties() {
 	if ( ! function_exists( 'thema_vul_menu' ) ) {
@@ -288,10 +288,6 @@ function thema_footer_locaties() {
 		if ( $p && 'publish' === $p->post_status ) {
 			$items[] = array( 'post' => (int) $p->ID, 'titel' => $naam );
 		}
-	}
-	$hub = get_page_by_path( 'locaties' );
-	if ( $hub ) {
-		$items[] = array( 'post' => (int) $hub->ID, 'titel' => 'Alle locaties' );
 	}
 	$id                      = thema_vul_menu( 'Populaire locaties', $items );
 	$plekken                 = get_theme_mod( 'nav_menu_locations', array() );
@@ -445,6 +441,38 @@ function thema_tilburg_seo() {
 	if ( function_exists( 'thema_seo_titel_zetten' ) ) {
 		thema_seo_titel_zetten( 'Partybus huren Tilburg | Uitjes in Tilburg met de groep | Lekker Geel Busje', $id );
 		thema_seo_omschrijving_zetten( 'Partybus, feestbus of discobus huren in Tilburg? Uitjes voor je vrijgezellenfeest of bedrijfsuitje: Schrobbelèr, 013 en de Piushaven. Binnen 1 werkdag een prijs.', $id );
+	}
+	return $uit;
+}
+
+/**
+ * Uitroltaak hub-links-weg-v1: de verwijzing naar de overzichtspagina /locaties/ uit de route van de
+ * gelegenheden halen; de plaatsen zelf blijven gelinkt.
+ */
+function thema_hub_links_weg() {
+	if ( ! function_exists( 'get_field' ) ) {
+		return 'geen acf';
+	}
+	$uit = array();
+	foreach ( array( 'vrijgezellenfeest', 'bedrijfsuitje', 'trip-met-vrienden' ) as $slug ) {
+		$post = get_page_by_path( $slug, OBJECT, 'gelegenheid' );
+		if ( ! $post ) {
+			continue;
+		}
+		$blokken = get_field( 'field_blokken', $post->ID, false );
+		$teller  = 0;
+		foreach ( (array) $blokken as $i => $b ) {
+			foreach ( $b as $k => $w ) {
+				if ( is_string( $w ) && false !== strpos( $w, '/locaties/">' ) ) {
+					$blokken[ $i ][ $k ] = preg_replace( '# Bij onze <a href="[^"]*/locaties/">bestemmingen</a> vind je ideeën[^.]*\.#u', '', $w, -1, $n );
+					$teller             += $n;
+				}
+			}
+		}
+		if ( $teller ) {
+			update_field( 'field_blokken', $blokken, $post->ID );
+		}
+		$uit[ $slug ] = $teller;
 	}
 	return $uit;
 }

@@ -98,6 +98,8 @@ function thema_uitroltaken() {
 		'locaties-v2'             => 'thema_plaats_locaties',
 		'tilburg-seo-v1'          => 'thema_tilburg_seo',
 		'plaatsnamen-gelegenheden-v1' => 'thema_plaatsnamen_gelegenheden',
+		'footer-locaties-v2'      => 'thema_footer_locaties',
+		'hub-links-weg-v1'        => 'thema_hub_links_weg',
 	);
 }
 
