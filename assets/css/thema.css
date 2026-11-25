@@ -9701,19 +9701,40 @@ section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes.stoelen-opstap 
   grid-template-columns: minmax(0, 1fr);
 }
 
-/*Stoelen -- Avonden*/
-section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-rit span.stoelen-rit-datum {
-  flex:            none;
-  width:           58px;
-  height:          62px;
-  display:         flex;
+/*Stoelen -- Avonden als compacte datumlijst*/
+section.sectie-stoelen form.stoelen-formulier fieldset.stoelen-stap p.stoelen-stap-intro {
+  margin:    -8px 0 16px;
+  font-size: 15px;
+  opacity:   .75;
+}
+section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes.stoelen-ritten {
+  grid-template-columns: repeat(auto-fill, minmax(66px, 1fr));
+  gap:                   8px;
+}
+section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-rit {
   flex-direction:  column;
-  align-items:     center;
   justify-content: center;
-  background:      var(--kleur-geel);
-  clip-path:       polygon(5% 6%, 100% 0, 95% 96%, 0 100%);
-  transform:       rotate(-3deg);
-  line-height:     1;
+  gap:             4px;
+  min-height:      0;
+  padding:         10px 4px 12px;
+  border-radius:   16px;
+  text-align:      center;
+}
+section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-rit:has(input:checked) {
+  background: var(--kleur-geel);
+}
+section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-rit:has(input:checked)::after {
+  top:             -7px;
+  right:           -7px;
+  width:           22px;
+  height:          22px;
+  background-size: 12px;
+}
+section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-rit span.stoelen-rit-datum {
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  line-height:    1;
 }
 section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-rit span.stoelen-rit-datum span.stoelen-rit-dag,
 section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-rit span.stoelen-rit-datum span.stoelen-rit-maand {
@@ -9721,39 +9742,34 @@ section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-r
   font-weight:    800;
   letter-spacing: .08em;
   text-transform: uppercase;
+  opacity:        .7;
 }
 section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-rit span.stoelen-rit-datum span.stoelen-rit-nummer {
+  margin:      3px 0 2px;
   font-family: var(--kop-letter);
   font-weight: var(--kop-gewicht);
-  font-size:   28px;
-}
-section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-rit span.stoelen-keuze-titel::first-letter {
-  text-transform: uppercase;
+  font-size:   26px;
 }
 section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-rit span.stoelen-rit-staat {
-  font-size:   14px;
-  font-weight: 600;
-  opacity:     .7;
-}
-section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-rit.is-krap span.stoelen-rit-staat {
-  color:   var(--kleur-roze);
-  opacity: 1;
-}
-section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-rit span.stoelen-rit-zeker {
-  position:       absolute;
-  left:           16px;
-  bottom:         -10px;
   display:        inline-flex;
   align-items:    center;
-  gap:            4px;
-  padding:        3px 9px;
+  gap:            3px;
+  padding:        2px 7px;
   border-radius:  999px;
-  background:     var(--kleur-paars);
-  color:          var(--kleur-geel);
-  font-size:      11px;
+  background:     rgba(56, 6, 94, .08);
+  font-size:      10px;
   font-weight:    800;
-  letter-spacing: .04em;
+  letter-spacing: .03em;
   text-transform: uppercase;
+  white-space:    nowrap;
+}
+section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-rit span.stoelen-rit-staat.is-zeker {
+  background: var(--kleur-paars);
+  color:      var(--kleur-geel);
+}
+section.sectie-stoelen form.stoelen-formulier div.stoelen-keuzes label.stoelen-rit.is-krap span.stoelen-rit-staat {
+  background: var(--kleur-roze);
+  color:      var(--kleur-wit);
 }
 
 /*Stoelen -- Opstapplekken*/
