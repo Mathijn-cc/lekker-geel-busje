@@ -94,6 +94,7 @@ function thema_uitroltaken() {
 		'redirects-oude-site-v2'  => 'thema_redirects_oude_site',
 		'logo-google-v1'          => 'thema_logo_google',
 		'tilburg-uitlezen-v1'     => 'thema_tilburg_uitlezen',
+		'locaties-controle-v1'    => 'thema_locaties_controle',
 	);
 }
 
