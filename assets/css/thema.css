@@ -47,6 +47,11 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-padding-top:       100px;
+  overflow-x:               clip;
+}
+/*Document -- Vangnet: niets binnen de pagina kan de website zijwaarts laten schuiven*/
+div.pagina {
+  overflow-x: clip;
 }
 html,
 body {
